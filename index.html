@@ -43,19 +43,53 @@ nav {
 .nav-link:hover { color: var(--ink); }
 .nav-credit { font-family: var(--mono); font-size: 8px; color: var(--ink-3); padding-left: 1.5rem; border-left: 1px solid var(--border-2); }
 
-.hero {
-  position: relative; width: 100%; height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  overflow: hidden; padding-top: 52px;
+/* ── TITLE BLOCK ── */
+.title-block {
+  padding: calc(52px + 5.5rem) 2rem 4.5rem;
+  text-align: center;
+  background: var(--bg);
 }
-#web-canvas { position: absolute; inset: 0; z-index: 1; }
+.title-inner { max-width: 700px; margin: 0 auto; }
+.title-eyebrow {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.7rem; display: block;
+  opacity: 0; animation: fadeIn 1s ease forwards 0.4s;
+}
+.title-heading {
+  font-family: var(--serif); font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 1.1rem;
+  opacity: 0; animation: fadeUp 1s ease forwards 0.55s;
+}
+.title-tagline {
+  font-family: var(--mono); font-size: clamp(0.68rem, 1.1vw, 0.82rem);
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--amber);
+  margin-bottom: 1.6rem; display: block;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.75s;
+}
+.title-thesis {
+  font-family: var(--serif-2); font-style: italic;
+  font-size: clamp(0.95rem, 1.5vw, 1.13rem); color: var(--ink-2);
+  line-height: 1.8; max-width: 540px; margin: 0 auto 2.25rem;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.9s;
+}
+.title-hint {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(200,146,42,0.45); display: block;
+  opacity: 0; animation: fadeIn 1s ease forwards 1.5s;
+}
 
-.hero-text { position: relative; z-index: 10; text-align: center; pointer-events: none; }
-.hero-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.7rem; display: block; opacity: 0; animation: fadeIn 1s ease forwards 0.4s; }
-.hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.6rem; opacity: 0; animation: fadeUp 1s ease forwards 0.55s; }
-.hero-sub { font-family: var(--serif-2); font-style: italic; font-size: clamp(0.95rem, 1.5vw, 1.15rem); color: var(--ink-2); line-height: 1.7; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.9s ease forwards 0.75s; }
-.hero-hint { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(200,146,42,0.45); opacity: 0; animation: fadeIn 1s ease forwards 1.5s; }
+/* ── WEB SECTION ── */
+#web-section {
+  width: 100%; height: 65vh; min-height: 480px;
+  position: relative; overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+#web-canvas { display: block; width: 100%; height: 100%; }
 
+/* ── TOOLTIP ── */
 .node-tooltip {
   position: fixed; z-index: 500; pointer-events: none;
   background: rgba(11,11,14,0.97); border: 1px solid rgba(200,146,42,0.3);
@@ -68,12 +102,44 @@ nav {
 .tt-desc { font-size: 0.75rem; color: var(--ink-2); line-height: 1.55; }
 .tt-cta { font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-top: 0.45rem; display: block; }
 
-.thesis-band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3.5rem 2rem; }
-.thesis-inner { max-width: 720px; margin: 0 auto; text-align: center; }
-.thesis-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; display: block; }
-.thesis-text { font-family: var(--serif-2); font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 300; line-height: 1.9; color: rgba(232,228,220,0.72); }
-.thesis-text strong { color: var(--ink); font-weight: 400; }
+/* ── ABOUT SECTION ── */
+.about-section {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  padding: 4rem 2rem;
+}
+.about-inner {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem;
+}
+.about-heading {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; display: block;
+}
+.about-text {
+  font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300;
+  line-height: 1.85; color: rgba(232,228,220,0.68);
+}
 
+/* ── FEEDBACK BAR ── */
+.feedback-bar {
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.5rem; flex-wrap: wrap;
+}
+.feedback-text {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; color: var(--ink-3);
+}
+.feedback-btn {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bg); background: var(--amber);
+  padding: 0.45rem 1rem; text-decoration: none; transition: opacity 0.2s;
+}
+.feedback-btn:hover { opacity: 0.82; }
+
+/* ── FRAMEWORK / PYRAMID ── */
 .framework-section { padding: 4.5rem 2rem 5rem; max-width: 1000px; margin: 0 auto; }
 .framework-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2rem; text-align: center; display: block; }
 .pyramid-tiers { display: flex; flex-direction: column; align-items: center; }
@@ -109,6 +175,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
 .reveal-d1 { transition-delay:0.1s; }
 .reveal-d2 { transition-delay:0.2s; }
 .reveal-d3 { transition-delay:0.3s; }
+
+@media (max-width: 640px) {
+  .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+  #web-section { height: 55vh; }
+  .tier-side { display: none; }
+}
 </style>
 </head>
 <body>
@@ -124,14 +196,20 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
   </div>
 </nav>
 
-<section class="hero">
-  <canvas id="web-canvas"></canvas>
-  <div class="hero-text">
-    <span class="hero-label">An Investigative Platform</span>
-    <h1 class="hero-title">The Incentive Machine</h1>
-    <p class="hero-sub">They built the argument.<br>You were never meant to see past it.</p>
-    <span class="hero-hint">↓ Hover the web · Click to investigate</span>
+<!-- ── TITLE BLOCK ── -->
+<section class="title-block">
+  <div class="title-inner">
+    <span class="title-eyebrow">An Investigative Platform</span>
+    <h1 class="title-heading">The Incentive Machine</h1>
+    <span class="title-tagline">The argument is the product.</span>
+    <p class="title-thesis">Public debate is structured around surface-level divisions. This platform follows the verifiable incentive flows those divisions are designed to obscure.</p>
+    <span class="title-hint">↓ Hover the web · Click to investigate</span>
   </div>
+</section>
+
+<!-- ── WEB CANVAS ── -->
+<section id="web-section">
+  <canvas id="web-canvas"></canvas>
 </section>
 
 <div class="node-tooltip" id="tooltip">
@@ -141,21 +219,27 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
   <span class="tt-cta" id="tt-cta"></span>
 </div>
 
-<section class="thesis-band">
-  <div class="thesis-inner reveal">
-    <span class="thesis-label">Core Thesis</span>
-    <p class="thesis-text">
-      Across immigration, healthcare, defense, and banking —
-      <strong>the same ownership structure</strong> captures policy,
-      suppresses wages, and extracts value from American workers and communities.
-      The left-right argument is divided <strong>by design.</strong>
-      The beneficiary is always the same.
-      This platform follows the incentive structures
-      that the argument is designed to obscure.
-    </p>
+<!-- ── ABOUT ── -->
+<section class="about-section reveal" id="about">
+  <div class="about-inner">
+    <div>
+      <span class="about-heading">About This Platform</span>
+      <p class="about-text">The Incentive Machine is an independent investigative platform that maps verifiable incentive structures across major American policy sectors. Every claim is sourced to primary government data, peer-reviewed research, or named investigative reporting. No claim appears without a source link.</p>
+    </div>
+    <div>
+      <span class="about-heading">AI Disclosure</span>
+      <p class="about-text">Research on this platform was conducted by a human investigator drawing on primary sources. AI was used to assist with coding, visual organization, and document refinement. Editorial judgment, source selection, and factual verification are entirely human.</p>
+    </div>
   </div>
 </section>
 
+<!-- ── FEEDBACK BAR ── -->
+<div class="feedback-bar">
+  <span class="feedback-text">Found an error? Have a source to add?</span>
+  <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener" class="feedback-btn">Submit Feedback or Correction</a>
+</div>
+
+<!-- ── FRAMEWORK / PYRAMID ── -->
 <section class="framework-section" id="framework">
   <span class="framework-label reveal">The Structure — Appears in Every Module</span>
   <div class="pyramid-tiers">
@@ -210,15 +294,16 @@ const ctx     = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
-  center:     { tag:'The Platform',            title:'The Manufactured Divide',       desc:'Americans argue about symptoms. This platform investigates the system that manufactures the argument.',  cta:null,                url:null,             amber:true  },
-  visa:       { tag:'Module 01 — Live',         title:'H-1B / H-2: The Visa Machine',  desc:'Asset managers profit from both visa workers and American workers through the same extraction loop.', cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
-  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',      desc:'PBMs, Medicare reimbursements, insurance consolidation — and who holds the equity.',                  cta:'Coming Soon',       url:null,             amber:false },
-  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',         desc:'Cost-plus contracting, Pentagon budgets, and the military-to-civilian pipeline.',                      cta:'Coming Soon',       url:null,             amber:false },
-  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',         desc:'Central banking, money creation, the petrodollar — and institutional ownership structures.',           cta:'Coming Soon',       url:null,             amber:false },
-  arg1:       { tag:'The Argument',             title:'Immigration',                   desc:'Left: humanitarian crisis. Right: economic threat. Both framings serve the same sponsors.',            cta:null,                url:null,             red:true    },
-  arg2:       { tag:'The Argument',             title:'Healthcare Costs',              desc:'Left: universal coverage. Right: free market. The middlemen profit from the deadlock.',                cta:null,                url:null,             red:true    },
-  arg3:       { tag:'The Argument',             title:'Defense Spending',              desc:'Left: Pentagon bloat. Right: national security. The contractors win regardless.',                      cta:null,                url:null,             red:true    },
-  arg4:       { tag:'The Argument',             title:'Economic Inequality',           desc:'Left: tax the rich. Right: free markets. The ownership structure remains untouched.',                  cta:null,                url:null,             red:true    },
+  center:     { tag:'The Platform',              title:'The Manufactured Divide',        desc:'Americans argue about symptoms. This platform investigates the system that manufactures the argument.',                                                                                                                                      cta:null,                    url:null,              amber:true  },
+  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',   desc:'Asset managers profit from both visa workers and American workers through the same extraction loop.',                                                                                                                                        cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
+  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',          desc:'PBMs, Medicare reimbursements, insurance consolidation — and who holds the equity.',                                                                                                                                                         cta:'Coming Soon',           url:null,              amber:false },
+  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',             desc:'Cost-plus contracting, Pentagon budgets, and the military-to-civilian pipeline.',                                                                                                                                                            cta:'Coming Soon',           url:null,              amber:false },
+  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',             desc:'Central banking, money creation, the petrodollar — and institutional ownership structures.',                                                                                                                                                 cta:'Coming Soon',           url:null,              amber:false },
+  education:  { tag:'Module 05 — In Development', title:'The Education Machine',           desc:'Higher education costs have tripled in forty years. Federal student loans made it possible. University endowments grew while tuition climbed. This module follows the incentive flows that connect lenders, institutions, and the asset managers who profit from both.', cta:'Coming Soon', url:null,  amber:false },
+  arg1:       { tag:'The Argument',               title:'Immigration',                     desc:'Left: humanitarian crisis. Right: economic threat. Both framings serve the same sponsors.',                                                                                                                                                  cta:null,                    url:null,              red:true    },
+  arg2:       { tag:'The Argument',               title:'Healthcare Costs',                desc:'Left: universal coverage. Right: free market. The middlemen profit from the deadlock.',                                                                                                                                                      cta:null,                    url:null,              red:true    },
+  arg3:       { tag:'The Argument',               title:'Defense Spending',                desc:'Left: Pentagon bloat. Right: national security. The contractors win regardless.',                                                                                                                                                            cta:null,                    url:null,              red:true    },
+  arg4:       { tag:'The Argument',               title:'Economic Inequality',             desc:'Left: tax the rich. Right: free markets. The ownership structure remains untouched.',                                                                                                                                                        cta:null,                    url:null,              red:true    },
 };
 
 let W, H, nodes = [], hoveredNode = null, t = 0;
@@ -235,8 +320,8 @@ function buildNodes() {
   });
 
   const midR = Math.min(W,H) * 0.32;
-  ['visa','healthcare','defense','banking'].forEach((id,i) => {
-    const a = (i/4)*Math.PI*2 - Math.PI/8;
+  ['visa','healthcare','defense','banking','education'].forEach((id,i) => {
+    const a = (i/5)*Math.PI*2 - Math.PI/8;
     nodes.push({ id, r:8, baseAngle:a, orbitR:midR, speed:0.000042, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*midR, y:cy+Math.sin(a)*midR });
   });
 
@@ -248,8 +333,9 @@ function buildNodes() {
 }
 
 function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+  const sect = document.getElementById('web-section');
+  W = canvas.width  = sect.offsetWidth;
+  H = canvas.height = sect.offsetHeight;
   buildNodes();
 }
 
@@ -271,10 +357,10 @@ function thread(ax,ay,bx,by,color,width) {
 
 function draw(ts) {
   ctx.clearRect(0,0,W,H);
-  const center   = nodes[0];
-  const argNodes = nodes.slice(1,5);
-  const modNodes = nodes.slice(5,9);
-  const decoNodes= nodes.slice(9);
+  const center    = nodes[0];
+  const argNodes  = nodes.slice(1,5);
+  const modNodes  = nodes.slice(5,10);
+  const decoNodes = nodes.slice(10);
 
   // Center → args
   argNodes.forEach(n => thread(center.x,center.y,n.x,n.y,'rgba(158,58,47,0.32)'));
@@ -286,7 +372,7 @@ function draw(ts) {
   }));
   // Modules → deco
   modNodes.forEach((m,mi) => decoNodes.forEach((d,di) => {
-    if (di%4===mi) thread(m.x,m.y,d.x,d.y,'rgba(232,228,220,0.05)',0.5);
+    if (di%5===mi) thread(m.x,m.y,d.x,d.y,'rgba(232,228,220,0.05)',0.5);
   }));
   // Deco ring
   decoNodes.forEach((d,i) => {
@@ -344,7 +430,7 @@ function draw(ts) {
     ctx.font=`500 9px 'DM Mono',monospace`;
     ctx.fillStyle=active?(hov?'rgba(11,11,14,0.9)':'rgba(200,146,42,0.85)'):'rgba(232,228,220,0.28)';
     ctx.textAlign='center';
-    const lbl = {visa:'VISA',healthcare:'HEALTHCARE',defense:'DEFENSE',banking:'BANKING'}[n.id];
+    const lbl = {visa:'VISA',healthcare:'HEALTHCARE',defense:'DEFENSE',banking:'BANKING',education:'EDUCATION'}[n.id];
     ctx.fillText(lbl, n.x, n.y+n.r+16);
   });
 
