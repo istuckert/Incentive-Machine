@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H-1B / H-2: The Visa Machine — The Incentive Machine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0b0b0e;
+  --bg-2:     #111117;
+  --bg-3:     #16161e;
+  --border:   rgba(255,255,255,0.07);
+  --border-2: rgba(255,255,255,0.14);
+  --ink:      #e8e4dc;
+  --ink-2:    rgba(232,228,220,0.55);
+  --ink-3:    rgba(232,228,220,0.28);
+  --amber:    #c8922a;
+  --red:      #9e3a2f;
+  --teal:     #2a7a6e;
+  --serif:    'Playfair Display', Georgia, serif;
+  --serif-2:  'Cormorant Garamond', Georgia, serif;
+  --mono:     'DM Mono', monospace;
+  --sans:     'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+[id] { scroll-margin-top: 72px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  height: 52px; background: rgba(11,11,14,0.93);
+  backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+}
+.nav-inner {
+  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-back {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--amber); }
+.nav-brand { font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--ink); }
+.nav-tag {
+  font-family: var(--mono); font-size: 8px; color: var(--ink-3);
+  padding-left: 1.5rem; border-left: 1px solid var(--border-2);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 52px 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 55%, rgba(200,146,42,0.06) 0%, transparent 65%), var(--bg);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg,   transparent, transparent 79px, rgba(255,255,255,0.018) 80px),
+    repeating-linear-gradient(90deg,  transparent, transparent 79px, rgba(255,255,255,0.018) 80px);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 740px; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; display: block;
+  opacity: 0; animation: fadeIn 1s ease forwards 0.3s;
+}
+.hero-title {
+  font-family: var(--serif); font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+  font-weight: 900; line-height: 0.95; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 1rem;
+  opacity: 0; animation: fadeUp 1s ease forwards 0.5s;
+}
+.hero-tagline {
+  font-family: var(--serif-2); font-style: italic;
+  font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--ink-2); line-height: 1.7; margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.7s;
+}
+.hero-stats {
+  display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.9s;
+}
+.hero-stat {
+  background: var(--bg-2); border: 1px solid var(--border);
+  padding: 0.8rem 1.25rem; min-width: 130px; text-align: center;
+}
+.hero-stat-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--amber); display: block; line-height: 1; }
+.hero-stat-label { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); display: block; margin-top: 0.3rem; }
+.hero-hint {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(200,146,42,0.4);
+  opacity: 0; animation: fadeIn 1s ease forwards 1.4s; display: block;
+}
+
+/* ── CHAIN SECTION ── */
+.chain-section { padding: 5rem 2rem 6rem; }
+.chain-overline {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--ink-3); text-align: center;
+  display: block; margin-bottom: 0.75rem;
+}
+.chain-intro {
+  font-family: var(--serif-2); font-style: italic; font-size: 1rem; color: var(--ink-2);
+  text-align: center; display: block; margin-bottom: 3.5rem; max-width: 560px; margin-left: auto; margin-right: auto;
+}
+.chain-wrap { position: relative; max-width: 1000px; margin: 0 auto; }
+.chain-svg {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; overflow: visible; z-index: 0;
+}
+.chain-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3.5rem 1rem;
+  position: relative; z-index: 1;
+}
+
+/* chain nodes */
+.chain-node {
+  display: flex; flex-direction: column; gap: 0.25rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+.chain-node:hover { border-color: var(--border-2); background: var(--bg-3); transform: translateY(-2px); }
+.cn-tag {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em;
+  text-transform: uppercase; display: block;
+}
+.cn-name { font-family: var(--serif); font-size: 0.9rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.cn-detail { font-size: 0.71rem; color: var(--ink-3); line-height: 1.5; }
+
+.cn-amber { border-color: rgba(200,146,42,0.22); background: rgba(200,146,42,0.04); }
+.cn-amber:hover { border-color: rgba(200,146,42,0.4); background: rgba(200,146,42,0.08); }
+.cn-amber .cn-tag { color: var(--amber); }
+.cn-teal  { border-color: rgba(42,122,110,0.18); background: rgba(42,122,110,0.04); }
+.cn-teal:hover  { border-color: rgba(42,122,110,0.32); background: rgba(42,122,110,0.08); }
+.cn-teal .cn-tag  { color: rgba(42,180,160,0.85); }
+.cn-gray .cn-tag  { color: var(--ink-3); }
+.cn-red { border-color: rgba(158,58,47,0.16); }
+.cn-red:hover { border-color: rgba(158,58,47,0.3); }
+.cn-red .cn-tag { color: rgba(200,90,70,0.85); }
+
+/* grid placement */
+#cn-am    { grid-column: 1/5; grid-row: 1; max-width: 350px; width: 100%; margin: 0 auto; justify-self: center; }
+#cn-h1b   { grid-column: 1/3; grid-row: 2; }
+#cn-h2    { grid-column: 3/5; grid-row: 2; }
+#cn-h1b-s { grid-column: 1/3; grid-row: 3; }
+#cn-h2-s  { grid-column: 3/5; grid-row: 3; }
+#cn-h1b-w { grid-column: 1;   grid-row: 4; }
+#cn-h1b-i { grid-column: 2;   grid-row: 4; }
+#cn-h2-w  { grid-column: 3;   grid-row: 4; }
+#cn-h2-i  { grid-column: 4;   grid-row: 4; }
+
+/* ── DIVIDER BAND ── */
+.band {
+  background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 3.5rem 2rem; text-align: center;
+}
+.band-text {
+  font-family: var(--serif-2); font-style: italic;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem); color: var(--ink-2); line-height: 1.8;
+  max-width: 760px; margin: 0 auto;
+}
+.band-text strong { color: var(--ink); font-weight: 400; }
+
+/* ── CONTENT SECTIONS ── */
+.sec-wrap { border-top: 1px solid var(--border); }
+.sec-wrap.alt { background: var(--bg-2); }
+.sec-inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+
+.sec-header { margin-bottom: 2.75rem; }
+.sec-overline { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+.ov-amber { color: var(--amber); }
+.ov-teal  { color: rgba(42,180,155,0.85); }
+.ov-red   { color: rgba(200,80,65,0.85); }
+.ov-dim   { color: var(--ink-3); }
+.sec-title { font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.7rem; }
+.sec-sub { font-family: var(--serif-2); font-style: italic; font-size: 1.08rem; color: var(--ink-2); line-height: 1.75; max-width: 660px; }
+
+/* stats grid */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1px; border: 1px solid var(--border); margin-bottom: 2.5rem; background: var(--border);
+}
+.stat-card { background: var(--bg); padding: 1.2rem 1.3rem; }
+.sec-wrap.alt .stat-card { background: var(--bg-3); }
+.stat-num { font-family: var(--serif); font-size: 1.75rem; font-weight: 700; color: var(--ink); display: block; line-height: 1; margin-bottom: 0.3rem; }
+.stat-num.a { color: var(--amber); }
+.stat-num.r { color: rgba(200,70,55,0.9); }
+.stat-label { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); line-height: 1.5; display: block; }
+.stat-note { font-size: 0.7rem; color: var(--ink-3); margin-top: 0.25rem; display: block; line-height: 1.4; }
+
+/* data table */
+.table-wrap { overflow-x: auto; margin-bottom: 2.5rem; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.data-table thead th {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--amber); padding: 0.55rem 0.9rem 0.55rem 0; text-align: left;
+  border-bottom: 1px solid var(--border-2);
+}
+.data-table tbody td {
+  padding: 0.6rem 0.9rem 0.6rem 0; border-bottom: 1px solid var(--border);
+  color: var(--ink-2); vertical-align: middle;
+}
+.data-table tbody td.rank { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-3); width: 32px; }
+.data-table tbody td.co  { color: var(--ink); font-weight: 500; }
+.data-table tbody td.num { font-family: var(--mono); color: var(--amber); font-size: 0.8rem; }
+.data-table tbody td.note{ font-size: 0.72rem; color: var(--ink-3); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* prose */
+.prose { font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300; line-height: 1.9; color: rgba(232,228,220,0.72); margin-bottom: 1.2rem; max-width: 720px; }
+.prose strong { color: var(--ink); font-weight: 400; }
+
+/* source cite */
+.src { font-family: var(--mono); font-size: 7px; letter-spacing: 0.09em; color: var(--ink-3); display: block; margin-top: 0.4rem; }
+.src::before { content: '✓ '; color: rgba(42,160,130,0.6); }
+
+/* key facts list */
+.facts { list-style: none; border-top: 1px solid var(--border); }
+.facts li { padding: 0.8rem 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; color: var(--ink-2); line-height: 1.6; display: flex; flex-direction: column; gap: 0.15rem; }
+.fact-key { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.fact-val { color: var(--amber); font-family: var(--mono); font-size: 0.8rem; }
+.fact-val.r { color: rgba(200,70,55,0.9); }
+
+/* accordion */
+.accordion { border-top: 1px solid var(--border); }
+.acc-item { border-bottom: 1px solid var(--border); }
+.acc-btn {
+  width: 100%; text-align: left; background: none; border: none; padding: 1rem 0;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink);
+}
+.acc-btn-title { font-size: 0.86rem; font-weight: 500; font-family: var(--sans); }
+.acc-icon { font-family: var(--mono); font-size: 14px; color: var(--ink-3); flex-shrink: 0; transition: transform 0.2s; line-height: 1; }
+.acc-item.open .acc-icon { transform: rotate(45deg); }
+.acc-body { display: none; padding-bottom: 1.25rem; }
+.acc-item.open .acc-body { display: block; }
+.acc-list { list-style: none; }
+.acc-list li { font-size: 0.81rem; color: var(--ink-2); line-height: 1.65; padding: 0.3rem 0; display: flex; gap: 0.75rem; }
+.acc-list li::before { content: '·'; color: var(--amber); flex-shrink: 0; }
+
+/* two-col dichotomy */
+.dict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-2); border: 1px solid var(--border-2); margin-top: 2rem; }
+.dict-col { background: var(--bg); padding: 2rem; }
+.sec-wrap.alt .dict-col { background: var(--bg-2); }
+.dict-col-label { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); display: block; }
+.lbl-teal { color: rgba(42,180,155,0.85); }
+.lbl-red  { color: rgba(200,80,65,0.8); }
+.dict-item { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+.dict-item:last-child { border-bottom: none; }
+.dict-text { font-size: 0.82rem; line-height: 1.65; color: var(--ink-2); }
+.dict-text strong { color: var(--ink); font-weight: 500; }
+.dict-src { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.09em; color: var(--ink-3); margin-top: 0.3rem; display: block; }
+.dict-src::before { content: '✓ '; color: rgba(42,140,110,0.55); }
+
+/* coming soon */
+.coming-soon-wrap { border: 1px solid var(--border); max-width: 620px; margin: 0 auto; padding: 4rem 2.5rem; text-align: center; }
+.cs-badge { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-3); background: var(--bg-3); border: 1px solid var(--border); padding: 0.35rem 0.75rem; display: inline-block; margin-bottom: 1.25rem; }
+.cs-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; }
+.cs-text { font-family: var(--serif-2); font-style: italic; font-size: 1rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 2rem; }
+.cs-items { list-style: none; text-align: left; max-width: 420px; margin: 0 auto; border-top: 1px solid var(--border); }
+.cs-items li { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.1em; color: var(--ink-3); padding: 0.45rem 0; border-bottom: 1px solid var(--border); display: flex; gap: 0.6rem; align-items: flex-start; }
+.cs-items li::before { content: '⚑'; color: rgba(200,146,42,0.28); flex-shrink: 0; }
+
+/* back-to-chain link */
+.back-chain { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; display: inline-block; margin-top: 2.5rem; transition: color 0.2s; }
+.back-chain:hover { color: var(--amber); }
+
+/* col split layout */
+.two-col-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.two-col-layout.wide { grid-template-columns: 1.2fr 0.8fr; }
+
+/* footer */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem 0; }
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-left p { font-family: var(--mono); font-size: 8px; color: var(--ink-3); letter-spacing: 0.1em; line-height: 1.7; }
+.footer-left strong { color: var(--ink-2); }
+.footer-right { display: flex; gap: 1.5rem; }
+.footer-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.15s; }
+.footer-link:hover { color: var(--amber); }
+
+/* animations */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1 { transition-delay:0.08s; } .d2 { transition-delay:0.16s; } .d3 { transition-delay:0.24s; } .d4 { transition-delay:0.32s; }
+
+/* responsive */
+@media (max-width: 820px) {
+  .chain-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 0.75rem; }
+  #cn-am    { grid-column: 1/3; max-width: none; }
+  #cn-h1b   { grid-column: 1/2; grid-row: 2; }
+  #cn-h2    { grid-column: 2/3; grid-row: 2; }
+  #cn-h1b-s { grid-column: 1/2; grid-row: 3; }
+  #cn-h2-s  { grid-column: 2/3; grid-row: 3; }
+  #cn-h1b-w { grid-column: 1/2; grid-row: 4; }
+  #cn-h1b-i { grid-column: 2/3; grid-row: 4; }
+  #cn-h2-w  { grid-column: 1/2; grid-row: 5; }
+  #cn-h2-i  { grid-column: 2/3; grid-row: 5; }
+  .dict-grid { grid-template-columns: 1fr; }
+  .two-col-layout, .two-col-layout.wide { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-stats { gap: 0.75rem; }
+}
+@media (max-width: 500px) {
+  .nav-right .nav-link:not(:last-child) { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← The Incentive Machine</a>
+    <span class="nav-brand">Visa Module</span>
+    <div class="nav-right">
+      <a href="#h1b" class="nav-link">H-1B</a>
+      <a href="#h2" class="nav-link">H-2</a>
+      <a href="#dichotomy-h1b" class="nav-link">Dichotomy</a>
+      <span class="nav-tag">Module 01</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Module 01 · The Incentive Machine</span>
+    <h1 class="hero-title">H-1B / H-2:<br>The Visa Machine</h1>
+    <p class="hero-tagline">One machine. Two visa programs. The same people get rich.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">~730k</span>
+        <span class="hero-stat-label">H-1B Active Workers</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">398k+</span>
+        <span class="hero-stat-label">H-2A Certified FY2025</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">128M</span>
+        <span class="hero-stat-label">Americans Invested via Big 3</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">~99%</span>
+        <span class="hero-stat-label">DOL Approval Rate — Both Programs</span>
+      </div>
+    </div>
+    <span class="hero-hint">↓ Follow the chain</span>
+  </div>
+</section>
+
+<!-- ═══ CHAIN SECTION ═══ -->
+<section class="chain-section" id="chain">
+  <span class="chain-overline reveal">The Structure</span>
+  <span class="chain-intro reveal">Follow the money from your retirement account through the visa system — click any node to jump to the documented evidence.</span>
+
+  <div class="chain-wrap" id="chain-wrap">
+    <svg id="chain-svg" class="chain-svg" aria-hidden="true" overflow="visible"></svg>
+
+    <!-- Row 1: Asset Managers -->
+    <a href="#asset-managers" class="chain-node cn-amber" id="cn-am">
+      <span class="cn-tag">Tier I — Who Controls It</span>
+      <span class="cn-name">Institutional Asset Managers</span>
+      <span class="cn-detail">BlackRock · Vanguard · State Street · $26T+ AUM · 128M Americans · 88% of S&amp;P 500</span>
+    </a>
+
+    <!-- Row 2: Visa Programs -->
+    <a href="#h1b" class="chain-node cn-teal" id="cn-h1b">
+      <span class="cn-tag">H-1B Visa — Skilled Worker</span>
+      <span class="cn-name">Specialty Occupation Program</span>
+      <span class="cn-detail">~730k active · 65k + 20k cap · India 72% · 99% DOL approval</span>
+    </a>
+    <a href="#h2" class="chain-node cn-teal" id="cn-h2">
+      <span class="cn-tag">H-2A / H-2B Visa — Seasonal</span>
+      <span class="cn-name">Agricultural &amp; Seasonal Program</span>
+      <span class="cn-detail">398k+ FY2025 · Uncapped (H-2A) · Mexico 90% · 99% DOL approval</span>
+    </a>
+
+    <!-- Row 3: Corporate Sponsors -->
+    <a href="#h1b-sponsors" class="chain-node cn-gray" id="cn-h1b-s">
+      <span class="cn-tag">Top H-1B Sponsors — FY2025</span>
+      <span class="cn-name">Amazon · Meta · Microsoft · Google · TCS</span>
+      <span class="cn-detail">Big Three are largest shareholders in all four tech giants</span>
+    </a>
+    <a href="#h2-sponsors" class="chain-node cn-gray" id="cn-h2-s">
+      <span class="cn-tag">Top H-2 Sponsors — FY2025</span>
+      <span class="cn-name">NCGA · Foothill Packing · Wafla · Fresh Harvest</span>
+      <span class="cn-detail">PE intermediaries (KKR, Blackstone) → Big Three index fund holdings</span>
+    </a>
+
+    <!-- Row 4: Dichotomy -->
+    <a href="#dichotomy-h1b" class="chain-node cn-red" id="cn-h1b-w">
+      <span class="cn-tag">H-1B · Left Panel</span>
+      <span class="cn-name">Who Are the Workers?</span>
+    </a>
+    <a href="#dichotomy-h1b" class="chain-node cn-red" id="cn-h1b-i">
+      <span class="cn-tag">H-1B · Right Panel</span>
+      <span class="cn-name">Effect on Americans</span>
+    </a>
+    <a href="#dichotomy-h2" class="chain-node cn-red" id="cn-h2-w">
+      <span class="cn-tag">H-2 · Left Panel</span>
+      <span class="cn-name">Who Are the Workers?</span>
+    </a>
+    <a href="#dichotomy-h2" class="chain-node cn-red" id="cn-h2-i">
+      <span class="cn-tag">H-2 · Right Panel</span>
+      <span class="cn-name">Effect on Americans</span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ DIVIDER BAND ═══ -->
+<div class="band">
+  <p class="band-text reveal">
+    Asset managers <strong>own the companies</strong> that sponsor visa workers.
+    Those workers produce <strong>labor cost savings</strong> that improve margins.
+    Improved margins raise share prices. Share prices grow <strong>your retirement account.</strong>
+    The same Americans whose wages are suppressed are unknowingly funding
+    <strong>the mechanism that suppresses them.</strong>
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 02 — INSTITUTIONAL ASSET MANAGERS
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="asset-managers">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-amber">Section 02 — Who Controls It</span>
+      <h2 class="sec-title">What Is an Asset Manager?</h2>
+      <p class="sec-sub">BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households. When you signed up for your 401(k), you handed them something far more valuable than your money: your vote.</p>
+    </div>
+
+    <div class="stats-grid reveal d1">
+      <div class="stat-card">
+        <span class="stat-num a">$26T+</span>
+        <span class="stat-label">Combined AUM — Big Three</span>
+        <span class="stat-note">BlackRock: $13.89T · Q1 2026</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num a">128M</span>
+        <span class="stat-label">U.S. Households Invested</span>
+        <span class="stat-note">56.4% of all U.S. households · 73% through employer plans</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">~74%</span>
+        <span class="stat-label">U.S. Equity ETF Market Share</span>
+        <span class="stat-note">Big Three combined · ETF.com / U.S. News 2024</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">~88%</span>
+        <span class="stat-label">S&amp;P 500 Companies — Big Three Largest Shareholder</span>
+        <span class="stat-note">Morningstar 2025</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">20–25%</span>
+        <span class="stat-label">Median Voting Power at Any Shareholder Meeting</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num a">98.7%</span>
+        <span class="stat-label">Management Proposal Support Rate — 2025 Proxy Season</span>
+        <span class="stat-note">ICFS / SparkCo</span>
+      </div>
+    </div>
+
+    <div class="prose-block reveal d2">
+      <p class="prose">
+        Every share of stock in your retirement account comes with a vote in how that company is run —
+        who sits on the board, how executives get paid, what labor policies get approved.
+        <strong>You gave those votes away without knowing it.</strong>
+        Together, the Big Three cast votes at corporate elections in nearly every major American company
+        using your money, without asking you.
+        No government. No union. No activist group comes close to that concentration of power.
+      </p>
+    </div>
+
+    <div class="accordion reveal d3">
+      <div class="acc-item open">
+        <button class="acc-btn">
+          <span class="acc-btn-title">Where Their Money Comes From</span>
+          <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body">
+          <ul class="acc-list">
+            <li>Private 401(k) / IRA / pension automatic flows — your retirement contributions go directly to their funds</li>
+            <li>Private retirement plans: $21T+ under management</li>
+            <li>State &amp; local public pensions: ~$10T</li>
+            <li>Federal Thrift Savings Plan (TSP): $1.07T — BlackRock and State Street directly manage index funds for 7.3M federal employees and military personnel</li>
+            <li>BlackRock pension AUM alone: <strong>$3.9 trillion</strong> (Q1 2026 earnings)</li>
+          </ul>
+          <span class="src">BlackRock Q1 2026 earnings · TSP Annual Report · ICI 2025</span>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">
+          <span class="acc-btn-title">How You Gave Away Your Vote Without Knowing It</span>
+          <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body">
+          <ul class="acc-list">
+            <li>Under ERISA §403(a)(2), proxy voting is the fiduciary duty of the fund manager — not the participant. You cannot instruct your 401(k) how to vote unless your plan explicitly offers pass-through voting, which almost none do.</li>
+            <li>DOL codified this arrangement in December 2020, confirming that managers exercise voting rights on behalf of participants as a standard fiduciary function.</li>
+            <li>When you enrolled in your employer's retirement plan, the proxy voting rights embedded in every share were automatically transferred to whichever asset manager runs your fund.</li>
+          </ul>
+          <span class="src">DOL Federal Register, Dec 16 2020 — federalregister.gov/documents/2020/12/16/2020-27465</span>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">
+          <span class="acc-btn-title">What They Do With That Voting Power</span>
+          <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body">
+          <ul class="acc-list">
+            <li>Big Three are the <strong>largest single shareholder</strong> in approximately 88% of S&amp;P 500 companies (Morningstar 2025)</li>
+            <li>Median voting block at any shareholder meeting: 20–25% — enough to decide most contested votes</li>
+            <li>2025 proxy season management proposal support rate: <strong>98.7%</strong> — they almost never vote against management</li>
+            <li>This includes votes on executive compensation, labor policy, board composition, and share buybacks that suppress wages across entire sectors</li>
+          </ul>
+          <span class="src">Morningstar 2025 · ICFS / SparkCo proxy voting analysis</span>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">
+          <span class="acc-btn-title">Why They Always Vote the Same Way — Cross-Ownership</span>
+          <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body">
+          <ul class="acc-list">
+            <li>Vanguard: ~9% stake in BlackRock (~$15B)</li>
+            <li>BlackRock: ~6.5% self-ownership through its own funds</li>
+            <li>State Street: ~4% stake in BlackRock</li>
+            <li>BlackRock: ~8% stake in State Street</li>
+            <li>Each manager is a major shareholder in the others. They have structural incentives to maintain the arrangement — and no incentive to vote in ways that would disturb it.</li>
+          </ul>
+          <span class="src">SEC 13F filings Q4 2025 / early 2026 — Fintel, WhaleWisdom (confirmation pending Phase 4)</span>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">
+          <span class="acc-btn-title">How They Influence Policy Without Lobbying For It</span>
+          <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body">
+          <ul class="acc-list">
+            <li>BlackRock federal lobbying 2025: $3.4 million — almost none on immigration specifically</li>
+            <li>Vanguard federal lobbying 2025: $2.58 million — almost none on immigration specifically</li>
+            <li>They don't need to. Portfolio companies — Amazon, Meta, Microsoft, Google — do the direct lobbying. Asset managers simply cast aligned voting blocks that keep those companies' management in power.</li>
+            <li>US Chamber of Commerce lobbied against H-1B wage reforms with $72.14M in total 2025 lobbying. The Big Three own large stakes in Chamber member companies.</li>
+          </ul>
+          <span class="src">OpenSecrets 2025 · opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#chain" class="back-chain">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 03a — H-1B VISA
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap" id="h1b">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-teal">Section 03a — Left Branch</span>
+      <h2 class="sec-title">The H-1B Visa</h2>
+      <p class="sec-sub">Skilled Worker Program: what the law says vs. what actually happens. The Labor Condition Application is self-attested, minimally audited, and approved 99% of the time. The result is a captive labor pool paid below market and unable to safely assert rights.</p>
+    </div>
+
+    <div class="stats-grid reveal d1">
+      <div class="stat-card">
+        <span class="stat-num a">~730k</span>
+        <span class="stat-label">H-1B Workers Active in U.S.</span>
+        <span class="stat-note">Early 2026 · USCIS H-1B Employer Data Hub</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">456,725</span>
+        <span class="stat-label">FY2025 Petitions Filed</span>
+        <span class="stat-note">328,185 approved · USCIS FY2025 Report</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">85k</span>
+        <span class="stat-label">Annual Cap (Regular + Adv. Degree)</span>
+        <span class="stat-note">65,000 regular + 20,000 advanced degree · Cap-exempt employers: uncapped</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num a">~99%</span>
+        <span class="stat-label">DOL LCA Approval Rate</span>
+        <span class="stat-note">Self-attested · minimal audit · DOL Fact Sheet #26A</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">~72%</span>
+        <span class="stat-label">India Share of Approvals</span>
+        <span class="stat-note">FY2023–2025 · China ~11–12% · all others under 2%</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num r">16%</span>
+        <span class="stat-label">H-1B Wage Gap vs. Comparable U.S. Workers</span>
+        <span class="stat-note">Up to 35% at outsourcing firms · NBER Working Paper w34793, Feb 2026</span>
+      </div>
+    </div>
+
+    <div class="two-col-layout reveal d2">
+      <div>
+        <p class="prose">
+          The H-1B program requires employers to attest — through a Labor Condition Application — that they have tried to hire Americans, will pay the "prevailing wage," and will not adversely affect U.S. workers. The DOL certifies this application with <strong>minimal independent review.</strong>
+          Wage levels can be set at Level I or II even for experienced roles, structurally anchoring pay
+          well below actual market rates. There is no mandatory pre-filing recruitment for most H-1B petitions.
+        </p>
+        <p class="prose">
+          Once hired, workers face a structural trap: job loss triggers a 60-day grace period to find a new sponsor or leave the country. For Indian nationals, the EB-2 green card backlog currently sits at
+          <strong>a 2013 priority date — a 12-year wait.</strong> This tether gives employers nearly
+          total leverage over any worker who raises a complaint.
+        </p>
+      </div>
+      <div>
+        <ul class="facts">
+          <li>
+            <span class="fact-key">Wage Suppression</span>
+            <span class="fact-val r">$10,191 below OEWS mean</span>
+            Average offered H-1B wage vs. comparable occupation · DOL LCA wage analysis
+          </li>
+          <li>
+            <span class="fact-key">Documented Wage Theft</span>
+            <span class="fact-val r">$95 million</span>
+            HCL underpayment documented by EPI across H-1B workforce
+          </li>
+          <li>
+            <span class="fact-key">Bench Time</span>
+            Non-billable periods between client projects = reduced or no pay while still tied to sponsor — worker cannot leave without triggering 60-day clock
+          </li>
+          <li>
+            <span class="fact-key">Green Card Backlog</span>
+            <span class="fact-val">~12+ years</span>
+            India EB-2 priority date ~2013 · Visa Bulletin Feb 2026
+          </li>
+          <li>
+            <span class="fact-key">Overcrowded Housing</span>
+            <span class="fact-val r">4× more likely</span>
+            H-1B workers vs. U.S. natives · CIS Overcrowded Housing Report
+          </li>
+          <li>
+            <span class="fact-key">Investigations Rising</span>
+            <span class="fact-val">+48% (Project Firewall)</span>
+            175+ DOL probes launched Sep–Nov 2025 · multi-agency DOL/USCIS/EEOC/DOJ
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- H-1B Sponsors Subsection -->
+    <div id="h1b-sponsors" style="margin-top: 3.5rem; padding-top: 3rem; border-top: 1px solid var(--border);">
+      <span class="sec-overline ov-dim" style="display:block; margin-bottom: 0.5rem;">FY2025 — Top H-1B Sponsors</span>
+      <h3 style="font-family: var(--serif); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;">The Companies. The Ownership. The Loop.</h3>
+      <p style="font-size: 0.83rem; color: var(--ink-2); margin-bottom: 1.75rem; max-width: 660px; line-height: 1.65;">
+        All four major U.S. tech sponsors are Big Three index fund top holdings. BlackRock, Vanguard, and State Street are among the largest shareholders in every company listed below — casting proxy votes using the retirement savings of the American workers displaced or underpaid by these programs.
+      </p>
+      <div class="table-wrap reveal">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Company</th>
+              <th>FY2025 Approvals</th>
+              <th>Ownership Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="rank">1</td><td class="co">Amazon</td><td class="num">4,644</td><td class="note">Vanguard ~6.7% · BlackRock ~5.5% · State Street ~3.4%</td></tr>
+            <tr><td class="rank">2</td><td class="co">Meta Platforms</td><td class="num">1,555</td><td class="note">Vanguard ~6.2% · BlackRock ~5.2% · State Street ~3.1%</td></tr>
+            <tr><td class="rank">3</td><td class="co">Microsoft</td><td class="num">1,394</td><td class="note">Vanguard ~8.8% · BlackRock ~7.0% · State Street ~3.7%</td></tr>
+            <tr><td class="rank">4</td><td class="co">Google (Alphabet)</td><td class="num">1,050</td><td class="note">Vanguard ~6.0% · BlackRock ~5.4% · State Street ~3.4%</td></tr>
+            <tr><td class="rank">5</td><td class="co">Tata Consultancy Services</td><td class="num">846</td><td class="note">Outsourcing model · India-HQ · up to 35% wage gap at firms like TCS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <span class="src">NFAP Policy Brief + USCIS H-1B Employer Data Hub FY2025 · Ownership: public 13F filings (exact Phase 4 confirmation pending)</span>
+
+      <div style="margin-top: 1.75rem; background: var(--bg-2); border: 1px solid var(--border); padding: 1.25rem 1.5rem; max-width: 680px;">
+        <span style="font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 0.5rem;">The University Feedback Loop</span>
+        <p style="font-size: 0.81rem; color: var(--ink-2); line-height: 1.65;">
+          Top H-1B sponsors fund university programs that produce the graduates they hire. TCS gave $35M to Carnegie Mellon. Cognizant has committed tens of millions to STEM education. Amazon, Microsoft, Google, and Meta fund AI/ML research centers and endowed professorships across the exact STEM fields dominating their H-1B filings. Universities are cap-exempt — they can sponsor unlimited H-1B workers without entering the annual lottery — creating a corporate-funded pipeline from campus to captive labor.
+        </p>
+        <span class="src">TCS Carnegie Mellon gift · tcs.com · Inside Higher Ed Jan 2026 (record university lobbying to protect cap-exempt status)</span>
+      </div>
+    </div>
+
+    <a href="#chain" class="back-chain">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 03b — H-2 VISA
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="h2">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-teal">Section 03b — Right Branch</span>
+      <h2 class="sec-title">The H-2 Visa</h2>
+      <p class="sec-sub">Agricultural &amp; seasonal workers: a different program, the same extraction. Employers simultaneously control the worker's visa status, housing, and income. A 60-day deportation clock enforces silence. Enforcement has collapsed while the program nearly tripled.</p>
+    </div>
+
+    <div class="stats-grid reveal d1">
+      <div class="stat-card">
+        <span class="stat-num a">398,258</span>
+        <span class="stat-label">H-2A Positions Certified FY2025</span>
+        <span class="stat-note">Nearly 3× mid-2010s levels · DOL OFLC FY2025 Q4</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">200k–230k</span>
+        <span class="stat-label">H-2B Certified Per Year (Typical)</span>
+        <span class="stat-note">FY2026 Q1: ~39k certified · Non-agricultural seasonal</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num a">~99%</span>
+        <span class="stat-label">DOL Certification Approval Rate</span>
+        <span class="stat-note">Self-attested "labor market test" · GAO-25-106389</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">~90–92%</span>
+        <span class="stat-label">H-2A Workers from Mexico</span>
+        <span class="stat-note">Guatemala / Honduras / El Salvador ~5–8% combined · DOL OFLC FY2026 Q1</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num r">$1.7–2.1B</span>
+        <span class="stat-label">Transferred from H-2A Workers to Employers (2026 IFR, One Year)</span>
+        <span class="stat-note">EPI analysis Nov 2025</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num r">54%</span>
+        <span class="stat-label">H-2A Share of All Agricultural Back-Wage Assessments</span>
+        <span class="stat-note">FY2018–2023 · GAO-25-106389</span>
+      </div>
+    </div>
+
+    <div class="two-col-layout reveal d2">
+      <div>
+        <p class="prose">
+          The H-2A program requires employers to certify they tried to hire Americans, will pay the Adverse Effect Wage Rate (AEWR), and will provide housing. The DOL certifies the application with minimal review — the same rubber-stamp process as H-1B, applied to physically demanding agricultural work.
+        </p>
+        <p class="prose">
+          A 2025 Interim Final Rule allows employers to deduct <strong>up to 30% of the AEWR</strong> for housing the workers are legally required to accept. Combined with meal deductions of up to $16.78/day and upfront recruiter fees of $1,000–$9,000+ (at loan rates up to 20%/month), workers arrive in debt and remain dependent.
+          <strong>The employer controls both the housing and the immigration status simultaneously.</strong>
+          Complaint, quit, or termination: the worker loses both their home and their right to remain in the United States in the same moment.
+        </p>
+      </div>
+      <div>
+        <ul class="facts">
+          <li>
+            <span class="fact-key">Physical Demands</span>
+            <span class="fact-val r">84%</span>
+            of H-2A jobs require lifting, extreme temperatures, and repetitive movement · GAO-25-106389
+          </li>
+          <li>
+            <span class="fact-key">Recruiter Debt</span>
+            <span class="fact-val r">$1,000–$9,000+</span>
+            upfront fees · loans at up to 20%/month interest · documented debt bondage · ProPublica 2025–2026
+          </li>
+          <li>
+            <span class="fact-key">WHD Investigations</span>
+            <span class="fact-val r">Only 649</span>
+            agricultural investigations in latest data · down &gt;50% from a decade ago while program nearly tripled
+          </li>
+          <li>
+            <span class="fact-key">Lucky Growers (CA, Dec 2025)</span>
+            Charged rent for pest-infested, structurally damaged housing · DOL recovered $171,400 back wages + $76,274 penalties
+          </li>
+          <li>
+            <span class="fact-key">Operation Blooming Onion (GA, 2025–2026)</span>
+            <span class="fact-val r">$200M+ contractor profit</span>
+            Forced labor, violence, sexual assault, deaths — federal prosecutors called it "modern-day slavery" · DOJ / ProPublica
+          </li>
+          <li>
+            <span class="fact-key">Farmworker Protection Rule</span>
+            Primary anti-retaliation enforcement tool suspended June 2025, proposed rescission July 2025 — removed during largest program expansion in history
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- H-2 Sponsors Subsection -->
+    <div id="h2-sponsors" style="margin-top: 3.5rem; padding-top: 3rem; border-top: 1px solid var(--border);">
+      <span class="sec-overline ov-dim" style="display:block; margin-bottom: 0.5rem;">FY2025 — Top H-2 Sponsors</span>
+      <h3 style="font-family: var(--serif); font-size: 1.4rem; font-weight: 700; margin-bottom: 1.75rem;">Agricultural &amp; Seasonal Employers</h3>
+
+      <div class="two-col-layout">
+        <div>
+          <p style="font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(42,180,155,0.8); margin-bottom: 0.75rem;">H-2A — Agricultural (Uncapped)</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>#</th><th>Employer</th><th>Positions Certified</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="rank">1</td><td class="co">NCGA, Inc.</td><td class="num">10,398</td></tr>
+                <tr><td class="rank">2</td><td class="co">Foothill Packing, Inc.</td><td class="num">6,959</td></tr>
+                <tr><td class="rank">3</td><td class="co">Wafla</td><td class="num">4,913</td></tr>
+                <tr><td class="rank">4</td><td class="co">Temp Labor, LLC</td><td class="num">4,891</td></tr>
+                <tr><td class="rank">5</td><td class="co">Fresh Harvest, Inc.</td><td class="num">4,375</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <span class="src">DOL OFLC H-2A Selected Statistics FY2025 Q4</span>
+        </div>
+        <div>
+          <p style="font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem;">H-2B — Non-Agricultural Seasonal (Capped at 66k+)</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>#</th><th>Employer</th><th>Positions Certified</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="rank">1</td><td class="co">ABC Professional Tree Services</td><td class="num">2,103</td></tr>
+                <tr><td class="rank">2</td><td class="co">Progressive Solutions LLC</td><td class="num">2,073</td></tr>
+                <tr><td class="rank">3</td><td class="co">Genuine Builders, Inc.</td><td class="num">1,899</td></tr>
+                <tr><td class="rank">4</td><td class="co">Landscape Workshop LLC</td><td class="num">1,840</td></tr>
+                <tr><td class="rank">5</td><td class="co">Vivint, LLC</td><td class="num">1,262</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <span class="src">DOL OFLC H-2B Selected Statistics FY2025 Q4</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.75rem; background: var(--bg-3); border: 1px solid var(--border); padding: 1.25rem 1.5rem; max-width: 680px;">
+        <span style="font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 0.5rem;">Asset Manager Connection — Phase 4 Pending</span>
+        <p style="font-size: 0.81rem; color: var(--ink-2); line-height: 1.65;">
+          The top H-2A sponsors are predominantly private companies and cooperatives — not publicly traded. The asset manager connection runs through private equity intermediaries: KKR and Blackstone hold major stakes in agricultural and food-supply companies that rely on H-2 labor, and the Big Three are among the largest holders of KKR and Blackstone. Confirmation of the full ownership chain is pending Phase 4 research.
+        </p>
+      </div>
+    </div>
+
+    <a href="#chain" class="back-chain">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 04 — CORPORATE LAYER (COMING SOON)
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap" id="corporate">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 04 — The Corporate Layer</span>
+      <h2 class="sec-title">Closing the Loop</h2>
+    </div>
+    <div class="coming-soon-wrap reveal d1">
+      <span class="cs-badge">Phase 4 — In Research</span>
+      <h3 class="cs-title">The Ownership Chain</h3>
+      <p class="cs-text">
+        This section will document the direct line from each top visa sponsor through its ultimate institutional holder to the Big Three — completing the circuit between visa labor and retirement savings. Every claim will be sourced to SEC 13F filings, USASpending.gov, OpenSecrets, and FEC records.
+      </p>
+      <ul class="cs-items">
+        <li>Phase 4a — Per-company H-1B visa count and year-over-year trend (USCIS Employer Data Hub)</li>
+        <li>Phase 4b — Estimated labor cost savings per employer (EPI prevailing wage methodology)</li>
+        <li>Phase 4c — Full ownership chain: Company → Parent → Institutional Holder → Asset Manager (SEC 13F)</li>
+        <li>Phase 4d — Federal contract receipts per top H-1B sponsor (USASpending.gov)</li>
+        <li>Phase 4e — Lobbying expenditures per company (OpenSecrets)</li>
+        <li>Phase 4f/g — PAC contributions + layoff records juxtaposed with H-1B hiring (FEC + WARN Act / 8-K filings)</li>
+        <li>Phase 4h — H-2 sponsor → PE intermediary → Big Three ownership chain (KKR / Blackstone stake confirmation)</li>
+      </ul>
+    </div>
+    <a href="#chain" class="back-chain" style="display:block; text-align:center; margin-top: 2.5rem;">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 05a — DICHOTOMY OF TRUTH: H-1B
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="dichotomy-h1b">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 05a — Dichotomy of Truth</span>
+      <h2 class="sec-title">H-1B: What Is Actually Happening</h2>
+      <p class="sec-sub">Americans are arguing about the wrong thing. Below is documented reality on both sides — not the argument, but the evidence the argument is designed to obscure.</p>
+    </div>
+
+    <div class="dict-grid reveal d1">
+      <!-- LEFT: Workers -->
+      <div class="dict-col">
+        <span class="dict-col-label lbl-teal">Who Are the H-1B Workers?</span>
+
+        <div class="dict-item">
+          <p class="dict-text"><strong>Visa tether:</strong> one employer controls immigration status. Job loss triggers a 60-day grace period to find a new sponsor or leave the United States.</p>
+          <span class="dict-src">USCIS 60-day grace period policy</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>16% wage gap</strong> vs. comparable U.S. workers after controls. At outsourcing firms, the gap reaches up to <strong>35%.</strong></p>
+          <span class="dict-src">NBER Working Paper w34793, Feb 2026 — nber.org/system/files/working_papers/w34793/w34793.pdf</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Bench time:</strong> non-billable periods between client placements mean reduced or zero pay while still legally bound to the sponsoring employer.</p>
+          <span class="dict-src">EPI / GAO enforcement patterns</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Illegal recruiter fees:</strong> hundreds to thousands of dollars upfront — prohibited by DOL rules, common in outsourcing pipelines. Debt creates pressure to endure poor conditions and withhold complaints.</p>
+          <span class="dict-src">DOJ Compunnel settlement April 2026 · ProPublica</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>India EB-2 green card wait: 12+ years.</strong> Current priority date ~2013, per Visa Bulletin February 2026. Workers are trapped in legal limbo for over a decade, unable to change employers freely.</p>
+          <span class="dict-src">Visa Bulletin Feb 2026 — travel.state.gov</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">Retaliation is prohibited on paper. In practice, the 60-day deportation clock and blacklisting risk mean most violations go <strong>unreported.</strong></p>
+          <span class="dict-src">DOL Fact Sheet #77D · EEOC guidance</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>4× more likely</strong> to live in overcrowded housing than U.S. native workers — despite no mandatory housing requirement in the program. The economic pressure of the visa tether produces the same crowding outcome as H-2A's explicit employer-controlled housing.</p>
+          <span class="dict-src">CIS Overcrowded Housing Report — cis.org</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">Annual remittances: <strong>$15,000–$25,000+</strong> per skilled worker. India receives tens of billions annually from the U.S. diaspora.</p>
+          <span class="dict-src">World Bank Remittances — worldbank.org/en/topic/remittances</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Effect on Americans -->
+      <div class="dict-col">
+        <span class="dict-col-label lbl-red">What Is the True Effect on Americans?</span>
+
+        <div class="dict-item">
+          <p class="dict-text"><strong>85,000 Americans laid off. 34,000 H-1B workers hired.</strong> Same companies. Same years.</p>
+          <span class="dict-src">Sen. Bernie Sanders Op-Ed, January 2025</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Disney 2015:</strong> 250 IT workers laid off and required to train their H-1B replacements from HCL and Cognizant as a condition of receiving severance.</p>
+          <span class="dict-src">EPI — epi.org/blog/disney-h1b-scandal-in-spotlight-meet-american-workers-whose-jobs-careers-were-destroyed/</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Southern California Edison 2015:</strong> 500 workers displaced by H-1B outsourcing through HCL and Cognizant — the same contractors implicated in the Disney case.</p>
+          <span class="dict-src">EPI displacement documentation</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">Average offered H-1B wages <strong>~$10,191 below OEWS mean</strong> for comparable occupations — suppresses compensation across entire departments, not just for visa workers. U.S. colleagues' wages are anchored downward by the same floor.</p>
+          <span class="dict-src">DOL LCA wage analysis · EPI</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">The "critical shortage" narrative is contradicted by BLS STEM unemployment and underemployment data. Workers in these fields exist; the program creates captive labor at below-market cost.</p>
+          <span class="dict-src">BLS — data pull pending Phase 3a</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Captive H-1B labor undermines collective action.</strong> Workers facing deportation cannot safely participate in organizing or strikes — reducing the ability of the entire workforce (including U.S. citizens) to bargain.</p>
+          <span class="dict-src">EPI / labor research</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Capital flight:</strong> $15,000–$25,000+ remitted per worker annually. Extracted from local economies where the labor is performed. At scale across 730,000 workers, the aggregate outflow is substantial.</p>
+          <span class="dict-src">World Bank Remittances</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>DOJ Compunnel settlement (April 2026):</strong> direct evidence that job ads explicitly excluded U.S. citizens and lawful permanent residents in favor of H-1B holders. Settled — not criminally prosecuted.</p>
+          <span class="dict-src">DOJ — justice.gov/opa/pr/civil-rights-division-obtains-settlement-company-discouraged-us-workers-applying-jobs</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#chain" class="back-chain">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 05b — DICHOTOMY OF TRUTH: H-2
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap" id="dichotomy-h2">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 05b — Dichotomy of Truth</span>
+      <h2 class="sec-title">H-2: What Is Actually Happening</h2>
+      <p class="sec-sub">Agricultural and seasonal workers face the same extraction mechanism as H-1B workers — but with added physical danger, rural isolation, and employer-controlled housing. The enforcement apparatus has collapsed while the program tripled in size.</p>
+    </div>
+
+    <div class="dict-grid reveal d1">
+      <!-- LEFT: Workers -->
+      <div class="dict-col">
+        <span class="dict-col-label lbl-teal">Who Are the H-2 Workers?</span>
+
+        <div class="dict-item">
+          <p class="dict-text"><strong>84%</strong> of H-2A jobs require lifting, exposure to extreme temperatures, and repetitive physical movements.</p>
+          <span class="dict-src">GAO-25-106389 — gao.gov/products/gao-25-106389</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Employer controls housing AND visa status simultaneously.</strong> Complain, quit, or be terminated: lose your home and your right to remain in the United States in the same moment.</p>
+          <span class="dict-src">DOL Fact Sheet #26G · GAO-25-106389</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Recruiter debt: $1,000–$9,000+</strong> upfront. Loans at interest rates up to 20% per month. Documented debt bondage forces workers to endure abuse to repay family loans or avoid losing land back home — a classic trafficking indicator.</p>
+          <span class="dict-src">ProPublica 2025–2026 · Polaris Project Labor Trafficking Report</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Lucky Growers Inc. (CA, Dec 2025):</strong> workers charged rent for pest-infested, structurally damaged housing. DOL recovered $171,400 in back wages and $76,274 in penalties.</p>
+          <span class="dict-src">WHD Release 25-1366-SAN, December 2025</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Operation Blooming Onion (Georgia, 2025–2026):</strong> forced labor, violence, sexual assault, deaths. Contractors profited $200M+. Federal prosecutors called it <em>"modern-day slavery."</em></p>
+          <span class="dict-src">DOJ / ProPublica — projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Absolute 3-year cap + 60-day mandatory departure.</strong> No pathway to permanence — unlike the H-1B green card track. Workers repeat this cycle across multiple seasons, accumulating debt with no path to stability.</p>
+          <span class="dict-src">INA §101(a)(15)(H)(ii)(a)</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Rural isolation</strong> cuts workers off from legal aid, labor advocates, and support networks. Polaris Project: immigration threats (deportation) used as the primary control tactic in 59% of foreign-national labor trafficking cases involving these visas.</p>
+          <span class="dict-src">Polaris H-2A Trafficking Cases Report · Centro de los Derechos del Migrante</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">Annual remittances: <strong>~$20,000–$25,000</strong> per H-2A worker. With ~400,000 active workers, the aggregate capital outflow from rural American communities is substantial.</p>
+          <span class="dict-src">World Bank Remittances</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Effect on Americans -->
+      <div class="dict-col">
+        <span class="dict-col-label lbl-red">What Is the True Effect on Americans?</span>
+
+        <div class="dict-item">
+          <p class="dict-text">EPI: The 2026 Interim Final Rule wage cuts reduce U.S. farmworker wages by <strong>$2.7–$3.3 billion annually</strong> — a 7.1–8.7% wage loss for domestic agricultural workers.</p>
+          <span class="dict-src">EPI Nov 2025 — epi.org/blog/trumps-new-h-2a-wage-rule-will-radically-cut-the-wages-of-all-farmworkers...</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">A 10% increase in the AEWR raises domestic farm wages by only <strong>~2.8%</strong> — suppression is structural, not marginal. The relationship between the visa wage floor and U.S. wages is not 1:1; the program's design suppresses the entire sector.</p>
+          <span class="dict-src">Rutledge et al. 2025 — onlinelibrary.wiley.com/doi/full/10.1111/ajae.12557</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">H-2A violations account for <strong>54%</strong> of all agricultural back-wage assessments FY2018–2023 — enforcement collapse directly benefits employers who underpay.</p>
+          <span class="dict-src">GAO-25-106389 · EPI</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">DOL/WHD agricultural investigations: <strong>only 649</strong> in the most recent data — down more than 50% from a decade ago, while H-2A certifications have nearly tripled. Annual back-wage recovery: ~$8.3 million against a $400k+ position program.</p>
+          <span class="dict-src">ProPublica Feb 2026 — propublica.org/article/h-2a-visa-farmworkers-exploitation-heat-wage-theft</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>Rural towns hollowed</strong> as seasonal jobs go to visa workers. The local spending multiplier collapses — visa workers remit income abroad rather than spending in the communities where they work.</p>
+          <span class="dict-src">EPI / rural economic research</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">American farm and seasonal workers are <strong>priced out</strong> of local labor markets by a wage floor anchored below true market rates. Critical seasonal income — the economic cycle that sustains rural families — is redirected through the program.</p>
+          <span class="dict-src">EPI analyses 2025 · Rutledge et al. 2025</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text"><strong>UFW lawsuit (E.D. Cal., 1:25-cv-01614, filed Nov 2025):</strong> challenges the 2025/2026 wage rule cuts on behalf of domestic workers. One of the only active legal challenges to the program's structural wage suppression.</p>
+          <span class="dict-src">Clearinghouse.net — clearinghouse.net/case/47407/</span>
+        </div>
+        <div class="dict-item">
+          <p class="dict-text">The <strong>2024 Farmworker Protection Rule</strong> — the primary anti-retaliation enforcement mechanism — was suspended June 2025 and proposed for full rescission July 2025. Its removal occurred during the largest expansion of the program in the program's history.</p>
+          <span class="dict-src">DOL Field Assistance Bulletin 2025-2 — dol.gov/sites/dolgov/files/WHD/fab/fab2025-2.pdf</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#chain" class="back-chain">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 06 — THE POLITICAL FLIP (COMING SOON)
+═══════════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="political-flip">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 06 — The Political Flip</span>
+      <h2 class="sec-title">Both Sides Switch When the Donors Need Them To</h2>
+    </div>
+    <div class="coming-soon-wrap reveal d1">
+      <span class="cs-badge">Phase 6 — In Research</span>
+      <h3 class="cs-title">The Political Flip</h3>
+      <p class="cs-text">
+        The problem was never left vs. right. Sanders was anti-H-1B for years. The GOP establishment was pro-expansion. Positions have inverted. In both configurations, the workers — foreign and domestic — absorb the cost while the asset managers collect the returns. This section will document the timeline of position reversals with primary sources.
+      </p>
+      <ul class="cs-items">
+        <li>Congressional vote records on H-1B / H-2 expansion — specific roll calls with party breakdowns</li>
+        <li>Donor tracking: which companies and asset managers gave to which party in which year while holding H-1B expansion positions (OpenSecrets)</li>
+        <li>Exact quotes with dates: Sanders (reform), Grassley (reform), Durbin (reform), Musk (expansion), GOP establishment pre-2016 (expansion)</li>
+        <li>Party platform language on H-1B / immigration: 2008, 2012, 2016, 2020, 2024 — both parties</li>
+        <li>Pew Research polling data: immigration views by party and year</li>
+        <li>Grassley-Durbin S.2928 (Sep 29, 2025): bipartisan reform bill — Sanders and Tuberville as co-sponsors — as evidence of the current strange-bedfellows alignment</li>
+      </ul>
+    </div>
+    <a href="#chain" class="back-chain" style="display:block; text-align:center; margin-top: 2.5rem;">↑ Return to chain</a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p><strong>H-1B / H-2: The Visa Machine</strong> · Module 01 of The Incentive Machine</p>
+      <p>All claims sourced to primary government, academic, and investigative sources through April 2026.<br>
+      Created by Ian · University of Kentucky College of Law · For educational purposes.</p>
+    </div>
+    <div class="footer-right">
+      <a href="../index.html" class="footer-link">← Main Platform</a>
+      <a href="#chain" class="footer-link">Chain</a>
+      <a href="#dichotomy-h1b" class="footer-link">Dichotomy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── CHAIN LINE DRAWING ── */
+function drawChainLines() {
+  const wrap = document.getElementById('chain-wrap');
+  const svg  = document.getElementById('chain-svg');
+  if (!wrap || !svg) return;
+
+  const wr = wrap.getBoundingClientRect();
+  if (wr.width === 0 || wr.height === 0) return;
+
+  function pts(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    const cx = r.left - wr.left + r.width / 2;
+    return {
+      bx: cx, by: r.bottom - wr.top,
+      tx: cx, ty: r.top  - wr.top,
+    };
+  }
+
+  const links = [
+    ['cn-am',    'cn-h1b',   'rgba(200,146,42,0.3)'],
+    ['cn-am',    'cn-h2',    'rgba(200,146,42,0.3)'],
+    ['cn-h1b',   'cn-h1b-s', 'rgba(42,180,155,0.25)'],
+    ['cn-h2',    'cn-h2-s',  'rgba(42,180,155,0.25)'],
+    ['cn-h1b-s', 'cn-h1b-w', 'rgba(158,58,47,0.3)'],
+    ['cn-h1b-s', 'cn-h1b-i', 'rgba(158,58,47,0.3)'],
+    ['cn-h2-s',  'cn-h2-w',  'rgba(158,58,47,0.3)'],
+    ['cn-h2-s',  'cn-h2-i',  'rgba(158,58,47,0.3)'],
+  ];
+
+  svg.innerHTML = '';
+
+  links.forEach(([fromId, toId, color]) => {
+    const f = pts(fromId);
+    const t = pts(toId);
+    if (!f || !t) return;
+
+    const mid = (f.by + t.ty) / 2;
+    const straight = Math.abs(f.bx - t.tx) < 3;
+    const d = straight
+      ? `M ${f.bx} ${f.by} L ${t.tx} ${t.ty}`
+      : `M ${f.bx} ${f.by} L ${f.bx} ${mid} L ${t.tx} ${mid} L ${t.tx} ${t.ty}`;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '1');
+    path.setAttribute('stroke-dasharray', '4 5');
+    svg.appendChild(path);
+
+    /* dot at target entry point */
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', t.tx);
+    dot.setAttribute('cy', t.ty);
+    dot.setAttribute('r', '2.5');
+    dot.setAttribute('fill', color.replace(/[\d.]+\)$/, '0.6)'));
+    svg.appendChild(dot);
+  });
+}
+
+/* ── REVEAL ── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── ACCORDION ── */
+document.querySelectorAll('.acc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item   = btn.closest('.acc-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => requestAnimationFrame(drawChainLines));
+});
+window.addEventListener('resize', drawChainLines);
+</script>
+</body>
+</html>
