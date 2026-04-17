@@ -4,713 +4,193 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Incentive Machine</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:        #0b0b0e;
-  --bg-2:      #111117;
-  --bg-3:      #16161e;
-  --surface:   #1a1a24;
-  --border:    rgba(255,255,255,0.07);
-  --border-2:  rgba(255,255,255,0.12);
-  --ink:       #e8e4dc;
-  --ink-2:     rgba(232,228,220,0.55);
-  --ink-3:     rgba(232,228,220,0.28);
-  --amber:     #c8922a;
-  --amber-lt:  rgba(200,146,42,0.12);
-  --amber-glow:rgba(200,146,42,0.06);
-  --red:       #9e3a2f;
-  --red-lt:    rgba(158,58,47,0.15);
-  --teal:      #2a7a6e;
-  --teal-lt:   rgba(42,122,110,0.12);
-  --serif:     'Playfair Display', Georgia, serif;
-  --serif-2:   'Cormorant Garamond', Georgia, serif;
-  --mono:      'DM Mono', monospace;
-  --sans:      'DM Sans', sans-serif;
+  --bg:       #0b0b0e;
+  --bg-2:     #111117;
+  --bg-3:     #16161e;
+  --border:   rgba(255,255,255,0.07);
+  --border-2: rgba(255,255,255,0.14);
+  --ink:      #e8e4dc;
+  --ink-2:    rgba(232,228,220,0.55);
+  --ink-3:    rgba(232,228,220,0.28);
+  --amber:    #c8922a;
+  --red:      #9e3a2f;
+  --teal:     #2a7a6e;
+  --serif:    'Playfair Display', Georgia, serif;
+  --serif-2:  'Cormorant Garamond', Georgia, serif;
+  --mono:     'DM Mono', monospace;
+  --sans:     'DM Sans', sans-serif;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.65;
-  overflow-x: hidden;
-  cursor: default;
-}
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
 
-/* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-  height: 52px;
-  background: rgba(11,11,14,0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
+  height: 52px; background: rgba(11,11,14,0.9);
+  backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
 }
 .nav-inner {
-  width: 100%; max-width: 1200px; margin: 0 auto;
-  padding: 0 2rem;
+  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav-brand {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--amber); text-decoration: none;
-  font-weight: 500;
-}
-.nav-right {
-  display: flex; align-items: center; gap: 1.5rem;
-}
-.nav-link {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
-  transition: color 0.2s;
-}
+.nav-brand { font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); text-decoration: none; }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
 .nav-link:hover { color: var(--ink); }
-.nav-credit {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em;
-  color: var(--ink-3); padding-left: 1.5rem;
-  border-left: 1px solid var(--border-2);
-}
+.nav-credit { font-family: var(--mono); font-size: 8px; color: var(--ink-3); padding-left: 1.5rem; border-left: 1px solid var(--border-2); }
 
-/* ── HERO ── */
 .hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  padding-top: 52px;
+  position: relative; width: 100%; height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden; padding-top: 52px;
 }
+#web-canvas { position: absolute; inset: 0; z-index: 1; }
 
-/* Map SVG background */
-.map-bg {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 1;
-}
-.map-bg svg { width: 90%; max-width: 900px; opacity: 0.035; filter: blur(0.5px); }
+.hero-text { position: relative; z-index: 10; text-align: center; pointer-events: none; }
+.hero-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.7rem; display: block; opacity: 0; animation: fadeIn 1s ease forwards 0.4s; }
+.hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.6rem; opacity: 0; animation: fadeUp 1s ease forwards 0.55s; }
+.hero-sub { font-family: var(--serif-2); font-style: italic; font-size: clamp(0.95rem, 1.5vw, 1.15rem); color: var(--ink-2); line-height: 1.7; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.9s ease forwards 0.75s; }
+.hero-hint { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(200,146,42,0.45); opacity: 0; animation: fadeIn 1s ease forwards 1.5s; }
 
-/* Web canvas */
-#web-canvas {
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+.node-tooltip {
+  position: fixed; z-index: 500; pointer-events: none;
+  background: rgba(11,11,14,0.97); border: 1px solid rgba(200,146,42,0.3);
+  padding: 0.9rem 1.1rem; max-width: 230px;
+  opacity: 0; transition: opacity 0.15s;
 }
+.node-tooltip.visible { opacity: 1; }
+.tt-tag { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.3rem; display: block; }
+.tt-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; line-height: 1.2; }
+.tt-desc { font-size: 0.75rem; color: var(--ink-2); line-height: 1.55; }
+.tt-cta { font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-top: 0.45rem; display: block; }
 
-/* Radial glow at center */
-.hero-glow {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(ellipse, rgba(200,146,42,0.055) 0%, transparent 68%);
-  pointer-events: none; z-index: 2;
-}
+.thesis-band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3.5rem 2rem; }
+.thesis-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.thesis-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; display: block; }
+.thesis-text { font-family: var(--serif-2); font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 300; line-height: 1.9; color: rgba(232,228,220,0.72); }
+.thesis-text strong { color: var(--ink); font-weight: 400; }
 
-.hero-content {
-  position: relative; z-index: 10;
-  text-align: center;
-  padding: 2rem;
-  max-width: 800px;
-}
-
-.hero-eyebrow {
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.38em;
-  text-transform: uppercase; color: var(--amber);
-  margin-bottom: 1.75rem; opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.3s;
-}
-
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  font-weight: 900;
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin-bottom: 1.25rem;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.5s;
-}
-.hero-title em {
-  font-style: italic;
-  color: rgba(232,228,220,0.45);
-  display: block;
-  font-size: 0.62em;
-  letter-spacing: -0.01em;
-  margin-top: 0.15em;
-}
-
-.hero-divider {
-  width: 48px; height: 1px;
-  background: var(--amber);
-  margin: 1.75rem auto;
-  opacity: 0;
-  animation: fadeIn 0.8s ease forwards 0.85s;
-}
-
-.hero-tagline {
-  font-family: var(--serif-2);
-  font-style: italic;
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  color: var(--ink-2);
-  line-height: 1.7;
-  max-width: 520px;
-  margin: 0 auto 0.75rem;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 1s;
-}
-
-.hero-tagline-placeholder {
-  font-family: var(--mono);
-  font-size: 8px; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 2.5rem;
-  opacity: 0;
-  animation: fadeIn 0.8s ease forwards 1.1s;
-}
-
-.hero-scroll {
-  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards 1.6s;
-  margin-top: 1rem;
-}
-.scroll-line {
-  width: 1px; height: 52px;
-  background: linear-gradient(to bottom, var(--amber), transparent);
-  animation: scrollPulse 2.2s ease-in-out infinite;
-}
-.scroll-label {
-  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--ink-3);
-}
-
-/* ── THESIS BAND ── */
-.thesis-band {
-  background: var(--bg-2);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 3rem 2rem;
-}
-.thesis-inner {
-  max-width: 760px; margin: 0 auto; text-align: center;
-}
-.thesis-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--amber);
-  margin-bottom: 1.25rem; display: block;
-}
-.thesis-text {
-  font-family: var(--serif-2);
-  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-  font-weight: 300;
-  line-height: 1.85;
-  color: rgba(232,228,220,0.75);
-}
-.thesis-text strong {
-  color: var(--ink);
-  font-weight: 400;
-}
-
-/* ── MODULES SECTION ── */
-.modules-section {
-  padding: 5rem 2rem 6rem;
-  max-width: 1200px; margin: 0 auto;
-}
-.modules-header {
-  text-align: center; margin-bottom: 3.5rem;
-}
-.modules-eyebrow {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--ink-3);
-  margin-bottom: 0.75rem; display: block;
-}
-.modules-header h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-  font-weight: 700; color: var(--ink);
-  line-height: 1.15;
-  margin-bottom: 0.6rem;
-}
-.modules-header p {
-  font-size: 0.88rem; color: var(--ink-2);
-  max-width: 480px; margin: 0 auto;
-  line-height: 1.7;
-}
-
-/* Module grid */
-.modules-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-@media (max-width: 700px) {
-  .modules-grid { grid-template-columns: 1fr; }
-}
-
-.module-card {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  padding: 2rem 2rem 1.75rem;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.25s, background 0.25s, transform 0.25s;
-  text-decoration: none; display: block; color: inherit;
-}
-.module-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--border);
-  transition: background 0.25s;
-}
-.module-card.active {
-  cursor: pointer;
-}
-.module-card.active:hover {
-  border-color: var(--amber);
-  background: var(--bg-3);
-  transform: translateY(-3px);
-}
-.module-card.active:hover::before {
-  background: var(--amber);
-}
-.module-card.inactive {
-  opacity: 0.42;
-  cursor: default;
-}
-.module-card.featured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2rem;
-  align-items: center;
-}
-.module-card.featured:hover::before {
-  background: var(--amber);
-}
-
-/* Corner web decoration */
-.card-web {
-  position: absolute; top: 0; right: 0;
-  width: 120px; height: 120px;
-  opacity: 0.06; pointer-events: none;
-}
-
-.module-tag {
-  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ink-3);
-  margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;
-}
-.module-tag .tag-status {
-  display: inline-flex; align-items: center; gap: 0.3rem;
-  padding: 2px 8px;
-  font-size: 7px; letter-spacing: 0.14em;
-}
-.tag-active {
-  background: rgba(200,146,42,0.15);
-  color: var(--amber);
-  border: 1px solid rgba(200,146,42,0.3);
-}
-.tag-soon {
-  background: rgba(255,255,255,0.04);
-  color: var(--ink-3);
-  border: 1px solid var(--border);
-}
-
-.module-number {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
-  color: var(--ink-3);
-}
-
-.module-title {
-  font-family: var(--serif);
-  font-size: clamp(1.3rem, 2vw, 1.75rem);
-  font-weight: 700; line-height: 1.15;
-  color: var(--ink);
-  margin-bottom: 0.75rem;
-}
-.module-title span {
-  color: var(--amber);
-}
-
-.module-desc {
-  font-size: 0.86rem;
-  color: var(--ink-2);
-  line-height: 1.72;
-  margin-bottom: 1.25rem;
-  max-width: 480px;
-}
-
-.module-stats {
-  display: flex; gap: 1.5rem; flex-wrap: wrap;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
-}
-.module-stat-item {
-  display: flex; flex-direction: column; gap: 0.15rem;
-}
-.stat-value {
-  font-family: var(--mono); font-size: 13px; font-weight: 500;
-  color: var(--amber);
-}
-.stat-label {
-  font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink-3);
-}
-
-.module-cta {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--amber);
-  border: 1px solid rgba(200,146,42,0.35);
-  padding: 0.65rem 1.25rem;
-  transition: all 0.2s;
-  text-decoration: none;
-  white-space: nowrap;
-  align-self: flex-start;
-}
-.module-card.active:hover .module-cta {
-  background: var(--amber);
-  color: var(--bg);
-  border-color: var(--amber);
-}
-.module-cta-col {
-  display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;
-}
-
-/* ── FRAMEWORK SECTION ── */
-.framework-section {
-  background: var(--bg-2);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 4.5rem 2rem;
-}
-.framework-inner {
-  max-width: 1000px; margin: 0 auto;
-}
-.framework-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--ink-3);
-  margin-bottom: 2rem; text-align: center; display: block;
-}
-.pyramid-tiers {
-  display: flex; flex-direction: column; align-items: center; gap: 0;
-}
-.tier {
-  display: flex; align-items: center; gap: 1.5rem;
-  width: 100%; justify-content: center;
-}
-.tier-bar {
-  display: flex; align-items: center; justify-content: center;
-  padding: 1.1rem 2rem;
-  border: 1px solid var(--border);
-  position: relative; text-align: center;
-  transition: border-color 0.2s, background 0.2s;
-}
+.framework-section { padding: 4.5rem 2rem 5rem; max-width: 1000px; margin: 0 auto; }
+.framework-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2rem; text-align: center; display: block; }
+.pyramid-tiers { display: flex; flex-direction: column; align-items: center; }
+.tier { display: flex; align-items: center; gap: 1.25rem; width: 100%; justify-content: center; }
+.tier-bar { padding: 1rem 1.75rem; border: 1px solid var(--border); text-align: center; transition: border-color 0.2s, background 0.2s; }
 .tier-bar:hover { border-color: var(--border-2); background: var(--bg-3); }
-.tier-1 .tier-bar { width: 320px; background: rgba(200,146,42,0.07); border-color: rgba(200,146,42,0.2); }
-.tier-2 .tier-bar { width: 520px; background: rgba(42,122,110,0.05); border-color: rgba(42,122,110,0.15); }
-.tier-3 .tier-bar { width: 720px; background: rgba(255,255,255,0.02); }
-.tier-connector {
-  width: 1px; height: 24px;
-  background: var(--border-2);
-  margin: 0 auto;
-}
-.tier-label {
-  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
+.tier-1 .tier-bar { width: 300px; background: rgba(200,146,42,0.06); border-color: rgba(200,146,42,0.18); }
+.tier-2 .tier-bar { width: 500px; background: rgba(42,122,110,0.04); border-color: rgba(42,122,110,0.12); }
+.tier-3 .tier-bar { width: 700px; }
+.tier-connector { width: 1px; height: 22px; background: var(--border-2); margin: 0 auto; }
+.tier-label { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.2rem; }
 .tier-1 .tier-label { color: var(--amber); }
-.tier-2 .tier-label { color: rgba(42,122,110,0.85); }
+.tier-2 .tier-label { color: rgba(42,122,110,0.8); }
 .tier-3 .tier-label { color: var(--ink-3); }
-.tier-title {
-  font-family: var(--serif); font-size: 1rem; font-weight: 700;
-  color: var(--ink); margin: 0.2rem 0;
-}
-.tier-sub {
-  font-size: 0.76rem; color: var(--ink-3); line-height: 1.4;
-}
-.tier-side {
-  font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em;
-  color: var(--ink-3); width: 120px; line-height: 1.5;
-}
-.tier-side.right { text-align: left; }
+.tier-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.15rem; }
+.tier-sub { font-size: 0.73rem; color: var(--ink-3); line-height: 1.4; }
+.tier-side { font-family: var(--mono); font-size: 7px; letter-spacing: 0.08em; color: var(--ink-3); width: 130px; line-height: 1.6; }
 .tier-side.left { text-align: right; }
+.tier-side.right { text-align: left; }
 
-/* ── FOOTER ── */
-footer {
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding: 2rem 0;
-}
-.footer-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 1rem;
-}
-.footer-left p {
-  font-family: var(--mono); font-size: 8px;
-  color: var(--ink-3); letter-spacing: 0.1em;
-  line-height: 1.7;
-}
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem 0; }
+.footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-left p { font-family: var(--mono); font-size: 8px; color: var(--ink-3); letter-spacing: 0.1em; line-height: 1.7; }
 .footer-left strong { color: var(--ink-2); }
-.footer-right {
-  display: flex; gap: 1.5rem;
-}
-.footer-link {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink-3);
-  text-decoration: none; transition: color 0.15s;
-}
+.footer-right { display: flex; gap: 1.5rem; }
+.footer-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.15s; }
 .footer-link:hover { color: var(--amber); }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(1); }
-  50%       { opacity: 0.8; transform: scaleY(1.08); }
-}
-
-/* Scroll reveal */
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.visible {
-  opacity: 1; transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.8s ease,transform 0.8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-d1 { transition-delay:0.1s; }
+.reveal-d2 { transition-delay:0.2s; }
+.reveal-d3 { transition-delay:0.3s; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">The Incentive Machine</a>
     <div class="nav-right">
-      <a href="#modules" class="nav-link">Modules</a>
       <a href="#framework" class="nav-link">Framework</a>
+      <a href="visa/index.html" class="nav-link">Visa Module</a>
       <span class="nav-credit">Created by Ian</span>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-
-  <!-- US Map ghost background -->
-  <div class="map-bg">
-    <svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" fill="none">
-      <!-- Simplified US outline paths -->
-      <path d="M120,180 L95,195 L80,220 L72,260 L78,290 L95,310 L115,325 L148,338 L175,342 L198,350 L220,365 L238,385 L255,410 L270,435 L282,455 L295,468 L310,472 L325,468 L335,458 L340,442 L332,425 L320,408 L310,390 L308,370 L318,355 L335,345 L355,340 L378,340 L400,345 L422,355 L440,368 L455,382 L468,395 L480,405 L495,408 L510,405 L525,395 L538,382 L550,368 L562,355 L578,345 L598,340 L620,340 L642,345 L660,355 L672,368 L680,382 L685,398 L688,415 L695,430 L708,442 L722,450 L738,452 L752,448 L762,438 L768,424 L770,408 L768,390 L762,372 L752,355 L738,340 L722,328 L705,320 L688,316 L672,315 L658,318 L645,325 L635,335 L628,348 L625,362 L625,375 L628,386 L635,395 L645,400 L658,402 L670,398 L678,390 L682,378 L680,365 L674,352 L664,342 L650,336 L635,334 L620,336 L608,342 L598,352 L592,365 L590,378 L592,390 L598,400 L608,406 L620,408 L632,406 L642,400 L648,390 L650,378 L648,366 L642,356 L632,350 L620,348 L608,350 L598,356 L590,366 L586,378" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-      <!-- Main continental outline simplified -->
-      <path d="M142,155 C130,148 115,145 100,150 C82,156 72,172 68,192 C64,212 68,235 75,255 C82,275 92,290 100,308 C108,326 112,345 118,362 C126,382 138,398 152,412 C168,428 185,440 202,450 C220,460 240,466 260,468 C280,470 300,468 318,462 C336,455 350,443 360,428 C370,413 375,396 378,378 C381,360 380,342 382,324 C384,306 390,290 400,276 C410,262 424,252 438,244 C452,236 468,232 484,230 C500,228 516,230 532,234 C548,238 562,246 576,254 C590,262 602,272 614,284 C626,296 636,310 644,326 C652,342 656,360 658,378 C660,396 658,414 654,430 C650,446 642,460 632,472 C622,484 610,492 596,498 C582,504 566,506 550,506 C534,506 518,502 502,496 C486,490 470,482 456,472 C442,462 428,450 418,436 C408,422 400,406 396,388 C392,370 392,352 395,334 C398,316 405,300 414,286 C423,272 434,260 446,250 C458,240 472,234 486,230" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
-      <!-- Great Lakes region hint -->
-      <path d="M580,195 C590,188 602,184 615,185 C628,186 640,192 650,200 C660,208 668,218 672,230 C676,242 675,255 670,266 C665,277 656,285 645,290 C634,294 622,294 611,290 C600,286 590,278 584,268 C578,257 575,244 576,232 C577,220 578,207 580,195Z" stroke="white" stroke-width="0.8" opacity="0.25"/>
-      <!-- Florida peninsula -->
-      <path d="M620,440 C628,452 632,465 630,478 C628,491 620,502 610,510 C600,518 588,522 576,522 C564,522 552,518 542,510 C534,503 528,493 526,482 C524,471 526,459 532,449 C538,439 547,432 558,428 C569,424 581,424 592,428 C603,432 613,436 620,440Z" stroke="white" stroke-width="0.8" opacity="0.2"/>
-      <!-- Pacific coast -->
-      <path d="M88,155 C80,168 75,183 72,198 C70,210 70,222 72,234" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
-      <!-- Mountain ranges hint -->
-      <path d="M180,280 L195,260 L210,280 L225,258 L240,280 L255,260 L270,280" stroke="white" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
-      <path d="M210,320 L225,300 L240,320 L255,298 L270,320 L285,298 L300,320" stroke="white" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.15"/>
-    </svg>
-  </div>
-
-  <!-- Animated web canvas -->
   <canvas id="web-canvas"></canvas>
-
-  <!-- Center glow -->
-  <div class="hero-glow"></div>
-
-  <!-- Hero content -->
-  <div class="hero-content">
-    <div class="hero-eyebrow">An Investigative Platform</div>
-
-    <h1 class="hero-title">
-      The Incentive<br>Machine
-      <em>Follow the money. Find the truth.</em>
-    </h1>
-
-    <div class="hero-divider"></div>
-
-    <p class="hero-tagline">
-      They built the system. They profit from the argument.<br>
-      You pay for both.
-    </p>
-
-    <p class="hero-tagline-placeholder">[ Tagline — placeholder ]</p>
-
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      <span class="scroll-label">Explore</span>
-    </div>
+  <div class="hero-text">
+    <span class="hero-label">An Investigative Platform</span>
+    <h1 class="hero-title">The Incentive Machine</h1>
+    <p class="hero-sub">They built the argument.<br>You were never meant to see past it.</p>
+    <span class="hero-hint">↓ Hover the web · Click to investigate</span>
   </div>
 </section>
 
-<!-- THESIS BAND -->
+<div class="node-tooltip" id="tooltip">
+  <span class="tt-tag" id="tt-tag"></span>
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-desc" id="tt-desc"></div>
+  <span class="tt-cta" id="tt-cta"></span>
+</div>
+
 <section class="thesis-band">
   <div class="thesis-inner reveal">
     <span class="thesis-label">Core Thesis</span>
     <p class="thesis-text">
-      Across immigration, healthcare, defense, and banking — <strong>the same ownership structure</strong> captures policy, suppresses competition, and extracts value from American workers and communities. The public debate is divided by design. <strong>The beneficiary is always the same.</strong> This platform follows the incentive structures that the debate is designed to obscure.
+      Across immigration, healthcare, defense, and banking —
+      <strong>the same ownership structure</strong> captures policy,
+      suppresses wages, and extracts value from American workers and communities.
+      The left-right argument is divided <strong>by design.</strong>
+      The beneficiary is always the same.
+      This platform follows the incentive structures
+      that the argument is designed to obscure.
     </p>
   </div>
 </section>
 
-<!-- MODULES -->
-<section class="modules-section" id="modules">
-  <div class="modules-header reveal">
-    <span class="modules-eyebrow">Investigations</span>
-    <h2>Choose a System to Examine</h2>
-    <p>Each module follows the money through one sector. The same ownership structure appears in all of them.</p>
-  </div>
-
-  <div class="modules-grid">
-
-    <!-- FEATURED: Visa Machine -->
-    <a href="visa/index.html" class="module-card active featured reveal reveal-delay-1">
-      <svg class="card-web" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="60" y1="0" x2="60" y2="120" stroke="white" stroke-width="0.5"/>
-        <line x1="0" y1="60" x2="120" y2="60" stroke="white" stroke-width="0.5"/>
-        <line x1="0" y1="0" x2="120" y2="120" stroke="white" stroke-width="0.5"/>
-        <line x1="120" y1="0" x2="0" y2="120" stroke="white" stroke-width="0.5"/>
-        <circle cx="60" cy="60" r="20" stroke="white" stroke-width="0.5"/>
-        <circle cx="60" cy="60" r="40" stroke="white" stroke-width="0.5"/>
-        <circle cx="60" cy="60" r="60" stroke="white" stroke-width="0.5"/>
-        <circle cx="60" cy="60" r="80" stroke="white" stroke-width="0.5"/>
-        <circle cx="60" cy="60" r="3" fill="white"/>
-      </svg>
-      <div>
-        <div class="module-tag">
-          <span class="module-number">01</span>
-          <span class="tag-status tag-active">● Live</span>
-        </div>
-        <div class="module-title">H-1B / H-2:<br><span>The Visa Machine</span></div>
-        <p class="module-desc">
-          Asset managers profit from both visa workers and ordinary Americans through the same mechanism. The H-1B and H-2 programs are discussed as separate issues by design. This investigation follows the money to show they are nodes in a single extraction loop — one that American retirement accounts are unknowingly funding.
-        </p>
-        <div class="module-stats">
-          <div class="module-stat-item">
-            <span class="stat-value">~730K</span>
-            <span class="stat-label">Active H-1B workers</span>
-          </div>
-          <div class="module-stat-item">
-            <span class="stat-value">398K</span>
-            <span class="stat-label">H-2A positions FY2025</span>
-          </div>
-          <div class="module-stat-item">
-            <span class="stat-value">$26T+</span>
-            <span class="stat-label">Asset manager AUM</span>
-          </div>
-          <div class="module-stat-item">
-            <span class="stat-value">128M</span>
-            <span class="stat-label">Americans invested</span>
-          </div>
-        </div>
-      </div>
-      <div class="module-cta-col">
-        <span class="module-cta">Enter Investigation →</span>
-      </div>
-    </a>
-
-    <!-- Healthcare -->
-    <div class="module-card inactive reveal reveal-delay-2">
-      <div class="module-tag">
-        <span class="module-number">02</span>
-        <span class="tag-status tag-soon">In Development</span>
-      </div>
-      <div class="module-title">The Healthcare Machine</div>
-      <p class="module-desc">Pharmacy benefit managers, Medicare reimbursements, insurance consolidation, and the asset managers who profit from all of it.</p>
-    </div>
-
-    <!-- Defense -->
-    <div class="module-card inactive reveal reveal-delay-3">
-      <div class="module-tag">
-        <span class="module-number">03</span>
-        <span class="tag-status tag-soon">In Development</span>
-      </div>
-      <div class="module-title">The Defense Machine</div>
-      <p class="module-desc">Cost-plus contracting, Pentagon budget cycles, the military-to-civilian pipeline, and who holds the equity.</p>
-    </div>
-
-    <!-- Banking -->
-    <div class="module-card inactive reveal reveal-delay-4">
-      <div class="module-tag">
-        <span class="module-number">04</span>
-        <span class="tag-status tag-soon">In Development</span>
-      </div>
-      <div class="module-title">The Banking Machine</div>
-      <p class="module-desc">Central banking, money creation through loans, the petrodollar system, and the institutional ownership structures that span all of it.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- FRAMEWORK SECTION -->
 <section class="framework-section" id="framework">
-  <div class="framework-inner">
-    <span class="framework-label">The Structure — Appears in Every Module</span>
-    <div class="pyramid-tiers reveal">
-
-      <div class="tier tier-1">
-        <span class="tier-side left">BlackRock · Vanguard · State Street</span>
-        <div class="tier-bar">
-          <div>
-            <div class="tier-label">Tier I — Who Controls It</div>
-            <div class="tier-title">Institutional Asset Managers</div>
-            <div class="tier-sub">$26T+ AUM · 128M Americans invested · 88% of S&P 500</div>
-          </div>
-        </div>
-        <span class="tier-side right">Proxy votes · Board seats · Policy alignment</span>
+  <span class="framework-label reveal">The Structure — Appears in Every Module</span>
+  <div class="pyramid-tiers">
+    <div class="tier tier-1 reveal reveal-d1">
+      <span class="tier-side left">BlackRock · Vanguard · State Street</span>
+      <div class="tier-bar">
+        <div class="tier-label">Tier I — Who Controls It</div>
+        <div class="tier-title">Institutional Asset Managers</div>
+        <div class="tier-sub">$26T+ AUM · 128M Americans invested · 88% of S&amp;P 500</div>
       </div>
-
-      <div class="tier-connector"></div>
-
-      <div class="tier tier-2">
-        <span class="tier-side left">Tech · Agriculture · Defense · Pharma</span>
-        <div class="tier-bar">
-          <div>
-            <div class="tier-label">Tier II — Who Executes It</div>
-            <div class="tier-title">Corporate Sponsors & Intermediaries</div>
-            <div class="tier-sub">Portfolio companies · PE intermediaries · Industry lobbies</div>
-          </div>
-        </div>
-        <span class="tier-side right">Labor suppression · Regulatory capture · Market control</span>
+      <span class="tier-side right">Proxy votes · Board seats · Policy alignment</span>
+    </div>
+    <div class="tier-connector"></div>
+    <div class="tier tier-2 reveal reveal-d2">
+      <span class="tier-side left">Tech · Agriculture · Defense · Pharma</span>
+      <div class="tier-bar">
+        <div class="tier-label">Tier II — Who Executes It</div>
+        <div class="tier-title">Corporate Sponsors &amp; Intermediaries</div>
+        <div class="tier-sub">Portfolio companies · PE intermediaries · Industry lobbies</div>
       </div>
-
-      <div class="tier-connector"></div>
-
-      <div class="tier tier-3">
-        <span class="tier-side left">Visa workers · Farmworkers · Patients · Taxpayers</span>
-        <div class="tier-bar">
-          <div>
-            <div class="tier-label">Tier III — Who Pays For It</div>
-            <div class="tier-title">Workers, Communities & Retirement Savers</div>
-            <div class="tier-sub">Suppressed wages · Displaced jobs · Retirement accounts funding the machine</div>
-          </div>
-        </div>
-        <span class="tier-side right">American workers · Rural communities · The public</span>
+      <span class="tier-side right">Labor suppression · Regulatory capture · Market control</span>
+    </div>
+    <div class="tier-connector"></div>
+    <div class="tier tier-3 reveal reveal-d3">
+      <span class="tier-side left">Visa workers · Farmworkers · Patients · Taxpayers</span>
+      <div class="tier-bar">
+        <div class="tier-label">Tier III — Who Pays For It</div>
+        <div class="tier-title">Workers, Communities &amp; Retirement Savers</div>
+        <div class="tier-sub">Suppressed wages · Displaced jobs · Retirement accounts funding the machine</div>
       </div>
-
+      <span class="tier-side right">American workers · Rural communities · The public</span>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
@@ -719,166 +199,236 @@ footer {
     </div>
     <div class="footer-right">
       <a href="visa/index.html" class="footer-link">Visa Module</a>
-      <a href="#modules" class="footer-link">All Modules</a>
+      <a href="#framework" class="footer-link">Framework</a>
     </div>
   </div>
 </footer>
 
 <script>
-// ── WEB ANIMATION ──
-const canvas = document.getElementById('web-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, nodes, time = 0;
+const canvas  = document.getElementById('web-canvas');
+const ctx     = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+
+const NODE_DATA = {
+  center:     { tag:'The Platform',            title:'The Manufactured Divide',       desc:'Americans argue about symptoms. This platform investigates the system that manufactures the argument.',  cta:null,                url:null,             amber:true  },
+  visa:       { tag:'Module 01 — Live',         title:'H-1B / H-2: The Visa Machine',  desc:'Asset managers profit from both visa workers and American workers through the same extraction loop.', cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
+  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',      desc:'PBMs, Medicare reimbursements, insurance consolidation — and who holds the equity.',                  cta:'Coming Soon',       url:null,             amber:false },
+  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',         desc:'Cost-plus contracting, Pentagon budgets, and the military-to-civilian pipeline.',                      cta:'Coming Soon',       url:null,             amber:false },
+  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',         desc:'Central banking, money creation, the petrodollar — and institutional ownership structures.',           cta:'Coming Soon',       url:null,             amber:false },
+  arg1:       { tag:'The Argument',             title:'Immigration',                   desc:'Left: humanitarian crisis. Right: economic threat. Both framings serve the same sponsors.',            cta:null,                url:null,             red:true    },
+  arg2:       { tag:'The Argument',             title:'Healthcare Costs',              desc:'Left: universal coverage. Right: free market. The middlemen profit from the deadlock.',                cta:null,                url:null,             red:true    },
+  arg3:       { tag:'The Argument',             title:'Defense Spending',              desc:'Left: Pentagon bloat. Right: national security. The contractors win regardless.',                      cta:null,                url:null,             red:true    },
+  arg4:       { tag:'The Argument',             title:'Economic Inequality',           desc:'Left: tax the rich. Right: free markets. The ownership structure remains untouched.',                  cta:null,                url:null,             red:true    },
+};
+
+let W, H, nodes = [], hoveredNode = null, t = 0;
+
+function buildNodes() {
+  const cx = W/2, cy = H/2;
+  nodes = [];
+  nodes.push({ id:'center', x:cx, y:cy, r:11, fixed:true });
+
+  const innerR = Math.min(W,H) * 0.17;
+  ['arg1','arg2','arg3','arg4'].forEach((id,i) => {
+    const a = (i/4)*Math.PI*2 - Math.PI/4;
+    nodes.push({ id, r:5.5, baseAngle:a, orbitR:innerR, speed:0.00009, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*innerR, y:cy+Math.sin(a)*innerR });
+  });
+
+  const midR = Math.min(W,H) * 0.32;
+  ['visa','healthcare','defense','banking'].forEach((id,i) => {
+    const a = (i/4)*Math.PI*2 - Math.PI/8;
+    nodes.push({ id, r:8, baseAngle:a, orbitR:midR, speed:0.000042, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*midR, y:cy+Math.sin(a)*midR });
+  });
+
+  const outerR = Math.min(W,H) * 0.44;
+  for (let i=0; i<14; i++) {
+    const a = (i/14)*Math.PI*2;
+    nodes.push({ id:'deco_'+i, r:2.2, baseAngle:a, orbitR:outerR, speed:0.000022, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*outerR, y:cy+Math.sin(a)*outerR, deco:true });
+  }
+}
 
 function resize() {
   W = canvas.width  = window.innerWidth;
   H = canvas.height = window.innerHeight;
-  initWeb();
+  buildNodes();
 }
 
-function initWeb() {
-  const cx = W / 2, cy = H / 2;
-  nodes = [];
-
-  // Center node
-  nodes.push({ x: cx, y: cy, vx: 0, vy: 0, r: 3.5, center: true });
-
-  // Rings of nodes — 3 rings
-  const rings = [
-    { count: 6,  radius: 130, speed: 0.00018 },
-    { count: 10, radius: 250, speed: 0.00011 },
-    { count: 14, radius: 390, speed: 0.000065 },
-  ];
-
-  rings.forEach(ring => {
-    for (let i = 0; i < ring.count; i++) {
-      const angle = (i / ring.count) * Math.PI * 2;
-      const wobble = (Math.random() - 0.5) * 0.18;
-      nodes.push({
-        x: cx + Math.cos(angle) * ring.radius,
-        y: cy + Math.sin(angle) * ring.radius,
-        baseAngle: angle + wobble,
-        radius: ring.radius + (Math.random() - 0.5) * 22,
-        speed: ring.speed * (0.88 + Math.random() * 0.24),
-        offset: Math.random() * Math.PI * 2,
-        r: 1.4 + Math.random() * 1.2,
-        center: false,
-      });
-    }
-  });
-}
-
-function drawWeb(t) {
-  ctx.clearRect(0, 0, W, H);
-  const cx = W / 2, cy = H / 2;
-
-  // Update node positions with slow organic drift
+function updateNodes(ts) {
+  const cx = W/2, cy = H/2;
   nodes.forEach(n => {
-    if (n.center) return;
+    if (n.fixed) return;
     n.baseAngle += n.speed;
-    const drift = Math.sin(t * 0.0003 + n.offset) * 0.04;
-    n.x = cx + Math.cos(n.baseAngle + drift) * n.radius;
-    n.y = cy + Math.sin(n.baseAngle + drift) * n.radius;
-  });
-
-  const center = nodes[0];
-
-  // Draw radial threads from center to each node
-  nodes.forEach((n, i) => {
-    if (i === 0) return;
-    ctx.beginPath();
-    ctx.moveTo(center.x, center.y);
-    ctx.lineTo(n.x, n.y);
-    ctx.strokeStyle = 'rgba(200,146,42,0.06)';
-    ctx.lineWidth = 0.6;
-    ctx.stroke();
-  });
-
-  // Draw ring connections — connect adjacent nodes in each ring
-  let idx = 1;
-  const ringCounts = [6, 10, 14];
-  ringCounts.forEach((count, ri) => {
-    const ring = nodes.slice(idx, idx + count);
-    ring.forEach((n, i) => {
-      const next = ring[(i + 1) % count];
-      ctx.beginPath();
-      ctx.moveTo(n.x, n.y);
-      ctx.lineTo(next.x, next.y);
-      const alpha = ri === 0 ? 0.09 : ri === 1 ? 0.065 : 0.045;
-      ctx.strokeStyle = `rgba(232,228,220,${alpha})`;
-      ctx.lineWidth = 0.5;
-      ctx.stroke();
-    });
-    // Cross-connections between rings
-    if (ri < ringCounts.length - 1) {
-      const nextRingStart = idx + count;
-      const nextRingCount = ringCounts[ri + 1];
-      const nextRing = nodes.slice(nextRingStart, nextRingStart + nextRingCount);
-      ring.forEach((n, i) => {
-        // Connect to 1-2 nodes in the next ring
-        const targets = [
-          nextRing[Math.floor((i / count) * nextRingCount)],
-          nextRing[Math.floor(((i + 0.5) / count) * nextRingCount) % nextRingCount],
-        ];
-        targets.forEach(t => {
-          if (!t) return;
-          ctx.beginPath();
-          ctx.moveTo(n.x, n.y);
-          ctx.lineTo(t.x, t.y);
-          ctx.strokeStyle = 'rgba(232,228,220,0.03)';
-          ctx.lineWidth = 0.4;
-          ctx.stroke();
-        });
-      });
-    }
-    idx += count;
-  });
-
-  // Draw nodes
-  nodes.forEach((n, i) => {
-    if (n.center) {
-      // Pulsing center
-      const pulse = 1 + Math.sin(t * 0.0018) * 0.3;
-      const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, 18 * pulse);
-      grd.addColorStop(0, 'rgba(200,146,42,0.35)');
-      grd.addColorStop(1, 'rgba(200,146,42,0)');
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 18 * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = grd;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(200,146,42,0.9)';
-      ctx.fill();
-    } else {
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(232,228,220,0.18)';
-      ctx.fill();
-    }
+    const w = Math.sin(ts*0.0004 + n.phase) * 0.022;
+    n.x = cx + Math.cos(n.baseAngle + w) * n.orbitR;
+    n.y = cy + Math.sin(n.baseAngle + w) * n.orbitR;
   });
 }
 
-function animate(t) {
-  drawWeb(t);
+function thread(ax,ay,bx,by,color,width) {
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by);
+  ctx.strokeStyle = color; ctx.lineWidth = width||0.7; ctx.stroke();
+}
+
+function draw(ts) {
+  ctx.clearRect(0,0,W,H);
+  const center   = nodes[0];
+  const argNodes = nodes.slice(1,5);
+  const modNodes = nodes.slice(5,9);
+  const decoNodes= nodes.slice(9);
+
+  // Center → args
+  argNodes.forEach(n => thread(center.x,center.y,n.x,n.y,'rgba(158,58,47,0.32)'));
+  // Center → modules
+  modNodes.forEach(n => thread(center.x,center.y,n.x,n.y,'rgba(200,146,42,0.22)'));
+  // Args → modules (cross)
+  argNodes.forEach((a,ai) => modNodes.forEach((m,mi) => {
+    if (Math.abs(ai-mi)<=1 || (ai===3&&mi===0)) thread(a.x,a.y,m.x,m.y,'rgba(232,228,220,0.06)',0.5);
+  }));
+  // Modules → deco
+  modNodes.forEach((m,mi) => decoNodes.forEach((d,di) => {
+    if (di%4===mi) thread(m.x,m.y,d.x,d.y,'rgba(232,228,220,0.05)',0.5);
+  }));
+  // Deco ring
+  decoNodes.forEach((d,i) => {
+    const next = decoNodes[(i+1)%decoNodes.length];
+    thread(d.x,d.y,next.x,next.y,'rgba(232,228,220,0.09)');
+  });
+  // Arg ring
+  argNodes.forEach((a,i) => {
+    const next = argNodes[(i+1)%argNodes.length];
+    thread(a.x,a.y,next.x,next.y,'rgba(158,58,47,0.2)');
+  });
+  // Module ring
+  modNodes.forEach((m,i) => {
+    const next = modNodes[(i+1)%modNodes.length];
+    thread(m.x,m.y,next.x,next.y,'rgba(200,146,42,0.16)');
+  });
+
+  // Deco nodes
+  decoNodes.forEach(n => {
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(232,228,220,0.14)'; ctx.fill();
+  });
+
+  // Arg nodes
+  argNodes.forEach(n => {
+    const hov = hoveredNode&&hoveredNode.id===n.id;
+    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.65:n.r,0,Math.PI*2);
+    ctx.fillStyle = hov?'rgba(158,58,47,0.95)':'rgba(158,58,47,0.65)'; ctx.fill();
+    ctx.strokeStyle='rgba(158,58,47,0.55)'; ctx.lineWidth=1; ctx.stroke();
+    if (hov) {
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*3,0,Math.PI*2);
+      ctx.strokeStyle='rgba(158,58,47,0.12)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    ctx.font=`500 9px 'DM Mono',monospace`;
+    ctx.fillStyle=hov?'rgba(232,228,220,0.95)':'rgba(232,228,220,0.4)';
+    ctx.textAlign='center';
+    ctx.fillText(NODE_DATA[n.id].title.toUpperCase(), n.x, n.y+n.r+15);
+  });
+
+  // Module nodes
+  modNodes.forEach(n => {
+    const hov    = hoveredNode&&hoveredNode.id===n.id;
+    const active = n.id==='visa';
+    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.5:n.r,0,Math.PI*2);
+    ctx.fillStyle = hov
+      ? (active?'rgba(200,146,42,0.97)':'rgba(232,228,220,0.5)')
+      : (active?'rgba(200,146,42,0.78)':'rgba(232,228,220,0.2)');
+    ctx.fill();
+    ctx.strokeStyle = active?'rgba(200,146,42,0.65)':'rgba(232,228,220,0.22)';
+    ctx.lineWidth=1.2; ctx.stroke();
+    if (hov&&active) {
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.8,0,Math.PI*2);
+      ctx.strokeStyle='rgba(200,146,42,0.2)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    ctx.font=`500 9px 'DM Mono',monospace`;
+    ctx.fillStyle=active?(hov?'rgba(11,11,14,0.9)':'rgba(200,146,42,0.85)'):'rgba(232,228,220,0.28)';
+    ctx.textAlign='center';
+    const lbl = {visa:'VISA',healthcare:'HEALTHCARE',defense:'DEFENSE',banking:'BANKING'}[n.id];
+    ctx.fillText(lbl, n.x, n.y+n.r+16);
+  });
+
+  // Center node — pulsing
+  const pulse = 1 + Math.sin(ts*0.002)*0.2;
+  const grd = ctx.createRadialGradient(center.x,center.y,0,center.x,center.y,60*pulse);
+  grd.addColorStop(0,'rgba(200,146,42,0.25)');
+  grd.addColorStop(1,'rgba(200,146,42,0)');
+  ctx.beginPath(); ctx.arc(center.x,center.y,60*pulse,0,Math.PI*2);
+  ctx.fillStyle=grd; ctx.fill();
+
+  ctx.beginPath(); ctx.arc(center.x,center.y,center.r,0,Math.PI*2);
+  ctx.fillStyle='rgba(200,146,42,0.95)'; ctx.fill();
+
+  ctx.beginPath(); ctx.arc(center.x,center.y,24*pulse,0,Math.PI*2);
+  ctx.strokeStyle='rgba(200,146,42,0.2)'; ctx.lineWidth=1; ctx.stroke();
+
+  ctx.font=`500 10px 'DM Mono',monospace`;
+  ctx.fillStyle='rgba(232,228,220,0.65)';
+  ctx.textAlign='center';
+  ctx.fillText('THE MANUFACTURED', center.x, center.y+32);
+  ctx.fillText('DIVIDE', center.x, center.y+46);
+}
+
+function animate(ts) {
+  t = ts;
+  updateNodes(ts);
+  draw(ts);
   requestAnimationFrame(animate);
 }
+
+function hitTest(mx,my) {
+  const hit = 30;
+  for (let i=nodes.length-1; i>=0; i--) {
+    const n = nodes[i];
+    if (n.deco) continue;
+    const dx=mx-n.x, dy=my-n.y;
+    if (Math.sqrt(dx*dx+dy*dy)<hit) return n;
+  }
+  return null;
+}
+
+canvas.addEventListener('mousemove', e => {
+  const r  = canvas.getBoundingClientRect();
+  const mx = e.clientX-r.left, my = e.clientY-r.top;
+  const hit = hitTest(mx,my);
+  if (hit && NODE_DATA[hit.id]) {
+    hoveredNode = hit;
+    canvas.style.cursor = NODE_DATA[hit.id].url ? 'pointer' : 'default';
+    const d = NODE_DATA[hit.id];
+    document.getElementById('tt-tag').textContent   = d.tag;
+    document.getElementById('tt-title').textContent = d.title;
+    document.getElementById('tt-desc').textContent  = d.desc;
+    document.getElementById('tt-cta').textContent   = d.cta||'';
+    let tx=e.clientX+22, ty=e.clientY-18;
+    if (tx+240>window.innerWidth)  tx=e.clientX-250;
+    if (ty+160>window.innerHeight) ty=e.clientY-160;
+    tooltip.style.left=tx+'px'; tooltip.style.top=ty+'px';
+    tooltip.classList.add('visible');
+  } else {
+    hoveredNode=null; canvas.style.cursor='default';
+    tooltip.classList.remove('visible');
+  }
+});
+
+canvas.addEventListener('mouseleave', () => {
+  hoveredNode=null; tooltip.classList.remove('visible');
+});
+
+canvas.addEventListener('click', e => {
+  const r=canvas.getBoundingClientRect();
+  const hit=hitTest(e.clientX-r.left, e.clientY-r.top);
+  if (hit && NODE_DATA[hit.id]?.url) window.location.href=NODE_DATA[hit.id].url;
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
+},{threshold:0.12});
+reveals.forEach(el=>obs.observe(el));
 
 window.addEventListener('resize', resize);
 resize();
 requestAnimationFrame(animate);
-
-// ── SCROLL REVEAL ──
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-reveals.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
