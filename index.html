@@ -252,15 +252,11 @@ const ctx     = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
-  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',   desc:'How the narrative around work visas is designed to pit Americans against each other in order to maximize profits.',                                                                                                                                                                    cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
-  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',          desc:'The U.S. healthcare system rewards complexity, middlemen, and high-cost interventions. PBMs, reimbursement formulas, and administrative bloat extract value while population health outcomes lag behind peer nations.',                                                                   cta:'→ Preview Coming Soon', url:null,              amber:false },
-  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',             desc:'Cost-plus contracting, political distribution of work across every state, and lobbying that prioritizes contractor profits over timely delivery and warfighter needs.',                                                                                                                   cta:'→ Preview Coming Soon', url:null,              amber:false },
-  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',             desc:'New money in the modern U.S. economy is created primarily through bank lending and federal borrowing. Large banks and asset managers profit from both the creation of credit and the management of resulting government debt.',                                                           cta:'→ Preview Coming Soon', url:null,              amber:false },
-  education:  { tag:'Module 05 — In Development', title:'The Education Machine',           desc:'Higher education costs have tripled in forty years. Federal student loans made it possible. University endowments grew while tuition climbed. K-12 administrative bloat has ballooned while reading and math scores have collapsed.',                                                    cta:'→ Preview Coming Soon', url:null,              amber:false },
-  arg1:       { tag:'The Framework',              title:'The Narrative',                   desc:'The public story — the arguments, the framing, the left/right division — that serves as cover for the underlying incentive structures.',                                                                                                                                               cta:null,                    url:null,              red:true    },
-  arg2:       { tag:'The Framework',              title:'The Beneficiary',                 desc:'The institutional owners who collect returns regardless of which side of the argument wins.',                                                                                                                                                                                          cta:null,                    url:null,              red:true    },
-  arg3:       { tag:'The Framework',              title:'The Cost',                        desc:'The workers, communities, and taxpayers who absorb the financial and human costs of the incentive structure.',                                                                                                                                                                         cta:null,                    url:null,              red:true    },
-  arg4:       { tag:'The Framework',              title:'The Mechanism',                   desc:'The regulatory, legislative, and financial architecture that maintains the extraction loop.',                                                                                                                                                                                          cta:null,                    url:null,              red:true    },
+  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',  desc:'', cta:'Click to Investigate →', url:'visa/index.html' },
+  healthcare: { tag:'Module 02 — In Development', title:'Hidden Margins of Healthcare',  desc:'', cta:'To Be Built — Click to Preview', url:'healthcare/index.html' },
+  defense:    { tag:'Module 03 — In Development', title:'Wars & Margins',                desc:'', cta:'To Be Built — Click to Preview', url:'defense/index.html'    },
+  banking:    { tag:'Module 04 — In Development', title:'What Is Money?',                desc:'', cta:'To Be Built — Click to Preview', url:'banking/index.html'    },
+  education:  { tag:'Module 05 — In Development', title:'Students for Sale',             desc:'', cta:'To Be Built — Click to Preview', url:'education/index.html'  },
 };
 
 let W, H, nodes = [], hoveredNode = null, t = 0;
@@ -269,15 +265,9 @@ function buildNodes() {
   const cx = W/2, cy = H/2;
   nodes = [];
 
-  const innerR = Math.min(W,H) * 0.17;
-  ['arg1','arg2','arg3','arg4'].forEach((id,i) => {
-    const a = (i/4)*Math.PI*2 - Math.PI/4;
-    nodes.push({ id, r:5.5, baseAngle:a, orbitR:innerR, speed:0.00009, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*innerR, y:cy+Math.sin(a)*innerR });
-  });
-
   const midR = Math.min(W,H) * 0.32;
   ['visa','healthcare','defense','banking','education'].forEach((id,i) => {
-    const a = (i/5)*Math.PI*2 - Math.PI/8;
+    const a = (i/5)*Math.PI*2;
     nodes.push({ id, r:8, baseAngle:a, orbitR:midR, speed:0.000042, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*midR, y:cy+Math.sin(a)*midR });
   });
 
@@ -311,26 +301,22 @@ function thread(ax,ay,bx,by,color,width) {
   ctx.strokeStyle = color; ctx.lineWidth = width||0.7; ctx.stroke();
 }
 
-function angleDiff(a, b) {
-  const cx = W/2, cy = H/2;
-  const aa = Math.atan2(a.y - cy, a.x - cx);
-  const ab = Math.atan2(b.y - cy, b.x - cx);
-  let d = Math.abs(aa - ab) % (Math.PI * 2);
-  if (d > Math.PI) d = Math.PI * 2 - d;
-  return d;
-}
 
 function draw(ts) {
   ctx.clearRect(0,0,W,H);
-  const argNodes  = nodes.slice(0,4);
-  const modNodes  = nodes.slice(4,9);
-  const decoNodes = nodes.slice(9);
+  const cx = W/2, cy = H/2;
+  const modNodes  = nodes.slice(0,5);
+  const decoNodes = nodes.slice(5);
 
-  // Module → 2 nearest arg nodes
-  modNodes.forEach(mn => {
-    const sorted = argNodes.slice().sort((a,b) => angleDiff(mn,a) - angleDiff(mn,b));
-    thread(mn.x,mn.y,sorted[0].x,sorted[0].y,'rgba(45,95,166,0.25)');
-    thread(mn.x,mn.y,sorted[1].x,sorted[1].y,'rgba(45,95,166,0.13)');
+  // Center-converging threads
+  modNodes.forEach(m => {
+    thread(m.x,m.y,cx,cy,'rgba(45,95,166,0.13)');
+  });
+
+  // Pentagon ring
+  modNodes.forEach((m,i) => {
+    const next = modNodes[(i+1)%modNodes.length];
+    thread(m.x,m.y,next.x,next.y,'rgba(45,95,166,0.2)');
   });
 
   // Modules → deco
@@ -344,38 +330,10 @@ function draw(ts) {
     thread(d.x,d.y,next.x,next.y,'rgba(28,31,46,0.1)');
   });
 
-  // Arg ring
-  argNodes.forEach((a,i) => {
-    const next = argNodes[(i+1)%argNodes.length];
-    thread(a.x,a.y,next.x,next.y,'rgba(185,58,43,0.22)');
-  });
-
-  // Module ring
-  modNodes.forEach((m,i) => {
-    const next = modNodes[(i+1)%modNodes.length];
-    thread(m.x,m.y,next.x,next.y,'rgba(45,95,166,0.16)');
-  });
-
   // Deco nodes
   decoNodes.forEach(n => {
     ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
     ctx.fillStyle='rgba(28,31,46,0.15)'; ctx.fill();
-  });
-
-  // Arg nodes
-  argNodes.forEach(n => {
-    const hov = hoveredNode&&hoveredNode.id===n.id;
-    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.65:n.r,0,Math.PI*2);
-    ctx.fillStyle = hov?'rgba(185,58,43,0.95)':'rgba(185,58,43,0.65)'; ctx.fill();
-    ctx.strokeStyle='rgba(185,58,43,0.55)'; ctx.lineWidth=1; ctx.stroke();
-    if (hov) {
-      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*3,0,Math.PI*2);
-      ctx.strokeStyle='rgba(185,58,43,0.12)'; ctx.lineWidth=1; ctx.stroke();
-    }
-    ctx.font=`500 9px 'DM Mono',monospace`;
-    ctx.fillStyle=hov?'rgba(28,31,46,0.95)':'rgba(28,31,46,0.45)';
-    ctx.textAlign='center';
-    ctx.fillText(NODE_DATA[n.id].title.toUpperCase(), n.x, n.y+n.r+15);
   });
 
   // Module nodes
@@ -397,11 +355,11 @@ function draw(ts) {
     ctx.fillStyle=active?(hov?'rgba(244,241,236,0.95)':'rgba(45,95,166,0.85)'):'rgba(28,31,46,0.3)';
     ctx.textAlign='center';
     const lblMap = {
-      visa:       ['H-1B / H-2', 'SCHEME'],
-      healthcare: ['HEALTHCARE'],
-      defense:    ['DEFENSE'],
-      banking:    ['BANKING &', 'MONETARY'],
-      education:  ['EDUCATION'],
+      visa:       ['H-1B / H-2', 'THE VISA MACHINE'],
+      healthcare: ['HIDDEN MARGINS', 'OF HEALTHCARE'],
+      defense:    ['WARS &', 'MARGINS'],
+      banking:    ['WHAT IS', 'MONEY?'],
+      education:  ['STUDENTS', 'FOR SALE'],
     };
     (lblMap[n.id] || [n.id.toUpperCase()]).forEach((line, li) => {
       ctx.fillText(line, n.x, n.y + n.r + 16 + li * 12);
