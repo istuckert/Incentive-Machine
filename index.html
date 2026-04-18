@@ -89,7 +89,7 @@ nav {
 }
 
 .title-hint {
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em;
+  font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--accent); display: block;
   text-align: center;
   position: absolute; top: 0.9rem; left: 0; right: 0; z-index: 10;
@@ -298,7 +298,7 @@ function updateNodes(ts) {
 
 function thread(ax,ay,bx,by,color,width) {
   ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by);
-  ctx.strokeStyle = color; ctx.lineWidth = width||0.7; ctx.stroke();
+  ctx.strokeStyle = color; ctx.lineWidth = width||1.2; ctx.stroke();
 }
 
 
@@ -310,24 +310,24 @@ function draw(ts) {
 
   // Center-converging threads
   modNodes.forEach(m => {
-    thread(m.x,m.y,cx,cy,'rgba(45,95,166,0.45)');
+    thread(m.x,m.y,cx,cy,'rgba(45,95,166,0.75)');
   });
 
   // Pentagon ring
   modNodes.forEach((m,i) => {
     const next = modNodes[(i+1)%modNodes.length];
-    thread(m.x,m.y,next.x,next.y,'rgba(45,95,166,0.35)');
+    thread(m.x,m.y,next.x,next.y,'rgba(45,95,166,0.70)');
   });
 
   // Modules → deco
   modNodes.forEach((m,mi) => decoNodes.forEach((d,di) => {
-    if (di%5===mi) thread(m.x,m.y,d.x,d.y,'rgba(45,95,166,0.18)',0.5);
+    if (di%5===mi) thread(m.x,m.y,d.x,d.y,'rgba(45,95,166,0.45)',1.2);
   }));
 
   // Deco ring
   decoNodes.forEach((d,i) => {
     const next = decoNodes[(i+1)%decoNodes.length];
-    thread(d.x,d.y,next.x,next.y,'rgba(45,95,166,0.25)');
+    thread(d.x,d.y,next.x,next.y,'rgba(45,95,166,0.55)');
   });
 
   // Deco nodes
@@ -340,18 +340,18 @@ function draw(ts) {
   modNodes.forEach(n => {
     const hov    = hoveredNode&&hoveredNode.id===n.id;
     const active = n.id==='visa';
-    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.5:n.r,0,Math.PI*2);
+    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.5*0.78:n.r*0.78,0,Math.PI*2);
     ctx.fillStyle = hov
-      ? (active?'rgba(45,95,166,0.97)':'rgba(28,31,46,0.45)')
-      : (active?'rgba(45,95,166,0.78)':'rgba(28,31,46,0.18)');
+      ? (active?'rgba(158,58,47,0.97)':'rgba(158,58,47,0.95)')
+      : (active?'rgba(158,58,47,0.85)':'rgba(158,58,47,0.65)');
     ctx.fill();
-    ctx.strokeStyle = active?'rgba(45,95,166,0.65)':'rgba(28,31,46,0.22)';
+    ctx.strokeStyle = 'rgba(158,58,47,0.6)';
     ctx.lineWidth=1.2; ctx.stroke();
     if (hov&&active) {
       ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.8,0,Math.PI*2);
-      ctx.strokeStyle='rgba(45,95,166,0.2)'; ctx.lineWidth=1; ctx.stroke();
+      ctx.strokeStyle='rgba(158,58,47,0.2)'; ctx.lineWidth=1; ctx.stroke();
     }
-    ctx.font=`500 9px 'DM Mono',monospace`;
+    ctx.font=`500 13px 'DM Mono',monospace`;
     ctx.fillStyle=active?(hov?'rgba(244,241,236,0.95)':'rgba(45,95,166,0.85)'):'rgba(28,31,46,0.3)';
     ctx.textAlign='center';
     const lblMap = {
