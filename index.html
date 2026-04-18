@@ -55,11 +55,12 @@ nav {
   text-align: center;
   background: var(--bg-dark);
 }
-.title-inner { max-width: 700px; margin: 0 auto; }
+.title-inner { max-width: 700px; margin-left: auto; margin-right: auto; text-align: center; width: 100%; }
 .title-heading {
   font-family: var(--serif); font-size: clamp(2rem, 5vw, 5.5rem);
   font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; color: #f4f1ec;
   white-space: nowrap; margin-bottom: 1.1rem;
+  text-align: center !important; width: 100%; display: block;
   opacity: 0; animation: fadeUp 1s ease forwards 0.4s;
 }
 .title-tagline {
@@ -194,12 +195,45 @@ footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.07
 <!-- ── TITLE BLOCK ── -->
 <section class="title-block">
   <div class="title-inner">
-    <h1 class="title-heading">The Manufactured Divide</h1>
+    <h1 class="title-heading" style="text-align:center;width:100%;display:block;margin-left:auto;margin-right:auto;">The Manufactured Divide</h1>
     <span class="title-tagline">The argument is the product.</span>
-    <div class="thesis-wrap">
-      <span class="thesis-label">Thesis</span>
-      <p class="title-thesis">Public debate is structured around surface-level divisions. This platform follows the verifiable incentive flows those divisions are designed to obscure.</p>
-    </div>
+<div style="max-width:640px;margin:1.75rem auto 0;text-align:center;">
+  <p style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(0.95rem,1.5vw,1.1rem);color:rgba(232,228,220,0.65);line-height:1.85;margin-bottom:0.6rem;">
+    "I know no safe depository of the ultimate powers of the society, but the people themselves: and if we think them not enlightened enough to exercise their controul [sic] with a wholsome [sic] discretion, the remedy is, not to take it from them, but to inform their discretion by education. this is the true corrective of abuses of constitutional power."
+  </p>
+  <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,228,220,0.52);margin-top:0.75rem;">
+    — Thomas Jefferson, letter to William C. Jarvis, 1820
+  </p>
+</div>
+<div style="max-width:680px;margin:1.75rem auto 0;text-align:left;background:rgba(45,95,166,0.12);border:1px solid rgba(45,95,166,0.25);border-left:3px solid rgba(45,95,166,0.7);padding:1.4rem 1.75rem;">
+  <div style="font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.28em;text-transform:uppercase;color:#6fa3e8;margin-bottom:0.75rem;">Thesis</div>
+  <p style="font-family:'DM Sans',sans-serif;font-size:0.95rem;color:rgba(232,228,220,0.92);line-height:1.78;margin-bottom:0.75rem;font-weight:500;">
+    When complex systems get reduced to slogans, buzzwords, and simple sides, those with the most influence over those systems win. This platform rejects that framing.
+  </p>
+  <p style="font-family:'DM Sans',sans-serif;font-size:0.82rem;color:rgba(232,228,220,0.48);line-height:1.75;margin-bottom:0;border-top:1px solid rgba(255,255,255,0.07);padding-top:0.6rem;">
+    Research on political polarization confirms what most people already sense: binary framing activates tribal instincts and makes substantive engagement harder — not by accident, but by design.
+    <sup><a href="https://www.nature.com/articles/s44271-025-00289-4" target="_blank" style="color:rgba(111,163,232,0.9);text-decoration:none;font-family:'DM Mono',monospace;font-size:8px;">1</a></sup>
+    <sup style="margin-left:2px;"><a href="https://onlinelibrary.wiley.com/doi/10.1111/pops.12899" target="_blank" style="color:rgba(111,163,232,0.9);text-decoration:none;font-family:'DM Mono',monospace;font-size:8px;">2</a></sup>
+  </p>
+</div>
+<div style="max-width:680px;margin:1.25rem auto 0;text-align:left;background:rgba(45,95,166,0.07);border:1px solid rgba(45,95,166,0.18);border-left:3px solid rgba(45,95,166,0.4);padding:1.4rem 1.75rem;">
+  <div style="font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.28em;text-transform:uppercase;color:#6fa3e8;margin-bottom:0.75rem;">Purpose</div>
+  <p style="font-family:'DM Sans',sans-serif;font-size:0.95rem;color:rgba(232,228,220,0.92);line-height:1.78;margin:0;font-weight:400;">
+    This platform exists to deliver the context that everyday Americans need to understand the systems that affect and divide them. Complex does not mean inaccessible. The incentive structures that shape American life are verifiable, documentable, and understandable.
+  </p>
+</div>
+<div style="max-width:680px;margin:1rem auto 0;text-align:left;">
+  <p style="font-family:'DM Mono',monospace;font-size:8.5px;color:rgba(232,228,220,0.38);line-height:1.9;letter-spacing:0.04em;">
+    <sup>1</sup> Edinger et al. (2025). Political polarization and cognitive distortions in social media language. <em>Nature Human Behaviour</em>.
+    <a href="https://www.nature.com/articles/s44271-025-00289-4" target="_blank" style="color:rgba(45,95,166,0.5);text-decoration:none;"> ↗</a>
+    &nbsp;&nbsp;
+    <sup>2</sup> Tajfel, H. &amp; Turner, J.C. Social identity theory and motivated reasoning in political polarization. <em>Political Psychology</em>.
+    <a href="https://onlinelibrary.wiley.com/doi/10.1111/pops.12899" target="_blank" style="color:rgba(45,95,166,0.5);text-decoration:none;"> ↗</a>
+    &nbsp;&nbsp;
+    <sup>*</sup> Jefferson, T. (1820). Letter to William C. Jarvis.
+    <a href="https://founders.archives.gov/documents/Jefferson/03-16-02-0234" target="_blank" style="color:rgba(45,95,166,0.5);text-decoration:none;"> ↗ Primary Source</a>
+  </p>
+</div>
   </div>
 </section>
 
@@ -259,8 +293,10 @@ const NODE_DATA = {
 };
 
 const svg = d3.select('#web-svg');
-let width = window.innerWidth;
-let height = document.getElementById('web-section').offsetHeight;
+const webSection = document.getElementById('web-section');
+let width = webSection.offsetWidth;
+let height = webSection.offsetHeight;
+svg.attr('width', width).attr('height', height);
 
 const nodes = [
   { id: 'visa' },
@@ -479,8 +515,9 @@ simulation.on('tick', () => {
 });
 
 window.addEventListener('resize', () => {
-  width = window.innerWidth;
-  height = document.getElementById('web-section').offsetHeight;
+  width = webSection.offsetWidth;
+  height = webSection.offsetHeight;
+  svg.attr('width', width).attr('height', height);
   simulation.force('center', d3.forceCenter(width / 2, height / 2)).alpha(0.3).restart();
 });
 
