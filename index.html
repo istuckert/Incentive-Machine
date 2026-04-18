@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Manufactured Divide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 :root {
   --bg:         #f4f1ec;
@@ -105,7 +106,7 @@ nav {
   border-bottom: 1px solid rgba(28,31,46,0.15);
   background: var(--bg);
 }
-#web-canvas { display: block; width: 100%; height: 100%; }
+#web-svg { display: block; }
 
 /* ── TOOLTIP ── */
 .node-tooltip {
@@ -202,9 +203,9 @@ footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.07
   </div>
 </section>
 
-<!-- ── WEB CANVAS ── -->
+<!-- ── WEB SVG ── -->
 <section id="web-section">
-  <canvas id="web-canvas"></canvas>
+  <svg id="web-svg" style="width:100%;height:100%;position:absolute;inset:0;z-index:1;"></svg>
   <span class="title-hint">↓ Hover the web · Click to investigate</span>
 </section>
 
@@ -247,8 +248,6 @@ footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.07
 </footer>
 
 <script>
-const canvas  = document.getElementById('web-canvas');
-const ctx     = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
@@ -259,163 +258,213 @@ const NODE_DATA = {
   education:  { tag:'', title:'Students for Sale',             desc:'', cta:'In Development',         url:'education/index.html'  },
 };
 
-let W, H, nodes = [], hoveredNode = null, t = 0;
+const svg = d3.select('#web-svg');
+let width = window.innerWidth;
+let height = document.getElementById('web-section').offsetHeight;
 
-function buildNodes() {
-  const cx = W/2, cy = H/2;
-  nodes = [];
+const nodes = [
+  { id: 'visa' },
+  { id: 'healthcare' },
+  { id: 'defense' },
+  { id: 'banking' },
+  { id: 'education' }
+];
 
-  const midR = Math.min(W,H) * 0.38;
-  ['visa','healthcare','defense','banking','education'].forEach((id,i) => {
-    const a = (i/5)*Math.PI*2;
-    nodes.push({ id, r:10, baseAngle:a, orbitR:midR, speed:0.000042, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*midR, y:cy+Math.sin(a)*midR });
-  });
+const links = [
+  { source: 'visa', target: 'healthcare' },
+  { source: 'healthcare', target: 'defense' },
+  { source: 'defense', target: 'banking' },
+  { source: 'banking', target: 'education' },
+  { source: 'education', target: 'visa' }
+];
 
-  const outerR = Math.min(W,H) * 0.50;
-  for (let i=0; i<14; i++) {
-    const a = (i/14)*Math.PI*2;
-    nodes.push({ id:'deco_'+i, r:2.2, baseAngle:a, orbitR:outerR, speed:0.000022, phase:Math.random()*Math.PI*2, x:cx+Math.cos(a)*outerR, y:cy+Math.sin(a)*outerR, deco:true });
-  }
-}
+nodes.forEach((d, i) => {
+  const positions = [
+    { x: width * 0.58, y: height * 0.22 },
+    { x: width * 0.75, y: height * 0.55 },
+    { x: width * 0.38, y: height * 0.72 },
+    { x: width * 0.22, y: height * 0.38 },
+    { x: width * 0.62, y: height * 0.78 },
+  ];
+  d.x = positions[i].x;
+  d.y = positions[i].y;
+});
 
-function resize() {
-  const sect = document.getElementById('web-section');
-  W = canvas.width  = sect.offsetWidth;
-  H = canvas.height = sect.offsetHeight;
-  buildNodes();
-}
+const simulation = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d => d.id).distance(220).strength(0.6))
+  .force('charge', d3.forceManyBody().strength(-800))
+  .force('center', d3.forceCenter(width / 2, height / 2))
+  .force('collision', d3.forceCollide().radius(80))
+  .force('x', d3.forceX().x(d => {
+    const targets = [width*0.58, width*0.72, width*0.35, width*0.25, width*0.60];
+    return targets[nodes.indexOf(d)];
+  }).strength(0.04))
+  .force('y', d3.forceY().y(d => {
+    const targets = [height*0.25, height*0.52, height*0.70, height*0.40, height*0.75];
+    return targets[nodes.indexOf(d)];
+  }).strength(0.04))
+  .alphaDecay(0.02)
+  .velocityDecay(0.3);
 
-function updateNodes(ts) {
-  const cx = W/2, cy = H/2;
-  nodes.forEach(n => {
-    if (n.fixed) return;
-    n.baseAngle += n.speed;
-    const w = Math.sin(ts*0.0004 + n.phase) * 0.022;
-    n.x = cx + Math.cos(n.baseAngle + w) * n.orbitR;
-    n.y = cy + Math.sin(n.baseAngle + w) * n.orbitR;
-  });
-}
+const g = svg.append('g');
 
-function thread(ax,ay,bx,by,color,width) {
-  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by);
-  ctx.strokeStyle = color; ctx.lineWidth = width||1.2; ctx.stroke();
-}
+const link = g.append('g')
+  .selectAll('line')
+  .data(links)
+  .join('line')
+  .attr('stroke', 'rgba(45,95,166,0.55)')
+  .attr('stroke-width', 1.2);
+
+const nodeGroup = g.append('g')
+  .selectAll('g')
+  .data(nodes)
+  .join('g')
+  .style('cursor', d => NODE_DATA[d.id]?.url ? 'pointer' : 'default')
+  .call(d3.drag()
+    .on('start', (event, d) => {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x; d.fy = d.y;
+    })
+    .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+    .on('end', (event, d) => {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null; d.fy = null;
+    })
+  );
+
+nodeGroup.append('circle')
+  .attr('r', d => d.id === 'visa' ? 10 : 8)
+  .attr('fill', 'rgba(0,0,0,0)')
+  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
+  .attr('stroke-width', d => d.id === 'visa' ? 2.2 : 1.8);
 
 
-function draw(ts) {
-  ctx.clearRect(0,0,W,H);
-  const cx = W/2, cy = H/2;
-  const modNodes  = nodes.slice(0,5);
-  const decoNodes = nodes.slice(5);
-
-  // Center-converging threads
-  modNodes.forEach(m => {
-    thread(m.x,m.y,cx,cy,'rgba(45,95,166,0.75)');
-  });
-
-  // Pentagon ring
-  modNodes.forEach((m,i) => {
-    const next = modNodes[(i+1)%modNodes.length];
-    thread(m.x,m.y,next.x,next.y,'rgba(45,95,166,0.70)');
-  });
-
-  // Modules → deco
-  modNodes.forEach((m,mi) => decoNodes.forEach((d,di) => {
-    if (di%5===mi) thread(m.x,m.y,d.x,d.y,'rgba(45,95,166,0.45)',1.2);
-  }));
-
-  // Deco ring
-  decoNodes.forEach((d,i) => {
-    const next = decoNodes[(i+1)%decoNodes.length];
-    thread(d.x,d.y,next.x,next.y,'rgba(45,95,166,0.55)');
-  });
-
-  // Deco nodes
-  decoNodes.forEach(n => {
-    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(28,31,46,0.15)'; ctx.fill();
-  });
-
-  // Module nodes
-  modNodes.forEach(n => {
-    const hov    = hoveredNode&&hoveredNode.id===n.id;
-    const active = n.id==='visa';
-    ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.5*0.78:n.r*0.78,0,Math.PI*2);
-    ctx.fillStyle = hov
-      ? (active?'rgba(158,58,47,0.97)':'rgba(158,58,47,0.95)')
-      : (active?'rgba(158,58,47,0.85)':'rgba(158,58,47,0.65)');
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(158,58,47,0.6)';
-    ctx.lineWidth=1.2; ctx.stroke();
-    if (hov&&active) {
-      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.8,0,Math.PI*2);
-      ctx.strokeStyle='rgba(158,58,47,0.2)'; ctx.lineWidth=1; ctx.stroke();
-    }
-    ctx.font=`500 13px 'DM Mono',monospace`;
-    ctx.fillStyle=active?(hov?'rgba(244,241,236,0.95)':'rgba(45,95,166,0.85)'):'rgba(28,31,46,0.3)';
-    ctx.textAlign='center';
-    const lblMap = {
-      visa:       ['H-1B / H-2', 'THE VISA MACHINE'],
-      healthcare: ['HIDDEN MARGINS', 'OF HEALTHCARE'],
-      defense:    ['WARS &', 'MARGINS'],
-      banking:    ['WHAT IS', 'MONEY?'],
-      education:  ['STUDENTS', 'FOR SALE'],
-    };
-    (lblMap[n.id] || [n.id.toUpperCase()]).forEach((line, li) => {
-      ctx.fillText(line, n.x, n.y + n.r + 16 + li * 12);
-    });
-  });
-}
-
-function animate(ts) {
-  t = ts;
-  updateNodes(ts);
-  draw(ts);
-  requestAnimationFrame(animate);
-}
-
-function hitTest(mx,my) {
-  const hit = 30;
-  for (let i=nodes.length-1; i>=0; i--) {
-    const n = nodes[i];
-    if (n.deco) continue;
-    const dx=mx-n.x, dy=my-n.y;
-    if (Math.sqrt(dx*dx+dy*dy)<hit) return n;
-  }
-  return null;
-}
-
-canvas.addEventListener('mousemove', e => {
-  const r  = canvas.getBoundingClientRect();
-  const mx = e.clientX-r.left, my = e.clientY-r.top;
-  const hit = hitTest(mx,my);
-  if (hit && NODE_DATA[hit.id]) {
-    hoveredNode = hit;
-    canvas.style.cursor = NODE_DATA[hit.id].url ? 'pointer' : 'default';
-    const d = NODE_DATA[hit.id];
-    document.getElementById('tt-tag').textContent   = d.tag;
-    document.getElementById('tt-title').textContent = d.title;
-    document.getElementById('tt-desc').textContent  = d.desc;
-    document.getElementById('tt-cta').textContent   = d.cta||'';
-    let tx=e.clientX+22, ty=e.clientY-18;
-    if (tx+240>window.innerWidth)  tx=e.clientX-250;
-    if (ty+160>window.innerHeight) ty=e.clientY-160;
-    tooltip.style.left=tx+'px'; tooltip.style.top=ty+'px';
+nodeGroup
+  .on('mouseover', function(event, d) {
+    const data = NODE_DATA[d.id];
+    if (!data) return;
+    d3.select(this).select('circle')
+      .attr('fill', d.id === 'visa' ? 'rgba(45,95,166,0.08)' : 'rgba(28,31,46,0.06)')
+      .attr('stroke-width', 2.5);
+    link
+      .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id)
+        ? 'rgba(45,95,166,0.85)' : 'rgba(45,95,166,0.15)')
+      .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 2.2 : 0.8);
+    document.getElementById('tt-tag').textContent = data.tag || '';
+    document.getElementById('tt-title').textContent = data.title || '';
+    document.getElementById('tt-desc').textContent = data.desc || '';
+    document.getElementById('tt-cta').textContent = data.cta || '';
+    let tx = event.clientX + 22, ty = event.clientY - 18;
+    if (tx + 240 > window.innerWidth) tx = event.clientX - 250;
+    if (ty + 160 > window.innerHeight) ty = event.clientY - 160;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
     tooltip.classList.add('visible');
-  } else {
-    hoveredNode=null; canvas.style.cursor='default';
+  })
+  .on('mousemove', function(event) {
+    let tx = event.clientX + 22, ty = event.clientY - 18;
+    if (tx + 240 > window.innerWidth) tx = event.clientX - 250;
+    if (ty + 160 > window.innerHeight) ty = event.clientY - 160;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
+  })
+  .on('mouseout', function(event, d) {
+    d3.select(this).select('circle')
+      .attr('fill', 'rgba(0,0,0,0)')
+      .attr('stroke-width', d.id === 'visa' ? 2.2 : 1.8);
+    link.attr('stroke', 'rgba(45,95,166,0.55)').attr('stroke-width', 1.2);
     tooltip.classList.remove('visible');
-  }
+  })
+  .on('click', function(event, d) {
+    const url = NODE_DATA[d.id]?.url;
+    if (url) window.location.href = url;
+  });
+
+const labelGroup = svg.append('g').attr('class', 'label-group');
+
+const callouts = labelGroup.selectAll('g')
+  .data(nodes)
+  .join('g')
+  .attr('class', 'callout');
+
+callouts.append('rect')
+  .attr('rx', 3)
+  .attr('ry', 3)
+  .attr('fill', 'rgba(244,241,236,0.96)')
+  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+  .attr('stroke-width', 1);
+
+callouts.append('text')
+  .attr('class', 'callout-title')
+  .style('font-family', "'DM Mono', monospace")
+  .style('font-size', '12px')
+  .style('font-weight', '500')
+  .style('fill', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.75)')
+  .style('letter-spacing', '0.06em')
+  .text(d => NODE_DATA[d.id]?.title || d.id);
+
+callouts.append('text')
+  .attr('class', 'callout-sub')
+  .style('font-family', "'DM Mono', monospace")
+  .style('font-size', '10px')
+  .style('font-weight', '400')
+  .style('fill', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
+  .style('letter-spacing', '0.05em')
+  .text(d => d.id === 'visa' ? '● Live — Click to Investigate' : '○ In Development');
+
+callouts.append('line')
+  .attr('class', 'callout-connector')
+  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.3)' : 'rgba(28,31,46,0.2)')
+  .attr('stroke-width', 0.8)
+  .attr('stroke-dasharray', '2,2');
+
+simulation.on('tick', () => {
+  link
+    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+  nodeGroup.attr('transform', d => `translate(${d.x},${d.y})`);
+
+  callouts.each(function(d) {
+    const el = d3.select(this);
+    const cx = d.x, cy = d.y;
+    const fcx = width/2, fcy = height/2;
+
+    const angle = Math.atan2(cy - fcy, cx - fcx);
+    const offset = 28;
+    const lx = cx + Math.cos(angle) * offset;
+    const ly = cy + Math.sin(angle) * offset;
+
+    const titleEl = el.select('.callout-title');
+    const subEl = el.select('.callout-sub');
+
+    const titleText = titleEl.text();
+    const charWidth = 7.2;
+    const boxW = Math.max(titleText.length * charWidth, 140) + 28;
+    const boxH = 38;
+
+    const bx = lx - boxW/2;
+    const by = ly - boxH/2;
+
+    el.select('rect')
+      .attr('x', bx).attr('y', by)
+      .attr('width', boxW).attr('height', boxH);
+
+    titleEl.attr('x', lx).attr('y', ly - 6);
+    subEl.attr('x', lx).attr('y', ly + 12);
+
+    titleEl.attr('text-anchor', 'middle');
+    subEl.attr('text-anchor', 'middle');
+
+    el.select('.callout-connector')
+      .attr('x1', cx).attr('y1', cy)
+      .attr('x2', lx).attr('y2', ly);
+  });
 });
 
-canvas.addEventListener('mouseleave', () => {
-  hoveredNode=null; tooltip.classList.remove('visible');
-});
-
-canvas.addEventListener('click', e => {
-  const r=canvas.getBoundingClientRect();
-  const hit=hitTest(e.clientX-r.left, e.clientY-r.top);
-  if (hit && NODE_DATA[hit.id]?.url) window.location.href=NODE_DATA[hit.id].url;
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = document.getElementById('web-section').offsetHeight;
+  simulation.force('center', d3.forceCenter(width / 2, height / 2)).alpha(0.3).restart();
 });
 
 const reveals = document.querySelectorAll('.reveal');
@@ -423,10 +472,6 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
 },{threshold:0.12});
 reveals.forEach(el=>obs.observe(el));
-
-window.addEventListener('resize', resize);
-resize();
-requestAnimationFrame(animate);
 </script>
 </body>
 </html>
