@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Incentive Machine</title>
+<title>The Manufactured Divide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #0b0b0e;
-  --bg-2:     #111117;
-  --bg-3:     #16161e;
-  --border:   rgba(255,255,255,0.07);
-  --border-2: rgba(255,255,255,0.14);
-  --ink:      #e8e4dc;
-  --ink-2:    rgba(232,228,220,0.55);
-  --ink-3:    rgba(232,228,220,0.28);
-  --amber:    #c8922a;
-  --red:      #9e3a2f;
-  --teal:     #2a7a6e;
-  --serif:    'Playfair Display', Georgia, serif;
-  --serif-2:  'Cormorant Garamond', Georgia, serif;
-  --mono:     'DM Mono', monospace;
-  --sans:     'DM Sans', sans-serif;
+  --bg:         #0b0b0e;
+  --bg-2:       #111117;
+  --bg-3:       #16161e;
+  --border:     rgba(255,255,255,0.07);
+  --border-2:   rgba(255,255,255,0.14);
+  --ink:        #e8e4dc;
+  --ink-2:      rgba(232,228,220,0.55);
+  --ink-3:      rgba(232,228,220,0.28);
+  --red-accent: #8b1a1a;
+  --red:        #9e3a2f;
+  --teal:       #2a7a6e;
+  --serif:      'Playfair Display', Georgia, serif;
+  --serif-2:    'Cormorant Garamond', Georgia, serif;
+  --mono:       'DM Mono', monospace;
+  --sans:       'DM Sans', sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -37,7 +37,7 @@ nav {
   width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav-brand { font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); text-decoration: none; }
+.nav-brand { font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red-accent); text-decoration: none; }
 .nav-right { display: flex; align-items: center; gap: 1.5rem; }
 .nav-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
 .nav-link:hover { color: var(--ink); }
@@ -45,38 +45,59 @@ nav {
 
 /* ── TITLE BLOCK ── */
 .title-block {
-  padding: calc(52px + 5.5rem) 2rem 4.5rem;
+  padding: calc(52px + 5.5rem) 2rem 2.5rem;
   text-align: center;
   background: var(--bg);
 }
 .title-inner { max-width: 700px; margin: 0 auto; }
-.title-eyebrow {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
-  text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.7rem; display: block;
-  opacity: 0; animation: fadeIn 1s ease forwards 0.4s;
-}
 .title-heading {
   font-family: var(--serif); font-size: clamp(3rem, 7vw, 6.5rem);
   font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; color: var(--ink);
   margin-bottom: 1.1rem;
-  opacity: 0; animation: fadeUp 1s ease forwards 0.55s;
+  opacity: 0; animation: fadeUp 1s ease forwards 0.4s;
 }
 .title-tagline {
-  font-family: var(--mono); font-size: clamp(0.68rem, 1.1vw, 0.82rem);
-  letter-spacing: 0.24em; text-transform: uppercase; color: var(--amber);
-  margin-bottom: 1.6rem; display: block;
-  opacity: 0; animation: fadeUp 0.9s ease forwards 0.75s;
+  font-family: var(--serif-2); font-style: italic;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  color: var(--red-accent);
+  margin-bottom: 1.75rem; display: block;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.6s;
+}
+.thesis-wrap {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.25rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto 0;
+  text-align: left;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.8s;
+}
+.thesis-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(139,26,26,0.6);
+  display: block; margin-bottom: 0.6rem;
 }
 .title-thesis {
   font-family: var(--serif-2); font-style: italic;
   font-size: clamp(0.95rem, 1.5vw, 1.13rem); color: var(--ink-2);
-  line-height: 1.8; max-width: 540px; margin: 0 auto 2.25rem;
-  opacity: 0; animation: fadeUp 0.9s ease forwards 0.9s;
+  line-height: 1.8;
+}
+
+/* ── TITLE DIVIDER + HINT ── */
+.title-divider {
+  background: var(--bg);
+  padding: 1.5rem 2rem 0;
+  text-align: center;
+}
+.title-hr {
+  border: none; border-top: 1px solid var(--border-2);
+  max-width: 480px; margin: 0 auto 1rem;
 }
 .title-hint {
-  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: rgba(200,146,42,0.45); display: block;
-  opacity: 0; animation: fadeIn 1s ease forwards 1.5s;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(139,26,26,0.45); display: block;
+  padding-bottom: 1.5rem;
+  opacity: 0; animation: fadeIn 1s ease forwards 1.3s;
 }
 
 /* ── WEB SECTION ── */
@@ -92,15 +113,15 @@ nav {
 /* ── TOOLTIP ── */
 .node-tooltip {
   position: fixed; z-index: 500; pointer-events: none;
-  background: rgba(11,11,14,0.97); border: 1px solid rgba(200,146,42,0.3);
+  background: rgba(11,11,14,0.97); border: 1px solid rgba(139,26,26,0.3);
   padding: 0.9rem 1.1rem; max-width: 230px;
   opacity: 0; transition: opacity 0.15s;
 }
 .node-tooltip.visible { opacity: 1; }
-.tt-tag { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.3rem; display: block; }
+.tt-tag { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red-accent); margin-bottom: 0.3rem; display: block; }
 .tt-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; line-height: 1.2; }
 .tt-desc { font-size: 0.75rem; color: var(--ink-2); line-height: 1.55; }
-.tt-cta { font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-top: 0.45rem; display: block; }
+.tt-cta { font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-accent); margin-top: 0.45rem; display: block; }
 
 /* ── ABOUT SECTION ── */
 .about-section {
@@ -113,8 +134,8 @@ nav {
   display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem;
 }
 .about-heading {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; display: block;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--red-accent); margin-bottom: 1rem; display: block;
 }
 .about-text {
   font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300;
@@ -130,43 +151,21 @@ nav {
   gap: 1.5rem; flex-wrap: wrap;
 }
 .feedback-text {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; color: var(--ink-3);
+  font-family: var(--sans); font-size: 1rem; color: var(--ink);
 }
 .feedback-btn {
   font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--bg); background: var(--amber);
+  color: var(--ink); background: var(--red-accent);
   padding: 0.45rem 1rem; text-decoration: none; transition: opacity 0.2s;
 }
 .feedback-btn:hover { opacity: 0.82; }
 
-/* ── FRAMEWORK / PYRAMID ── */
-.framework-section { padding: 4.5rem 2rem 5rem; max-width: 1000px; margin: 0 auto; }
-.framework-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2rem; text-align: center; display: block; }
-.pyramid-tiers { display: flex; flex-direction: column; align-items: center; }
-.tier { display: flex; align-items: center; gap: 1.25rem; width: 100%; justify-content: center; }
-.tier-bar { padding: 1rem 1.75rem; border: 1px solid var(--border); text-align: center; transition: border-color 0.2s, background 0.2s; }
-.tier-bar:hover { border-color: var(--border-2); background: var(--bg-3); }
-.tier-1 .tier-bar { width: 300px; background: rgba(200,146,42,0.06); border-color: rgba(200,146,42,0.18); }
-.tier-2 .tier-bar { width: 500px; background: rgba(42,122,110,0.04); border-color: rgba(42,122,110,0.12); }
-.tier-3 .tier-bar { width: 700px; }
-.tier-connector { width: 1px; height: 22px; background: var(--border-2); margin: 0 auto; }
-.tier-label { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.2rem; }
-.tier-1 .tier-label { color: var(--amber); }
-.tier-2 .tier-label { color: rgba(42,122,110,0.8); }
-.tier-3 .tier-label { color: var(--ink-3); }
-.tier-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.15rem; }
-.tier-sub { font-size: 0.73rem; color: var(--ink-3); line-height: 1.4; }
-.tier-side { font-family: var(--mono); font-size: 7px; letter-spacing: 0.08em; color: var(--ink-3); width: 130px; line-height: 1.6; }
-.tier-side.left { text-align: right; }
-.tier-side.right { text-align: left; }
-
 footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem 0; }
 .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
 .footer-left p { font-family: var(--mono); font-size: 8px; color: var(--ink-3); letter-spacing: 0.1em; line-height: 1.7; }
-.footer-left strong { color: var(--ink-2); }
 .footer-right { display: flex; gap: 1.5rem; }
 .footer-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.15s; }
-.footer-link:hover { color: var(--amber); }
+.footer-link:hover { color: var(--red-accent); }
 
 @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
@@ -179,7 +178,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
 @media (max-width: 640px) {
   .about-inner { grid-template-columns: 1fr; gap: 2rem; }
   #web-section { height: 55vh; }
-  .tier-side { display: none; }
 }
 </style>
 </head>
@@ -187,9 +185,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
 
 <nav>
   <div class="nav-inner">
-    <a href="index.html" class="nav-brand">The Incentive Machine</a>
+    <a href="index.html" class="nav-brand">The Manufactured Divide</a>
     <div class="nav-right">
-      <a href="#framework" class="nav-link">Framework</a>
       <a href="visa/index.html" class="nav-link">Visa Module</a>
       <span class="nav-credit">Created by Ian</span>
     </div>
@@ -199,13 +196,20 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
 <!-- ── TITLE BLOCK ── -->
 <section class="title-block">
   <div class="title-inner">
-    <span class="title-eyebrow">An Investigative Platform</span>
-    <h1 class="title-heading">The Incentive Machine</h1>
+    <h1 class="title-heading">The Manufactured Divide</h1>
     <span class="title-tagline">The argument is the product.</span>
-    <p class="title-thesis">Public debate is structured around surface-level divisions. This platform follows the verifiable incentive flows those divisions are designed to obscure.</p>
-    <span class="title-hint">↓ Hover the web · Click to investigate</span>
+    <div class="thesis-wrap">
+      <span class="thesis-label">Thesis</span>
+      <p class="title-thesis">Public debate is structured around surface-level divisions. This platform follows the verifiable incentive flows those divisions are designed to obscure.</p>
+    </div>
   </div>
 </section>
+
+<!-- ── DIVIDER + HINT ── -->
+<div class="title-divider">
+  <hr class="title-hr">
+  <span class="title-hint">↓ Hover the web · Click to investigate</span>
+</div>
 
 <!-- ── WEB CANVAS ── -->
 <section id="web-section">
@@ -224,7 +228,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
   <div class="about-inner">
     <div>
       <span class="about-heading">About This Platform</span>
-      <p class="about-text">The Incentive Machine is an independent investigative platform that maps verifiable incentive structures across major American policy sectors. Every claim is sourced to primary government data, peer-reviewed research, or named investigative reporting. No claim appears without a source link.</p>
+      <p class="about-text">The Manufactured Divide is an independent investigative platform that maps verifiable incentive structures across major American policy sectors. Every claim is sourced to primary government data, peer-reviewed research, or named investigative reporting. No claim appears without a source link.</p>
     </div>
     <div>
       <span class="about-heading">AI Disclosure</span>
@@ -236,54 +240,16 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
 <!-- ── FEEDBACK BAR ── -->
 <div class="feedback-bar">
   <span class="feedback-text">Found an error? Have a source to add?</span>
-  <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener" class="feedback-btn">Submit Feedback or Correction</a>
+  <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener" class="feedback-btn">Submit Feedback</a>
 </div>
-
-<!-- ── FRAMEWORK / PYRAMID ── -->
-<section class="framework-section" id="framework">
-  <span class="framework-label reveal">The Structure — Appears in Every Module</span>
-  <div class="pyramid-tiers">
-    <div class="tier tier-1 reveal reveal-d1">
-      <span class="tier-side left">BlackRock · Vanguard · State Street</span>
-      <div class="tier-bar">
-        <div class="tier-label">Tier I — Who Controls It</div>
-        <div class="tier-title">Institutional Asset Managers</div>
-        <div class="tier-sub">$26T+ AUM · 128M Americans invested · 88% of S&amp;P 500</div>
-      </div>
-      <span class="tier-side right">Proxy votes · Board seats · Policy alignment</span>
-    </div>
-    <div class="tier-connector"></div>
-    <div class="tier tier-2 reveal reveal-d2">
-      <span class="tier-side left">Tech · Agriculture · Defense · Pharma</span>
-      <div class="tier-bar">
-        <div class="tier-label">Tier II — Who Executes It</div>
-        <div class="tier-title">Corporate Sponsors &amp; Intermediaries</div>
-        <div class="tier-sub">Portfolio companies · PE intermediaries · Industry lobbies</div>
-      </div>
-      <span class="tier-side right">Labor suppression · Regulatory capture · Market control</span>
-    </div>
-    <div class="tier-connector"></div>
-    <div class="tier tier-3 reveal reveal-d3">
-      <span class="tier-side left">Visa workers · Farmworkers · Patients · Taxpayers</span>
-      <div class="tier-bar">
-        <div class="tier-label">Tier III — Who Pays For It</div>
-        <div class="tier-title">Workers, Communities &amp; Retirement Savers</div>
-        <div class="tier-sub">Suppressed wages · Displaced jobs · Retirement accounts funding the machine</div>
-      </div>
-      <span class="tier-side right">American workers · Rural communities · The public</span>
-    </div>
-  </div>
-</section>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
-      <p><strong>The Incentive Machine</strong> · An independent investigative platform</p>
-      <p>All claims sourced to primary government, academic, and investigative sources.<br>Created by Ian · For educational purposes.</p>
+      <p>Created by Ian · For educational purposes.</p>
     </div>
     <div class="footer-right">
       <a href="visa/index.html" class="footer-link">Visa Module</a>
-      <a href="#framework" class="footer-link">Framework</a>
     </div>
   </div>
 </footer>
@@ -294,16 +260,15 @@ const ctx     = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
-  center:     { tag:'The Platform',              title:'The Manufactured Divide',        desc:'Americans argue about symptoms. This platform investigates the system that manufactures the argument.',                                                                                                                                      cta:null,                    url:null,              amber:true  },
-  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',   desc:'Asset managers profit from both visa workers and American workers through the same extraction loop.',                                                                                                                                        cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
-  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',          desc:'PBMs, Medicare reimbursements, insurance consolidation — and who holds the equity.',                                                                                                                                                         cta:'Coming Soon',           url:null,              amber:false },
-  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',             desc:'Cost-plus contracting, Pentagon budgets, and the military-to-civilian pipeline.',                                                                                                                                                            cta:'Coming Soon',           url:null,              amber:false },
-  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',             desc:'Central banking, money creation, the petrodollar — and institutional ownership structures.',                                                                                                                                                 cta:'Coming Soon',           url:null,              amber:false },
-  education:  { tag:'Module 05 — In Development', title:'The Education Machine',           desc:'Higher education costs have tripled in forty years. Federal student loans made it possible. University endowments grew while tuition climbed. This module follows the incentive flows that connect lenders, institutions, and the asset managers who profit from both.', cta:'Coming Soon', url:null,  amber:false },
-  arg1:       { tag:'The Argument',               title:'Immigration',                     desc:'Left: humanitarian crisis. Right: economic threat. Both framings serve the same sponsors.',                                                                                                                                                  cta:null,                    url:null,              red:true    },
-  arg2:       { tag:'The Argument',               title:'Healthcare Costs',                desc:'Left: universal coverage. Right: free market. The middlemen profit from the deadlock.',                                                                                                                                                      cta:null,                    url:null,              red:true    },
-  arg3:       { tag:'The Argument',               title:'Defense Spending',                desc:'Left: Pentagon bloat. Right: national security. The contractors win regardless.',                                                                                                                                                            cta:null,                    url:null,              red:true    },
-  arg4:       { tag:'The Argument',               title:'Economic Inequality',             desc:'Left: tax the rich. Right: free markets. The ownership structure remains untouched.',                                                                                                                                                        cta:null,                    url:null,              red:true    },
+  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',   desc:'How the narrative around work visas is designed to pit Americans against each other in order to maximize profits.',                                                                                                                                                                    cta:'Enter Investigation →', url:'visa/index.html', amber:true  },
+  healthcare: { tag:'Module 02 — In Development', title:'The Healthcare Machine',          desc:'The U.S. healthcare system rewards complexity, middlemen, and high-cost interventions. PBMs, reimbursement formulas, and administrative bloat extract value while population health outcomes lag behind peer nations.',                                                                   cta:'→ Preview Coming Soon', url:null,              amber:false },
+  defense:    { tag:'Module 03 — In Development', title:'The Defense Machine',             desc:'Cost-plus contracting, political distribution of work across every state, and lobbying that prioritizes contractor profits over timely delivery and warfighter needs.',                                                                                                                   cta:'→ Preview Coming Soon', url:null,              amber:false },
+  banking:    { tag:'Module 04 — In Development', title:'The Banking Machine',             desc:'New money in the modern U.S. economy is created primarily through bank lending and federal borrowing. Large banks and asset managers profit from both the creation of credit and the management of resulting government debt.',                                                           cta:'→ Preview Coming Soon', url:null,              amber:false },
+  education:  { tag:'Module 05 — In Development', title:'The Education Machine',           desc:'Higher education costs have tripled in forty years. Federal student loans made it possible. University endowments grew while tuition climbed. K-12 administrative bloat has ballooned while reading and math scores have collapsed.',                                                    cta:'→ Preview Coming Soon', url:null,              amber:false },
+  arg1:       { tag:'The Framework',              title:'The Narrative',                   desc:'The public story — the arguments, the framing, the left/right division — that serves as cover for the underlying incentive structures.',                                                                                                                                               cta:null,                    url:null,              red:true    },
+  arg2:       { tag:'The Framework',              title:'The Beneficiary',                 desc:'The institutional owners who collect returns regardless of which side of the argument wins.',                                                                                                                                                                                          cta:null,                    url:null,              red:true    },
+  arg3:       { tag:'The Framework',              title:'The Cost',                        desc:'The workers, communities, and taxpayers who absorb the financial and human costs of the incentive structure.',                                                                                                                                                                         cta:null,                    url:null,              red:true    },
+  arg4:       { tag:'The Framework',              title:'The Mechanism',                   desc:'The regulatory, legislative, and financial architecture that maintains the extraction loop.',                                                                                                                                                                                          cta:null,                    url:null,              red:true    },
 };
 
 let W, H, nodes = [], hoveredNode = null, t = 0;
@@ -311,7 +276,6 @@ let W, H, nodes = [], hoveredNode = null, t = 0;
 function buildNodes() {
   const cx = W/2, cy = H/2;
   nodes = [];
-  nodes.push({ id:'center', x:cx, y:cy, r:11, fixed:true });
 
   const innerR = Math.min(W,H) * 0.17;
   ['arg1','arg2','arg3','arg4'].forEach((id,i) => {
@@ -355,39 +319,49 @@ function thread(ax,ay,bx,by,color,width) {
   ctx.strokeStyle = color; ctx.lineWidth = width||0.7; ctx.stroke();
 }
 
+function angleDiff(a, b) {
+  const cx = W/2, cy = H/2;
+  const aa = Math.atan2(a.y - cy, a.x - cx);
+  const ab = Math.atan2(b.y - cy, b.x - cx);
+  let d = Math.abs(aa - ab) % (Math.PI * 2);
+  if (d > Math.PI) d = Math.PI * 2 - d;
+  return d;
+}
+
 function draw(ts) {
   ctx.clearRect(0,0,W,H);
-  const center    = nodes[0];
-  const argNodes  = nodes.slice(1,5);
-  const modNodes  = nodes.slice(5,10);
-  const decoNodes = nodes.slice(10);
+  const argNodes  = nodes.slice(0,4);
+  const modNodes  = nodes.slice(4,9);
+  const decoNodes = nodes.slice(9);
 
-  // Center → args
-  argNodes.forEach(n => thread(center.x,center.y,n.x,n.y,'rgba(158,58,47,0.32)'));
-  // Center → modules
-  modNodes.forEach(n => thread(center.x,center.y,n.x,n.y,'rgba(200,146,42,0.22)'));
-  // Args → modules (cross)
-  argNodes.forEach((a,ai) => modNodes.forEach((m,mi) => {
-    if (Math.abs(ai-mi)<=1 || (ai===3&&mi===0)) thread(a.x,a.y,m.x,m.y,'rgba(232,228,220,0.06)',0.5);
-  }));
+  // Module → 2 nearest arg nodes
+  modNodes.forEach(mn => {
+    const sorted = argNodes.slice().sort((a,b) => angleDiff(mn,a) - angleDiff(mn,b));
+    thread(mn.x,mn.y,sorted[0].x,sorted[0].y,'rgba(139,26,26,0.25)');
+    thread(mn.x,mn.y,sorted[1].x,sorted[1].y,'rgba(139,26,26,0.13)');
+  });
+
   // Modules → deco
   modNodes.forEach((m,mi) => decoNodes.forEach((d,di) => {
     if (di%5===mi) thread(m.x,m.y,d.x,d.y,'rgba(232,228,220,0.05)',0.5);
   }));
+
   // Deco ring
   decoNodes.forEach((d,i) => {
     const next = decoNodes[(i+1)%decoNodes.length];
     thread(d.x,d.y,next.x,next.y,'rgba(232,228,220,0.09)');
   });
+
   // Arg ring
   argNodes.forEach((a,i) => {
     const next = argNodes[(i+1)%argNodes.length];
-    thread(a.x,a.y,next.x,next.y,'rgba(158,58,47,0.2)');
+    thread(a.x,a.y,next.x,next.y,'rgba(158,58,47,0.22)');
   });
+
   // Module ring
   modNodes.forEach((m,i) => {
     const next = modNodes[(i+1)%modNodes.length];
-    thread(m.x,m.y,next.x,next.y,'rgba(200,146,42,0.16)');
+    thread(m.x,m.y,next.x,next.y,'rgba(139,26,26,0.16)');
   });
 
   // Deco nodes
@@ -418,41 +392,29 @@ function draw(ts) {
     const active = n.id==='visa';
     ctx.beginPath(); ctx.arc(n.x,n.y,hov?n.r*1.5:n.r,0,Math.PI*2);
     ctx.fillStyle = hov
-      ? (active?'rgba(200,146,42,0.97)':'rgba(232,228,220,0.5)')
-      : (active?'rgba(200,146,42,0.78)':'rgba(232,228,220,0.2)');
+      ? (active?'rgba(139,26,26,0.97)':'rgba(232,228,220,0.5)')
+      : (active?'rgba(139,26,26,0.78)':'rgba(232,228,220,0.2)');
     ctx.fill();
-    ctx.strokeStyle = active?'rgba(200,146,42,0.65)':'rgba(232,228,220,0.22)';
+    ctx.strokeStyle = active?'rgba(139,26,26,0.65)':'rgba(232,228,220,0.22)';
     ctx.lineWidth=1.2; ctx.stroke();
     if (hov&&active) {
       ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.8,0,Math.PI*2);
-      ctx.strokeStyle='rgba(200,146,42,0.2)'; ctx.lineWidth=1; ctx.stroke();
+      ctx.strokeStyle='rgba(139,26,26,0.2)'; ctx.lineWidth=1; ctx.stroke();
     }
     ctx.font=`500 9px 'DM Mono',monospace`;
-    ctx.fillStyle=active?(hov?'rgba(11,11,14,0.9)':'rgba(200,146,42,0.85)'):'rgba(232,228,220,0.28)';
+    ctx.fillStyle=active?(hov?'rgba(11,11,14,0.9)':'rgba(139,26,26,0.85)'):'rgba(232,228,220,0.28)';
     ctx.textAlign='center';
-    const lbl = {visa:'VISA',healthcare:'HEALTHCARE',defense:'DEFENSE',banking:'BANKING',education:'EDUCATION'}[n.id];
-    ctx.fillText(lbl, n.x, n.y+n.r+16);
+    const lblMap = {
+      visa:       ['H-1B / H-2', 'SCHEME'],
+      healthcare: ['HEALTHCARE'],
+      defense:    ['DEFENSE'],
+      banking:    ['BANKING &', 'MONETARY'],
+      education:  ['EDUCATION'],
+    };
+    (lblMap[n.id] || [n.id.toUpperCase()]).forEach((line, li) => {
+      ctx.fillText(line, n.x, n.y + n.r + 16 + li * 12);
+    });
   });
-
-  // Center node — pulsing
-  const pulse = 1 + Math.sin(ts*0.002)*0.2;
-  const grd = ctx.createRadialGradient(center.x,center.y,0,center.x,center.y,60*pulse);
-  grd.addColorStop(0,'rgba(200,146,42,0.25)');
-  grd.addColorStop(1,'rgba(200,146,42,0)');
-  ctx.beginPath(); ctx.arc(center.x,center.y,60*pulse,0,Math.PI*2);
-  ctx.fillStyle=grd; ctx.fill();
-
-  ctx.beginPath(); ctx.arc(center.x,center.y,center.r,0,Math.PI*2);
-  ctx.fillStyle='rgba(200,146,42,0.95)'; ctx.fill();
-
-  ctx.beginPath(); ctx.arc(center.x,center.y,24*pulse,0,Math.PI*2);
-  ctx.strokeStyle='rgba(200,146,42,0.2)'; ctx.lineWidth=1; ctx.stroke();
-
-  ctx.font=`500 10px 'DM Mono',monospace`;
-  ctx.fillStyle='rgba(232,228,220,0.65)';
-  ctx.textAlign='center';
-  ctx.fillText('THE MANUFACTURED', center.x, center.y+32);
-  ctx.fillText('DIVIDE', center.x, center.y+46);
 }
 
 function animate(ts) {
