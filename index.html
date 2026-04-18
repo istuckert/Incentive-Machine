@@ -418,6 +418,23 @@ callouts.append('line')
   .attr('stroke-width', 0.8)
   .attr('stroke-dasharray', '2,2');
 
+callouts
+  .style('cursor', d => NODE_DATA[d.id]?.url ? 'pointer' : 'default')
+  .on('click', function(event, d) {
+    const url = NODE_DATA[d.id]?.url;
+    if (url) window.location.href = url;
+  })
+  .on('mouseover', function(event, d) {
+    d3.select(this).select('rect')
+      .attr('stroke', d.id === 'visa' ? 'rgba(45,95,166,0.7)' : 'rgba(28,31,46,0.4)')
+      .attr('stroke-width', 1.5);
+  })
+  .on('mouseout', function(event, d) {
+    d3.select(this).select('rect')
+      .attr('stroke', d.id === 'visa' ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+      .attr('stroke-width', 1);
+  });
+
 simulation.on('tick', () => {
   link
     .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
