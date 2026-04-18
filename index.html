@@ -115,10 +115,10 @@ nav {
   opacity: 0; transition: opacity 0.15s;
 }
 .node-tooltip.visible { opacity: 1; }
-.tt-tag { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; display: block; }
+.tt-tag { font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; display: none; }
 .tt-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: #f4f1ec; margin-bottom: 0.25rem; line-height: 1.2; }
 .tt-desc { font-size: 0.75rem; color: rgba(244,241,236,0.65); line-height: 1.55; }
-.tt-cta { font-family: var(--mono); font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-top: 0.45rem; display: block; }
+.tt-cta { font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; text-transform: none; color: rgba(232,228,220,0.75); margin-top: 0.45rem; display: block; }
 
 /* ── ABOUT SECTION ── */
 .about-section {
@@ -252,11 +252,11 @@ const ctx     = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
-  visa:       { tag:'Module 01 — Live',           title:'H-1B / H-2: The Visa Machine',  desc:'', cta:'Click to Investigate →', url:'visa/index.html' },
-  healthcare: { tag:'Module 02 — In Development', title:'Hidden Margins of Healthcare',  desc:'', cta:'To Be Built — Click to Preview', url:'healthcare/index.html' },
-  defense:    { tag:'Module 03 — In Development', title:'Wars & Margins',                desc:'', cta:'To Be Built — Click to Preview', url:'defense/index.html'    },
-  banking:    { tag:'Module 04 — In Development', title:'What Is Money?',                desc:'', cta:'To Be Built — Click to Preview', url:'banking/index.html'    },
-  education:  { tag:'Module 05 — In Development', title:'Students for Sale',             desc:'', cta:'To Be Built — Click to Preview', url:'education/index.html'  },
+  visa:       { tag:'', title:'H-1B / H-2: The Visa Machine',  desc:'', cta:'Click to investigate', url:'visa/index.html'       },
+  healthcare: { tag:'', title:'Hidden Margins of Healthcare',  desc:'', cta:'In Development',         url:'healthcare/index.html' },
+  defense:    { tag:'', title:'Wars & Margins',                desc:'', cta:'In Development',         url:'defense/index.html'    },
+  banking:    { tag:'', title:'What Is Money?',                desc:'', cta:'In Development',         url:'banking/index.html'    },
+  education:  { tag:'', title:'Students for Sale',             desc:'', cta:'In Development',         url:'education/index.html'  },
 };
 
 let W, H, nodes = [], hoveredNode = null, t = 0;
