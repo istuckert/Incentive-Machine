@@ -417,9 +417,64 @@ nav {
 }
 .modal-sources a { color: var(--acc-lt); text-decoration: none; }
 
-/* mobile: allow horizontal scroll on diagram */
-@media (max-width: 768px) {
-  #diagram-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* ── MOBILE DIAGRAM FALLBACK ── */
+#diagram-static {
+  display: none;
+  padding: 2rem 1.5rem 2.5rem;
+  background: var(--bg-mid);
+  border-top: 1px solid var(--border-dark);
+}
+.ds-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+  display: block; margin-bottom: 1.25rem; text-align: center;
+}
+.ds-intro {
+  font-family: var(--serif-2); font-style: italic; font-size: 0.92rem;
+  color: var(--ink-dark-2); line-height: 1.78; margin-bottom: 1.75rem;
+  text-align: center; max-width: 440px; margin-left: auto; margin-right: auto;
+}
+.ds-chains {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border-dark); margin-bottom: 1.5rem;
+}
+.ds-col {
+  background: var(--bg-panel); padding: 1.25rem 1rem;
+}
+.ds-col-head {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.18em;
+  text-transform: uppercase; display: block;
+  margin-bottom: 1rem; padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-dark);
+}
+.ds-col-head.h1b { color: var(--h1b); }
+.ds-col-head.h2c  { color: var(--h2); }
+.ds-node {
+  font-family: var(--mono); font-size: 7.5px; color: var(--ink-dark-2);
+  line-height: 1.5; padding: 0.3rem 0; border-bottom: 1px solid rgba(42,53,80,0.5);
+  letter-spacing: 0.04em;
+}
+.ds-node:last-child { border-bottom: none; }
+.ds-arrow {
+  font-size: 9px; color: var(--border-dark); display: block;
+  text-align: center; line-height: 1.2;
+}
+.ds-return {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em;
+  color: var(--return-red); text-align: center; display: block;
+  padding: 0.5rem 0; border-top: 1px solid var(--border-dark);
+}
+.ds-wider {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-dark-3); text-align: center;
+  display: block; margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  #diagram-outer  { display: none; }
+  #diagram-static { display: block; }
+  #legend-bar .leg-hint { display: none; }
+  .ds-chains { grid-template-columns: 1fr; }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -862,7 +917,7 @@ footer {
     <div class="leg-item">
       <div class="leg-line dashed" style="border-color:#D95B5B;"></div>Profit Return Loop
     </div>
-    <div class="leg-item" style="margin-left:auto;">
+    <div class="leg-item leg-hint" style="margin-left:auto;">
       <span style="color:rgba(232,228,220,0.22);">Solid = main chain &nbsp;·&nbsp; Dashed = direct path &nbsp;·&nbsp; Hover edges for detail &nbsp;·&nbsp; Click nodes for data</span>
     </div>
   </div>
@@ -874,6 +929,51 @@ footer {
       <svg id="diagram-svg" aria-hidden="true"></svg>
       <!-- Node divs — generated and positioned by JS -->
     </div>
+  </div>
+
+  <!-- Mobile static fallback — shown on screens ≤640px, hidden on desktop -->
+  <div id="diagram-static">
+    <span class="ds-label">The Extraction Chain — Text Summary</span>
+    <p class="ds-intro">BlackRock, Vanguard, and State Street own the companies that sponsor visa workers. Those companies produce labor cost savings that raise margins and share prices. Your retirement account funds both streams simultaneously — and absorbs the downstream wage suppression.</p>
+    <div class="ds-chains">
+      <div class="ds-col">
+        <span class="ds-col-head h1b">H-1B Stream — Blue</span>
+        <div class="ds-node">Big Three Asset Managers</div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">Tech Direct Sponsors<br><span style="color:rgba(232,228,220,0.35);">Amazon · Meta · Microsoft · Google</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">H-1B End-Client Companies<br><span style="color:rgba(232,228,220,0.35);">Citi · JPMorgan · Goldman · Verizon</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">Outsourcing / Staffing Firms<br><span style="color:rgba(232,228,220,0.35);">TCS · Cognizant · Infosys</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">H-1B Workers<br><span style="color:rgba(232,228,220,0.35);">~730,000 active</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">U.S. Tech Workers<br><span style="color:rgba(232,228,220,0.35);">Displaced · Wage-suppressed</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">American People<br><span style="color:rgba(232,228,220,0.35);">128M retirement holders</span></div>
+        <span class="ds-return">↑ Return loop: 401(k) → Big Three AUM</span>
+      </div>
+      <div class="ds-col">
+        <span class="ds-col-head h2c">H-2 Stream — Green</span>
+        <div class="ds-node">Big Three Asset Managers</div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">Large AG / Seasonal Operators<br><span style="color:rgba(232,228,220,0.35);">Dole · Taylor Farms · Grimmway</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">H-2B Direct Sponsors<br><span style="color:rgba(232,228,220,0.35);">ABC Tree · Landscape Workshop</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">H-2A End-User Farms<br><span style="color:rgba(232,228,220,0.35);">Ocean Mist · NCGA members</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">Farm Labor Contractors<br><span style="color:rgba(232,228,220,0.35);">NCGA · Foothill Packing · Wafla</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">H-2A + H-2B Workers<br><span style="color:rgba(232,228,220,0.35);">~567,000 combined</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">U.S. Farm / Seasonal Workers<br><span style="color:rgba(232,228,220,0.35);">Wage-suppressed · Rural hollowed</span></div>
+        <div class="ds-arrow">↓</div>
+        <div class="ds-node">American People<br><span style="color:rgba(232,228,220,0.35);">128M retirement holders</span></div>
+        <span class="ds-return">↑ Return loop: pension LP → PE → ag stock</span>
+      </div>
+    </div>
+    <span class="ds-wider">Rotate or widen screen for the full interactive diagram</span>
   </div>
 
 </div><!-- /#diagram -->
