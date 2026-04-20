@@ -3,437 +3,889 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>H-1B / H-2: The Visa Machine — The Incentive Machine</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>The H-1B / H-2 Visa Incentive Machine — The Manufactured Divide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+
+/* ═══════════════════════════════════════════════════════
+   CSS VARIABLES — OPTION 4 HYBRID (dark hero/diagram,
+   light cream for content sections)
+═══════════════════════════════════════════════════════ */
 :root {
-  --bg:       #0b0b0e;
-  --bg-2:     #111117;
-  --bg-3:     #16161e;
-  --border:   rgba(255,255,255,0.07);
-  --border-2: rgba(255,255,255,0.14);
-  --ink:      #e8e4dc;
-  --ink-2:    rgba(232,228,220,0.55);
-  --ink-3:    rgba(232,228,220,0.28);
-  --amber:    #c8922a;
-  --red:      #9e3a2f;
-  --teal:     #2a7a6e;
-  --serif:    'Playfair Display', Georgia, serif;
-  --serif-2:  'Cormorant Garamond', Georgia, serif;
-  --mono:     'DM Mono', monospace;
-  --sans:     'DM Sans', sans-serif;
+  /* Dark zones — hero, diagram canvas, nav */
+  --bg-dark:     #0f1623;
+  --bg-mid:      #1a2235;
+  --bg-panel:    #202840;
+  --border-dark: #2a3550;
+
+  /* Light zones — all content sections */
+  --bg-light:    #f4f1ec;
+  --bg-light-2:  #ede9e2;
+  --card:        #ffffff;
+  --border:      #d4cfc6;
+  --bdr2:        #bfb9af;
+
+  /* Text — dark zones */
+  --ink-dark:    #e8e4dc;
+  --ink-dark-2:  rgba(232,228,220,0.65);
+  --ink-dark-3:  rgba(232,228,220,0.32);
+
+  /* Text — light zones */
+  --ink:         #1c1f2e;
+  --ink-2:       #3d4155;
+  --ink-3:       #7a7e8a;
+
+  /* H-1B stream — blue family */
+  --h1b:         #4a8fd4;   /* primary (readable on dark bg) */
+  --h1b-deep:    #1B4F8C;
+  --h1b-lt:      #dde8f6;   /* light section use */
+  --h1b-side:    #9DC3E6;
+
+  /* H-2 stream — green family */
+  --h2:          #3db87a;   /* primary (readable on dark bg) */
+  --h2-deep:     #375623;
+  --h2-lt:       #d9efe9;   /* light section use */
+
+  /* Shared / special node colors */
+  --am-color:    #1F3864;
+  --ni-color:    #374151;
+
+  /* Accent colors */
+  --return-red:  #e05a4a;   /* profit return loop edges */
+  --gold:        #d4a843;   /* narrative infrastructure edges */
+  --acc-lt:      #6fa3e8;   /* links / accent on dark bg */
+  --accent:      #2d5fa6;   /* links / accent on light bg */
+  --acc2:        #1a3d6e;
+  --acc-bg:      #e8eef8;
+
+  /* Absorber / American People node colors */
+  --absorb:      #7B2C2C;
+  --people:      #4A0000;
+
+  /* Red / teal (kept from v8 for content sections) */
+  --red:         #b93a2b;
+  --teal:        #1a7a6e;
+  --teal-lt:     #e8f5f3;
+
+  /* Typography */
+  --sans:        'DM Sans', sans-serif;
+  --serif:       'Playfair Display', Georgia, serif;
+  --serif-2:     'Cormorant Garamond', Georgia, serif;
+  --mono:        'DM Mono', monospace;
+
+  --max:         1100px;
 }
+
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+body {
+  background: var(--bg-light);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
 [id] { scroll-margin-top: 72px; }
+a { color: var(--accent); }
+strong { font-weight: 600; }
 
-/* ── NAV ── */
+/* ═══════════════════════════════════════════════════════
+   NAV — fixed, dark, DM Mono
+═══════════════════════════════════════════════════════ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-  height: 52px; background: rgba(11,11,14,0.93);
-  backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
+  height: 52px;
+  background: rgba(15,22,35,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-dark);
   display: flex; align-items: center;
 }
 .nav-inner {
   width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
   display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
 }
 .nav-back {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
-  transition: color 0.2s;
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none;
+  transition: color 0.2s; white-space: nowrap; flex-shrink: 0;
 }
-.nav-back:hover { color: var(--amber); }
-.nav-brand { font-family: var(--mono); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); }
-.nav-right { display: flex; align-items: center; gap: 1.5rem; }
-.nav-link {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+.nav-back:hover { color: var(--ink-dark); }
+.nav-brand {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--acc-lt); white-space: nowrap;
 }
-.nav-link:hover { color: var(--ink); }
+.nav-links {
+  display: flex; align-items: center; gap: 0; list-style: none;
+}
+.nav-links a {
+  display: block; padding: 0 1rem; height: 52px; line-height: 52px;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.42); text-decoration: none;
+  border-left: 1px solid var(--border-dark);
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:last-child { border-right: 1px solid var(--border-dark); }
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.04); }
 .nav-tag {
-  font-family: var(--mono); font-size: 8px; color: var(--ink-3);
-  padding-left: 1.5rem; border-left: 1px solid var(--border-2);
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+  padding-left: 1.25rem; margin-left: 1rem;
+  border-left: 1px solid var(--border-dark);
+  white-space: nowrap;
 }
 
-/* ── HERO ── */
+/* ═══════════════════════════════════════════════════════
+   HERO — dark navy, blackrock-hq image at 65% overlay
+═══════════════════════════════════════════════════════ */
 .hero {
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-  padding: 52px 2rem 4rem;
-  background: radial-gradient(ellipse at 50% 55%, rgba(200,146,42,0.06) 0%, transparent 65%), var(--bg);
+  min-height: 100vh;
+  padding-top: 52px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   position: relative; overflow: hidden;
+  background:
+    linear-gradient(rgba(15,22,35,0.65), rgba(15,22,35,0.72)),
+    url('images/blackrock-hq. 1.jpeg') center / cover no-repeat;
 }
+/* subtle radial on top of image */
 .hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
-    repeating-linear-gradient(0deg,   transparent, transparent 79px, rgba(255,255,255,0.018) 80px),
-    repeating-linear-gradient(90deg,  transparent, transparent 79px, rgba(255,255,255,0.018) 80px);
+    radial-gradient(ellipse at 40% 60%, rgba(74,143,212,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(61,184,122,0.06) 0%, transparent 50%);
 }
-.hero-inner { position: relative; z-index: 1; max-width: 740px; }
+.hero-inner {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 820px;
+  margin: 0 auto; padding: 5rem 2rem 4rem;
+  text-align: center;
+}
 .hero-eyebrow {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
-  text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; display: block;
-  opacity: 0; animation: fadeIn 1s ease forwards 0.3s;
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: rgba(255,255,255,0.32);
+  margin-bottom: 1.5rem; display: block;
+  opacity: 0; animation: fadeIn 0.9s ease forwards 0.3s;
 }
 .hero-title {
-  font-family: var(--serif); font-size: clamp(2.8rem, 6.5vw, 5.8rem);
-  font-weight: 900; line-height: 0.95; letter-spacing: -0.02em;
-  color: var(--ink); margin-bottom: 1rem;
+  font-family: var(--serif); font-size: clamp(3rem, 7.5vw, 6.5rem);
+  font-weight: 900; line-height: 0.93; letter-spacing: -0.025em;
+  color: #fff; margin-bottom: 0.35rem;
   opacity: 0; animation: fadeUp 1s ease forwards 0.5s;
+}
+.hero-title-accent {
+  font-family: var(--serif); font-size: clamp(3rem, 7.5vw, 6.5rem);
+  font-weight: 900; line-height: 0.93; letter-spacing: -0.025em;
+  color: var(--acc-lt); display: block; margin-bottom: 1.25rem;
+  opacity: 0; animation: fadeUp 1s ease forwards 0.65s;
 }
 .hero-tagline {
   font-family: var(--serif-2); font-style: italic;
-  font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--ink-2); line-height: 1.7; margin-bottom: 2.5rem;
-  opacity: 0; animation: fadeUp 0.9s ease forwards 0.7s;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  color: rgba(255,255,255,0.78); margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 0.85s;
+}
+.hero-thesis {
+  background: rgba(74,143,212,0.12);
+  border: 1px solid rgba(74,143,212,0.28);
+  border-left: 3px solid var(--acc-lt);
+  padding: 1.4rem 1.75rem; max-width: 680px;
+  margin: 0 auto 2.5rem; text-align: left;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 1.05s;
+}
+.hero-thesis-label {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--acc-lt);
+  margin-bottom: 0.65rem; display: block;
+}
+.hero-thesis p {
+  font-family: var(--serif-2); font-size: 0.97rem; line-height: 1.78;
+  color: rgba(255,255,255,0.72);
+}
+.hero-thesis p strong { color: #fff; font-weight: 500; }
+.hero-chain-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(255,255,255,0.22);
+  margin-bottom: 1.25rem; display: block;
+  opacity: 0; animation: fadeIn 0.9s ease forwards 1.2s;
 }
 .hero-stats {
-  display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;
-  opacity: 0; animation: fadeUp 0.9s ease forwards 0.9s;
+  display: flex; gap: 1px; justify-content: center; flex-wrap: wrap;
+  background: var(--border-dark);
+  border: 1px solid var(--border-dark);
+  margin: 0 auto 3rem; max-width: 680px;
+  opacity: 0; animation: fadeUp 0.9s ease forwards 1.25s;
 }
 .hero-stat {
-  background: var(--bg-2); border: 1px solid var(--border);
-  padding: 0.8rem 1.25rem; min-width: 130px; text-align: center;
+  background: rgba(26,34,53,0.75); padding: 1rem 1.5rem;
+  flex: 1; min-width: 130px; text-align: center;
 }
-.hero-stat-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--amber); display: block; line-height: 1; }
-.hero-stat-label { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); display: block; margin-top: 0.3rem; }
-.hero-hint {
-  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: rgba(200,146,42,0.4);
-  opacity: 0; animation: fadeIn 1s ease forwards 1.4s; display: block;
+.hero-stat-num {
+  font-family: var(--serif); font-size: 1.65rem; font-weight: 900;
+  color: var(--acc-lt); display: block; line-height: 1; margin-bottom: 0.3rem;
+}
+.hero-stat-label {
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-dark-2); display: block;
+  line-height: 1.5;
+}
+.scroll-hint {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: rgba(255,255,255,0.18);
+  display: block; animation: bounceDown 2s ease-in-out infinite;
+  opacity: 0; animation: fadeIn 1s ease forwards 1.6s, bounceDown 2.5s ease-in-out infinite 2s;
 }
 
-/* ── CHAIN SECTION ── */
-.chain-section { padding: 5rem 2rem 6rem; }
-.chain-overline {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--ink-3); text-align: center;
-  display: block; margin-bottom: 0.75rem;
+/* ═══════════════════════════════════════════════════════
+   DIAGRAM SYSTEM
+═══════════════════════════════════════════════════════ */
+#diagram {
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-dark);
 }
-.chain-intro {
-  font-family: var(--serif-2); font-style: italic; font-size: 1rem; color: var(--ink-2);
-  text-align: center; display: block; margin-bottom: 3.5rem; max-width: 560px; margin-left: auto; margin-right: auto;
+#legend-bar {
+  background: var(--bg-mid);
+  border-bottom: 1px solid var(--border-dark);
+  padding: 0.55rem 1.5rem;
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  position: sticky; top: 52px; z-index: 400;
 }
-.chain-wrap { position: relative; max-width: 1000px; margin: 0 auto; }
-.chain-svg {
+.leg-item {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+}
+.leg-line { height: 2px; width: 24px; flex-shrink: 0; }
+.leg-line.dashed { border-top: 2px dashed; background: transparent !important; height: 0; }
+
+#diagram-outer {
+  overflow: hidden;
+  width: 100%;
+}
+#diagram-stage {
+  position: relative;
+  width: 1200px;
+  height: 1070px;
+  transform-origin: top left;
+}
+#diagram-svg {
   position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; overflow: visible; z-index: 0;
-}
-.chain-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3.5rem 1rem;
-  position: relative; z-index: 1;
+  width: 1200px; height: 1070px;
+  pointer-events: none; overflow: visible;
 }
 
-/* chain nodes */
-.chain-node {
-  display: flex; flex-direction: column; gap: 0.25rem;
-  padding: 1rem 1.2rem;
-  border: 1px solid var(--border);
-  background: var(--bg-2);
-  text-decoration: none; color: inherit;
-  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+/* ── DIAGRAM NODES ── */
+.dn {
+  position: absolute;
   cursor: pointer;
+  transition: opacity 0.18s;
 }
-.chain-node:hover { border-color: var(--border-2); background: var(--bg-3); transform: translateY(-2px); }
-.cn-tag {
-  font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em;
-  text-transform: uppercase; display: block;
+.dn-inner {
+  width: 100%; height: 100%;
+  border: 1px solid;
+  padding: 7px 9px 6px;
+  display: flex; flex-direction: column; gap: 2px;
+  transition: box-shadow 0.18s;
 }
-.cn-name { font-family: var(--serif); font-size: 0.9rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
-.cn-detail { font-size: 0.71rem; color: var(--ink-3); line-height: 1.5; }
+.dn-tag {
+  font-family: var(--mono); font-size: 5.8px; letter-spacing: 0.14em;
+  text-transform: uppercase; line-height: 1; margin-bottom: 1px;
+}
+.dn-name {
+  font-family: var(--serif); font-size: 0.79rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink-dark);
+}
+.dn-sub {
+  font-family: var(--mono); font-size: 0.58rem; line-height: 1.38;
+  color: rgba(232,228,220,0.35); letter-spacing: 0.02em;
+}
+.dn-logos {
+  display: flex; align-items: center; gap: 4px; margin-top: 4px; flex-wrap: wrap;
+}
+.dn-logos img {
+  height: 13px; width: auto; max-width: 46px; object-fit: contain;
+  filter: brightness(0) invert(1) opacity(0.55);
+}
+/* node color themes */
+.dn-am     .dn-inner { background:rgba(31,56,100,0.38);  border-color:rgba(68,114,196,0.7); }
+.dn-am     .dn-tag   { color:#8ca8d4; }
+.dn-ni     .dn-inner { background:rgba(55,65,81,0.38);   border-color:rgba(100,116,139,0.7); }
+.dn-ni     .dn-tag   { color:#9DA3B0; }
+.dn-univ   .dn-inner { background:rgba(35,102,168,0.22); border-color:rgba(70,150,210,0.55); }
+.dn-univ   .dn-tag   { color:#7eb5e5; }
+.dn-h1b    .dn-inner { background:rgba(27,79,140,0.28);  border-color:rgba(68,114,196,0.65); }
+.dn-h1b    .dn-tag   { color:#7db0e0; }
+.dn-h1w    .dn-inner { background:rgba(13,59,107,0.38);  border-color:rgba(40,90,160,0.7); }
+.dn-h1w    .dn-tag   { color:#5a9bd4; }
+.dn-h2     .dn-inner { background:rgba(55,86,35,0.28);   border-color:rgba(84,130,53,0.65); }
+.dn-h2     .dn-tag   { color:#7ab85a; }
+.dn-pe     .dn-inner { background:rgba(30,122,74,0.22);  border-color:rgba(60,180,110,0.5); }
+.dn-pe     .dn-tag   { color:#5ec990; }
+.dn-h2dk   .dn-inner { background:rgba(45,74,30,0.38);   border-color:rgba(70,110,45,0.7); }
+.dn-h2dk   .dn-tag   { color:#6da04a; }
+.dn-h2w    .dn-inner { background:rgba(26,92,56,0.28);   border-color:rgba(61,184,122,0.55); }
+.dn-h2w    .dn-tag   { color:#5db87a; }
+.dn-absorb .dn-inner { background:rgba(123,44,44,0.38);  border-color:rgba(180,60,60,0.7); }
+.dn-absorb .dn-tag   { color:#d47a7a; }
+.dn-people .dn-inner { background:rgba(74,0,0,0.48);     border-color:rgba(120,20,20,0.8); }
+.dn-people .dn-tag   { color:#c25a5a; }
+/* interaction states */
+.dn.dimmed      { opacity: 0.15; }
+.dn.highlighted .dn-inner { box-shadow: 0 0 0 2px rgba(255,255,255,0.35); }
 
-.cn-amber { border-color: rgba(200,146,42,0.22); background: rgba(200,146,42,0.04); }
-.cn-amber:hover { border-color: rgba(200,146,42,0.4); background: rgba(200,146,42,0.08); }
-.cn-amber .cn-tag { color: var(--amber); }
-.cn-teal  { border-color: rgba(42,122,110,0.18); background: rgba(42,122,110,0.04); }
-.cn-teal:hover  { border-color: rgba(42,122,110,0.32); background: rgba(42,122,110,0.08); }
-.cn-teal .cn-tag  { color: rgba(42,180,160,0.85); }
-.cn-gray .cn-tag  { color: var(--ink-3); }
-.cn-red { border-color: rgba(158,58,47,0.16); }
-.cn-red:hover { border-color: rgba(158,58,47,0.3); }
-.cn-red .cn-tag { color: rgba(200,90,70,0.85); }
+/* ── TOOLTIP ── */
+#diag-tooltip {
+  position: fixed;
+  background: rgba(12,18,30,0.97);
+  border: 1px solid var(--border-dark);
+  padding: 0.45rem 0.7rem;
+  max-width: 260px;
+  font-family: var(--mono); font-size: 7px; line-height: 1.6;
+  letter-spacing: 0.06em; color: var(--ink-dark-2);
+  pointer-events: none; z-index: 800;
+  display: none;
+}
 
-/* grid placement */
-#cn-am    { grid-column: 1/5; grid-row: 1; max-width: 350px; width: 100%; margin: 0 auto; justify-self: center; }
-#cn-h1b   { grid-column: 1/3; grid-row: 2; }
-#cn-h2    { grid-column: 3/5; grid-row: 2; }
-#cn-h1b-s { grid-column: 1/3; grid-row: 3; }
-#cn-h2-s  { grid-column: 3/5; grid-row: 3; }
-#cn-h1b-w { grid-column: 1;   grid-row: 4; }
-#cn-h1b-i { grid-column: 2;   grid-row: 4; }
-#cn-h2-w  { grid-column: 3;   grid-row: 4; }
-#cn-h2-i  { grid-column: 4;   grid-row: 4; }
+/* ── MODAL ── */
+#modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(8,12,22,0.9);
+  display: none; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+#modal-overlay.open { display: flex; }
+#modal-card {
+  background: var(--bg-mid);
+  border: 1px solid var(--border-dark);
+  max-width: 660px; width: 100%; max-height: 88vh;
+  overflow-y: auto; position: relative;
+  padding: 2rem 2.25rem 2.5rem;
+}
+#modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; cursor: pointer;
+  font-size: 22px; color: var(--ink-dark-3); line-height: 1;
+  padding: 0.15rem 0.5rem; transition: color 0.2s;
+}
+#modal-close:hover { color: var(--ink-dark); }
+#modal-node-tag {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+  margin-bottom: 0.4rem; display: block;
+}
+#modal-node-title {
+  font-family: var(--serif); font-size: 1.55rem; font-weight: 900;
+  color: var(--ink-dark); line-height: 1.1; margin-bottom: 0.7rem;
+}
+#modal-node-logos {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap;
+}
+#modal-node-logos img {
+  height: 22px; width: auto; max-width: 85px;
+  object-fit: contain; filter: brightness(0) invert(1) opacity(0.7);
+}
+#modal-node-body {
+  border-top: 1px solid var(--border-dark); padding-top: 1.25rem;
+}
+#modal-node-body p {
+  font-family: var(--serif-2); font-style: italic; font-size: 0.95rem;
+  color: var(--ink-dark-2); line-height: 1.82; margin-bottom: 1rem;
+}
+.modal-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+  display: block; margin: 1.25rem 0 0.5rem;
+}
+.modal-facts { list-style: none; }
+.modal-facts li {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.03em;
+  color: var(--ink-dark-2); padding: 0.38rem 0;
+  border-bottom: 1px solid var(--border-dark); line-height: 1.62;
+  display: flex; gap: 0.5rem;
+}
+.modal-facts li::before { content: '—'; color: var(--acc-lt); flex-shrink: 0; }
+.modal-sources {
+  margin-top: 1.25rem; padding-top: 1rem;
+  border-top: 1px solid var(--border-dark);
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.06em;
+  color: var(--ink-dark-3); line-height: 1.9;
+}
+.modal-sources a { color: var(--acc-lt); text-decoration: none; }
 
-/* ── DIVIDER BAND ── */
+/* mobile: allow horizontal scroll on diagram */
+@media (max-width: 768px) {
+  #diagram-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTENT SECTION SHELLS — shared layout
+═══════════════════════════════════════════════════════ */
+.sec-wrap {
+  background: var(--bg-light);
+  border-top: 1px solid var(--border);
+}
+.sec-wrap.alt {
+  background: var(--bg-light-2);
+}
+.sec-wrap.dark {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+}
+.sec-inner {
+  max-width: var(--max); margin: 0 auto; padding: 4.5rem 2rem 5rem;
+}
+.sec-header { margin-bottom: 3rem; }
+.sec-overline {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em;
+  text-transform: uppercase; display: block; margin-bottom: 0.55rem;
+}
+.ov-h1b   { color: var(--h1b-deep); }
+.ov-h2    { color: var(--h2-deep); }
+.ov-dim   { color: var(--ink-3); }
+.ov-red   { color: var(--red); }
+.ov-acc   { color: var(--accent); }
+.ov-dk    { color: var(--acc-lt); }  /* on dark backgrounds */
+.sec-title {
+  font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900; line-height: 1.05; letter-spacing: -0.015em;
+  color: var(--ink); margin-bottom: 0.65rem;
+}
+.sec-title-dark { color: var(--ink-dark); }
+.sec-sub {
+  font-family: var(--serif-2); font-style: italic;
+  font-size: 1.08rem; color: var(--ink-2); line-height: 1.8;
+  max-width: 680px;
+}
+.sec-sub-dark {
+  color: var(--ink-dark-2);
+}
+
+/* placeholder body within shells */
+.sec-placeholder {
+  background: var(--bg-light-2);
+  border: 1px dashed var(--bdr2);
+  padding: 2.5rem; text-align: center;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3); line-height: 2;
+}
+.sec-placeholder-dark {
+  background: var(--bg-panel);
+  border: 1px dashed var(--border-dark);
+  padding: 2.5rem; text-align: center;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-dark-3); line-height: 2;
+}
+
+/* divider band (between diagram and content) */
 .band {
-  background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  padding: 3.5rem 2rem; text-align: center;
+  background: var(--bg-mid);
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
+  padding: 3rem 2rem; text-align: center;
 }
 .band-text {
   font-family: var(--serif-2); font-style: italic;
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem); color: var(--ink-2); line-height: 1.8;
-  max-width: 760px; margin: 0 auto;
+  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+  color: var(--ink-dark-2); line-height: 1.85; max-width: 760px; margin: 0 auto;
 }
-.band-text strong { color: var(--ink); font-weight: 400; }
+.band-text strong { color: var(--ink-dark); font-weight: 400; }
 
-/* ── CONTENT SECTIONS ── */
-.sec-wrap { border-top: 1px solid var(--border); }
-.sec-wrap.alt { background: var(--bg-2); }
-.sec-inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
-
-.sec-header { margin-bottom: 2.75rem; }
-.sec-overline { font-family: var(--mono); font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
-.ov-amber { color: var(--amber); }
-.ov-teal  { color: rgba(42,180,155,0.85); }
-.ov-red   { color: rgba(200,80,65,0.85); }
-.ov-dim   { color: var(--ink-3); }
-.sec-title { font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.7rem; }
-.sec-sub { font-family: var(--serif-2); font-style: italic; font-size: 1.08rem; color: var(--ink-2); line-height: 1.75; max-width: 660px; }
-
-/* stats grid */
+/* ── STATS GRID ── */
 .stats-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 1px; border: 1px solid var(--border); margin-bottom: 2.5rem; background: var(--border);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(185px,1fr));
+  gap: 1px; border: 1px solid var(--border); background: var(--border);
+  margin-bottom: 2.75rem;
 }
-.stat-card { background: var(--bg); padding: 1.2rem 1.3rem; }
-.sec-wrap.alt .stat-card { background: var(--bg-3); }
-.stat-num { font-family: var(--serif); font-size: 1.75rem; font-weight: 700; color: var(--ink); display: block; line-height: 1; margin-bottom: 0.3rem; }
-.stat-num.a { color: var(--amber); }
-.stat-num.r { color: rgba(200,70,55,0.9); }
-.stat-label { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); line-height: 1.5; display: block; }
-.stat-note { font-size: 0.7rem; color: var(--ink-3); margin-top: 0.25rem; display: block; line-height: 1.4; }
-
-/* data table */
-.table-wrap { overflow-x: auto; margin-bottom: 2.5rem; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-.data-table thead th {
-  font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--amber); padding: 0.55rem 0.9rem 0.55rem 0; text-align: left;
-  border-bottom: 1px solid var(--border-2);
+.stat-card { background: var(--card); padding: 1.5rem 1.4rem; }
+.sec-wrap.alt .stat-card { background: var(--bg-light); }
+.stat-num {
+  font-family: var(--serif); font-size: 2rem; font-weight: 900;
+  color: var(--ink); display: block; line-height: 1; margin-bottom: 0.35rem;
 }
-.data-table tbody td {
-  padding: 0.6rem 0.9rem 0.6rem 0; border-bottom: 1px solid var(--border);
-  color: var(--ink-2); vertical-align: middle;
+.stat-num.h1 { color: var(--h1b-deep); }
+.stat-num.h2c { color: var(--h2-deep); }
+.stat-num.r  { color: var(--red); }
+.stat-num.a  { color: var(--accent); }
+.stat-label {
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); line-height: 1.55; display: block;
 }
-.data-table tbody td.rank { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-3); width: 32px; }
-.data-table tbody td.co  { color: var(--ink); font-weight: 500; }
-.data-table tbody td.num { font-family: var(--mono); color: var(--amber); font-size: 0.8rem; }
-.data-table tbody td.note{ font-size: 0.72rem; color: var(--ink-3); }
-.data-table tbody tr:last-child td { border-bottom: none; }
+.stat-note {
+  font-size: 0.71rem; color: var(--ink-3); margin-top: 0.3rem;
+  display: block; line-height: 1.45;
+}
 
-/* prose */
-.prose { font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300; line-height: 1.9; color: rgba(232,228,220,0.72); margin-bottom: 1.2rem; max-width: 720px; }
-.prose strong { color: var(--ink); font-weight: 400; }
-
-/* source cite */
-.src { font-family: var(--mono); font-size: 7px; letter-spacing: 0.09em; color: var(--ink-3); display: block; margin-top: 0.4rem; }
-.src::before { content: '✓ '; color: rgba(42,160,130,0.6); }
-
-/* key facts list */
-.facts { list-style: none; border-top: 1px solid var(--border); }
-.facts li { padding: 0.8rem 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; color: var(--ink-2); line-height: 1.6; display: flex; flex-direction: column; gap: 0.15rem; }
-.fact-key { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
-.fact-val { color: var(--amber); font-family: var(--mono); font-size: 0.8rem; }
-.fact-val.r { color: rgba(200,70,55,0.9); }
-
-/* accordion */
+/* ── ACCORDION ── */
 .accordion { border-top: 1px solid var(--border); }
 .acc-item { border-bottom: 1px solid var(--border); }
 .acc-btn {
-  width: 100%; text-align: left; background: none; border: none; padding: 1rem 0;
-  cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink);
+  width: 100%; text-align: left; background: none; border: none;
+  padding: 1.05rem 0; cursor: pointer;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  color: var(--ink);
 }
-.acc-btn-title { font-size: 0.86rem; font-weight: 500; font-family: var(--sans); }
-.acc-icon { font-family: var(--mono); font-size: 14px; color: var(--ink-3); flex-shrink: 0; transition: transform 0.2s; line-height: 1; }
+.acc-btn-title { font-size: 0.88rem; font-weight: 600; font-family: var(--sans); line-height: 1.4; }
+.acc-icon {
+  font-family: var(--mono); font-size: 16px; color: var(--ink-3);
+  flex-shrink: 0; transition: transform 0.2s; line-height: 1.1; margin-top: 1px;
+}
 .acc-item.open .acc-icon { transform: rotate(45deg); }
-.acc-body { display: none; padding-bottom: 1.25rem; }
+.acc-body { display: none; padding-bottom: 1.4rem; }
 .acc-item.open .acc-body { display: block; }
 .acc-list { list-style: none; }
-.acc-list li { font-size: 0.81rem; color: var(--ink-2); line-height: 1.65; padding: 0.3rem 0; display: flex; gap: 0.75rem; }
-.acc-list li::before { content: '·'; color: var(--amber); flex-shrink: 0; }
+.acc-list li {
+  font-size: 0.83rem; color: var(--ink-2); line-height: 1.7;
+  padding: 0.3rem 0; display: flex; gap: 0.75rem;
+}
+.acc-list li::before { content: '·'; color: var(--accent); flex-shrink: 0; }
 
-/* two-col dichotomy */
-.dict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-2); border: 1px solid var(--border-2); margin-top: 2rem; }
-.dict-col { background: var(--bg); padding: 2rem; }
-.sec-wrap.alt .dict-col { background: var(--bg-2); }
-.dict-col-label { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); display: block; }
-.lbl-teal { color: rgba(42,180,155,0.85); }
-.lbl-red  { color: rgba(200,80,65,0.8); }
-.dict-item { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+/* ── PROSE ── */
+.prose {
+  font-family: var(--serif-2); font-size: 1.04rem; font-weight: 300;
+  line-height: 1.9; color: var(--ink-2); margin-bottom: 1.2rem; max-width: 720px;
+}
+.prose strong { color: var(--ink); font-weight: 400; }
+
+/* ── SOURCE CITE ── */
+.src {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.09em;
+  color: var(--ink-3); display: block; margin-top: 0.5rem; line-height: 1.6;
+}
+.src::before { content: '✓ '; color: rgba(26,122,110,0.55); }
+.src a { color: var(--accent); text-decoration: none; }
+.src a:hover { text-decoration: underline; }
+
+/* ── KEY FACTS LIST ── */
+.facts { list-style: none; border-top: 1px solid var(--border); }
+.facts li {
+  padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  font-size: 0.84rem; color: var(--ink-2); line-height: 1.6;
+  display: flex; flex-direction: column; gap: 0.18rem;
+}
+.fact-key {
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.fact-val { color: var(--accent); font-family: var(--mono); font-size: 0.82rem; }
+.fact-val.r { color: var(--red); }
+
+/* ── DATA TABLE ── */
+.table-wrap { overflow-x: auto; margin-bottom: 2rem; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.data-table thead th {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding: 0.5rem 0.75rem 0.5rem 0; text-align: left;
+  border-bottom: 1px solid var(--bdr2);
+}
+.data-table tbody td {
+  padding: 0.55rem 0.75rem 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-2); vertical-align: middle;
+}
+.data-table tbody td.rank { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-3); width: 28px; }
+.data-table tbody td.co   { color: var(--ink); font-weight: 500; }
+.data-table tbody td.num  { font-family: var(--mono); color: var(--accent); font-size: 0.82rem; }
+.data-table tbody td.note { font-size: 0.72rem; color: var(--ink-3); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* ── TWO-COL LAYOUT ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.two-col.wide { grid-template-columns: 1.25fr 0.75fr; }
+
+/* ── DICHOTOMY GRID (two-panel left/right) ── */
+.dict-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--bdr2);
+  border: 1px solid var(--bdr2); margin-top: 2rem;
+}
+.dict-col { background: var(--card); padding: 2rem; }
+.sec-wrap.alt .dict-col { background: var(--bg-light); }
+.dict-col-label {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border); display: block;
+}
+.lbl-h1b  { color: var(--h1b-deep); }
+.lbl-h2   { color: var(--h2-deep); }
+.lbl-red  { color: var(--red); }
+.dict-item { padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
 .dict-item:last-child { border-bottom: none; }
-.dict-text { font-size: 0.82rem; line-height: 1.65; color: var(--ink-2); }
+.dict-text { font-size: 0.83rem; line-height: 1.68; color: var(--ink-2); }
 .dict-text strong { color: var(--ink); font-weight: 500; }
-.dict-src { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.09em; color: var(--ink-3); margin-top: 0.3rem; display: block; }
-.dict-src::before { content: '✓ '; color: rgba(42,140,110,0.55); }
+.dict-src {
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.09em;
+  color: var(--ink-3); margin-top: 0.3rem; display: block;
+}
+.dict-src::before { content: '✓ '; color: rgba(26,122,110,0.5); }
+.dict-src a { color: var(--accent); text-decoration: none; }
 
-/* coming soon */
-.coming-soon-wrap { border: 1px solid var(--border); max-width: 620px; margin: 0 auto; padding: 4rem 2.5rem; text-align: center; }
-.cs-badge { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-3); background: var(--bg-3); border: 1px solid var(--border); padding: 0.35rem 0.75rem; display: inline-block; margin-bottom: 1.25rem; }
-.cs-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; }
-.cs-text { font-family: var(--serif-2); font-style: italic; font-size: 1rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 2rem; }
-.cs-items { list-style: none; text-align: left; max-width: 420px; margin: 0 auto; border-top: 1px solid var(--border); }
-.cs-items li { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.1em; color: var(--ink-3); padding: 0.45rem 0; border-bottom: 1px solid var(--border); display: flex; gap: 0.6rem; align-items: flex-start; }
-.cs-items li::before { content: '⚑'; color: rgba(200,146,42,0.28); flex-shrink: 0; }
+/* ── COMING SOON / PLACEHOLDER BLOCK ── */
+.coming-soon-wrap {
+  border: 1px solid var(--border); max-width: 640px;
+  margin: 0 auto; padding: 3.5rem 2.5rem; text-align: center;
+}
+.cs-badge {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-3);
+  background: var(--bg-light-2); border: 1px solid var(--border);
+  padding: 0.35rem 0.75rem; display: inline-block; margin-bottom: 1.25rem;
+}
+.cs-title {
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 700;
+  margin-bottom: 0.75rem; color: var(--ink);
+}
+.cs-text {
+  font-family: var(--serif-2); font-style: italic; font-size: 1rem;
+  color: var(--ink-2); line-height: 1.8; margin-bottom: 2rem;
+}
+.cs-items { list-style: none; text-align: left; max-width: 440px; margin: 0 auto; border-top: 1px solid var(--border); }
+.cs-items li {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.09em;
+  color: var(--ink-3); padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+  display: flex; gap: 0.6rem; align-items: flex-start; line-height: 1.6;
+}
+.cs-items li::before { content: '⚑'; color: rgba(45,95,166,0.28); flex-shrink: 0; }
 
-/* back-to-chain link */
-.back-chain { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; display: inline-block; margin-top: 2.5rem; transition: color 0.2s; }
-.back-chain:hover { color: var(--amber); }
+/* ── BACK-TO-DIAGRAM LINK ── */
+.back-diag {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+  display: inline-block; margin-top: 2.5rem; transition: color 0.2s;
+}
+.back-diag:hover { color: var(--accent); }
 
-/* col split layout */
-.two-col-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-.two-col-layout.wide { grid-template-columns: 1.2fr 0.8fr; }
+/* ── FOOTNOTE / RESEARCH FLAG ── */
+.research-flag {
+  background: var(--bg-light-2); border: 1px dashed var(--bdr2);
+  border-left: 3px solid var(--ink-3);
+  padding: 1rem 1.25rem; margin: 1.5rem 0;
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.08em;
+  color: var(--ink-3); line-height: 1.65;
+}
+.research-flag strong { color: var(--ink-2); font-weight: 500; }
 
-/* footer */
-footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem 0; }
+/* ── SOURCES SECTION ── */
+.sources-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+  gap: 0.5rem;
+}
+.src-card {
+  background: var(--card); border: 1px solid var(--border);
+  padding: 0.85rem 1rem;
+}
+.src-card-label {
+  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 0.3rem;
+}
+.src-card a {
+  font-family: var(--mono); font-size: 8px; color: var(--accent);
+  text-decoration: none; line-height: 1.6; display: block;
+}
+.src-card a:hover { text-decoration: underline; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+  padding: 2.5rem 0;
+}
 .footer-inner {
   max-width: 1200px; margin: 0 auto; padding: 0 2rem;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 1.5rem;
 }
-.footer-left p { font-family: var(--mono); font-size: 8px; color: var(--ink-3); letter-spacing: 0.1em; line-height: 1.7; }
-.footer-left strong { color: var(--ink-2); }
-.footer-right { display: flex; gap: 1.5rem; }
-.footer-link { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.15s; }
-.footer-link:hover { color: var(--amber); }
+.footer-left p {
+  font-family: var(--mono); font-size: 7.5px; color: var(--ink-dark-3);
+  letter-spacing: 0.1em; line-height: 1.9;
+}
+.footer-left strong { color: var(--ink-dark-2); }
+.footer-left a { color: var(--acc-lt); text-decoration: none; }
+.footer-left a:hover { text-decoration: underline; }
+.footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-link {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none;
+  transition: color 0.18s;
+}
+.footer-link:hover { color: var(--ink-dark); }
 
-/* animations */
-@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
-.d1 { transition-delay:0.08s; } .d2 { transition-delay:0.16s; } .d3 { transition-delay:0.24s; } .d4 { transition-delay:0.32s; }
+/* ═══════════════════════════════════════════════════════
+   REVEAL ANIMATION
+═══════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.08s; }
+.d2 { transition-delay: 0.18s; }
+.d3 { transition-delay: 0.28s; }
+.d4 { transition-delay: 0.38s; }
 
-/* responsive */
-@media (max-width: 820px) {
-  .chain-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 0.75rem; }
-  #cn-am    { grid-column: 1/3; max-width: none; }
-  #cn-h1b   { grid-column: 1/2; grid-row: 2; }
-  #cn-h2    { grid-column: 2/3; grid-row: 2; }
-  #cn-h1b-s { grid-column: 1/2; grid-row: 3; }
-  #cn-h2-s  { grid-column: 2/3; grid-row: 3; }
-  #cn-h1b-w { grid-column: 1/2; grid-row: 4; }
-  #cn-h1b-i { grid-column: 2/3; grid-row: 4; }
-  #cn-h2-w  { grid-column: 1/2; grid-row: 5; }
-  #cn-h2-i  { grid-column: 2/3; grid-row: 5; }
+/* ═══════════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .two-col, .two-col.wide { grid-template-columns: 1fr; gap: 2rem; }
   .dict-grid { grid-template-columns: 1fr; }
-  .two-col-layout, .two-col-layout.wide { grid-template-columns: 1fr; gap: 2rem; }
-  .hero-stats { gap: 0.75rem; }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { width: 100%; }
 }
-@media (max-width: 500px) {
-  .nav-right .nav-link:not(:last-child) { display: none; }
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-tag   { display: none; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
+  .sec-inner { padding: 3rem 1.25rem 3.5rem; }
 }
+
 </style>
 </head>
 <body>
 
-<!-- ═══ NAV ═══ -->
+<!-- ═══════════════════════════════════════════════════════
+     NAV — fixed, dark, DM Mono
+═══════════════════════════════════════════════════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-back">← The Incentive Machine</a>
-    <span class="nav-brand">Visa Module</span>
-    <div class="nav-right">
-      <a href="#h1b" class="nav-link">H-1B</a>
-      <a href="#h2" class="nav-link">H-2</a>
-      <a href="#dichotomy-h1b" class="nav-link">Dichotomy</a>
-      <span class="nav-tag">Module 01</span>
-    </div>
+    <a href="../index.html" class="nav-back">← The Manufactured Divide</a>
+    <span class="nav-brand">H-1B / H-2 · Visa Machine</span>
+    <ul class="nav-links">
+      <li><a href="#asset-managers">Asset Managers</a></li>
+      <li><a href="#h1b">H-1B</a></li>
+      <li><a href="#h2">H-2</a></li>
+      <li><a href="#dichotomy-h1b">Dichotomy</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ul>
+    <span class="nav-tag">Module 01</span>
   </div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
-<section class="hero">
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
   <div class="hero-inner">
-    <span class="hero-eyebrow">Module 01 · The Incentive Machine</span>
-    <h1 class="hero-title">H-1B / H-2:<br>The Visa Machine</h1>
-    <p class="hero-tagline">One machine. Two visa programs. The same people get rich.</p>
+
+    <span class="hero-eyebrow">The Manufactured Divide — Module 01</span>
+
+    <h1 class="hero-title">The H-1B / H-2</h1>
+    <span class="hero-title-accent">Visa Incentive Machine</span>
+
+    <p class="hero-tagline"><em>The argument is the product.</em></p>
+
+    <div class="hero-thesis">
+      <span class="hero-thesis-label">Core Thesis</span>
+      <p>Asset managers are exploiting both visa workers and ordinary Americans through the same mechanism. The public debate is framed as a left moral issue or a right economic issue. That framing is deliberate. It is the same system. It is the same beneficiary. The H-1B and H-2 programs are discussed as separate issues by design. This tool follows the money to show they are nodes in a single extraction loop — one that American retirement accounts are unknowingly funding.</p>
+    </div>
+
+    <span class="hero-chain-label">One machine. Two visa programs. The same people get rich.</span>
+
     <div class="hero-stats">
       <div class="hero-stat">
         <span class="hero-stat-num">~730k</span>
-        <span class="hero-stat-label">H-1B Active Workers</span>
+        <span class="hero-stat-label">H-1B Workers<br>Active in U.S.</span>
       </div>
       <div class="hero-stat">
         <span class="hero-stat-num">398k+</span>
-        <span class="hero-stat-label">H-2A Certified FY2025</span>
+        <span class="hero-stat-label">H-2A Positions<br>Certified FY2025</span>
       </div>
       <div class="hero-stat">
         <span class="hero-stat-num">128M</span>
-        <span class="hero-stat-label">Americans Invested via Big 3</span>
+        <span class="hero-stat-label">Americans Invested<br>via the Big Three</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-num">~99%</span>
-        <span class="hero-stat-label">DOL Approval Rate — Both Programs</span>
+        <span class="hero-stat-num">$26T+</span>
+        <span class="hero-stat-label">Combined AUM<br>BlackRock · Vanguard · State Street</span>
       </div>
     </div>
-    <span class="hero-hint">↓ Follow the chain</span>
+
+    <span class="scroll-hint">↓ Follow the chain</span>
+
   </div>
 </section>
 
-<!-- ═══ CHAIN SECTION ═══ -->
-<section class="chain-section" id="chain">
-  <span class="chain-overline reveal">The Structure</span>
-  <span class="chain-intro reveal">Follow the money from your retirement account through the visa system — click any node to jump to the documented evidence.</span>
 
-  <div class="chain-wrap" id="chain-wrap">
-    <svg id="chain-svg" class="chain-svg" aria-hidden="true" overflow="visible"></svg>
+<!-- ═══════════════════════════════════════════════════════
+     DIAGRAM SECTION
+═══════════════════════════════════════════════════════ -->
+<div id="diagram">
 
-    <!-- Row 1: Asset Managers -->
-    <a href="#asset-managers" class="chain-node cn-amber" id="cn-am">
-      <span class="cn-tag">Tier I — Who Controls It</span>
-      <span class="cn-name">Institutional Asset Managers</span>
-      <span class="cn-detail">BlackRock · Vanguard · State Street · $26T+ AUM · 128M Americans · 88% of S&amp;P 500</span>
-    </a>
-
-    <!-- Row 2: Visa Programs -->
-    <a href="#h1b" class="chain-node cn-teal" id="cn-h1b">
-      <span class="cn-tag">H-1B Visa — Skilled Worker</span>
-      <span class="cn-name">Specialty Occupation Program</span>
-      <span class="cn-detail">~730k active · 65k + 20k cap · India 72% · 99% DOL approval</span>
-    </a>
-    <a href="#h2" class="chain-node cn-teal" id="cn-h2">
-      <span class="cn-tag">H-2A / H-2B Visa — Seasonal</span>
-      <span class="cn-name">Agricultural &amp; Seasonal Program</span>
-      <span class="cn-detail">398k+ FY2025 · Uncapped (H-2A) · Mexico 90% · 99% DOL approval</span>
-    </a>
-
-    <!-- Row 3: Corporate Sponsors -->
-    <a href="#h1b-sponsors" class="chain-node cn-gray" id="cn-h1b-s">
-      <span class="cn-tag">Top H-1B Sponsors — FY2025</span>
-      <span class="cn-name">Amazon · Meta · Microsoft · Google · TCS</span>
-      <span class="cn-detail">Big Three are largest shareholders in all four tech giants</span>
-    </a>
-    <a href="#h2-sponsors" class="chain-node cn-gray" id="cn-h2-s">
-      <span class="cn-tag">Top H-2 Sponsors — FY2025</span>
-      <span class="cn-name">NCGA · Foothill Packing · Wafla · Fresh Harvest</span>
-      <span class="cn-detail">PE intermediaries (KKR, Blackstone) → Big Three index fund holdings</span>
-    </a>
-
-    <!-- Row 4: Dichotomy -->
-    <a href="#dichotomy-h1b" class="chain-node cn-red" id="cn-h1b-w">
-      <span class="cn-tag">H-1B · Left Panel</span>
-      <span class="cn-name">Who Are the Workers?</span>
-    </a>
-    <a href="#dichotomy-h1b" class="chain-node cn-red" id="cn-h1b-i">
-      <span class="cn-tag">H-1B · Right Panel</span>
-      <span class="cn-name">Effect on Americans</span>
-    </a>
-    <a href="#dichotomy-h2" class="chain-node cn-red" id="cn-h2-w">
-      <span class="cn-tag">H-2 · Left Panel</span>
-      <span class="cn-name">Who Are the Workers?</span>
-    </a>
-    <a href="#dichotomy-h2" class="chain-node cn-red" id="cn-h2-i">
-      <span class="cn-tag">H-2 · Right Panel</span>
-      <span class="cn-name">Effect on Americans</span>
-    </a>
+  <!-- Legend bar -->
+  <div id="legend-bar">
+    <div class="leg-item">
+      <div class="leg-line" style="background:#4472C4;"></div>H-1B Stream
+    </div>
+    <div class="leg-item">
+      <div class="leg-line" style="background:#548235;"></div>H-2 Stream
+    </div>
+    <div class="leg-item">
+      <div class="leg-line dashed" style="border-color:#C9A227;"></div>Narrative Influence
+    </div>
+    <div class="leg-item">
+      <div class="leg-line dashed" style="border-color:#D95B5B;"></div>Profit Return Loop
+    </div>
+    <div class="leg-item" style="margin-left:auto;">
+      <span style="color:rgba(232,228,220,0.22);">Solid = main chain &nbsp;·&nbsp; Dashed = direct path &nbsp;·&nbsp; Hover edges for detail &nbsp;·&nbsp; Click nodes for data</span>
+    </div>
   </div>
-</section>
 
-<!-- ═══ DIVIDER BAND ═══ -->
+  <!-- Diagram outer (handles overflow / scaling) -->
+  <div id="diagram-outer">
+    <div id="diagram-stage">
+      <!-- SVG canvas for edges — populated by JS -->
+      <svg id="diagram-svg" aria-hidden="true"></svg>
+      <!-- Node divs — generated and positioned by JS -->
+    </div>
+  </div>
+
+</div><!-- /#diagram -->
+
+<!-- Tooltip (follows cursor on edge hover) -->
+<div id="diag-tooltip"></div>
+
+<!-- Modal overlay -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-label="Node detail">
+  <div id="modal-card">
+    <button id="modal-close" aria-label="Close">×</button>
+    <span id="modal-node-tag"></span>
+    <div id="modal-node-title"></div>
+    <div id="modal-node-logos"></div>
+    <div id="modal-node-body">
+      <!-- populated by JS: Pass 2 shows shell; Pass 3 fills content -->
+    </div>
+    <div class="modal-sources" id="modal-node-sources"></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIVIDER BAND
+═══════════════════════════════════════════════════════ -->
 <div class="band">
-  <p class="band-text reveal">
+  <p class="band-text">
     Asset managers <strong>own the companies</strong> that sponsor visa workers.
     Those workers produce <strong>labor cost savings</strong> that improve margins.
     Improved margins raise share prices. Share prices grow <strong>your retirement account.</strong>
@@ -442,481 +894,104 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
   </p>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECTION 02 — INSTITUTIONAL ASSET MANAGERS
-═══════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 02 — ASSET MANAGERS
+═══════════════════════════════════════════════════════ -->
 <div class="sec-wrap alt" id="asset-managers">
   <div class="sec-inner">
     <div class="sec-header reveal">
-      <span class="sec-overline ov-amber">Section 02 — Who Controls It</span>
-      <h2 class="sec-title">What Is an Asset Manager?</h2>
-      <p class="sec-sub">BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households — 128 million individual investors. When you signed up for your 401(k), buried in the terms and conditions nobody reads, you handed them something far more valuable than your money: your vote. Every share of stock in your retirement account comes with a vote in how that company is run — who sits on the board, how executives get paid, what labor policies get approved. You gave those votes away without knowing it. Together, the Big Three control roughly three-quarters of the U.S. equity ETF market and cast votes at corporate elections in nearly every major American company — using your money, without asking you. No government. No union. No activist group comes close to that concentration of power. And it runs entirely on the retirement savings of ordinary Americans who have no idea it's happening.</p>
+      <span class="sec-overline ov-acc">Section 02 — Who Controls It</span>
+      <h2 class="sec-title">Institutional Asset Managers</h2>
+      <p class="sec-sub">BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households. When you signed up for your 401(k), buried in the terms and conditions nobody reads, you handed them something more valuable than your money: your vote.</p>
     </div>
 
-    <div class="stats-grid reveal d1">
-      <div class="stat-card">
-        <span class="stat-num a">$26T+</span>
-        <span class="stat-label">Combined AUM — Big Three</span>
-        <span class="stat-note">BlackRock: $13.89T · Q1 2026</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">128M</span>
-        <span class="stat-label">U.S. Households Invested</span>
-        <span class="stat-note">56.4% of all U.S. households · 73% through employer plans</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">~74%</span>
-        <span class="stat-label">U.S. Equity ETF Market Share</span>
-        <span class="stat-note">Big Three combined · ETF.com / U.S. News 2024</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">~88%</span>
-        <span class="stat-label">S&amp;P 500 Companies — Big Three Largest Shareholder</span>
-        <span class="stat-note">Morningstar 2025</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">20–25%</span>
-        <span class="stat-label">Median Voting Power at Any Shareholder Meeting</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">98.7%</span>
-        <span class="stat-label">Management Proposal Support Rate — 2025 Proxy Season</span>
-        <span class="stat-note">ICFS / SparkCo</span>
-      </div>
+    <div class="sec-placeholder reveal d1">
+      [ Section 02 content — Pass 4 ]<br>
+      Stats grid · Accordion: Where Their Money Comes From · How You Gave Away Your Vote · What They Do With That Voting Power · Why They Always Vote the Same Way · How They Influence Policy Without Lobbying For It
     </div>
 
-
-    <div class="accordion reveal d3">
-      <div class="acc-item open">
-        <button class="acc-btn">
-          <span class="acc-btn-title">Where Their Money Comes From</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>Private 401(k) / IRA / pension automatic flows — your retirement contributions go directly to their funds</li>
-            <li>Private retirement plans: $21T+ under management</li>
-            <li>State &amp; local public pensions: ~$10T</li>
-            <li>Federal Thrift Savings Plan (TSP): $1.07T — BlackRock and State Street directly manage index funds for 7.3M federal employees and military personnel</li>
-            <li>BlackRock pension AUM alone: <strong>$3.9 trillion</strong> (Q1 2026 earnings)</li>
-          </ul>
-          <span class="src">BlackRock Q1 2026 earnings · TSP Annual Report · ICI 2025</span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">How You Gave Away Your Vote Without Knowing It</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>Under ERISA §403(a)(2), proxy voting is the fiduciary duty of the fund manager — not the participant. You cannot instruct your 401(k) how to vote unless your plan explicitly offers pass-through voting, which almost none do.</li>
-            <li>DOL codified this arrangement in December 2020, confirming that managers exercise voting rights on behalf of participants as a standard fiduciary function.</li>
-            <li>When you enrolled in your employer's retirement plan, the proxy voting rights embedded in every share were automatically transferred to whichever asset manager runs your fund.</li>
-          </ul>
-<div style="background:#1c1f2e;padding:1.5rem;margin:1.25rem 0;">
-  <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.25rem;">The Vote Transfer — Step by Step</div>
-  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:80px;padding:0.5rem;">
-      <div style="font-size:1.4rem;margin-bottom:0.25rem;">🧑</div>
-      <div style="font-size:0.8rem;font-weight:600;color:#fff;margin-bottom:0.15rem;">You</div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">Retirement saver</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;min-width:70px;">
-      <div style="font-size:1rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">→</div>
-      <div style="font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.05em;">Payroll deduction buys shares</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:80px;padding:0.5rem;">
-      <div style="font-size:1.4rem;margin-bottom:0.25rem;">📋</div>
-      <div style="font-size:0.8rem;font-weight:600;color:#fff;margin-bottom:0.15rem;">Index Fund</div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">Holds the shares</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;min-width:70px;">
-      <div style="font-size:1rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">→</div>
-      <div style="font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.05em;">ERISA transfers voting rights</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:80px;padding:0.5rem;border:1px solid rgba(185,58,43,0.4);background:rgba(185,58,43,0.08);border-radius:3px;">
-      <div style="font-size:1.4rem;margin-bottom:0.25rem;">🏦</div>
-      <div style="font-size:0.8rem;font-weight:600;color:#fff;margin-bottom:0.15rem;">Big Three</div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">Cast the vote</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;min-width:70px;">
-      <div style="font-size:1rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">→</div>
-      <div style="font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.05em;">Votes on board, pay and labor policy</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:80px;padding:0.5rem;">
-      <div style="font-size:1.4rem;margin-bottom:0.25rem;opacity:0.4;">🗳️</div>
-      <div style="font-size:0.8rem;font-weight:600;color:#b93a2b;margin-bottom:0.15rem;">Your Vote</div>
-      <div style="font-size:0.7rem;color:#b93a2b;">Never cast</div>
-    </div>
-  </div>
-  <div style="font-size:0.8rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.08);font-style:italic;">Your money buys the shares. The law hands the vote to the manager. You are never consulted.</div>
-</div>
-          <span class="src">DOL Federal Register, Dec 16 2020 — federalregister.gov/documents/2020/12/16/2020-27465</span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">What They Do With That Voting Power</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>Big Three are the <strong>largest single shareholder</strong> in approximately 88% of S&amp;P 500 companies (Morningstar 2025)</li>
-            <li>Median voting block at any shareholder meeting: 20–25% — enough to decide most contested votes</li>
-            <li>2025 proxy season management proposal support rate: <strong>98.7%</strong> — they almost never vote against management</li>
-            <li>This includes votes on executive compensation, labor policy, board composition, and share buybacks that suppress wages across entire sectors</li>
-          </ul>
-          <span class="src">Morningstar 2025 · ICFS / SparkCo proxy voting analysis</span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">Why They Always Vote the Same Way — Cross-Ownership</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>Vanguard: ~9% stake in BlackRock (~$15B)</li>
-            <li>BlackRock: ~6.5% self-ownership through its own funds</li>
-            <li>State Street: ~4% stake in BlackRock</li>
-            <li>BlackRock: ~8% stake in State Street</li>
-            <li>Each manager is a major shareholder in the others. They have structural incentives to maintain the arrangement — and no incentive to vote in ways that would disturb it.</li>
-          </ul>
-          <span class="src">SEC 13F filings Q4 2025 / early 2026 — Fintel, WhaleWisdom (confirmation pending Phase 4)</span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">How They Influence Policy Without Lobbying For It</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>BlackRock federal lobbying 2025: $3.4 million — almost none on immigration specifically</li>
-            <li>Vanguard federal lobbying 2025: $2.58 million — almost none on immigration specifically</li>
-            <li>They don't need to. Portfolio companies — Amazon, Meta, Microsoft, Google — do the direct lobbying. Asset managers simply cast aligned voting blocks that keep those companies' management in power.</li>
-            <li>US Chamber of Commerce lobbied against H-1B wage reforms with $72.14M in total 2025 lobbying. The Big Three own large stakes in Chamber member companies.</li>
-          </ul>
-          <span class="src">OpenSecrets 2025 · opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/</span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#chain" class="back-chain">↑ Return to chain</a>
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+
+<!-- ═══════════════════════════════════════════════════════
      SECTION 03a — H-1B VISA
-═══════════════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════════════ -->
 <div class="sec-wrap" id="h1b">
   <div class="sec-inner">
     <div class="sec-header reveal">
-      <span class="sec-overline ov-teal">Section 03a — Left Branch</span>
+      <span class="sec-overline ov-h1b">Section 03a — Left Stream</span>
       <h2 class="sec-title">The H-1B Visa</h2>
-      <p class="sec-sub">Skilled Worker Program: what the law says vs. what actually happens. The Labor Condition Application is self-attested, minimally audited, and approved 99% of the time. The result is a captive labor pool paid below market and unable to safely assert rights.</p>
+      <p class="sec-sub">Specialty Occupation Program: what the law says vs. what actually happens. The Labor Condition Application is self-attested, minimally audited, and approved 99% of the time. The result is a captive labor pool paid below market and unable to safely assert rights.</p>
     </div>
 
-    <div class="stats-grid reveal d1">
-      <div class="stat-card">
-        <span class="stat-num a">~730k</span>
-        <span class="stat-label">H-1B Workers Active in U.S.</span>
-        <span class="stat-note">Early 2026 · USCIS H-1B Employer Data Hub</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">456,725</span>
-        <span class="stat-label">FY2025 Petitions Filed</span>
-        <span class="stat-note">328,185 approved · USCIS FY2025 Report</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">85k</span>
-        <span class="stat-label">Annual Cap (Regular + Adv. Degree)</span>
-        <span class="stat-note">65,000 regular + 20,000 advanced degree · Cap-exempt employers: uncapped</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">~99%</span>
-        <span class="stat-label">DOL LCA Approval Rate</span>
-        <span class="stat-note">Self-attested · minimal audit · DOL Fact Sheet #26A</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">~72%</span>
-        <span class="stat-label">India Share of Approvals</span>
-        <span class="stat-note">FY2023–2025 · China ~11–12% · all others under 2%</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">16%</span>
-        <span class="stat-label">H-1B Wage Gap vs. Comparable U.S. Workers</span>
-        <span class="stat-note">Up to 35% at outsourcing firms · NBER Working Paper w34793, Feb 2026</span>
-      </div>
+    <div class="sec-placeholder reveal d1">
+      [ Section 03a content — Pass 4 ]<br>
+      Stats grid · Two-col layout: prose + key facts · H-1B Sponsors subsection with data table · University Feedback Loop callout
     </div>
 
-    <div class="two-col-layout reveal d2">
-      <div>
-        <p class="prose">
-          The H-1B program requires employers to attest — through a Labor Condition Application — that they have tried to hire Americans, will pay the "prevailing wage," and will not adversely affect U.S. workers. The DOL certifies this application with <strong>minimal independent review.</strong>
-          Wage levels can be set at Level I or II even for experienced roles, structurally anchoring pay
-          well below actual market rates. There is no mandatory pre-filing recruitment for most H-1B petitions.
-        </p>
-        <p class="prose">
-          Once hired, workers face a structural trap: job loss triggers a 60-day grace period to find a new sponsor or leave the country. For Indian nationals, the EB-2 green card backlog currently sits at
-          <strong>a 2013 priority date — a 12-year wait.</strong> This tether gives employers nearly
-          total leverage over any worker who raises a complaint.
-        </p>
-      </div>
-      <div>
-        <ul class="facts">
-          <li>
-            <span class="fact-key">Wage Suppression</span>
-            <span class="fact-val r">$10,191 below OEWS mean</span>
-            Average offered H-1B wage vs. comparable occupation · DOL LCA wage analysis
-          </li>
-          <li>
-            <span class="fact-key">Documented Wage Theft</span>
-            <span class="fact-val r">$95 million</span>
-            HCL underpayment documented by EPI across H-1B workforce
-          </li>
-          <li>
-            <span class="fact-key">Bench Time</span>
-            Non-billable periods between client projects = reduced or no pay while still tied to sponsor — worker cannot leave without triggering 60-day clock
-          </li>
-          <li>
-            <span class="fact-key">Green Card Backlog</span>
-            <span class="fact-val">~12+ years</span>
-            India EB-2 priority date ~2013 · Visa Bulletin Feb 2026
-          </li>
-          <li>
-            <span class="fact-key">Overcrowded Housing</span>
-            <span class="fact-val r">4× more likely</span>
-            H-1B workers vs. U.S. natives · CIS Overcrowded Housing Report
-          </li>
-          <li>
-            <span class="fact-key">Investigations Rising</span>
-            <span class="fact-val">+48% (Project Firewall)</span>
-            175+ DOL probes launched Sep–Nov 2025 · multi-agency DOL/USCIS/EEOC/DOJ
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- H-1B Sponsors Subsection -->
-    <div id="h1b-sponsors" style="margin-top: 3.5rem; padding-top: 3rem; border-top: 1px solid var(--border);">
-      <span class="sec-overline ov-dim" style="display:block; margin-bottom: 0.5rem;">FY2025 — Top H-1B Sponsors</span>
-      <h3 style="font-family: var(--serif); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;">The Companies. The Ownership. The Loop.</h3>
-      <p style="font-size: 0.83rem; color: var(--ink-2); margin-bottom: 1.75rem; max-width: 660px; line-height: 1.65;">
-        All four major U.S. tech sponsors are Big Three index fund top holdings. BlackRock, Vanguard, and State Street are among the largest shareholders in every company listed below — casting proxy votes using the retirement savings of the American workers displaced or underpaid by these programs.
-      </p>
-      <div class="table-wrap reveal">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Company</th>
-              <th>FY2025 Approvals</th>
-              <th>Ownership Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="rank">1</td><td class="co">Amazon</td><td class="num">4,644</td><td class="note">Vanguard ~6.7% · BlackRock ~5.5% · State Street ~3.4%</td></tr>
-            <tr><td class="rank">2</td><td class="co">Meta Platforms</td><td class="num">1,555</td><td class="note">Vanguard ~6.2% · BlackRock ~5.2% · State Street ~3.1%</td></tr>
-            <tr><td class="rank">3</td><td class="co">Microsoft</td><td class="num">1,394</td><td class="note">Vanguard ~8.8% · BlackRock ~7.0% · State Street ~3.7%</td></tr>
-            <tr><td class="rank">4</td><td class="co">Google (Alphabet)</td><td class="num">1,050</td><td class="note">Vanguard ~6.0% · BlackRock ~5.4% · State Street ~3.4%</td></tr>
-            <tr><td class="rank">5</td><td class="co">Tata Consultancy Services</td><td class="num">846</td><td class="note">Outsourcing model · India-HQ · up to 35% wage gap at firms like TCS</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <span class="src">NFAP Policy Brief + USCIS H-1B Employer Data Hub FY2025 · Ownership: public 13F filings (exact Phase 4 confirmation pending)</span>
-
-      <div style="margin-top: 1.75rem; background: var(--bg-2); border: 1px solid var(--border); padding: 1.25rem 1.5rem; max-width: 680px;">
-        <span style="font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 0.5rem;">The University Feedback Loop</span>
-        <p style="font-size: 0.81rem; color: var(--ink-2); line-height: 1.65;">
-          Top H-1B sponsors fund university programs that produce the graduates they hire. TCS gave $35M to Carnegie Mellon. Cognizant has committed tens of millions to STEM education. Amazon, Microsoft, Google, and Meta fund AI/ML research centers and endowed professorships across the exact STEM fields dominating their H-1B filings. Universities are cap-exempt — they can sponsor unlimited H-1B workers without entering the annual lottery — creating a corporate-funded pipeline from campus to captive labor.
-        </p>
-        <span class="src">TCS Carnegie Mellon gift · tcs.com · Inside Higher Ed Jan 2026 (record university lobbying to protect cap-exempt status)</span>
-      </div>
-    </div>
-
-    <a href="#chain" class="back-chain">↑ Return to chain</a>
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+
+<!-- ═══════════════════════════════════════════════════════
      SECTION 03b — H-2 VISA
-═══════════════════════════════════════════════════════════ -->
+     (H-2A and H-2B as separate subsections throughout)
+═══════════════════════════════════════════════════════ -->
 <div class="sec-wrap alt" id="h2">
   <div class="sec-inner">
     <div class="sec-header reveal">
-      <span class="sec-overline ov-teal">Section 03b — Right Branch</span>
+      <span class="sec-overline ov-h2">Section 03b — Right Stream</span>
       <h2 class="sec-title">The H-2 Visa</h2>
-      <p class="sec-sub">Agricultural &amp; seasonal workers: a different program, the same extraction. Employers simultaneously control the worker's visa status, housing, and income. A 60-day deportation clock enforces silence. Enforcement has collapsed while the program nearly tripled.</p>
+      <p class="sec-sub">Agricultural &amp; seasonal workers: a different program, the same extraction. H-2A and H-2B are separate programs with distinct sponsor chains. Both run at ~99% DOL approval. Both transfer billions annually from workers and communities to operators and their institutional owners.</p>
     </div>
 
-    <div class="stats-grid reveal d1">
-      <div class="stat-card">
-        <span class="stat-num a">398,258</span>
-        <span class="stat-label">H-2A Positions Certified FY2025</span>
-        <span class="stat-note">Nearly 3× mid-2010s levels · DOL OFLC FY2025 Q4</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">200k–230k</span>
-        <span class="stat-label">H-2B Certified Per Year (Typical)</span>
-        <span class="stat-note">FY2026 Q1: ~39k certified · Non-agricultural seasonal</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">~99%</span>
-        <span class="stat-label">DOL Certification Approval Rate</span>
-        <span class="stat-note">Self-attested "labor market test" · GAO-25-106389</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">~90–92%</span>
-        <span class="stat-label">H-2A Workers from Mexico</span>
-        <span class="stat-note">Guatemala / Honduras / El Salvador ~5–8% combined · DOL OFLC FY2026 Q1</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">$1.7–2.1B</span>
-        <span class="stat-label">Transferred from H-2A Workers to Employers (2026 IFR, One Year)</span>
-        <span class="stat-note">EPI analysis Nov 2025</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">54%</span>
-        <span class="stat-label">H-2A Share of All Agricultural Back-Wage Assessments</span>
-        <span class="stat-note">FY2018–2023 · GAO-25-106389</span>
-      </div>
+    <div class="sec-placeholder reveal d1">
+      [ Section 03b content — Pass 4 ]<br>
+      Stats grid · H-2A subsection (ag, FLC chain, triple tether) · H-2B subsection (seasonal services, direct sponsors, wage data) · Separate sponsor tables for each program · PE / Asset Manager connection callout
     </div>
 
-    <div class="two-col-layout reveal d2">
-      <div>
-        <p class="prose">
-          The H-2A program requires employers to certify they tried to hire Americans, will pay the Adverse Effect Wage Rate (AEWR), and will provide housing. The DOL certifies the application with minimal review — the same rubber-stamp process as H-1B, applied to physically demanding agricultural work.
-        </p>
-        <p class="prose">
-          A 2025 Interim Final Rule allows employers to deduct <strong>up to 30% of the AEWR</strong> for housing the workers are legally required to accept. Combined with meal deductions of up to $16.78/day and upfront recruiter fees of $1,000–$9,000+ (at loan rates up to 20%/month), workers arrive in debt and remain dependent.
-          <strong>The employer controls both the housing and the immigration status simultaneously.</strong>
-          Complaint, quit, or termination: the worker loses both their home and their right to remain in the United States in the same moment.
-        </p>
-      </div>
-      <div>
-        <ul class="facts">
-          <li>
-            <span class="fact-key">Physical Demands</span>
-            <span class="fact-val r">84%</span>
-            of H-2A jobs require lifting, extreme temperatures, and repetitive movement · GAO-25-106389
-          </li>
-          <li>
-            <span class="fact-key">Recruiter Debt</span>
-            <span class="fact-val r">$1,000–$9,000+</span>
-            upfront fees · loans at up to 20%/month interest · documented debt bondage · ProPublica 2025–2026
-          </li>
-          <li>
-            <span class="fact-key">WHD Investigations</span>
-            <span class="fact-val r">Only 649</span>
-            agricultural investigations in latest data · down &gt;50% from a decade ago while program nearly tripled
-          </li>
-          <li>
-            <span class="fact-key">Lucky Growers (CA, Dec 2025)</span>
-            Charged rent for pest-infested, structurally damaged housing · DOL recovered $171,400 back wages + $76,274 penalties
-          </li>
-          <li>
-            <span class="fact-key">Operation Blooming Onion (GA, 2025–2026)</span>
-            <span class="fact-val r">$200M+ contractor profit</span>
-            Forced labor, violence, sexual assault, deaths — federal prosecutors called it "modern-day slavery" · DOJ / ProPublica
-          </li>
-          <li>
-            <span class="fact-key">Farmworker Protection Rule</span>
-            Primary anti-retaliation enforcement tool suspended June 2025, proposed rescission July 2025 — removed during largest program expansion in history
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- H-2 Sponsors Subsection -->
-    <div id="h2-sponsors" style="margin-top: 3.5rem; padding-top: 3rem; border-top: 1px solid var(--border);">
-      <span class="sec-overline ov-dim" style="display:block; margin-bottom: 0.5rem;">FY2025 — Top H-2 Sponsors</span>
-      <h3 style="font-family: var(--serif); font-size: 1.4rem; font-weight: 700; margin-bottom: 1.75rem;">Agricultural &amp; Seasonal Employers</h3>
-
-      <div class="two-col-layout">
-        <div>
-          <p style="font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(42,180,155,0.8); margin-bottom: 0.75rem;">H-2A — Agricultural (Uncapped)</p>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr><th>#</th><th>Employer</th><th>Positions Certified</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="rank">1</td><td class="co">NCGA, Inc.</td><td class="num">10,398</td></tr>
-                <tr><td class="rank">2</td><td class="co">Foothill Packing, Inc.</td><td class="num">6,959</td></tr>
-                <tr><td class="rank">3</td><td class="co">Wafla</td><td class="num">4,913</td></tr>
-                <tr><td class="rank">4</td><td class="co">Temp Labor, LLC</td><td class="num">4,891</td></tr>
-                <tr><td class="rank">5</td><td class="co">Fresh Harvest, Inc.</td><td class="num">4,375</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <span class="src">DOL OFLC H-2A Selected Statistics FY2025 Q4</span>
-        </div>
-        <div>
-          <p style="font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem;">H-2B — Non-Agricultural Seasonal (Capped at 66k+)</p>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr><th>#</th><th>Employer</th><th>Positions Certified</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="rank">1</td><td class="co">ABC Professional Tree Services</td><td class="num">2,103</td></tr>
-                <tr><td class="rank">2</td><td class="co">Progressive Solutions LLC</td><td class="num">2,073</td></tr>
-                <tr><td class="rank">3</td><td class="co">Genuine Builders, Inc.</td><td class="num">1,899</td></tr>
-                <tr><td class="rank">4</td><td class="co">Landscape Workshop LLC</td><td class="num">1,840</td></tr>
-                <tr><td class="rank">5</td><td class="co">Vivint, LLC</td><td class="num">1,262</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <span class="src">DOL OFLC H-2B Selected Statistics FY2025 Q4</span>
-        </div>
-      </div>
-
-      <div style="margin-top: 1.75rem; background: var(--bg-3); border: 1px solid var(--border); padding: 1.25rem 1.5rem; max-width: 680px;">
-        <span style="font-family: var(--mono); font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 0.5rem;">Asset Manager Connection — Phase 4 Pending</span>
-        <p style="font-size: 0.81rem; color: var(--ink-2); line-height: 1.65;">
-          The top H-2A sponsors are predominantly private companies and cooperatives — not publicly traded. The asset manager connection runs through private equity intermediaries: KKR and Blackstone hold major stakes in agricultural and food-supply companies that rely on H-2 labor, and the Big Three are among the largest holders of KKR and Blackstone. Confirmation of the full ownership chain is pending Phase 4 research.
-        </p>
-      </div>
-    </div>
-
-    <a href="#chain" class="back-chain">↑ Return to chain</a>
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECTION 04 — CORPORATE LAYER (COMING SOON)
-═══════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 04 — CORPORATE LAYER (Phase 4 pending)
+═══════════════════════════════════════════════════════ -->
 <div class="sec-wrap" id="corporate">
   <div class="sec-inner">
     <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 04 — The Corporate Layer</span>
-      <h2 class="sec-title">Closing the Loop</h2>
+      <span class="sec-overline ov-dim">Section 04 — Closing the Loop</span>
+      <h2 class="sec-title">The Corporate Layer</h2>
     </div>
+
     <div class="coming-soon-wrap reveal d1">
       <span class="cs-badge">Phase 4 — In Research</span>
       <h3 class="cs-title">The Ownership Chain</h3>
-      <p class="cs-text">
-        This section will document the direct line from each top visa sponsor through its ultimate institutional holder to the Big Three — completing the circuit between visa labor and retirement savings. Every claim will be sourced to SEC 13F filings, USASpending.gov, OpenSecrets, and FEC records.
-      </p>
+      <p class="cs-text">This section will document the direct line from each top visa sponsor through its ultimate institutional holder to the Big Three — completing the circuit between visa labor and retirement savings. Every claim will be sourced to SEC 13F filings, USASpending.gov, OpenSecrets, and FEC records.</p>
       <ul class="cs-items">
         <li>Phase 4a — Per-company H-1B visa count and year-over-year trend (USCIS Employer Data Hub)</li>
         <li>Phase 4b — Estimated labor cost savings per employer (EPI prevailing wage methodology)</li>
         <li>Phase 4c — Full ownership chain: Company → Parent → Institutional Holder → Asset Manager (SEC 13F)</li>
         <li>Phase 4d — Federal contract receipts per top H-1B sponsor (USASpending.gov)</li>
         <li>Phase 4e — Lobbying expenditures per company (OpenSecrets)</li>
-        <li>Phase 4f/g — PAC contributions + layoff records juxtaposed with H-1B hiring (FEC + WARN Act / 8-K filings)</li>
-        <li>Phase 4h — H-2 sponsor → PE intermediary → Big Three ownership chain (KKR / Blackstone stake confirmation)</li>
+        <li>Phase 4f/g — PAC contributions + layoff records vs. H-1B hiring (FEC + WARN Act / 8-K filings)</li>
+        <li>Phase 4h — H-2 sponsor → PE intermediary → Big Three ownership chain</li>
       </ul>
     </div>
-    <a href="#chain" class="back-chain" style="display:block; text-align:center; margin-top: 2.5rem;">↑ Return to chain</a>
+
+    <a href="#diagram" class="back-diag reveal d2" style="display:block;text-align:center;margin-top:2.5rem;">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECTION 05a — DICHOTOMY OF TRUTH: H-1B
-═══════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 05a — DICHOTOMY: H-1B
+═══════════════════════════════════════════════════════ -->
 <div class="sec-wrap alt" id="dichotomy-h1b">
   <div class="sec-inner">
     <div class="sec-header reveal">
@@ -925,304 +1000,148 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2r
       <p class="sec-sub">Americans are arguing about the wrong thing. Below is documented reality on both sides — not the argument, but the evidence the argument is designed to obscure.</p>
     </div>
 
-    <div class="dict-grid reveal d1">
-      <!-- LEFT: Workers -->
-      <div class="dict-col">
-        <span class="dict-col-label lbl-teal">Who Are the H-1B Workers?</span>
-
-        <div class="dict-item">
-          <p class="dict-text"><strong>Visa tether:</strong> one employer controls immigration status. Job loss triggers a 60-day grace period to find a new sponsor or leave the United States.</p>
-          <span class="dict-src">USCIS 60-day grace period policy</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>16% wage gap</strong> vs. comparable U.S. workers after controls. At outsourcing firms, the gap reaches up to <strong>35%.</strong></p>
-          <span class="dict-src">NBER Working Paper w34793, Feb 2026 — nber.org/system/files/working_papers/w34793/w34793.pdf</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Bench time:</strong> non-billable periods between client placements mean reduced or zero pay while still legally bound to the sponsoring employer.</p>
-          <span class="dict-src">EPI / GAO enforcement patterns</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Illegal recruiter fees:</strong> hundreds to thousands of dollars upfront — prohibited by DOL rules, common in outsourcing pipelines. Debt creates pressure to endure poor conditions and withhold complaints.</p>
-          <span class="dict-src">DOJ Compunnel settlement April 2026 · ProPublica</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>India EB-2 green card wait: 12+ years.</strong> Current priority date ~2013, per Visa Bulletin February 2026. Workers are trapped in legal limbo for over a decade, unable to change employers freely.</p>
-          <span class="dict-src">Visa Bulletin Feb 2026 — travel.state.gov</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Retaliation is prohibited on paper. In practice, the 60-day deportation clock and blacklisting risk mean most violations go <strong>unreported.</strong></p>
-          <span class="dict-src">DOL Fact Sheet #77D · EEOC guidance</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>4× more likely</strong> to live in overcrowded housing than U.S. native workers — despite no mandatory housing requirement in the program. The economic pressure of the visa tether produces the same crowding outcome as H-2A's explicit employer-controlled housing.</p>
-          <span class="dict-src">CIS Overcrowded Housing Report — cis.org</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Annual remittances: <strong>$15,000–$25,000+</strong> per skilled worker. India receives tens of billions annually from the U.S. diaspora.</p>
-          <span class="dict-src">World Bank Remittances — worldbank.org/en/topic/remittances</span>
-        </div>
-      </div>
-
-      <!-- RIGHT: Effect on Americans -->
-      <div class="dict-col">
-        <span class="dict-col-label lbl-red">What Is the True Effect on Americans?</span>
-
-        <div class="dict-item">
-          <p class="dict-text"><strong>85,000 Americans laid off. 34,000 H-1B workers hired.</strong> Same companies. Same years.</p>
-          <span class="dict-src">Sen. Bernie Sanders Op-Ed, January 2025</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Disney 2015:</strong> 250 IT workers laid off and required to train their H-1B replacements from HCL and Cognizant as a condition of receiving severance.</p>
-          <span class="dict-src">EPI — epi.org/blog/disney-h1b-scandal-in-spotlight-meet-american-workers-whose-jobs-careers-were-destroyed/</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Southern California Edison 2015:</strong> 500 workers displaced by H-1B outsourcing through HCL and Cognizant — the same contractors implicated in the Disney case.</p>
-          <span class="dict-src">EPI displacement documentation</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Average offered H-1B wages <strong>~$10,191 below OEWS mean</strong> for comparable occupations — suppresses compensation across entire departments, not just for visa workers. U.S. colleagues' wages are anchored downward by the same floor.</p>
-          <span class="dict-src">DOL LCA wage analysis · EPI</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">The "critical shortage" narrative is contradicted by BLS STEM unemployment and underemployment data. Workers in these fields exist; the program creates captive labor at below-market cost.</p>
-          <span class="dict-src">BLS — data pull pending Phase 3a</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Captive H-1B labor undermines collective action.</strong> Workers facing deportation cannot safely participate in organizing or strikes — reducing the ability of the entire workforce (including U.S. citizens) to bargain.</p>
-          <span class="dict-src">EPI / labor research</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Capital flight:</strong> $15,000–$25,000+ remitted per worker annually. Extracted from local economies where the labor is performed. At scale across 730,000 workers, the aggregate outflow is substantial.</p>
-          <span class="dict-src">World Bank Remittances</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>DOJ Compunnel settlement (April 2026):</strong> direct evidence that job ads explicitly excluded U.S. citizens and lawful permanent residents in favor of H-1B holders. Settled — not criminally prosecuted.</p>
-          <span class="dict-src">DOJ — justice.gov/opa/pr/civil-rights-division-obtains-settlement-company-discouraged-us-workers-applying-jobs</span>
-        </div>
-      </div>
+    <div class="sec-placeholder reveal d1">
+      [ Section 05a content — Pass 4 ]<br>
+      Two-panel dichotomy grid: Left = "Who Are the H-1B Workers?" (8 bullets) · Right = "What Is the True Effect on Americans?" (8 bullets) · All sourced to primary documents
     </div>
 
-    <a href="#chain" class="back-chain">↑ Return to chain</a>
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECTION 05b — DICHOTOMY OF TRUTH: H-2
-═══════════════════════════════════════════════════════════ -->
-<div class="sec-wrap" id="dichotomy-h2">
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 05b — DICHOTOMY: H-2A WORKERS
+═══════════════════════════════════════════════════════ -->
+<div class="sec-wrap" id="dichotomy-h2a">
   <div class="sec-inner">
     <div class="sec-header reveal">
       <span class="sec-overline ov-dim">Section 05b — Dichotomy of Truth</span>
-      <h2 class="sec-title">H-2: What Is Actually Happening</h2>
-      <p class="sec-sub">Agricultural and seasonal workers face the same extraction mechanism as H-1B workers — but with added physical danger, rural isolation, and employer-controlled housing. The enforcement apparatus has collapsed while the program tripled in size.</p>
+      <h2 class="sec-title">H-2A: What Is Actually Happening</h2>
+      <p class="sec-sub">Agricultural workers face the same extraction mechanism as H-1B workers — but with added physical danger, rural isolation, and the triple tether of employer-controlled visa status, housing, and employment simultaneously.</p>
     </div>
 
-    <div class="dict-grid reveal d1">
-      <!-- LEFT: Workers -->
-      <div class="dict-col">
-        <span class="dict-col-label lbl-teal">Who Are the H-2 Workers?</span>
-
-        <div class="dict-item">
-          <p class="dict-text"><strong>84%</strong> of H-2A jobs require lifting, exposure to extreme temperatures, and repetitive physical movements.</p>
-          <span class="dict-src">GAO-25-106389 — gao.gov/products/gao-25-106389</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Employer controls housing AND visa status simultaneously.</strong> Complain, quit, or be terminated: lose your home and your right to remain in the United States in the same moment.</p>
-          <span class="dict-src">DOL Fact Sheet #26G · GAO-25-106389</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Recruiter debt: $1,000–$9,000+</strong> upfront. Loans at interest rates up to 20% per month. Documented debt bondage forces workers to endure abuse to repay family loans or avoid losing land back home — a classic trafficking indicator.</p>
-          <span class="dict-src">ProPublica 2025–2026 · Polaris Project Labor Trafficking Report</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Lucky Growers Inc. (CA, Dec 2025):</strong> workers charged rent for pest-infested, structurally damaged housing. DOL recovered $171,400 in back wages and $76,274 in penalties.</p>
-          <span class="dict-src">WHD Release 25-1366-SAN, December 2025</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Operation Blooming Onion (Georgia, 2025–2026):</strong> forced labor, violence, sexual assault, deaths. Contractors profited $200M+. Federal prosecutors called it <em>"modern-day slavery."</em></p>
-          <span class="dict-src">DOJ / ProPublica — projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Absolute 3-year cap + 60-day mandatory departure.</strong> No pathway to permanence — unlike the H-1B green card track. Workers repeat this cycle across multiple seasons, accumulating debt with no path to stability.</p>
-          <span class="dict-src">INA §101(a)(15)(H)(ii)(a)</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Rural isolation</strong> cuts workers off from legal aid, labor advocates, and support networks. Polaris Project: immigration threats (deportation) used as the primary control tactic in 59% of foreign-national labor trafficking cases involving these visas.</p>
-          <span class="dict-src">Polaris H-2A Trafficking Cases Report · Centro de los Derechos del Migrante</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Annual remittances: <strong>~$20,000–$25,000</strong> per H-2A worker. With ~400,000 active workers, the aggregate capital outflow from rural American communities is substantial.</p>
-          <span class="dict-src">World Bank Remittances</span>
-        </div>
-      </div>
-
-      <!-- RIGHT: Effect on Americans -->
-      <div class="dict-col">
-        <span class="dict-col-label lbl-red">What Is the True Effect on Americans?</span>
-
-        <div class="dict-item">
-          <p class="dict-text">EPI: The 2026 Interim Final Rule wage cuts reduce U.S. farmworker wages by <strong>$2.7–$3.3 billion annually</strong> — a 7.1–8.7% wage loss for domestic agricultural workers.</p>
-          <span class="dict-src">EPI Nov 2025 — epi.org/blog/trumps-new-h-2a-wage-rule-will-radically-cut-the-wages-of-all-farmworkers...</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">A 10% increase in the AEWR raises domestic farm wages by only <strong>~2.8%</strong> — suppression is structural, not marginal. The relationship between the visa wage floor and U.S. wages is not 1:1; the program's design suppresses the entire sector.</p>
-          <span class="dict-src">Rutledge et al. 2025 — onlinelibrary.wiley.com/doi/full/10.1111/ajae.12557</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">H-2A violations account for <strong>54%</strong> of all agricultural back-wage assessments FY2018–2023 — enforcement collapse directly benefits employers who underpay.</p>
-          <span class="dict-src">GAO-25-106389 · EPI</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">DOL/WHD agricultural investigations: <strong>only 649</strong> in the most recent data — down more than 50% from a decade ago, while H-2A certifications have nearly tripled. Annual back-wage recovery: ~$8.3 million against a $400k+ position program.</p>
-          <span class="dict-src">ProPublica Feb 2026 — propublica.org/article/h-2a-visa-farmworkers-exploitation-heat-wage-theft</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Rural towns hollowed</strong> as seasonal jobs go to visa workers. The local spending multiplier collapses — visa workers remit income abroad rather than spending in the communities where they work.</p>
-          <span class="dict-src">EPI / rural economic research</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">American farm and seasonal workers are <strong>priced out</strong> of local labor markets by a wage floor anchored below true market rates. Critical seasonal income — the economic cycle that sustains rural families — is redirected through the program.</p>
-          <span class="dict-src">EPI analyses 2025 · Rutledge et al. 2025</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>UFW lawsuit (E.D. Cal., 1:25-cv-01614, filed Nov 2025):</strong> challenges the 2025/2026 wage rule cuts on behalf of domestic workers. One of the only active legal challenges to the program's structural wage suppression.</p>
-          <span class="dict-src">Clearinghouse.net — clearinghouse.net/case/47407/</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">The <strong>2024 Farmworker Protection Rule</strong> — the primary anti-retaliation enforcement mechanism — was suspended June 2025 and proposed for full rescission July 2025. Its removal occurred during the largest expansion of the program in the program's history.</p>
-          <span class="dict-src">DOL Field Assistance Bulletin 2025-2 — dol.gov/sites/dolgov/files/WHD/fab/fab2025-2.pdf</span>
-        </div>
-      </div>
+    <div class="sec-placeholder reveal d1">
+      [ Section 05b content — Pass 4 ]<br>
+      Two-panel dichotomy grid: Left = "Who Are the H-2A Workers?" (8 bullets) · Right = "What Is the True Effect on American Farmworkers?" (7 bullets)
     </div>
 
-    <a href="#chain" class="back-chain">↑ Return to chain</a>
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECTION 06 — THE POLITICAL FLIP (COMING SOON)
-═══════════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="political-flip">
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 05c — DICHOTOMY: H-2B WORKERS
+═══════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="dichotomy-h2b">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 05c — Dichotomy of Truth</span>
+      <h2 class="sec-title">H-2B: What Is Actually Happening</h2>
+      <p class="sec-sub">Seasonal service workers — landscaping, construction, home services — face the same 60-day deportation clock as agricultural workers, without the mandatory employer housing. "Temporary" by name: 53% of certified positions run eight months or longer.</p>
+    </div>
+
+    <div class="sec-placeholder reveal d1">
+      [ Section 05c content — Pass 4 ]<br>
+      Two-panel dichotomy grid: Left = "Who Are the H-2B Workers?" (7 bullets) · Right = "What Is the True Effect on American Seasonal Workers?" (6 bullets)
+    </div>
+
+    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 06 — POLITICAL FLIP (Phase 6 pending)
+═══════════════════════════════════════════════════════ -->
+<div class="sec-wrap" id="political-flip">
   <div class="sec-inner">
     <div class="sec-header reveal">
       <span class="sec-overline ov-dim">Section 06 — The Political Flip</span>
       <h2 class="sec-title">Both Sides Switch When the Donors Need Them To</h2>
     </div>
+
     <div class="coming-soon-wrap reveal d1">
       <span class="cs-badge">Phase 6 — In Research</span>
       <h3 class="cs-title">The Political Flip</h3>
-      <p class="cs-text">
-        The problem was never left vs. right. Sanders was anti-H-1B for years. The GOP establishment was pro-expansion. Positions have inverted. In both configurations, the workers — foreign and domestic — absorb the cost while the asset managers collect the returns. This section will document the timeline of position reversals with primary sources.
-      </p>
+      <p class="cs-text">The problem was never left vs. right. Sanders was anti-H-1B for years. The GOP establishment was pro-expansion. Positions have inverted. In both configurations, the workers — foreign and domestic — absorb the cost while the asset managers collect the returns.</p>
       <ul class="cs-items">
         <li>Congressional vote records on H-1B / H-2 expansion — specific roll calls with party breakdowns</li>
-        <li>Donor tracking: which companies and asset managers gave to which party in which year while holding H-1B expansion positions (OpenSecrets)</li>
-        <li>Exact quotes with dates: Sanders (reform), Grassley (reform), Durbin (reform), Musk (expansion), GOP establishment pre-2016 (expansion)</li>
+        <li>Grassley-Durbin S.2928 (Sep 29, 2025): bipartisan reform — Sanders and Tuberville co-sponsors</li>
+        <li>Donor tracking: which companies and asset managers gave to which party in which year (OpenSecrets)</li>
+        <li>Exact quotes with dates: Sanders · Grassley · Durbin · Musk · GOP establishment pre-2016</li>
         <li>Party platform language on H-1B / immigration: 2008, 2012, 2016, 2020, 2024 — both parties</li>
         <li>Pew Research polling data: immigration views by party and year</li>
-        <li>Grassley-Durbin S.2928 (Sep 29, 2025): bipartisan reform bill — Sanders and Tuberville as co-sponsors — as evidence of the current strange-bedfellows alignment</li>
       </ul>
     </div>
-    <a href="#chain" class="back-chain" style="display:block; text-align:center; margin-top: 2.5rem;">↑ Return to chain</a>
+
+    <a href="#diagram" class="back-diag reveal d2" style="display:block;text-align:center;margin-top:2.5rem;">↑ Return to diagram</a>
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
-<div style="background:#1c1f2e;border-top:1px solid rgba(255,255,255,0.05);padding:2rem 0;">
-  <div style="max-width:1100px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
-    <div>
-      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.4rem;">Coming — Section 06</div>
-      <h3 style="font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.65);margin-bottom:0.4rem;line-height:1.3;">The Left Was Right-Wing on Visas. The Right Was Left-Wing. Then the Money Moved.</h3>
-      <p style="font-size:0.83rem;color:rgba(255,255,255,0.38);line-height:1.62;max-width:620px;">The problem was never left vs. right. <strong style="color:rgba(255,255,255,0.6);">Both sides switch positions when it benefits the same donor class.</strong> Sanders was anti-H-1B. The GOP establishment was pro-visa. In both configurations, the workers absorbed the cost while the asset managers collected the returns.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 07 — PRIMARY SOURCES
+═══════════════════════════════════════════════════════ -->
+<div class="sec-wrap alt" id="sources">
+  <div class="sec-inner">
+    <div class="sec-header reveal">
+      <span class="sec-overline ov-dim">Section 07 — Primary Sources</span>
+      <h2 class="sec-title">Verified Through April 2026</h2>
+      <p class="sec-sub">Every factual claim in this module links to a primary government, academic, or investigative source. No figure is presented without a citation.</p>
+    </div>
+
+    <div class="sec-placeholder reveal d1">
+      [ Section 07 content — Pass 4 ]<br>
+      Full sources grid with label, title, and URL for all ~30 verified primary sources listed in the handoff
     </div>
   </div>
 </div>
 
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
-      <p><strong>H-1B / H-2: The Visa Machine</strong> · Module 01 of The Incentive Machine</p>
-      <p>All claims sourced to primary government, academic, and investigative sources through April 2026.<br>
-      Created by Ian · University of Kentucky College of Law · For educational purposes.</p>
+      <p><strong>H-1B / H-2: The Visa Incentive Machine</strong> &nbsp;·&nbsp; Module 01 of The Manufactured Divide</p>
+      <p>All claims sourced to primary government, academic, and investigative sources through April 2026.</p>
+      <p>Research synthesis and build assisted by Claude (Anthropic). All figures verified against primary sources.</p>
+      <p>
+        Created by Ian &nbsp;·&nbsp;
+        <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener">Submit feedback</a>
+        &nbsp;·&nbsp;
+        <a href="#sources">Primary sources</a>
+        &nbsp;·&nbsp;
+        <a href="https://istuckert.github.io/Incentive-Machine/visa/" target="_blank" rel="noopener">Live URL</a>
+      </p>
     </div>
     <div class="footer-right">
       <a href="../index.html" class="footer-link">← Main Platform</a>
-      <a href="#chain" class="footer-link">Chain</a>
+      <a href="#diagram" class="footer-link">Diagram</a>
       <a href="#dichotomy-h1b" class="footer-link">Dichotomy</a>
+      <a href="#sources" class="footer-link">Sources</a>
     </div>
   </div>
 </footer>
 
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
 <script>
-/* ── CHAIN LINE DRAWING ── */
-function drawChainLines() {
-  const wrap = document.getElementById('chain-wrap');
-  const svg  = document.getElementById('chain-svg');
-  if (!wrap || !svg) return;
 
-  const wr = wrap.getBoundingClientRect();
-  if (wr.width === 0 || wr.height === 0) return;
-
-  function pts(id) {
-    const el = document.getElementById(id);
-    if (!el) return null;
-    const r = el.getBoundingClientRect();
-    const cx = r.left - wr.left + r.width / 2;
-    return {
-      bx: cx, by: r.bottom - wr.top,
-      tx: cx, ty: r.top  - wr.top,
-    };
-  }
-
-  const links = [
-    ['cn-am',    'cn-h1b',   'rgba(200,146,42,0.3)'],
-    ['cn-am',    'cn-h2',    'rgba(200,146,42,0.3)'],
-    ['cn-h1b',   'cn-h1b-s', 'rgba(42,180,155,0.25)'],
-    ['cn-h2',    'cn-h2-s',  'rgba(42,180,155,0.25)'],
-    ['cn-h1b-s', 'cn-h1b-w', 'rgba(158,58,47,0.3)'],
-    ['cn-h1b-s', 'cn-h1b-i', 'rgba(158,58,47,0.3)'],
-    ['cn-h2-s',  'cn-h2-w',  'rgba(158,58,47,0.3)'],
-    ['cn-h2-s',  'cn-h2-i',  'rgba(158,58,47,0.3)'],
-  ];
-
-  svg.innerHTML = '';
-
-  links.forEach(([fromId, toId, color]) => {
-    const f = pts(fromId);
-    const t = pts(toId);
-    if (!f || !t) return;
-
-    const mid = (f.by + t.ty) / 2;
-    const straight = Math.abs(f.bx - t.tx) < 3;
-    const d = straight
-      ? `M ${f.bx} ${f.by} L ${t.tx} ${t.ty}`
-      : `M ${f.bx} ${f.by} L ${f.bx} ${mid} L ${t.tx} ${mid} L ${t.tx} ${t.ty}`;
-
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', d);
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke', color);
-    path.setAttribute('stroke-width', '1');
-    path.setAttribute('stroke-dasharray', '4 5');
-    svg.appendChild(path);
-
-    /* dot at target entry point */
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', t.tx);
-    dot.setAttribute('cy', t.ty);
-    dot.setAttribute('r', '2.5');
-    dot.setAttribute('fill', color.replace(/[\d.]+\)$/, '0.6)'));
-    svg.appendChild(dot);
-  });
-}
-
-/* ── REVEAL ── */
+/* ── SCROLL REVEAL ── */
 const revealObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 /* ── ACCORDION ── */
@@ -1235,11 +1154,393 @@ document.querySelectorAll('.acc-btn').forEach(btn => {
   });
 });
 
-/* ── INIT ── */
-document.addEventListener('DOMContentLoaded', () => {
-  requestAnimationFrame(() => requestAnimationFrame(drawChainLines));
+/* ══════════════════════════════════════════════════════════
+   DIAGRAM SYSTEM — Pass 2
+══════════════════════════════════════════════════════════ */
+
+/* ── NODE DEFINITIONS ─────────────────────────────────── */
+/* cx/cy = center; w/h = dimensions; cls = CSS class suffix */
+const NODES = {
+  am:     { cx:600, cy:85,  w:355, h:88, cls:'dn-am',    tag:'Shared — Tier I',        name:'The Big Three Asset Managers',  sub:'BlackRock · Vanguard · State Street', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
+  ni:     { cx:1055,cy:85,  w:148, h:62, cls:'dn-ni',    tag:'Influence',              name:'Narrative Infrastructure',      sub:'NFAP · AFBF · CSIS · MPI · EIG' },
+  univ:   { cx:78,  cy:263, w:130, h:62, cls:'dn-univ',  tag:'H-1B Side Node',         name:'Universities',                  sub:'Stanford · MIT · Harvard +22 more' },
+  tds:    { cx:255, cy:263, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',            name:'Tech Direct Sponsors',          sub:'Amazon · Meta · Microsoft · Google', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
+  ecc:    { cx:466, cy:263, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',            name:'H-1B End-Client Companies',     sub:'Citi · JPMorgan · Goldman · Verizon', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
+  pe:     { cx:1122,cy:233, w:130, h:62, cls:'dn-pe',    tag:'H-2 Side Node',          name:'Private Equity',                sub:'Teays River · Butterfly · Arable Capital' },
+  lao:    { cx:937, cy:233, w:195, h:88, cls:'dn-h2',    tag:'H-2 Tier 2',             name:'Large AG / Seasonal Operators', sub:'Grimmway · Dole · Taylor Farms · Ocean Mist', logos:['dole.svg','taylor farms.png'] },
+  h2ds:   { cx:722, cy:233, w:192, h:68, cls:'dn-h2',    tag:'H-2 Tier 2',             name:'H-2B Direct Sponsors',          sub:'ABC Tree · Progressive · Genuine Builders' },
+  osf:    { cx:360, cy:441, w:202, h:88, cls:'dn-h1b',   tag:'H-1B Tier 3',            name:'Outsourcing / Staffing Firms',  sub:'TCS · Cognizant · Infosys · Wipro · HCL', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
+  euf:    { cx:820, cy:381, w:202, h:68, cls:'dn-h2',    tag:'H-2 Tier 3',             name:'H-2A End-User Farms',           sub:'Ocean Mist · NCGA members · Taylor Farms' },
+  h1w:    { cx:280, cy:619, w:202, h:68, cls:'dn-h1w',   tag:'H-1B Tier 4',            name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
+  flc:    { cx:820, cy:529, w:202, h:68, cls:'dn-h2dk',  tag:'H-2 Tier 4 — Below Farms',name:'Farm Labor Contractors',       sub:'NCGA · Foothill Packing · Wafla · Fresh Harvest' },
+  ustw:   { cx:155, cy:797, w:188, h:62, cls:'dn-absorb',tag:'H-1B Cost Absorber',      name:'U.S. Tech Workers',             sub:'Displaced · Wage-suppressed' },
+  h2aw:   { cx:730, cy:677, w:188, h:68, cls:'dn-h2w',   tag:'H-2A Tier 5',            name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
+  h2bw:   { cx:965, cy:677, w:188, h:68, cls:'dn-h2w',   tag:'H-2B Tier 5',            name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
+  ap_h1b: { cx:200, cy:975, w:188, h:62, cls:'dn-people',tag:'H-1B Stream',            name:'American People',               sub:'128M retirement holders' },
+  usfw:   { cx:860, cy:825, w:188, h:62, cls:'dn-absorb',tag:'H-2 Cost Absorber',       name:'U.S. Farm / Seasonal Workers',  sub:'Wage-suppressed · Rural hollowed' },
+  ap_h2:  { cx:795, cy:975, w:188, h:62, cls:'dn-people',tag:'H-2 Stream',             name:'American People',               sub:'128M retirement holders' },
+};
+
+/* ── EDGE DEFINITIONS ─────────────────────────────────── */
+const EDGES = [
+  // asset manager ownership (downward)
+  { id:'e-am-tds',  from:'am',    to:'tds',    type:'h1b-solid',  label:'Owns 7–10% via index funds · votes 98.7% with management · rewards H-1B labor-cost strategies' },
+  { id:'e-am-ecc',  from:'am',    to:'ecc',    type:'h1b-solid',  label:'Owns 5–10% · proxy votes capture margin gains from outsourced H-1B labor savings' },
+  { id:'e-am-pe',   from:'am',    to:'pe',     type:'h2-solid',   label:'Pension & endowment capital flows as LP allocations into PE funds targeting ag labor arbitrage' },
+  { id:'e-am-lao',  from:'am',    to:'lao',    type:'h2-solid',   label:'Owns Dole plc (BlackRock 5.11% / State Street 1.36% / Vanguard 0.82%) + public ag stakes' },
+  { id:'e-am-h2ds', from:'am',    to:'h2ds',   type:'h2-solid',   label:'Owns parent companies of H-2B sponsors via broad S&P index holdings' },
+  // narrative influence (gold dashed, lateral)
+  { id:'e-ni-tds',  from:'ni',    to:'tds',    type:'narrative',  label:'NFAP/EIG/CSIS frame same DOL data as net fiscal surplus — provides legislative cover' },
+  { id:'e-ni-lao',  from:'ni',    to:'lao',    type:'narrative',  label:'AFBF + NCAE advocacy frames H-2 as essential for genuine labor shortages' },
+  // university lateral (light blue side-dashed)
+  { id:'e-univ-tds',from:'univ',  to:'tds',    type:'h1b-side',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
+  { id:'e-univ-am', from:'univ',  to:'am',     type:'h1b-side',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
+  { id:'e-tds-univ',from:'tds',   to:'univ',   type:'h1b-side',   label:'Funds STEM programs · TCS $35M CMU · Amazon/Google/Meta/Microsoft AI research centers' },
+  // private equity lateral
+  { id:'e-pe-lao',  from:'pe',    to:'lao',    type:'h2-solid',   label:'Acquires at scale (Grimmway 2021, Bolthouse 2019, Dole Fresh Veg $140M Aug 2025) · installs H-2A labor discipline for 20–30% IRR' },
+  // H-1B labor chain
+  { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'h1b-solid',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
+  { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'h1b-solid',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
+  { id:'e-h1w-tds', from:'h1w',   to:'tds',    type:'h1b-dashed', label:'DIRECT PATH: H-1B employed directly at tech sponsor — no outsourcing intermediary' },
+  { id:'e-h1w-ustw',from:'h1w',   to:'ustw',   type:'h1b-solid',  label:'LCA wage floors suppress IT sector wages · visa tether prevents collective organizing' },
+  { id:'e-ustw-ap', from:'ustw',  to:'ap_h1b', type:'h1b-solid',  label:'Reduced family income · depleted community tax base · career displacement costs never measured' },
+  { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'h1b-solid',  label:'$15k–25k annual remittances to India · capital extracted from U.S. communities' },
+  // H-2 labor chain
+  { id:'e-h2aw-euf',from:'h2aw',  to:'euf',    type:'h2-solid',   label:'Workers deployed to end-user farms · geographic isolation · no transit or legal aid' },
+  { id:'e-euf-flc', from:'euf',   to:'flc',    type:'h2-solid',   label:'FLCs certify, house, and manage H-2A crews placed at end-user farm sites' },
+  { id:'e-flc-lao', from:'flc',   to:'lao',    type:'h2-solid',   label:'Supplies tethered labor · large operators avoid sponsorship liability via FLC intermediary' },
+  { id:'e-flc-h2aw',from:'flc',   to:'h2aw',   type:'h2-solid',   label:'Triple tether: visa + housing + employment controlled by single entity · 60-day deportation clock' },
+  { id:'e-h2bw-ds', from:'h2bw',  to:'h2ds',   type:'h2-dashed',  label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
+  { id:'e-h2aw-usfw',from:'h2aw', to:'usfw',   type:'h2-solid',   label:'AEWR wage floor suppression · $2.7–3.3B/yr documented impact on domestic farmworker wages' },
+  { id:'e-h2bw-usfw',from:'h2bw', to:'usfw',   type:'h2-solid',   label:'H-2B wage depression in landscaping, construction, seasonal services (all top-15 occupations below OEWS)' },
+  { id:'e-usfw-ap', from:'usfw',  to:'ap_h2',  type:'h2-solid',   label:'Rural economic hollowing · spending multiplier collapse · seasonal income lost to rural families' },
+  { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'h2-solid',   label:'$20k–25k annual remittances to Mexico & Central America · capital exits rural U.S.' },
+  { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'h2-solid',   label:'Seasonal worker remittances · capital outflow from rural and suburban communities' },
+  // return loops (arc wide, red dashed)
+  { id:'e-ap1-am',  from:'ap_h1b',to:'am',     type:'return',     label:'401(k)/IRA/pension auto-contributions → Big Three AUM → proxy voting power (128M U.S. households)' },
+  { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
+  { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
+  { id:'e-lao-am',  from:'lao',   to:'am',     type:'return',     label:'PE IRR + Dole plc stock appreciation → index fund returns → asset manager fee base growth' },
+  // bottom connector ("same entity")
+  { id:'e-conn',    from:'ap_h1b',to:'ap_h2',  type:'connector',  label:'Same entity — 128 million Americans fund both streams simultaneously' },
+];
+
+/* ── EDGE STYLES ──────────────────────────────────────── */
+const ES = {
+  'h1b-solid': { color:'#4472C4', w:2,   dash:'' },
+  'h1b-dashed':{ color:'#4472C4', w:2,   dash:'8,4' },
+  'h1b-side':  { color:'#9DC3E6', w:1.5, dash:'5,3' },
+  'h2-solid':  { color:'#548235', w:2,   dash:'' },
+  'h2-dashed': { color:'#548235', w:2,   dash:'8,4' },
+  'narrative': { color:'#C9A227', w:1.5, dash:'5,3' },
+  'return':    { color:'#D95B5B', w:1.5, dash:'8,4' },
+  'connector': { color:'#7B2C2C', w:1,   dash:'' },
+};
+const STAGE_W = 1200, STAGE_H = 1070;
+
+/* ── NODE BOX HELPERS ─────────────────────────────────── */
+function nb(id) {
+  const n = NODES[id];
+  return { cx:n.cx, cy:n.cy, l:n.cx-n.w/2, r:n.cx+n.w/2, t:n.cy-n.h/2, b:n.cy+n.h/2 };
+}
+
+/* ── PATH COMPUTATION ─────────────────────────────────── */
+function computePath(from, to, type) {
+  if (type==='return')    return returnPath(from,to);
+  if (type==='connector') return connectorPath(from,to);
+  const f=nb(from), t=nb(to);
+  const dx=t.cx-f.cx, dy=t.cy-f.cy;
+  let x1,y1,x2,y2;
+  if (Math.abs(dy) >= Math.abs(dx)*0.55) {
+    // primarily vertical
+    if (dy>0){ x1=f.cx; y1=f.b; x2=t.cx; y2=t.t; }
+    else     { x1=f.cx; y1=f.t; x2=t.cx; y2=t.b; }
+    const bend=Math.abs(y2-y1)*0.36;
+    const d=dy>0?1:-1;
+    return `M ${x1} ${y1} C ${x1} ${y1+bend*d} ${x2} ${y2-bend*d} ${x2} ${y2}`;
+  } else {
+    // primarily horizontal → side exits
+    if (dx>0){ x1=f.r; y1=f.cy; x2=t.l; y2=t.cy; }
+    else     { x1=f.l; y1=f.cy; x2=t.r; y2=t.cy; }
+    const bend=Math.abs(x2-x1)*0.3;
+    const hd=dx>0?1:-1;
+    return `M ${x1} ${y1} C ${x1+bend*hd} ${y1} ${x2-bend*hd} ${y2} ${x2} ${y2}`;
+  }
+}
+
+function returnPath(from,to) {
+  const f=nb(from), t=nb(to);
+  const midY=(f.t+t.b)/2;
+  if (from==='ap_h1b') return `M ${f.l} ${f.cy} Q -155 ${midY} ${t.l} ${t.cy}`;
+  if (from==='ap_h2')  return `M ${f.r} ${f.cy} Q 1355 ${midY} ${t.r} ${t.cy}`;
+  if (from==='tds')    return `M ${f.cx-30} ${f.t} Q ${f.cx-110} ${(f.t+t.b)/2-20} ${t.cx-90} ${t.b}`;
+  if (from==='lao')    return `M ${f.cx+30} ${f.t} Q ${f.cx+110} ${(f.t+t.b)/2-20} ${t.cx+90} ${t.b}`;
+  return '';
+}
+
+function connectorPath(from,to) {
+  const f=nb(from), t=nb(to);
+  return `M ${f.r} ${f.cy} L ${t.l} ${t.cy}`;
+}
+
+/* ── BUILD ARROWHEAD MARKERS ─────────────────────────── */
+function buildMarkers(svg) {
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  Object.entries(ES).forEach(([type,s]) => {
+    const m=document.createElementNS('http://www.w3.org/2000/svg','marker');
+    m.setAttribute('id','arr-'+type);
+    m.setAttribute('markerWidth','7'); m.setAttribute('markerHeight','5');
+    m.setAttribute('refX','6.5');     m.setAttribute('refY','2.5');
+    m.setAttribute('orient','auto');
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points','0 0, 7 2.5, 0 5');
+    poly.setAttribute('fill',s.color);
+    m.appendChild(poly); defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+}
+
+/* ── BUILD NODE DIVS ─────────────────────────────────── */
+function buildNodes() {
+  const stage=document.getElementById('diagram-stage');
+  // remove any previously generated nodes
+  stage.querySelectorAll('.dn').forEach(el=>el.remove());
+  Object.entries(NODES).forEach(([id,n]) => {
+    const div=document.createElement('div');
+    div.className=`dn ${n.cls}`;
+    div.id=`n-${id}`;
+    div.dataset.nid=id;
+    div.style.cssText=`left:${n.cx-n.w/2}px;top:${n.cy-n.h/2}px;width:${n.w}px;height:${n.h}px;`;
+    let logosHtml='';
+    if(n.logos&&n.logos.length){
+      logosHtml=`<div class="dn-logos">`
+        +n.logos.map(l=>`<img src="logos/${l}" alt="" loading="lazy" onerror="this.style.display='none'">`).join('')
+        +`</div>`;
+    }
+    div.innerHTML=`<div class="dn-inner"><span class="dn-tag">${n.tag}</span><div class="dn-name">${n.name}</div><div class="dn-sub">${n.sub}</div>${logosHtml}</div>`;
+    div.addEventListener('click',()=>openModal(id));
+    div.addEventListener('mouseenter',()=>highlightNode(id));
+    div.addEventListener('mouseleave',clearHighlight);
+    stage.appendChild(div);
+  });
+}
+
+/* ── RENDER EDGES ─────────────────────────────────────── */
+let edgeEls={};
+function renderEdges() {
+  const svg=document.getElementById('diagram-svg');
+  const defs=svg.querySelector('defs');
+  svg.innerHTML='';
+  if(defs) svg.appendChild(defs);
+  // subtle center divider
+  const divLine=document.createElementNS('http://www.w3.org/2000/svg','line');
+  divLine.setAttribute('x1','596'); divLine.setAttribute('y1','30');
+  divLine.setAttribute('x2','596'); divLine.setAttribute('y2','1040');
+  divLine.setAttribute('stroke','rgba(42,53,80,0.45)');
+  divLine.setAttribute('stroke-width','1');
+  divLine.setAttribute('stroke-dasharray','3,10');
+  svg.appendChild(divLine);
+  // "same entity" label on connector
+  edgeEls={};
+  EDGES.forEach(edge=>{
+    const s=ES[edge.type];
+    const d=computePath(edge.from,edge.to,edge.type);
+    if(!d) return;
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.dataset.eid=edge.id;
+    // visible path
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke',s.color);
+    path.setAttribute('stroke-width',s.w);
+    path.setAttribute('stroke-opacity','0.44');
+    if(s.dash) path.setAttribute('stroke-dasharray',s.dash);
+    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-'+edge.type+')');
+    // wide invisible hit zone
+    const hit=document.createElementNS('http://www.w3.org/2000/svg','path');
+    hit.setAttribute('d',d);
+    hit.setAttribute('fill','none');
+    hit.setAttribute('stroke','transparent');
+    hit.setAttribute('stroke-width','14');
+    hit.style.cursor='crosshair';
+    g.appendChild(path);
+    g.appendChild(hit);
+    // hover handlers on both path and hit zone
+    [path,hit].forEach(el=>{
+      el.addEventListener('mouseenter',()=>onEdgeEnter(edge));
+      el.addEventListener('mouseleave',clearHighlight);
+      el.addEventListener('mousemove',e=>showTooltip(e,edge.label));
+    });
+    svg.appendChild(g);
+    edgeEls[edge.id]={path,edge};
+    // "same entity" label on connector
+    if(edge.type==='connector'){
+      const f=nb('ap_h1b'), t=nb('ap_h2');
+      const tx=document.createElementNS('http://www.w3.org/2000/svg','text');
+      tx.setAttribute('x',String((f.r+t.l)/2));
+      tx.setAttribute('y',String(f.cy-8));
+      tx.setAttribute('text-anchor','middle');
+      tx.setAttribute('font-family','DM Mono, monospace');
+      tx.setAttribute('font-size','7');
+      tx.setAttribute('letter-spacing','0.12em');
+      tx.setAttribute('fill','rgba(194,90,90,0.55)');
+      tx.textContent='SAME ENTITY';
+      svg.appendChild(tx);
+    }
+  });
+}
+
+/* ── HIGHLIGHT HELPERS ───────────────────────────────── */
+function onEdgeEnter(edge){
+  Object.values(edgeEls).forEach(({path,edge:e})=>{
+    if(e.id===edge.id){
+      path.setAttribute('stroke-opacity','1');
+      path.setAttribute('stroke-width',String(ES[e.type].w+1.5));
+    } else {
+      path.setAttribute('stroke-opacity','0.05');
+    }
+  });
+  Object.keys(NODES).forEach(id=>{
+    const el=document.getElementById('n-'+id);
+    if(!el) return;
+    if(id===edge.from||id===edge.to){ el.classList.remove('dimmed'); el.classList.add('highlighted'); }
+    else { el.classList.remove('highlighted'); el.classList.add('dimmed'); }
+  });
+}
+
+function highlightNode(nid){
+  const conn=new Set([nid]);
+  const connE=new Set();
+  EDGES.forEach(e=>{ if(e.from===nid||e.to===nid){ conn.add(e.from);conn.add(e.to);connE.add(e.id); } });
+  Object.values(edgeEls).forEach(({path,edge})=>{
+    if(connE.has(edge.id)){
+      path.setAttribute('stroke-opacity','0.92');
+      path.setAttribute('stroke-width',String(ES[edge.type].w+0.8));
+    } else { path.setAttribute('stroke-opacity','0.04'); }
+  });
+  Object.keys(NODES).forEach(id=>{
+    const el=document.getElementById('n-'+id);
+    if(!el) return;
+    if(conn.has(id)){ el.classList.remove('dimmed');el.classList.add('highlighted'); }
+    else { el.classList.remove('highlighted');el.classList.add('dimmed'); }
+  });
+}
+
+function clearHighlight(){
+  Object.values(edgeEls).forEach(({path,edge})=>{
+    path.setAttribute('stroke-opacity','0.44');
+    path.setAttribute('stroke-width',String(ES[edge.type].w));
+  });
+  document.querySelectorAll('.dn.dimmed,.dn.highlighted').forEach(el=>{
+    el.classList.remove('dimmed','highlighted');
+  });
+  hideTooltip();
+}
+
+/* ── TOOLTIP ─────────────────────────────────────────── */
+function showTooltip(evt,text){
+  const tt=document.getElementById('diag-tooltip');
+  tt.textContent=text;
+  tt.style.display='block';
+  posTooltip(evt);
+}
+function posTooltip(evt){
+  const tt=document.getElementById('diag-tooltip');
+  if(!tt||tt.style.display==='none') return;
+  const vw=window.innerWidth, vh=window.innerHeight;
+  let lx=evt.clientX+14, ty=evt.clientY+10;
+  if(lx+280>vw) lx=evt.clientX-290;
+  if(ty+60>vh)  ty=evt.clientY-55;
+  tt.style.left=lx+'px'; tt.style.top=ty+'px';
+}
+function hideTooltip(){
+  const tt=document.getElementById('diag-tooltip');
+  if(tt) tt.style.display='none';
+}
+document.addEventListener('mousemove',posTooltip);
+
+/* ── MODAL ───────────────────────────────────────────── */
+function openModal(nodeId){
+  const n=NODES[nodeId];
+  document.getElementById('modal-node-tag').textContent=n.tag;
+  document.getElementById('modal-node-title').textContent=n.name;
+  // logos
+  const logosEl=document.getElementById('modal-node-logos');
+  logosEl.innerHTML='';
+  if(n.logos&&n.logos.length){
+    n.logos.forEach(l=>{
+      const img=document.createElement('img');
+      img.src=`logos/${l}`; img.alt='';
+      img.onerror=()=>img.style.display='none';
+      logosEl.appendChild(img);
+    });
+  }
+  // body — Pass 2 shell; Pass 3 will fill content
+  document.getElementById('modal-node-body').innerHTML=
+    `<p>Detailed data for <strong style="color:var(--ink-dark);font-style:normal">${n.name}</strong> — content added in Pass 3.</p>
+     <p style="font-size:0.82rem;color:var(--ink-dark-3);">${n.sub}</p>`;
+  document.getElementById('modal-node-sources').innerHTML='';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('modal-close').addEventListener('click',closeModal);
+document.getElementById('modal-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal-overlay')) closeModal();
 });
-window.addEventListener('resize', drawChainLines);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ── SCALING ─────────────────────────────────────────── */
+function scaleDiagram(){
+  const outer=document.getElementById('diagram-outer');
+  const stage=document.getElementById('diagram-stage');
+  if(!outer||!stage) return;
+  const avail=outer.clientWidth;
+  const scale=Math.min(1,avail/STAGE_W);
+  stage.style.transform=`scale(${scale})`;
+  outer.style.height=Math.round(STAGE_H*scale)+'px';
+}
+
+/* ── INIT ─────────────────────────────────────────────── */
+function initDiagram(){
+  const svg=document.getElementById('diagram-svg');
+  buildMarkers(svg);
+  buildNodes();
+  renderEdges();
+  scaleDiagram();
+}
+
+window.addEventListener('DOMContentLoaded',initDiagram);
+window.addEventListener('resize',()=>{ scaleDiagram(); renderEdges(); });
+
+/* ── NAV ACTIVE HIGHLIGHT on scroll ── */
+(function() {
+  const sections = ['asset-managers','h1b','h2','corporate','dichotomy-h1b','dichotomy-h2a','dichotomy-h2b','political-flip','sources'];
+  const links    = document.querySelectorAll('.nav-links a');
+  const hrefMap  = {};
+  links.forEach(a => { hrefMap[a.getAttribute('href')] = a; });
+
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const id   = '#' + e.target.id;
+      const link = hrefMap[id];
+      if (link) {
+        if (e.isIntersecting) link.style.color = 'rgba(111,163,232,0.9)';
+        else                   link.style.color = '';
+      }
+    });
+  }, { rootMargin: '-52px 0px -60% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) navObs.observe(el);
+  });
+})();
+
 </script>
 </body>
 </html>

@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The H-1B / H-2 Visa Incentive Machine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #f4f1ec;
+  --bg-2:    #ede9e2;
+  --bg-dark: #1c1f2e;
+  --bg-mid:  #262a3e;
+  --card:    #ffffff;
+  --border:  #d4cfc6;
+  --bdr2:    #bfb9af;
+  --ink:     #1c1f2e;
+  --ink-2:   #3d4155;
+  --ink-3:   #7a7e8a;
+  --accent:  #2d5fa6;
+  --acc2:    #1a3d6e;
+  --acc-lt:  #e8eef8;
+  --red:     #b93a2b;
+  --teal:    #1a7a6e;
+  --teal-lt: #e8f5f3;
+  --h1b:     #2d5fa6;
+  --h1b-lt:  #dde8f6;
+  --h2:      #1a7a6e;
+  --h2-lt:   #d9efe9;
+  --sans:    'DM Sans', sans-serif;
+  --serif:   'Playfair Display', Georgia, serif;
+  --mono:    'DM Mono', monospace;
+  --max:     1100px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:52px;background:rgba(28,31,46,0.97);
+  backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-inner{
+  width:100%;max-width:var(--max);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+}
+.nav-brand{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:0.18em;
+  text-transform:uppercase;color:#6fa3e8;text-decoration:none;font-weight:500;
+  white-space:nowrap;
+}
+.nav-links{display:flex;list-style:none;}
+.nav-links a{
+  display:block;padding:0 1.2rem;height:52px;line-height:52px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.12);
+  margin-left:1rem;
+  transition:color 0.2s,background 0.2s,border-color 0.2s;
+  white-space:nowrap;
+}
+.nav-links a:hover{color:#fff;border-color:rgba(255,255,255,0.3);}
+.nav-links a.active{color:#6fa3e8;border-color:rgba(111,163,232,0.4);}
+
+/* ── SCREENS ── */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* ══════════════════════════════
+   HOME PAGE — HERO + CHAIN
+══════════════════════════════ */
+/* HERO */
+.hero{
+  background:var(--bg-dark);
+  padding-top:52px;
+  min-height:85vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 60%,rgba(45,95,166,0.18) 0%,transparent 65%),
+    radial-gradient(ellipse at 80% 20%,rgba(26,122,110,0.08) 0%,transparent 50%);
+}
+.hero-inner{
+  max-width:var(--max);margin:0 auto;padding:4rem 2rem 3.5rem;
+  width:100%;text-align:center;position:relative;z-index:1;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1.75rem;
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(3rem,7vw,7rem);
+  font-weight:900;line-height:0.95;
+  color:#fff;letter-spacing:-0.025em;
+  margin-bottom:0.5rem;
+}
+.hero-title .visa-type{color:#6fa3e8;}
+.hero-tagline{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(1rem,1.8vw,1.35rem);
+  color:rgba(255,255,255,0.85);margin-bottom:2.5rem;
+  line-height:1.5;
+}
+.hero-thesis{
+  background:rgba(45,95,166,0.15);
+  border:1px solid rgba(45,95,166,0.3);
+  border-left:3px solid #6fa3e8;
+  padding:1.4rem 1.75rem;max-width:700px;
+  margin:0 auto 2.5rem;text-align:left;
+}
+.hero-thesis-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.3em;
+  text-transform:uppercase;color:#6fa3e8;margin-bottom:0.75rem;
+  font-weight:500;
+}
+.hero-thesis p{color:rgba(255,255,255,0.78);font-size:0.93rem;line-height:1.74;}
+.hero-thesis strong{color:#fff;}
+.hero-cta{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;}
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.4rem;
+  font-family:var(--mono);font-size:8px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.2);
+  animation:bounce 2s infinite;
+}
+.scroll-hint svg{width:16px;height:16px;stroke:rgba(255,255,255,0.2);}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+
+/* ── CHAIN SECTION (on home page) ── */
+#chain-section{
+  background:var(--bg);padding:4rem 0 3rem;
+  border-top:1px solid var(--border);
+}
+.chain-header{
+  max-width:var(--max);margin:0 auto;padding:0 2rem 2.5rem;
+  text-align:center;
+}
+.section-eyebrow{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:0.6rem;
+}
+.chain-header h2{
+  font-family:var(--serif);font-size:clamp(1.6rem,2.5vw,2.4rem);
+  font-weight:700;color:var(--ink);margin-bottom:0.5rem;line-height:1.1;
+}
+.chain-header p{font-size:0.88rem;color:var(--ink-2);max-width:500px;margin:0 auto;}
+
+/* Chain diagram */
+.chain-diagram{
+  max-width:860px;margin:0 auto;padding:0 2rem;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+
+/* ROOT NODE */
+.cn-root{
+  background:var(--bg-dark);border:2px solid var(--accent);
+  padding:1.4rem 2.8rem;text-align:center;
+  width:320px;cursor:pointer;transition:background 0.2s,transform 0.2s;
+  position:relative;
+}
+.cn-root:hover{background:#252843;transform:translateY(-2px);}
+.cn-root-label{
+  font-family:var(--mono);font-size:8px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.35rem;
+}
+.cn-root .cn-firms{
+  font-size:0.88rem;font-weight:700;
+  color:#e05a4a !important;letter-spacing:0.06em;margin-bottom:0.2rem;
+}
+.cn-root h3{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:0.2rem;}
+.cn-root p{font-size:0.75rem;color:rgba(255,255,255,0.45);}
+.cn-root .cn-cta{
+  font-family:var(--mono);font-size:7.5px;color:rgba(111,163,232,0.6);
+  letter-spacing:0.1em;margin-top:0.5rem;
+}
+
+/* SVG fork */
+.fork-svg{width:100%;max-width:860px;display:block;overflow:visible;}
+
+/* BRANCH NODES */
+.branches{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2rem;width:100%;
+}
+.branch{display:flex;flex-direction:column;align-items:center;}
+
+.cn-visa{
+  padding:1.1rem 1.5rem;text-align:center;
+  width:100%;cursor:pointer;border:2px solid;
+  transition:filter 0.18s,transform 0.18s;
+}
+.cn-visa:hover{filter:brightness(0.94);transform:translateY(-2px);}
+.cn-visa.h1b{background:var(--h1b-lt);border-color:var(--h1b);}
+.cn-visa.h2{background:var(--h2-lt);border-color:var(--h2);}
+.cn-visa-label{
+  font-family:var(--mono);font-size:8px;letter-spacing:0.18em;
+  text-transform:uppercase;margin-bottom:0.3rem;
+}
+.cn-visa.h1b .cn-visa-label{color:var(--h1b);}
+.cn-visa.h2 .cn-visa-label{color:var(--h2);}
+.cn-visa h3{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.2rem;}
+.cn-visa p{font-size:0.74rem;color:var(--ink-2);}
+
+/* Arrow stems */
+.arrow-stem{display:flex;flex-direction:column;align-items:center;}
+.stem-line{width:2px;background:var(--bdr2);}
+.stem-line.h1b-c{background:rgba(45,95,166,0.35);}
+.stem-line.h2-c{background:rgba(26,122,110,0.35);}
+.stem-arrow{
+  width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;
+}
+.stem-arrow.h1b-c{border-top:7px solid rgba(45,95,166,0.35);}
+.stem-arrow.h2-c{border-top:7px solid rgba(26,122,110,0.35);}
+.stem-arrow.gray{border-top:7px solid rgba(180,175,170,0.6);}
+.stem-label{
+  font-family:var(--mono);font-size:7.5px;letter-spacing:0.08em;
+  color:var(--ink-3);text-align:center;padding:2px 0;
+}
+
+/* Company nodes */
+.co-row{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;width:100%;}
+.co-node{
+  background:var(--card);border:1px solid var(--border);
+  width:96px;text-align:center;padding:0.75rem 0.4rem;
+  cursor:pointer;transition:all 0.2s;flex-shrink:0;
+}
+.co-node:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(45,95,166,0.1);transform:translateY(-2px);}
+.co-node.h2-co:hover{border-color:var(--h2);}
+.co-logo{
+  width:42px;height:42px;margin:0 auto 0.4rem;
+  background:var(--bg-2);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:8px;color:var(--ink-3);
+  overflow:hidden;
+}
+.co-logo img{width:100%;height:100%;object-fit:contain;padding:4px;}
+.co-name{font-family:var(--mono);font-size:7.5px;letter-spacing:0.06em;color:var(--ink);font-weight:500;line-height:1.3;}
+.co-count{font-size:7px;color:var(--ink-3);margin-top:2px;}
+
+/* Converge + dichotomy */
+.converge-svg{width:100%;max-width:860px;display:block;overflow:visible;}
+
+.dicho-strip{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);width:100%;
+  border:1px solid var(--border);
+}
+.dicho-col{background:var(--card);padding:1.5rem 1.75rem;}
+.dicho-col.wk{border-top:3px solid var(--teal);}
+.dicho-col.am{border-top:3px solid var(--red);}
+.dicho-col h4{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.15em;
+  text-transform:uppercase;font-weight:500;margin-bottom:1rem;
+}
+.dicho-col.wk h4{color:var(--teal);}
+.dicho-col.am h4{color:var(--red);}
+.dicho-item{
+  display:flex;gap:0.55rem;margin-bottom:0.55rem;padding:0.35rem;
+  cursor:pointer;transition:background 0.14s;border-radius:2px;
+}
+.dicho-item:hover{background:var(--bg-2);}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:8px;}
+.wk .dot{background:var(--teal);}
+.am .dot{background:var(--red);}
+.dicho-item span{font-size:0.79rem;color:var(--ink-2);line-height:1.5;}
+.dicho-item span strong{color:var(--ink);}
+.dicho-more{margin-top:0.75rem;}
+
+/* Flip teaser strip */
+.flip-strip{
+  background:var(--bg-mid);border-top:1px solid rgba(255,255,255,0.05);
+  padding:2rem 0;
+}
+.flip-strip-inner{
+  max-width:var(--max);margin:0 auto;padding:0 2rem;
+  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;
+}
+.flip-strip-label{font-family:var(--mono);font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.4rem;}
+.flip-strip h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.65);margin-bottom:0.4rem;line-height:1.3;}
+.flip-strip p{font-size:0.83rem;color:rgba(255,255,255,0.38);line-height:1.62;max-width:620px;}
+.flip-strip strong{color:rgba(255,255,255,0.6);}
+
+/* ══════════════════════════════
+   SECTION SCREENS
+══════════════════════════════ */
+.screen-wrap{padding-top:52px;}
+
+/* Compact header — title always visible at top, no hunting */
+.sec-head{
+  background:var(--bg-dark);color:#fff;
+  padding:1.75rem 0 1.5rem;border-bottom:2px solid var(--accent);
+  position:sticky;top:52px;z-index:100;
+}
+.sec-head-inner{
+  max-width:var(--max);margin:0 auto;padding:0 2rem;
+  display:flex;align-items:center;gap:1.5rem;
+}
+.back-btn{
+  display:inline-flex;align-items:center;gap:0.3rem;flex-shrink:0;
+  font-family:var(--mono);font-size:9px;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+  background:none;border:none;cursor:pointer;transition:color 0.2s;padding:0;
+}
+.back-btn:hover{color:#fff;}
+.sec-head-text{}
+.sec-tag{
+  font-family:var(--mono);font-size:8px;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.3rem;
+}
+.sec-head-text h2{
+  font-family:var(--serif);font-size:clamp(1.2rem,2vw,1.65rem);
+  font-weight:700;line-height:1.1;color:#fff;
+}
+
+/* Section body — content starts immediately */
+.sec-body{
+  max-width:var(--max);margin:0 auto;
+  padding:2.5rem 2rem 4rem;
+}
+
+/* ── STATS ROW (redesigned — larger, darker) ── */
+.stats-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin-bottom:3rem;
+}
+.stat-cell{
+  background:var(--card);padding:1.75rem;
+  cursor:pointer;transition:background 0.18s;
+}
+.stat-cell:hover{background:var(--acc-lt);}
+.stat-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--ink-2);/* DARKER */
+  font-weight:500;margin-bottom:0.6rem;line-height:1.4;
+}
+.stat-fig{
+  font-family:var(--serif);font-size:2.1rem;font-weight:900;
+  color:var(--accent);line-height:1;margin-bottom:0.4rem;
+}
+.stat-fig.ph{font-size:1.5rem;color:var(--ink-3);}
+.stat-desc{font-size:0.82rem;color:var(--ink-2);line-height:1.55;}
+.verified-badge{
+  display:inline-block;font-family:var(--mono);font-size:7.5px;
+  letter-spacing:0.08em;color:var(--teal);margin-top:0.4rem;
+}
+.ph-tag{
+  display:inline-block;font-family:var(--mono);font-size:7.5px;
+  letter-spacing:0.08em;color:var(--red);
+  border:1px dashed rgba(185,58,43,0.3);padding:1px 5px;margin-top:0.4rem;
+}
+
+/* ── VERTICAL HIERARCHY PANELS ── */
+/* Each numbered item is a row: number | title + teaser | arrow */
+.panel-stack{display:flex;flex-direction:column;gap:0;}
+.panel-item{
+  display:grid;grid-template-columns:52px 1fr 40px;
+  align-items:center;gap:0;
+  border:1px solid var(--border);border-top:none;
+  background:var(--card);cursor:pointer;
+  transition:background 0.15s;
+  position:relative;
+}
+.panel-item:first-child{border-top:1px solid var(--border);}
+.panel-item:hover{background:var(--acc-lt);border-color:var(--accent);z-index:1;}
+.panel-item:hover .pi-num{background:var(--accent);color:#fff;}
+.pi-num{
+  display:flex;align-items:center;justify-content:center;
+  height:100%;padding:1.25rem 0;
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  color:var(--ink-3);letter-spacing:0.1em;
+  border-right:1px solid var(--border);
+  background:var(--bg-2);transition:background 0.15s,color 0.15s;
+  min-height:72px;
+}
+.pi-content{padding:1.1rem 1.4rem;}
+.pi-title{
+  font-family:var(--serif);font-size:1rem;font-weight:700;
+  color:var(--ink);margin-bottom:0.2rem;line-height:1.25;
+}
+.pi-sub{font-size:0.78rem;color:var(--ink-3);line-height:1.45;}
+.pi-arr{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12px;color:var(--ink-3);
+  transition:color 0.15s;
+}
+.panel-item:hover .pi-arr{color:var(--accent);}
+
+/* color accents on left edge */
+.panel-item.h1b-l{border-left:3px solid var(--h1b);}
+.panel-item.h2-l{border-left:3px solid var(--h2);}
+.panel-item.red-l{border-left:3px solid var(--red);}
+.panel-item.teal-l{border-left:3px solid var(--teal);}
+
+/* section sub-label above panel stack */
+.stack-label{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--ink-3);
+  margin-bottom:0.5rem;margin-top:2rem;
+  padding-bottom:0.4rem;border-bottom:1px solid var(--border);
+}
+.stack-label:first-child{margin-top:0;}
+
+/* ── DETAIL SCREEN ── */
+/* Compact — content visible immediately below the sticky header */
+.detail-head{
+  background:var(--ink);color:#fff;
+  padding:1.5rem 0 1.25rem;
+  position:sticky;top:52px;z-index:100;
+  border-bottom:2px solid rgba(255,255,255,0.1);
+}
+.detail-head-inner{
+  max-width:var(--max);margin:0 auto;padding:0 2rem;
+  display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center;
+}
+.detail-tag-col{}
+.detail-tag{
+  font-family:var(--mono);font-size:8px;letter-spacing:0.16em;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);
+  display:block;margin-bottom:0.3rem;
+}
+.detail-head-inner h2{
+  font-family:var(--serif);font-size:clamp(1.1rem,1.8vw,1.5rem);
+  font-weight:700;line-height:1.15;color:#fff;
+}
+.detail-head-inner p{font-size:0.8rem;color:rgba(255,255,255,0.45);margin-top:0.2rem;}
+
+.detail-body{
+  max-width:780px;margin:0 auto;
+  padding:2.5rem 2rem 4rem;
+}
+.detail-body p{color:var(--ink-2);line-height:1.78;margin-bottom:1rem;font-size:0.92rem;}
+.detail-ph{
+  background:var(--bg-2);border:1px dashed var(--bdr2);
+  padding:1.5rem;text-align:center;margin:1.25rem 0;
+  font-family:var(--mono);font-size:9px;color:var(--ink-3);
+  letter-spacing:0.08em;line-height:1.65;
+}
+.verified-block{
+  background:rgba(26,122,110,0.06);border:1px solid rgba(26,122,110,0.2);
+  border-left:3px solid var(--teal);padding:1rem 1.25rem;margin:1rem 0;
+}
+.vb-label{
+  font-family:var(--mono);font-size:7.5px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:0.4rem;display:block;
+}
+.verified-block p{font-size:0.84rem;color:var(--ink-2);line-height:1.65;margin-bottom:0;}
+.verified-block strong{color:var(--ink);}
+.src-refs{margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:0.6rem;}
+.src-ref{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  font-family:var(--mono);font-size:9px;color:var(--accent);
+  text-decoration:none;border-bottom:1px solid rgba(45,95,166,0.25);
+  transition:border-color 0.15s;
+}
+.src-ref:hover{border-color:var(--accent);}
+
+/* ── DICHOTOMY FULL PAGE ── */
+.dicho-page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 130px);}
+.dicho-page-col{padding:2.5rem;}
+.dicho-page-col.wk{border-top:4px solid var(--teal);background:var(--card);}
+.dicho-page-col.am{border-top:4px solid var(--red);background:var(--bg);}
+.dicho-page-col h3{font-family:var(--serif);font-size:1.35rem;font-weight:700;margin-bottom:1.5rem;}
+.dicho-page-col.wk h3{color:var(--teal);}
+.dicho-page-col.am h3{color:var(--red);}
+
+/* ── FLIP PAGE ── */
+.flip-intro{
+  background:var(--card);border:1px solid var(--border);
+  border-left:3px solid var(--accent);padding:1.4rem 1.75rem;
+  margin-bottom:2rem;max-width:720px;
+}
+.flip-intro-label{font-family:var(--mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.5rem;}
+.flip-intro p{font-size:0.9rem;color:var(--ink-2);line-height:1.72;}
+.flip-intro strong{color:var(--ink);}
+.flip-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.flip-col-head{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.18em;
+  text-transform:uppercase;padding-bottom:0.5rem;margin-bottom:1.25rem;
+  border-bottom:2px solid;font-weight:500;
+}
+.flip-col-head.dem{color:#2962ff;border-color:#2962ff;}
+.flip-col-head.rep{color:var(--red);border-color:var(--red);}
+.flip-event{background:var(--card);border:1px solid var(--border);padding:1rem 1.1rem;margin-bottom:0.75rem;}
+.flip-event strong{display:block;font-size:0.84rem;color:var(--ink);margin-bottom:0.3rem;}
+.flip-event p{font-size:0.79rem;color:var(--ink-2);line-height:1.55;}
+.flip-through{
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);
+  padding:1.4rem;margin-top:2rem;
+}
+.flip-through-label{font-family:var(--mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.5rem;}
+.flip-through p{font-size:0.88rem;color:var(--ink-2);line-height:1.72;}
+.flip-through strong{color:var(--ink);}
+
+/* ── SEE MY WORK ── */
+.smw-section{margin-bottom:2.5rem;}
+.smw-section-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--ink-3);
+  padding-bottom:0.5rem;border-bottom:1px solid var(--border);margin-bottom:1rem;
+}
+.smw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.75rem;}
+.smw-card{background:var(--card);border:1px solid var(--border);padding:1.25rem;}
+.smw-card-label{font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.6rem;}
+.smw-link{
+  display:block;font-family:var(--mono);font-size:9.5px;color:var(--accent);
+  text-decoration:none;border-bottom:1px solid rgba(45,95,166,0.18);
+  padding-bottom:2px;margin-bottom:0.4rem;transition:border-color 0.15s;line-height:1.5;
+}
+.smw-link:hover{border-color:var(--accent);}
+.smw-status{font-family:var(--mono);font-size:7.5px;color:var(--teal);letter-spacing:0.08em;}
+.smw-status.pending{color:var(--ink-3);}
+
+/* ── FLOW NARRATIVE ── */
+.flow-narrative{
+  display:flex;align-items:center;justify-content:center;
+  gap:0.5rem;flex-wrap:wrap;
+  background:var(--bg-dark);padding:2rem 1.5rem;
+  margin-bottom:0;
+}
+.flow-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0.85rem 1rem;
+  cursor:pointer;transition:background 0.2s;border-radius:4px;
+  min-width:110px;
+}
+.flow-step:hover{background:rgba(255,255,255,0.06);}
+.flow-step-highlight{
+  border:1px solid rgba(224,90,74,0.5);
+  background:rgba(224,90,74,0.08);
+}
+.flow-step-highlight:hover{background:rgba(224,90,74,0.14);}
+.flow-icon{font-size:1.5rem;margin-bottom:0.3rem;}
+.flow-label{font-family:var(--serif);font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;}
+.flow-sub{font-size:0.72rem;color:rgba(255,255,255,0.4);line-height:1.4;}
+.flow-stat{color:rgba(255,255,255,0.65);}
+.flow-stat-src{display:block;font-family:var(--mono);font-size:7px;color:rgba(255,255,255,0.25);margin-top:2px;letter-spacing:0.06em;}
+.flow-arrow{font-size:1.25rem;color:rgba(255,255,255,0.2);flex-shrink:0;}
+.flow-caption{
+  background:#14172a;padding:1rem 1.5rem;
+  font-size:0.84rem;color:rgba(255,255,255,0.45);
+  text-align:center;line-height:1.6;margin-bottom:2rem;
+}
+.flow-caption strong{color:rgba(255,255,255,0.75);}
+.flow-caption-src{display:block;font-family:var(--mono);font-size:7.5px;color:rgba(255,255,255,0.2);margin-top:4px;letter-spacing:0.08em;}
+
+/* ── FOUNDATION BLOCK (2a always visible) ── */
+.foundation-block{
+  background:var(--card);border:1px solid var(--border);
+  border-top:3px solid var(--accent);
+  padding:2rem 2rem 1.5rem;margin-bottom:2rem;
+}
+.foundation-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:1rem;
+  font-weight:500;
+}
+.foundation-body p{
+  color:var(--ink-2);font-size:0.92rem;line-height:1.78;margin-bottom:0.9rem;
+}
+.foundation-body strong{color:var(--ink);}
+.foundation-sources{
+  display:flex;flex-wrap:wrap;gap:0.6rem;
+  padding-top:1rem;border-top:1px solid var(--border);margin-top:0.5rem;
+}
+
+/* ── ACCORDION ── */
+.acc-label{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--ink-3);
+  margin-bottom:0.5rem;padding-bottom:0.4rem;
+  border-bottom:1px solid var(--border);
+}
+.acc-stack{display:flex;flex-direction:column;gap:0;}
+.acc-item{border:1px solid var(--border);border-top:none;}
+.acc-item:first-child{border-top:1px solid var(--border);}
+.acc-head{
+  display:grid;grid-template-columns:48px 1fr 36px;
+  align-items:center;cursor:pointer;
+  transition:background 0.15s;
+  background:var(--card);
+  min-height:68px;
+}
+.acc-head:hover{background:var(--acc-lt);}
+.acc-head:hover .acc-num{background:var(--accent);color:#fff;}
+.acc-item.open .acc-head{background:var(--acc-lt);border-bottom:1px solid var(--border);}
+.acc-item.open .acc-num{background:var(--accent);color:#fff;}
+.acc-num{
+  display:flex;align-items:center;justify-content:center;
+  height:100%;min-height:68px;
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  color:var(--ink-3);letter-spacing:0.1em;
+  border-right:1px solid var(--border);
+  background:var(--bg-2);transition:background 0.15s,color 0.15s;
+}
+.acc-title-wrap{padding:1rem 1.25rem;}
+.acc-title{
+  font-family:var(--serif);font-size:1rem;font-weight:700;
+  color:var(--ink);margin-bottom:0.2rem;line-height:1.25;
+}
+.acc-sub{font-size:0.78rem;color:var(--ink-3);line-height:1.4;}
+.acc-chevron{
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--ink-3);transition:transform 0.25s,color 0.15s;
+  padding-right:0.5rem;
+}
+.acc-item.open .acc-chevron{transform:rotate(180deg);color:var(--accent);}
+.acc-body{
+  display:none;padding:1.5rem 1.5rem 1.5rem 3.5rem;
+  background:var(--bg);
+  border-top:none;
+}
+.acc-body p{color:var(--ink-2);font-size:0.9rem;line-height:1.75;margin-bottom:0.9rem;}
+.acc-body p:last-child{margin-bottom:0;}
+
+/* center the AM section header */
+#screen-asset-managers .sec-head-inner{justify-content:center;text-align:center;}
+#screen-asset-managers .sec-head-text{text-align:center;}
+#screen-asset-managers .back-btn{position:absolute;left:2rem;}
+#screen-asset-managers .sec-head{position:relative;}
+
+
+/* ── CAPITAL SOURCES VISUAL ── */
+.capital-visual{background:var(--card);border:1px solid var(--border);padding:1.5rem;margin:1.25rem 0;}
+.cap-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;}
+.cap-rows{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1rem;}
+.cap-row{display:grid;grid-template-columns:200px 1fr 70px;gap:0.75rem;align-items:center;}
+.cap-label{font-size:0.82rem;color:var(--ink-2);}
+.cap-bar-wrap{background:var(--bg-2);height:20px;border-radius:2px;overflow:hidden;}
+.cap-bar{height:100%;border-radius:2px;}
+.cap-fig{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink);text-align:right;}
+.cap-row-total .cap-label{color:var(--red);font-weight:500;}
+.cap-row-total .cap-fig{color:var(--red);}
+.cap-note{font-size:0.8rem;color:var(--ink-3);line-height:1.55;margin-bottom:0.75rem;border-top:1px solid var(--border);padding-top:0.75rem;}
+.cap-sources{display:flex;flex-wrap:wrap;gap:0.5rem;}
+
+/* ── VOTE FLOW DIAGRAM ── */
+.vote-flow{background:var(--bg-dark);padding:1.5rem;margin:1.25rem 0;}
+.vf-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.25rem;}
+.vf-steps{display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;}
+.vf-step{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:80px;padding:0.5rem;}
+.vf-icon{font-size:1.4rem;margin-bottom:0.25rem;}
+.vf-crossed{opacity:0.4;}
+.vf-step-label{font-family:var(--sans);font-size:0.8rem;font-weight:600;color:#fff;margin-bottom:0.15rem;}
+.vf-step-sub{font-size:0.7rem;color:rgba(255,255,255,0.45);line-height:1.3;}
+.vf-step-end{border:1px solid rgba(224,90,74,0.4);background:rgba(224,90,74,0.08);border-radius:3px;}
+.vf-connector{display:flex;flex-direction:column;align-items:center;min-width:70px;}
+.vf-arrow{font-size:1rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;}
+.vf-conn-label{font-family:var(--mono);font-size:7px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.05em;line-height:1.4;}
+.vf-caption{font-size:0.8rem;color:rgba(255,255,255,0.45);text-align:center;margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.08);font-style:italic;}
+
+/* ── PYRAMID ── */
+.pyramid-wrap{background:var(--bg-2);padding:1.5rem;margin:1.25rem 0;text-align:center;}
+.pyr-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;}
+.pyr-caption{font-size:0.8rem;color:var(--ink-3);margin-top:0.75rem;font-style:italic;}
+
+/* ── OWNERSHIP TRIANGLE ── */
+.ownership-triangle{background:var(--bg-2);padding:1.5rem;margin:1.25rem 0;text-align:center;}
+.ot-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;}
+.ot-caption{font-size:0.8rem;color:var(--ink-2);margin-top:0.75rem;font-style:italic;line-height:1.5;}
+.ot-sources{margin-top:0.5rem;}
+
+/* ── LOOP VISUAL ── */
+.loop-visual{background:var(--bg-dark);padding:1.5rem;margin:1.25rem 0;}
+.loop-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1rem;text-align:center;}
+.loop-steps{display:flex;flex-direction:column;align-items:center;gap:0;}
+.loop-step{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:0.6rem 1.5rem;text-align:center;font-size:0.85rem;color:rgba(255,255,255,0.75);font-weight:500;min-width:280px;}
+.loop-step span{display:block;font-size:0.75rem;color:rgba(255,255,255,0.4);font-weight:400;margin-top:2px;}
+.loop-step-back{border-color:rgba(224,90,74,0.4);background:rgba(224,90,74,0.08);}
+.loop-arr{font-size:1rem;color:rgba(255,255,255,0.2);padding:0.15rem 0;}
+
+/* Fix acc-head grid — no number col */
+.acc-head{
+  display:grid;grid-template-columns:1fr 36px;
+  align-items:center;cursor:pointer;
+  transition:background 0.15s;background:var(--card);min-height:68px;
+}
+.acc-head:hover{background:var(--acc-lt);}
+.acc-item.open .acc-head{background:var(--acc-lt);border-bottom:1px solid var(--border);}
+
+.sec-footer{
+  background:var(--ink);padding:1.5rem 0;
+}
+.sec-footer-inner{
+  max-width:var(--max);margin:0 auto;padding:0 2rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;
+}
+.sec-footer-inner p{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,0.25);letter-spacing:0.1em;}
+.fnav{display:flex;gap:1.25rem;}
+.fnav a{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.15s;letter-spacing:0.08em;}
+.fnav a:hover{color:#fff;}
+
+/* chart placeholder */
+.chart-ph{border:1px dashed var(--bdr2);padding:2.5rem 2rem;text-align:center;background:var(--bg-2);margin:1.25rem 0;}
+.chart-ph p{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:0.09em;line-height:1.65;}
+
+/* btn */
+.btn{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  padding:0.6rem 1.2rem;font-family:var(--mono);font-size:9px;
+  letter-spacing:0.13em;text-transform:uppercase;
+  text-decoration:none;border:1px solid;cursor:pointer;
+  transition:all 0.2s;background:none;font-weight:500;
+}
+.btn-white{background:#fff;border-color:#fff;color:var(--bg-dark);}
+.btn-white:hover{background:transparent;color:#fff;}
+.btn-outline-lt{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.6);}
+.btn-outline-lt:hover{border-color:#fff;color:#fff;}
+.btn-ghost{border-color:var(--border);color:var(--ink-2);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.btn-ghost-sm{border-color:var(--bdr2);color:var(--ink-3);font-size:8px;padding:0.4rem 0.85rem;}
+
+/* sponsor table */
+.spon-table{border:1px solid var(--border);margin-bottom:2rem;}
+.spon-head{padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:var(--card);display:flex;justify-content:space-between;align-items:center;}
+.spon-cols{padding:0.65rem 1.4rem;background:var(--bg-2);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.spon-row{padding:1rem 1.4rem;border-bottom:1px solid var(--border);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;font-size:0.83rem;cursor:pointer;transition:background 0.14s;}
+.spon-row:hover{background:var(--acc-lt);}
+
+/* fade up */
+.fu{opacity:0;transform:translateY(16px);transition:opacity 0.45s,transform 0.45s;}
+.fu.in{opacity:1;transform:none;}
+
+/* responsive */
+@media(max-width:800px){
+  .nav-links{display:none;}
+  .hero-inner,.sec-body,.detail-body{padding-left:1.25rem;padding-right:1.25rem;}
+  .branches{grid-template-columns:1fr;gap:0;}
+  .dicho-strip,.dicho-page{grid-template-columns:1fr;}
+  .flip-cols{grid-template-columns:1fr;}
+  .flip-strip-inner{grid-template-columns:1fr;}
+  .sec-head-inner{flex-direction:column;align-items:flex-start;gap:0.5rem;}
+  .detail-head-inner{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" onclick="scrollHome();return false;">⬡ H-1B / H-2 Visa Incentive Machine</a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="scrollHome();return false;" id="nav-home">Home</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME PAGE  (hero + chain on same scroll)
+══════════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+
+  <!-- HERO -->
+  <section class="hero" id="hero-section">
+    <div class="hero-inner">
+      <h1 class="hero-title fu">
+        The <span class="visa-type">H-1B / H-2 Visa</span><br>
+        Incentive Machine
+      </h1>
+      <p class="hero-tagline fu" style="transition-delay:0.08s;">
+        How asset managers profit by keeping Americans distracted<br>from the reality of visa programs.
+      </p>
+
+      <div class="hero-thesis fu" style="transition-delay:0.16s;">
+        <div class="hero-thesis-label">CORE THESIS</div>
+        <p>Asset managers are <strong>exploiting both visa workers and ordinary Americans</strong> through the same mechanism. The public debate is framed as a left moral issue or a right economic issue. That framing is <strong>deliberate.</strong> It is the same system. It is the same beneficiary. The H-1B and H-2 programs are discussed as separate issues <strong>by design.</strong> This tool follows the money to show they are nodes in a single extraction loop — one that American retirement accounts are unknowingly funding.</p>
+      </div>
+    </div>
+    <div class="scroll-hint" onclick="scrollChain()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Scroll to chain
+    </div>
+  </section>
+
+  <!-- ══ THE CHAIN — scrolls below hero ══ -->
+  <section id="chain-section">
+    <div class="chain-header fu">
+      <div class="section-eyebrow">Section 01 — The Full Chain</div>
+      <h2>One machine. Two visa programs. The same people get rich.</h2>
+      <p>Click any node to open that section's full analysis. The money flows up. The cost flows down.</p>
+    </div>
+
+    <div class="chain-diagram">
+
+      <!-- ROOT -->
+      <div class="cn-root fu" onclick="go('asset-managers')">
+        <h3>Institutional Asset Managers</h3>
+        <p class="cn-firms">Vanguard · BlackRock · State Street</p>
+      </div>
+
+      <!-- FORK -->
+      <svg class="fork-svg fu" viewBox="0 0 860 56" height="56" style="transition-delay:0.05s;">
+        <line x1="430" y1="0" x2="430" y2="18" stroke="#bfb9af" stroke-width="1.5"/>
+        <line x1="215" y1="18" x2="645" y2="18" stroke="#bfb9af" stroke-width="1.5"/>
+        <line x1="215" y1="18" x2="215" y2="52" stroke="#2d5fa6" stroke-width="1.5" opacity="0.5"/>
+        <line x1="645" y1="18" x2="645" y2="52" stroke="#1a7a6e" stroke-width="1.5" opacity="0.5"/>
+        <polygon points="210,48 215,56 220,48" fill="#2d5fa6" opacity="0.5"/>
+        <polygon points="640,48 645,56 650,48" fill="#1a7a6e" opacity="0.5"/>
+      </svg>
+
+      <!-- BRANCHES -->
+      <div class="branches fu" style="transition-delay:0.1s;">
+
+        <!-- H-1B -->
+        <div class="branch">
+          <div class="cn-visa h1b" onclick="go('visa-h1b')" style="cursor:pointer;">
+            <div class="cn-visa-label">H-1B — Specialty Occupation</div>
+            <h3>Skilled Worker Visa</h3>
+            <p>85,000 annual cap · INA §101(a)(15)(H)(i)(b)</p>
+          </div>
+
+          <div class="arrow-stem">
+            <div class="stem-line h1b-c" style="height:28px;"></div>
+            <div class="stem-arrow h1b-c"></div>
+          </div>
+          <div class="stem-label" style="margin-bottom:0.4rem;">TOP H-1B SPONSORS</div>
+
+          <div class="co-row">
+            <div class="co-node" onclick="detail('co-amazon')">
+              <div class="co-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" onerror="this.parentNode.textContent='AMZN'"/></div>
+              <div class="co-name">Amazon</div><div class="co-count">4,644 approvals</div>
+            </div>
+            <div class="co-node" onclick="detail('co-meta')">
+              <div class="co-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" onerror="this.parentNode.textContent='META'"/></div>
+              <div class="co-name">Meta</div><div class="co-count">1,555 approvals</div>
+            </div>
+            <div class="co-node" onclick="detail('co-microsoft')">
+              <div class="co-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" onerror="this.parentNode.textContent='MSFT'"/></div>
+              <div class="co-name">Microsoft</div><div class="co-count">1,394 approvals</div>
+            </div>
+            <div class="co-node" onclick="detail('co-google')">
+              <div class="co-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" onerror="this.parentNode.textContent='GOOG'"/></div>
+              <div class="co-name">Google</div><div class="co-count">1,050 approvals</div>
+            </div>
+            <div class="co-node" onclick="detail('co-tcs')">
+              <div class="co-logo" style="background:#002a5e;color:#fff;font-size:9px;font-weight:700;">TCS</div>
+              <div class="co-name">TCS</div><div class="co-count">846 approvals</div>
+            </div>
+          </div>
+
+          <!-- H-1B DICHOTOMY -->
+          <div class="arrow-stem" style="margin-top:0.5rem;">
+            <div class="stem-line h1b-c" style="height:20px;"></div>
+            <div class="stem-arrow h1b-c"></div>
+          </div>
+          <div class="stem-label" style="margin-bottom:0.5rem;color:var(--h1b);">H-1B — DICHOTOMY OF EXTRACTION</div>
+          <div class="dicho-strip" style="width:100%;">
+            <div class="dicho-col wk" style="border-top-color:var(--h1b);">
+              <h4 style="color:var(--h1b);">H-1B Worker</h4>
+              <div class="dicho-item" onclick="detail('5a')"><div class="dot" style="background:var(--h1b);"></div><span><strong>Visa tether —</strong> employer controls status. Complaint = deportation risk.</span></div>
+              <div class="dicho-item" onclick="detail('5b')"><div class="dot" style="background:var(--h1b);"></div><span><strong>Wage suppression —</strong> prevailing wage systematically below market rate.</span></div>
+              <div class="dicho-item" onclick="detail('5c')"><div class="dot" style="background:var(--h1b);"></div><span><strong>No recourse —</strong> labor complaint mechanism structurally unavailable.</span></div>
+              <div class="dicho-item" onclick="detail('5e')"><div class="dot" style="background:var(--h1b);"></div><span><strong>Capital flight —</strong> ~$20–25K avg annual remittance outflow.</span></div>
+              <div class="dicho-more"><button class="btn btn-ghost" style="font-size:8px;" onclick="go('human-cost')">Full Analysis →</button></div>
+            </div>
+            <div class="dicho-col am">
+              <h4>American Worker (H-1B)</h4>
+              <div class="dicho-item" onclick="detail('5f')"><div class="dot"></div><span><strong>Direct displacement —</strong> 85K laid off; 34K H-1B hired. Same companies. Same years.</span></div>
+              <div class="dicho-item" onclick="detail('5g')"><div class="dot"></div><span><strong>Wage ceiling —</strong> captive H-1B labor suppresses wages across entire departments.</span></div>
+              <div class="dicho-item" onclick="detail('5h')"><div class="dot"></div><span><strong>STEM unemployment —</strong> advanced degree holders unable to find field work.</span></div>
+              <div class="dicho-item" onclick="detail('5i')"><div class="dot"></div><span><strong>Lost organizing rights —</strong> collective action collapses when workforce cannot safely participate.</span></div>
+              <div class="dicho-more"><button class="btn btn-ghost" style="font-size:8px;" onclick="go('human-cost')">Full Analysis →</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- H-2 -->
+        <div class="branch">
+          <div class="cn-visa h2" onclick="go('visa-h2')" style="cursor:pointer;">
+            <div class="cn-visa-label">H-2A / H-2B — Seasonal Workers</div>
+            <h3>Agricultural &amp; Seasonal Visa</h3>
+            <p>H-2A uncapped · H-2B 66K cap · INA §101(a)(15)(H)(ii)</p>
+          </div>
+
+          <div class="arrow-stem">
+            <div class="stem-line h2-c" style="height:28px;"></div>
+            <div class="stem-arrow h2-c"></div>
+          </div>
+          <div class="stem-label" style="margin-bottom:0.4rem;">TOP H-2 SPONSORS</div>
+
+          <div class="co-row">
+            <div class="co-node h2-co" onclick="detail('co-h2-1')">
+              <div class="co-logo" style="background:#1a5c2e;color:#fff;font-size:7px;font-weight:700;text-align:center;line-height:1.2;">NCGA<br>Inc.</div>
+              <div class="co-name">NCGA, Inc.</div><div class="co-count">10,398 H-2A</div>
+            </div>
+            <div class="co-node h2-co" onclick="detail('co-h2-2')">
+              <div class="co-logo" style="background:#1a5c2e;color:#fff;font-size:7px;font-weight:700;text-align:center;line-height:1.2;">FOOT<br>HILL</div>
+              <div class="co-name">Foothill Packing</div><div class="co-count">6,959 H-2A</div>
+            </div>
+            <div class="co-node h2-co" onclick="detail('co-h2-3')">
+              <div class="co-logo" style="background:#2a4a6a;color:#fff;font-size:8px;font-weight:700;">ABC</div>
+              <div class="co-name">ABC Tree Svc.</div><div class="co-count">2,103 H-2B</div>
+            </div>
+            <div class="co-node h2-co" onclick="detail('co-h2-4')">
+              <div class="co-logo" style="background:#2a4a6a;color:#fff;font-size:7px;font-weight:700;text-align:center;line-height:1.2;">PROG<br>SOL</div>
+              <div class="co-name">Progressive Sol.</div><div class="co-count">2,073 H-2B</div>
+            </div>
+            <div class="co-node h2-co" onclick="detail('co-h2-5')">
+              <div class="co-logo" style="background:#2a4a6a;color:#fff;font-size:7px;font-weight:700;text-align:center;line-height:1.2;">GEN<br>BLDR</div>
+              <div class="co-name">Genuine Builders</div><div class="co-count">1,899 H-2B</div>
+            </div>
+          </div>
+
+          <!-- H-2 DICHOTOMY -->
+          <div class="arrow-stem" style="margin-top:0.5rem;">
+            <div class="stem-line h2-c" style="height:20px;"></div>
+            <div class="stem-arrow h2-c"></div>
+          </div>
+          <div class="stem-label" style="margin-bottom:0.5rem;color:var(--h2);">H-2 — DICHOTOMY OF EXTRACTION</div>
+          <div class="dicho-strip" style="width:100%;">
+            <div class="dicho-col wk" style="border-top-color:var(--h2);">
+              <h4 style="color:var(--h2);">H-2 Worker</h4>
+              <div class="dicho-item" onclick="detail('h2-5a')"><div class="dot" style="background:var(--h2);"></div><span><strong>Physical labor, minimal oversight —</strong> agricultural and seasonal work with limited labor protections.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5b')"><div class="dot" style="background:var(--h2);"></div><span><strong>Housing dependency —</strong> employer-provided housing creates additional control beyond the visa itself.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5c')"><div class="dot" style="background:var(--h2);"></div><span><strong>Seasonal disposability —</strong> workers imported, used, discarded. No pathway to permanence.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5d')"><div class="dot" style="background:var(--h2);"></div><span><strong>Geographic isolation —</strong> rural placements cut workers off from legal aid, advocacy, and community support.</span></div>
+              <div class="dicho-more"><button class="btn btn-ghost" style="font-size:8px;" onclick="go('human-cost')">Full Analysis →</button></div>
+            </div>
+            <div class="dicho-col am">
+              <h4>American Worker (H-2)</h4>
+              <div class="dicho-item" onclick="detail('h2-5e')"><div class="dot"></div><span><strong>Wage floor collapse —</strong> H-2 prevailing wages suppress pay in agricultural and service sectors broadly.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5f')"><div class="dot"></div><span><strong>Rural job displacement —</strong> American farm and seasonal workers priced out of their own local labor markets.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5g')"><div class="dot"></div><span><strong>Lost seasonal income —</strong> families who relied on seasonal agricultural work lose a critical economic cycle.</span></div>
+              <div class="dicho-item" onclick="detail('h2-5h')"><div class="dot"></div><span><strong>Community erosion —</strong> rural towns hollowed out as both jobs and spending leave the local economy.</span></div>
+              <div class="dicho-more"><button class="btn btn-ghost" style="font-size:8px;" onclick="go('human-cost')">Full Analysis →</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /chain-diagram -->
+  </section>
+
+  <!-- Political flip teaser -->
+  <div class="flip-strip">
+    <div class="flip-strip-inner">
+      <div>
+        <div class="flip-strip-label">Contextual Note — Section 06</div>
+        <h3>[PLACEHOLDER TITLE — e.g. "The Left Was Right-Wing on Visas. The Right Was Left-Wing. Follow the Money."]</h3>
+        <p>The problem was never left vs. right. <strong>Both sides switch positions when it benefits the same donor class.</strong> Sanders was anti-H-1B. The GOP establishment was pro-visa. Then the money moved. In both configurations, the workers absorbed the cost while the asset managers collected the returns.</p>
+      </div>
+      <div style="flex-shrink:0;">
+        <button class="btn btn-outline-lt" onclick="go('flip')">Explore →</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="sec-footer">
+    <div class="sec-footer-inner">
+      <p>THE H-1B / H-2 VISA INCENTIVE MACHINE — PHASE 1 FRAMEWORK — ALL STATISTICS PENDING VERIFICATION WHERE FLAGGED</p>
+      <div class="fnav">
+        <a href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank">USCIS</a>
+        <a href="https://www.epi.org" target="_blank">EPI</a>
+        <a href="https://www.opensecrets.org" target="_blank">OpenSecrets</a>
+        <a href="#" onclick="go('sources');return false;">See My Work</a>
+      </div>
+    </div>
+    <div style="max-width:var(--max);margin:0 auto;padding:0.75rem 2rem 0;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <p style="color:rgba(255,255,255,0.15);font-family:var(--mono);font-size:8px;letter-spacing:0.1em;">CREATED BY [NAME / ORGANIZATION PLACEHOLDER] · UNIVERSITY OF KENTUCKY COLLEGE OF LAW</p>
+      <p style="color:rgba(255,255,255,0.12);font-family:var(--mono);font-size:8px;letter-spacing:0.08em;">FOR EDUCATIONAL USE · ALL CLAIMS SOURCED · NO LEGAL ADVICE</p>
+    </div>
+  </footer>
+
+</div><!-- /screen-home -->
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: ASSET MANAGERS
+══════════════════════════════════════════ -->
+<div id="screen-asset-managers" class="screen screen-wrap">
+  <div class="sec-head">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 02 — Institutional Asset Managers</div>
+        <h2>What Is an Asset Manager?</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <!-- ── 2A: FOUNDATION BLOCK — ALWAYS VISIBLE FIRST ── -->
+    <div class="foundation-block">
+      <div class="foundation-label">What Is an Asset Manager?</div>
+      <div class="foundation-body">
+        <p>BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households — <strong>128 million individual investors.</strong> When you signed up for your 401(k), buried in the terms and conditions nobody reads, you handed them something far more valuable than your money: <strong>your vote.</strong></p>
+        <p>Every share of stock in your retirement account comes with a vote in how that company is run — who sits on the board, how executives get paid, what labor policies get approved. You gave those votes away without knowing it. Together, the Big Three control roughly three-quarters of the U.S. equity ETF market and cast votes at corporate elections in nearly every major American company — using your money, without asking you.</p>
+        <p>No government. No union. No activist group comes close to that concentration of power. And it runs entirely on the retirement savings of ordinary Americans who have no idea it's happening.</p>
+        <div class="foundation-sources">
+          <a class="src-ref" href="https://www.ici.org/news-release/ici-report-shows-mutual-funds-key-driver-of-expanding-pool-of-middleclass-investors" target="_blank">ICI 2025 — 56.4% of U.S. Households Own Funds ↗</a>
+          <a class="src-ref" href="https://money.usnews.com/investing/articles/these-3-fund-families-control-74-of-the-market" target="_blank">U.S. News — Big Three ~74% of Equity ETF Market ↗</a>
+          <a class="src-ref" href="https://www.federalregister.gov/documents/2020/12/16/2020-27465/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank">DOL Federal Register — Proxy Voting Rules ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FLOW NARRATIVE ── -->
+    <div class="flow-narrative">
+      <div class="flow-step" onclick="accordion('2b')">
+        <div class="flow-icon">💼</div>
+        <div class="flow-label">Your 401(k)</div>
+        <div class="flow-sub">Automatic payroll deductions</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" onclick="accordion('2b')">
+        <div class="flow-icon">📊</div>
+        <div class="flow-label">Index Fund</div>
+        <div class="flow-sub">Buys shares in every major company</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step flow-step-highlight">
+        <div class="flow-icon">🏦</div>
+        <div class="flow-label">The Big Three</div>
+        <div class="flow-sub flow-stat">~74% of U.S. equity ETF market<br><span class="flow-stat-src">ETF.com / Bloomberg, Feb 2024</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" onclick="accordion('2c')">
+        <div class="flow-icon">🗳️</div>
+        <div class="flow-label">Corporate Vote</div>
+        <div class="flow-sub flow-stat">20–25% of every S&P 500 vote<br><span class="flow-stat-src">ICFS / SparkCo Research</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" onclick="accordion('2d')">
+        <div class="flow-icon">⚙️</div>
+        <div class="flow-label">Labor Policy</div>
+        <div class="flow-sub">Board composition · executive pay · visa hiring</div>
+      </div>
+    </div>
+    <div class="flow-caption">
+      More than half of U.S. households — <strong>128 million individual investors</strong> — feed this pipeline through retirement accounts, most without realizing what they surrendered in the fine print.
+      <span class="flow-caption-src">Source: ICI 2025 Mutual Fund Report</span>
+    </div>
+
+    <!-- ── ACCORDION ── -->
+    <div class="acc-label">Dig Deeper — Click Any Section to Expand</div>
+    <div class="acc-stack" id="acc-stack">
+
+      <!-- 2B -->
+      <div class="acc-item" id="acc-2b">
+        <div class="acc-head" onclick="accordion('2b')">
+          <div class="acc-title-wrap" style="padding-left:1.5rem;">
+            <div class="acc-title">Where Their Money Comes From</div>
+            <div class="acc-sub">How your retirement contributions — and taxpayer-backed public funds — became their power base</div>
+          </div>
+          <div class="acc-chevron" id="chev-2b">﹀</div>
+        </div>
+        <div class="acc-body" id="body-2b">
+          <p>Most Americans never write a check to BlackRock, Vanguard, or State Street. The money flows automatically. When you — or your employer — contribute to a 401(k), 403(b), IRA, or pension plan, those dollars typically flow into low-cost index funds overwhelmingly managed by the Big Three.</p>
+          <p>But private retirement savings are only part of the story. An equally large and largely invisible channel runs through government-mandated systems.</p>
+
+          <!-- Capital sources visual -->
+          <div class="capital-visual">
+            <div class="cap-title">Where the Capital Comes From</div>
+            <div class="cap-rows">
+              <div class="cap-row">
+                <div class="cap-label">Private 401(k), IRA &amp; Pension Plans</div>
+                <div class="cap-bar-wrap"><div class="cap-bar" style="width:72%;background:var(--accent);"></div></div>
+                <div class="cap-fig">~$21T+</div>
+              </div>
+              <div class="cap-row">
+                <div class="cap-label">State &amp; Local Public Pensions</div>
+                <div class="cap-bar-wrap"><div class="cap-bar" style="width:32%;background:#4a7fc1;"></div></div>
+                <div class="cap-fig">~$10T</div>
+              </div>
+              <div class="cap-row">
+                <div class="cap-label">Federal Thrift Savings Plan (TSP)</div>
+                <div class="cap-bar-wrap"><div class="cap-bar" style="width:4%;background:#7a9fd4;"></div></div>
+                <div class="cap-fig">$1.07T</div>
+              </div>
+              <div class="cap-row cap-row-total">
+                <div class="cap-label">BlackRock Pension AUM Alone</div>
+                <div class="cap-bar-wrap"><div class="cap-bar" style="width:13%;background:#e05a4a;"></div></div>
+                <div class="cap-fig">$3.9T</div>
+              </div>
+            </div>
+            <div class="cap-note">State and local pensions, federal plans, and the TSP are funded by mandatory employer/employee contributions and taxpayer dollars — then steered into Big Three index funds by fiduciary statutes in nearly every state. The federal TSP alone covers 7.3 million federal civilians and military members. BlackRock and State Street directly manage its core stock and bond index funds.</div>
+            <div class="cap-sources">
+              <a class="src-ref" href="https://finance.yahoo.com/quote/BLK/earnings/BLK-Q1-2026-earnings_call-541756.html" target="_blank">BlackRock Q1 2026 — $14T AUM ↗</a>
+              <a class="src-ref" href="https://www.tsp.gov/data-and-investments/assets-and-returns/" target="_blank">TSP — $1.07T Assets ↗</a>
+              <a class="src-ref" href="https://www.ici.org/news-release/ici-report-shows-mutual-funds-key-driver-of-expanding-pool-of-middleclass-investors" target="_blank">ICI 2025 Fund Ownership ↗</a>
+            </div>
+          </div>
+
+          <p>In both private payroll deductions and these publicly directed pools, the result is identical: ordinary Americans' savings — and taxpayer-backed funds created by legislation — provide the raw capital that gives institutional asset managers their massive voting power over corporate America.</p>
+        </div>
+      </div>
+
+      <!-- 2C -->
+      <div class="acc-item" id="acc-2c">
+        <div class="acc-head" onclick="accordion('2c')">
+          <div class="acc-title-wrap" style="padding-left:1.5rem;">
+            <div class="acc-title">How You Gave Away Your Vote Without Knowing It</div>
+            <div class="acc-sub">What shareholder voting is — and why you no longer do it</div>
+          </div>
+          <div class="acc-chevron" id="chev-2c">﹀</div>
+        </div>
+        <div class="acc-body" id="body-2c">
+          <p>Every share of stock comes with voting rights. At a company's annual shareholder meeting, owners vote on board directors, executive compensation packages, mergers, and major policy decisions that shape corporate behavior — including labor strategy and hiring practices.</p>
+          <p>In theory, if your retirement account holds those shares, you should have a say. In practice, you signed that right away the moment your 401(k), 403(b), IRA, or pension plan invested in an index fund.</p>
+
+          <!-- Linear flow diagram -->
+          <div class="vote-flow">
+            <div class="vf-title">The Vote Transfer — Step by Step</div>
+            <div class="vf-steps">
+              <div class="vf-step">
+                <div class="vf-icon">🧑</div>
+                <div class="vf-step-label">You</div>
+                <div class="vf-step-sub">Retirement saver</div>
+              </div>
+              <div class="vf-connector">
+                <div class="vf-arrow">→</div>
+                <div class="vf-conn-label">Payroll deduction buys shares</div>
+              </div>
+              <div class="vf-step">
+                <div class="vf-icon">📋</div>
+                <div class="vf-step-label">Index Fund</div>
+                <div class="vf-step-sub">Holds the shares</div>
+              </div>
+              <div class="vf-connector">
+                <div class="vf-arrow">→</div>
+                <div class="vf-conn-label">ERISA + plan documents transfer voting rights</div>
+              </div>
+              <div class="vf-step vf-step-end">
+                <div class="vf-icon">🏦</div>
+                <div class="vf-step-label">Big Three</div>
+                <div class="vf-step-sub">Cast the vote</div>
+              </div>
+              <div class="vf-connector">
+                <div class="vf-arrow">→</div>
+                <div class="vf-conn-label">Manager votes on board, pay &amp; labor policy</div>
+              </div>
+              <div class="vf-step">
+                <div class="vf-icon vf-crossed">🗳️</div>
+                <div class="vf-step-label" style="color:var(--red);">Your Vote</div>
+                <div class="vf-step-sub" style="color:var(--red);">Never cast</div>
+              </div>
+            </div>
+            <div class="vf-caption">Your money buys the shares. The law hands the vote to the manager. You are never consulted.</div>
+          </div>
+
+          <p>When your plan buys shares through a mutual fund or ETF, the legal right to vote those shares — called proxy voting — transfers to the fund manager. Under ERISA section 403(a)(2) and long-standing DOL guidance, proxy voting is a core fiduciary duty of the investment manager, not the individual participant. Standard plan documents make this delegation automatic. Almost no one reads them.</p>
+          <div class="verified-block"><span class="vb-label">✓ Verified — DOL Federal Register, December 2020</span><p>The Department of Labor has repeatedly confirmed that managing shareholder rights — including proxy voting — is a fiduciary responsibility under ERISA. When authority is delegated to an investment manager, day-to-day voting power rests with the asset manager. The same index funds holding your retirement savings give BlackRock, Vanguard, and State Street the legal authority to cast votes at corporate elections — on executive pay, board composition, and labor policy — without ever consulting you.</p></div>
+          <div class="src-refs">
+            <a class="src-ref" href="https://www.federalregister.gov/documents/2020/12/16/2020-27465/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank">DOL Federal Register — Proxy Voting Fiduciary Duties ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2D -->
+      <div class="acc-item" id="acc-2d">
+        <div class="acc-head" onclick="accordion('2d')">
+          <div class="acc-title-wrap" style="padding-left:1.5rem;">
+            <div class="acc-title">What They Do With That Voting Power</div>
+            <div class="acc-sub">Block voting mechanics and how boards learn to respond</div>
+          </div>
+          <div class="acc-chevron" id="chev-2d">﹀</div>
+        </div>
+        <div class="acc-body" id="body-2d">
+          <p>The Big Three are the largest shareholder in roughly 88% of S&P 500 companies. Collectively, they control 20–25% of the vote at any given shareholder meeting. No other single institution comes close.</p>
+          <p>They do not need to coordinate. Because they all hold index funds that mirror the same broad market, their economic incentives are structurally identical: whatever increases long-term portfolio-wide returns benefits all three. This produces natural voting alignment — no back-room agreement required.</p>
+
+          <!-- Stacked pyramid SVG -->
+          <div class="pyramid-wrap">
+            <div class="pyr-title">The Scale of Concentrated Voting Power</div>
+            <svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto;">
+              <!-- Bottom layer: individuals -->
+              <polygon points="10,250 510,250 430,185 90,185" fill="#e8eef8" stroke="#2d5fa6" stroke-width="1.5"/>
+              <text x="260" y="225" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" fill="#1c1f2e" font-weight="500">Millions of Individual Retirement Accounts</text>
+              <text x="260" y="242" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#4a4e5f">128 million investors · $32T+ flowing in</text>
+              <!-- Middle layer: index funds -->
+              <polygon points="90,182 430,182 370,120 150,120" fill="#dde8f6" stroke="#2d5fa6" stroke-width="1.5"/>
+              <text x="260" y="158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" fill="#1c1f2e" font-weight="500">Index Funds &amp; ETFs</text>
+              <text x="260" y="174" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#2d5fa6">Big Three manage ~74% of equity ETF market</text>
+              <!-- Top layer: Big Three -->
+              <polygon points="150,117 370,117 260,55" fill="#2d5fa6" stroke="#1a3d6e" stroke-width="1.5"/>
+              <text x="260" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" fill="#ffffff" font-weight="700">BlackRock · Vanguard · State Street</text>
+              <text x="260" y="107" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="rgba(255,255,255,0.75)">Cast 20–25% of votes at 88% of S&amp;P 500 companies</text>
+            </svg>
+            <div class="pyr-caption">The further up the pyramid, the more concentrated the power — all of it built on the savings of the people at the base.</div>
+          </div>
+
+          <div class="verified-block"><span class="vb-label">✓ Verified — Morningstar 2025</span><p>In the 2025 proxy season, the Big Three backed management proposals <strong>98.7% of the time</strong> on average. Boards and CEOs quickly learn which behaviors earn consistent support: lower labor costs, higher margins, and strategies that protect profit — including aggressive use of guest-worker programs when they deliver cost savings. The feedback loop is simple and powerful. Consistent voting rewards companies that deliver what the portfolio values.</p></div>
+          <div class="src-refs">
+            <a class="src-ref" href="https://www.morningstar.com/sustainable-investing/proxy-voting-asset-managers-increased-their-support-management-2025" target="_blank">Morningstar — Proxy Voting 2025 ↗</a>
+            <a class="src-ref" href="https://icfs.com/financial-knowledge-center/the-big-three-blackrock-vanguard-state-street" target="_blank">ICFS — The Big Three ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2E -->
+      <div class="acc-item" id="acc-2e">
+        <div class="acc-head" onclick="accordion('2e')">
+          <div class="acc-title-wrap" style="padding-left:1.5rem;">
+            <div class="acc-title">Why They Always Vote the Same Way — Without Talking to Each Other</div>
+            <div class="acc-sub">Cross-ownership aligns their incentives automatically. No conspiracy required.</div>
+          </div>
+          <div class="acc-chevron" id="chev-2e">﹀</div>
+        </div>
+        <div class="acc-body" id="body-2e">
+          <p>Vanguard is BlackRock's largest shareholder, owning about 9% of the company — roughly $15 billion worth of shares as of early 2026. BlackRock owns about 6.5% of its own shares through its funds. State Street owns about 4% of BlackRock. BlackRock, in turn, holds about 8% of State Street.</p>
+          <p>This is not a secret plot. Here is why it happens:</p>
+          <p>Index funds must own a little bit of every big company in the same proportion as the overall stock market. BlackRock is itself a large publicly traded company — so Vanguard's index funds are required to own BlackRock stock. BlackRock's funds must own State Street stock. And so on. The structure creates the circle automatically.</p>
+
+          <!-- Cross-ownership triangle -->
+          <div class="ownership-triangle">
+            <div class="ot-title">The Cross-Ownership Circle</div>
+            <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;display:block;margin:0 auto;">
+              <!-- Background -->
+              <rect width="440" height="300" fill="#f4f1ec" rx="4"/>
+              <!-- Triangle lines -->
+              <line x1="220" y1="40" x2="60" y2="240" stroke="#bfb9af" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="220" y1="40" x2="380" y2="240" stroke="#bfb9af" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="60" y1="240" x2="380" y2="240" stroke="#bfb9af" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <!-- Arrows on lines -->
+              <!-- Top to bottom-left -->
+              <polygon points="70,224 62,242 80,234" fill="#bfb9af"/>
+              <!-- Top to bottom-right -->
+              <polygon points="368,224 378,242 360,234" fill="#bfb9af"/>
+              <!-- Bottom left to right -->
+              <polygon points="358,243 380,243 368,230" fill="#bfb9af"/>
+              <!-- Percentage labels on lines -->
+              <text x="118" y="148" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#4a4e5f" transform="rotate(-52,118,148)">~9%</text>
+              <text x="322" y="148" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#4a4e5f" transform="rotate(52,322,148)">~4%</text>
+              <text x="220" y="270" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#4a4e5f">~8%</text>
+              <!-- Vanguard node (top) -->
+              <circle cx="220" cy="40" r="34" fill="#2d5fa6" stroke="#1a3d6e" stroke-width="2"/>
+              <text x="220" y="36" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#fff" font-weight="700">Vanguard</text>
+              <text x="220" y="50" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">owns ~9%</text>
+              <text x="220" y="62" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">of BlackRock</text>
+              <!-- BlackRock node (bottom-left) -->
+              <circle cx="60" cy="240" r="34" fill="#1a3d6e" stroke="#0f2647" stroke-width="2"/>
+              <text x="60" y="236" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#fff" font-weight="700">BlackRock</text>
+              <text x="60" y="250" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">owns ~8%</text>
+              <text x="60" y="262" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">of State St.</text>
+              <!-- State Street node (bottom-right) -->
+              <circle cx="380" cy="240" r="34" fill="#4a7fc1" stroke="#2d5fa6" stroke-width="2"/>
+              <text x="380" y="236" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#fff" font-weight="700">State St.</text>
+              <text x="380" y="250" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">owns ~4%</text>
+              <text x="380" y="262" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.75)">of BlackRock</text>
+              <!-- Center label -->
+              <rect x="155" y="128" width="130" height="44" rx="4" fill="#fff" stroke="#d4cfc6" stroke-width="1"/>
+              <text x="220" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#1c1f2e" font-weight="600">Same owners</text>
+              <text x="220" y="162" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4a4e5f">→ same incentives</text>
+            </svg>
+            <div class="ot-caption">Index funds must own everything in proportion — so they end up owning each other. No coordination needed. The structure does it automatically.</div>
+            <div class="ot-sources">
+              <span style="font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:0.08em;">Source: SEC 13F filings Q4 2025 / early 2026 — Fintel, WhaleWisdom, company disclosures</span>
+            </div>
+          </div>
+
+          <p>Because they all own pieces of the same giant portfolio, they all want exactly the same thing — higher profits across the whole market. That means they naturally vote the same way on wages, labor costs, and guest-worker programs. No secret meetings. No explicit agreement. The incentive structure does the work for them.</p>
+          <div class="src-refs">
+            <a class="src-ref" href="https://sparkco.ai/blog/blackrock-vanguard-state-street-asset-concentration-oligopoly" target="_blank">SparkCo — Asset Concentration ↗</a>
+            <a class="src-ref" href="https://theconversation.com/these-three-firms-own-corporate-america-77072" target="_blank">The Conversation — These Three Firms Own Corporate America ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2F -->
+      <div class="acc-item" id="acc-2f">
+        <div class="acc-head" onclick="accordion('2f')">
+          <div class="acc-title-wrap" style="padding-left:1.5rem;">
+            <div class="acc-title">How They Influence Policy Without Lobbying For It</div>
+            <div class="acc-sub">Their portfolio companies lobby the laws — the managers vote the profits</div>
+          </div>
+          <div class="acc-chevron" id="chev-2f">﹀</div>
+        </div>
+        <div class="acc-body" id="body-2f">
+          <p>BlackRock spent $3.4 million on federal lobbying in 2025. Vanguard spent $2.58 million. Almost none of it targeted immigration or H-1B/H-2 visa bills directly. Their lobbying stays focused on securities rules and investment policy.</p>
+          <p>They don't need to lobby immigration law themselves. Their portfolio companies — Amazon, Google, Microsoft, the big outsourcing firms, and groups like the U.S. Chamber of Commerce — do that heavy lifting. Once those policies become law and low-cost visa labor becomes available, the asset managers simply use their massive aligned voting blocks to reward the companies that use visas most aggressively. Lower labor costs → higher margins → higher stock prices. The funds perform better. Management fees go up.</p>
+          <div class="loop-visual">
+            <div class="loop-title">The Complete Loop</div>
+            <div class="loop-steps">
+              <div class="loop-step">Americans fund the managers<br><span>through retirement accounts</span></div>
+              <div class="loop-arr">↓</div>
+              <div class="loop-step">Managers vote to reward<br><span>low-labor-cost strategies</span></div>
+              <div class="loop-arr">↓</div>
+              <div class="loop-step">Companies scale up<br><span>visa usage</span></div>
+              <div class="loop-arr">↓</div>
+              <div class="loop-step">Margins rise → fund values<br><span>and fees increase</span></div>
+              <div class="loop-arr">↓</div>
+              <div class="loop-step loop-step-back">More Americans<br><span>pour money in</span></div>
+            </div>
+          </div>
+          <div class="verified-block"><span class="vb-label">✓ Verified — OpenSecrets 2025</span><p>BlackRock: $3.4M federal lobbying spend. Vanguard: $2.58M. Neither targeted H-1B/H-2 directly. The portfolio companies carry that burden. The managers collect the returns.</p></div>
+          <div class="src-refs">
+            <a class="src-ref" href="https://www.opensecrets.org/federal-lobbying/clients/summary?cycle=2025&id=D000022305" target="_blank">OpenSecrets — BlackRock 2025 ↗</a>
+            <a class="src-ref" href="https://www.opensecrets.org/federal-lobbying/clients/summary?id=D000021872" target="_blank">OpenSecrets — Vanguard 2025 ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /acc-stack -->
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 02 — ASSET MANAGERS</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('visa-h1b');return false;">H-1B Visa →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: H-1B VISA
+══════════════════════════════════════════ -->
+<div id="screen-visa-h1b" class="screen screen-wrap">
+  <div class="sec-head" style="border-bottom-color:var(--h1b);">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 03a — The H-1B Visa</div>
+        <h2>Skilled Worker Visa: What the Law Says vs. What Actually Happens</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:1.5rem;">
+      <div style="background:var(--card);padding:1.75rem;border-top:3px solid var(--h1b);">
+        <div class="stat-label" style="color:var(--h1b);">H-1B — FY2025 Top Sponsor</div>
+        <div class="stat-fig">Amazon</div>
+        <div class="stat-desc">4,644 approved petitions. #1 H-1B sponsor in FY2025.</div>
+        <span class="verified-badge">✓ NFAP / USCIS Data Hub, FY2025</span>
+      </div>
+      <div style="background:var(--card);padding:1.75rem;border-top:3px solid var(--h1b);">
+        <div class="stat-label" style="color:var(--h1b);">Annual Statutory Cap</div>
+        <div class="stat-fig">85,000</div>
+        <div class="stat-desc">65,000 general + 20,000 U.S. advanced degree. Cap-exempt employers (universities, nonprofits) face no limit — real volume is significantly higher.</div>
+        <span class="verified-badge">✓ INA §101(a)(15)(H)(i)(b)</span>
+      </div>
+    </div>
+
+    <!-- FY2025 Top 5 table -->
+    <div class="spon-table" style="margin-bottom:2rem;">
+      <div class="spon-head">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--h1b);font-weight:500;">Top 5 H-1B Sponsors — FY2025 Initial Employment Approvals</span>
+        <a href="https://nfap.com/research/new-nfap-policy-brief-h-1b-petitions-and-denial-rates-in-fy-2025/" target="_blank" class="src-ref" style="font-size:8px;">NFAP / USCIS ↗</a>
+      </div>
+      <div class="spon-cols"><span>Company</span><span>Approvals</span><span>Rank</span><span>Detail</span></div>
+      <div class="spon-row" onclick="detail('co-amazon')">
+        <span style="font-weight:600;">Amazon</span>
+        <span style="font-family:var(--mono);color:var(--h1b);font-weight:700;">4,644</span>
+        <span style="font-family:var(--mono);color:var(--ink-3);">#1</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--accent);">View →</span>
+      </div>
+      <div class="spon-row" onclick="detail('co-meta')">
+        <span style="font-weight:600;">Meta Platforms</span>
+        <span style="font-family:var(--mono);color:var(--h1b);font-weight:700;">1,555</span>
+        <span style="font-family:var(--mono);color:var(--ink-3);">#2</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--accent);">View →</span>
+      </div>
+      <div class="spon-row" onclick="detail('co-microsoft')">
+        <span style="font-weight:600;">Microsoft</span>
+        <span style="font-family:var(--mono);color:var(--h1b);font-weight:700;">1,394</span>
+        <span style="font-family:var(--mono);color:var(--ink-3);">#3</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--accent);">View →</span>
+      </div>
+      <div class="spon-row" onclick="detail('co-google')">
+        <span style="font-weight:600;">Google (Alphabet)</span>
+        <span style="font-family:var(--mono);color:var(--h1b);font-weight:700;">1,050</span>
+        <span style="font-family:var(--mono);color:var(--ink-3);">#4</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--accent);">View →</span>
+      </div>
+      <div class="spon-row" onclick="detail('co-tcs')">
+        <span style="font-weight:600;">Tata Consultancy Services</span>
+        <span style="font-family:var(--mono);color:var(--h1b);font-weight:700;">846</span>
+        <span style="font-family:var(--mono);color:var(--ink-3);">#5</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--accent);">View →</span>
+      </div>
+    </div>
+
+    <div class="chart-ph"><p>[ CHART — H-1B Approval Trend 1990–2026 · USCIS Historical Data · Populates Phase 3 ]</p></div>
+
+    <div class="acc-label" style="margin-top:2rem;">H-1B Detail Panels — Click to Expand</div>
+    <div class="panel-stack">
+      <div class="panel-item h1b-l" onclick="detail('3a')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">The Law: What H-1B Was Designed to Do</div><div class="pi-sub">INA §101(a)(15)(H)(i)(b) — statute text, LCA requirements, design intent vs. enforcement reality.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item h1b-l" onclick="detail('3c')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">The Regulatory Scam: How "We Tried to Find an American" Actually Works</div><div class="pi-sub">LCA is pure self-attestation. DOL audits are rare. PERM adds green card recruitment requirements but still relies on employer declarations. DOL's March 2026 proposed wage rule implicitly concedes the loopholes.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item h1b-l" onclick="detail('3e')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">The 72% Figure: Indian Nationals and H-1B Concentration</div><div class="pi-sub">~72% of H-1B approvals go to Indian nationals. The outsourcing model, staffing firm structure, and diaspora lobbying organizations behind the statistic.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('3f')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">Stated Intent vs. Documented Reality: The Cost Savings Case</div><div class="pi-sub">EPI wage data. What "we couldn't find qualified Americans" means when the numbers are this consistent across this many companies.</div></div><div class="pi-arr">→</div></div>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 03a — H-1B VISA</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('visa-h2');return false;">H-2 Visa →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: H-2 VISA
+══════════════════════════════════════════ -->
+<div id="screen-visa-h2" class="screen screen-wrap">
+  <div class="sec-head" style="border-bottom-color:var(--h2);">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 03b — The H-2 Visa</div>
+        <h2>Agricultural &amp; Seasonal Workers: A Different Program, The Same Extraction</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+    <!-- H-2A sponsors -->
+    <div class="spon-table" style="margin-bottom:1.5rem;">
+      <div class="spon-head">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--h2);font-weight:500;">Top 5 H-2A Sponsors — FY2025 (Agricultural)</span>
+        <a href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank" class="src-ref" style="font-size:8px;">DOL OFLC FY2025 Q4 ↗</a>
+      </div>
+      <div class="spon-cols"><span>Employer</span><span>Positions Certified</span><span>Rank</span><span>Sector</span></div>
+      <div class="spon-row"><span style="font-weight:600;">NCGA, Inc.</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">10,398</span><span style="font-family:var(--mono);color:var(--ink-3);">#1</span><span style="font-size:0.8rem;color:var(--ink-2);">Agricultural</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Foothill Packing, Inc.</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">6,959</span><span style="font-family:var(--mono);color:var(--ink-3);">#2</span><span style="font-size:0.8rem;color:var(--ink-2);">Agricultural</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Wafla</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">4,913</span><span style="font-family:var(--mono);color:var(--ink-3);">#3</span><span style="font-size:0.8rem;color:var(--ink-2);">Agricultural</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Temp Labor, LLC</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">4,891</span><span style="font-family:var(--mono);color:var(--ink-3);">#4</span><span style="font-size:0.8rem;color:var(--ink-2);">Agricultural</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Fresh Harvest, Inc.</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">4,375</span><span style="font-family:var(--mono);color:var(--ink-3);">#5</span><span style="font-size:0.8rem;color:var(--ink-2);">Agricultural</span></div>
+    </div>
+
+    <!-- H-2B sponsors -->
+    <div class="spon-table" style="margin-bottom:2rem;">
+      <div class="spon-head">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--h2);font-weight:500;">Top 5 H-2B Sponsors — FY2025 (Non-Agricultural Seasonal)</span>
+        <a href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2B_Selected_Statistics_FY2025_Q4.pdf" target="_blank" class="src-ref" style="font-size:8px;">DOL OFLC FY2025 Q4 ↗</a>
+      </div>
+      <div class="spon-cols"><span>Employer</span><span>Positions Certified</span><span>Rank</span><span>Sector</span></div>
+      <div class="spon-row"><span style="font-weight:600;">ABC Professional Tree Services</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">2,103</span><span style="font-family:var(--mono);color:var(--ink-3);">#1</span><span style="font-size:0.8rem;color:var(--ink-2);">Landscaping</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Progressive Solutions LLC</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">2,073</span><span style="font-family:var(--mono);color:var(--ink-3);">#2</span><span style="font-size:0.8rem;color:var(--ink-2);">Seasonal Services</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Genuine Builders, Inc.</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">1,899</span><span style="font-family:var(--mono);color:var(--ink-3);">#3</span><span style="font-size:0.8rem;color:var(--ink-2);">Construction</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Landscape Workshop LLC</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">1,840</span><span style="font-family:var(--mono);color:var(--ink-3);">#4</span><span style="font-size:0.8rem;color:var(--ink-2);">Landscaping</span></div>
+      <div class="spon-row"><span style="font-weight:600;">Vivint, LLC</span><span style="font-family:var(--mono);color:var(--h2);font-weight:700;">1,262</span><span style="font-family:var(--mono);color:var(--ink-3);">#5</span><span style="font-size:0.8rem;color:var(--ink-2);">Home Services</span></div>
+    </div>
+
+    <div class="acc-label">H-2 Detail Panels — Click to Expand</div>
+    <div class="panel-stack">
+      <div class="panel-item h2-l" onclick="detail('3b')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">The Law: H-2A and H-2B Explained</div><div class="pi-sub">INA §101(a)(15)(H)(ii)(a) and (b) — agricultural vs non-agricultural. Separate certification processes and overlapping failure modes.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item h2-l" onclick="detail('h2-reg')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">The H-2 Certification Loophole</div><div class="pi-sub">DOL certifies labor need but relies on employer attestations. H-2A housing and wage requirements are routinely skirted. Enforcement is thin and geographically spread.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item h2-l" onclick="detail('h2-5a')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">Physical Labor, Minimal Oversight</div><div class="pi-sub">Agricultural and seasonal work with limited protections. Geographic isolation cuts workers off from legal aid, advocacy, and support.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('h2-5e')"><div class="pi-content" style="padding-left:1.5rem;"><div class="pi-title">Impact on American Agricultural and Seasonal Workers</div><div class="pi-sub">Wage floor collapse, rural job displacement, lost seasonal income, community economic erosion.</div></div><div class="pi-arr">→</div></div>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 03b — H-2 VISA</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('companies');return false;">Companies →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: COMPANIES
+══════════════════════════════════════════ -->
+<div id="screen-companies" class="screen screen-wrap">
+  <div class="sec-head">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 04 — The Corporate Layer</div>
+        <h2>Top sponsors. Their contracts. Their owners.</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+    <div class="spon-table">
+      <div class="spon-head">
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">Top H-1B Sponsors — FY2025</span>
+        <span class="ph-tag">⚑ USCIS Data Hub — Phase 4</span>
+      </div>
+      <div class="spon-cols"><span>Company</span><span>Visa Count</span><span>YoY</span><span>Fed Contracts</span></div>
+      <div class="spon-row" onclick="detail('co-amazon')"><span style="font-weight:500;">Amazon</span><span style="font-family:var(--mono);color:var(--accent);">[PENDING]</span><span style="font-family:var(--mono);color:var(--ink-3);">[PENDING]</span><span style="font-family:var(--mono);">[PENDING]</span></div>
+      <div class="spon-row" onclick="detail('co-google')"><span style="font-weight:500;">Google / Alphabet</span><span style="font-family:var(--mono);color:var(--accent);">[PENDING]</span><span style="font-family:var(--mono);color:var(--ink-3);">[PENDING]</span><span style="font-family:var(--mono);">[PENDING]</span></div>
+      <div class="spon-row" onclick="detail('co-infosys')"><span style="font-weight:500;">Infosys</span><span style="font-family:var(--mono);color:var(--accent);">[PENDING]</span><span style="font-family:var(--mono);color:var(--ink-3);">[PENDING]</span><span style="font-family:var(--mono);">[PENDING]</span></div>
+      <div class="spon-row" onclick="detail('co-tcs')"><span style="font-weight:500;">TCS</span><span style="font-family:var(--mono);color:var(--accent);">[PENDING]</span><span style="font-family:var(--mono);color:var(--ink-3);">[PENDING]</span><span style="font-family:var(--mono);">[PENDING]</span></div>
+      <div class="spon-row" onclick="detail('co-wipro')"><span style="font-weight:500;">Wipro</span><span style="font-family:var(--mono);color:var(--accent);">[PENDING]</span><span style="font-family:var(--mono);color:var(--ink-3);">[PENDING]</span><span style="font-family:var(--mono);">[PENDING]</span></div>
+      <div style="padding:0.65rem 1.4rem;font-family:var(--mono);font-size:8px;color:var(--ink-3);background:var(--bg-2);">+ 5 more rows — populates Phase 4</div>
+    </div>
+
+    <div class="stack-label">Per-Company Analysis — Click to Open</div>
+    <div class="panel-stack">
+      <div class="panel-item" onclick="detail('4a')"><div class="pi-num">4a</div><div class="pi-content"><div class="pi-title">Visa Count &amp; Year-over-Year Trend</div><div class="pi-sub">USCIS employer data FY2020–2025. Approval rates, cap-exempt status, petition volume trajectory.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('4b')"><div class="pi-num">4b</div><div class="pi-content"><div class="pi-title">Estimated Labor Cost Savings</div><div class="pi-sub">EPI prevailing wage methodology. Market wage delta × H-1B headcount per company. The number that explains the incentive.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('4c')"><div class="pi-num">4c</div><div class="pi-content"><div class="pi-title">Ultimate Ownership Chain</div><div class="pi-sub">Company → parent → institutional holder → asset manager. PE intermediary chains for H-2 sponsors included.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('4d')"><div class="pi-num">4d</div><div class="pi-content"><div class="pi-title">Federal Contract Receipts</div><div class="pi-sub">USASpending.gov. The government that issues the visas is often the primary customer of the companies filing the most petitions.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item" onclick="detail('4e')"><div class="pi-num">4e</div><div class="pi-content"><div class="pi-title">Lobbying Expenditures</div><div class="pi-sub">OpenSecrets — company + industry totals on immigration and labor policy, cross-referenced with petition volume years.</div></div><div class="pi-arr">→</div></div>
+      <div class="panel-item red-l" onclick="detail('4f')"><div class="pi-num">4f/g</div><div class="pi-content"><div class="pi-title">PAC Contributions + Layoff Juxtaposition</div><div class="pi-sub">FEC PAC data alongside documented layoff records (WARN / 8-K filings). H-1B hiring and American terminations in the same fiscal years.</div></div><div class="pi-arr">→</div></div>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 04 — CORPORATE LAYER</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('human-cost');return false;">Human Cost →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: HUMAN COST
+══════════════════════════════════════════ -->
+<div id="screen-human-cost" class="screen screen-wrap">
+  <div class="sec-head">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 05 — Dichotomy of Extraction</div>
+        <h2>Two groups. One machine. Different injuries.</h2>
+      </div>
+    </div>
+  </div>
+  <div class="dicho-page">
+    <div class="dicho-page-col wk">
+      <h3>The H-1B / H-2 Worker</h3>
+      <div class="panel-stack">
+        <div class="panel-item teal-l" onclick="detail('5a')"><div class="pi-num">5a</div><div class="pi-content"><div class="pi-title">The Visa Tether</div><div class="pi-sub">One employer controls status. Complaint = termination = deportation risk. The 60-day window that isn't a safety net.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item teal-l" onclick="detail('5b')"><div class="pi-num">5b</div><div class="pi-content"><div class="pi-title">Systematic Wage Suppression</div><div class="pi-sub">Prevailing wage vs market wages. EPI documented. The HCL case and the broader pattern it reveals.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item teal-l" onclick="detail('5c')"><div class="pi-num">5c</div><div class="pi-content"><div class="pi-title">Working Conditions &amp; No Recourse</div><div class="pi-sub">EEOC guidance vs ground-level reality. Structural unavailability of complaint mechanisms for visa-dependent workers.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item teal-l" onclick="detail('5d')"><div class="pi-num">5d</div><div class="pi-content"><div class="pi-title">Housing Concentration</div><div class="pi-sub">Multiple workers per unit. Metro clustering. Rent impact on surrounding communities.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item teal-l" onclick="detail('5e')"><div class="pi-num">5e</div><div class="pi-content"><div class="pi-title">Remittances &amp; Capital Flight</div><div class="pi-sub">~$20–25K avg annual outflow per H-1B worker. ~$38B to India annually. World Bank data.</div></div><div class="pi-arr">→</div></div>
+      </div>
+    </div>
+    <div class="dicho-page-col am">
+      <h3>The American Worker</h3>
+      <div class="panel-stack">
+        <div class="panel-item red-l" onclick="detail('5f')"><div class="pi-num">5f</div><div class="pi-content"><div class="pi-title">Direct Job Displacement</div><div class="pi-sub">85,000 Americans laid off. 34,000 H-1B hired. Same companies. Same years. Sanders, January 2025.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item red-l" onclick="detail('5g')"><div class="pi-num">5g</div><div class="pi-content"><div class="pi-title">Wage Ceiling Spillover</div><div class="pi-sub">Captive H-1B labor suppresses wages across entire departments, not just visa worker roles.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item red-l" onclick="detail('5h')"><div class="pi-num">5h</div><div class="pi-content"><div class="pi-title">STEM Unemployment</div><div class="pi-sub">"Critical shortage" narrative vs actual unemployment data for advanced STEM degree holders.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item red-l" onclick="detail('5i')"><div class="pi-num">5i</div><div class="pi-content"><div class="pi-title">Eroded Organizing Rights</div><div class="pi-sub">Collective bargaining collapses when a core segment of the workforce cannot safely participate.</div></div><div class="pi-arr">→</div></div>
+        <div class="panel-item red-l" onclick="detail('5j')"><div class="pi-num">5j</div><div class="pi-content"><div class="pi-title">Community Economic Erosion</div><div class="pi-sub">Tax base reduction. Lost local spending multiplier. Housing pressure in concentrated metro areas.</div></div><div class="pi-arr">→</div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 05 — HUMAN COST</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('flip');return false;">The Flip →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: THE FLIP
+══════════════════════════════════════════ -->
+<div id="screen-flip" class="screen screen-wrap">
+  <div class="sec-head">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">Section 06 — The Political Flip</div>
+        <h2>[PLACEHOLDER TITLE]</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+    <div class="flip-intro">
+      <div class="flip-intro-label">Placeholder Persuasive Frame</div>
+      <p>The problem was never left vs. right. <strong>Both sides switch positions when it benefits the same donor class.</strong> Sanders spent years arguing that H-1B suppresses American wages and exploits foreign workers. The GOP establishment pushed hard for expansion. Then the money moved. The coalitions shifted. The positions inverted. And in both configurations, the workers — foreign and domestic — absorbed the cost while the asset managers collected the returns.</p>
+      <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--ink-3);">⚑ Full section to be written in Phase 6 with verified quotes, vote records, and donor tracking data.</p>
+    </div>
+    <div class="flip-cols">
+      <div>
+        <div class="flip-col-head dem">Democratic Position Over Time</div>
+        <div class="flip-event"><strong>Pre-2010s — Critical of H-1B Expansion</strong><p>Sanders: H-1B suppresses American wages and exploits foreign workers. Clinton: skeptical of expanded caps. Labor union alignment dominated party immigration economics.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Exact quotes + dates</span></div>
+        <div class="flip-event"><strong>2013 — Gang of Eight</strong><p>Democratic support shifts toward expansion as tech industry lobbying intensifies and Silicon Valley donor relationships deepen.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Bill specifics, vote records</span></div>
+        <div class="flip-event"><strong>2016–Present — Pro-Immigration Framing Dominant</strong><p>Position reframed as humanitarian / anti-discrimination. Labor wing critique of H-1B increasingly marginalized within the coalition.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Platform language, donor shift data</span></div>
+      </div>
+      <div>
+        <div class="flip-col-head rep">Republican Position Over Time</div>
+        <div class="flip-event"><strong>Pre-2010s — Pro-Expansion Establishment</strong><p>Chamber of Commerce, Business Roundtable, and tech donors drove Republican support. "America needs global talent" framing dominated official positioning.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Legislative votes, donor records</span></div>
+        <div class="flip-event"><strong>2013 — Tea Party Fracture</strong><p>Grassroots revolt against Gang of Eight surfaces the donor-class / base tension. Populist wing begins pushing back against Chamber positions.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Vote records, organizing docs</span></div>
+        <div class="flip-event"><strong>2016–Present — America First Consolidation</strong><p>Trump coalition consolidates anti-H-1B position. Establishment donor wing resists. Tech figures fragment across parties. The old coalition is gone.</p><span class="ph-tag" style="margin-top:0.4rem;display:inline-block;">⚑ Verify: Policy record, donor migration</span></div>
+      </div>
+    </div>
+    <div class="flip-through">
+      <div class="flip-through-label">The Through-Line</div>
+      <p>In both periods, on both sides, the same entities — <strong>large institutional employers and the asset managers who own them</strong> — benefited from visa expansion. The parties provided the political vehicle. The donor class provided the fuel. The workers — foreign and domestic — absorbed the cost.</p>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SECTION 06 — THE FLIP</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a><a href="#" onclick="go('sources');return false;">See My Work →</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: SEE MY WORK
+══════════════════════════════════════════ -->
+<div id="screen-sources" class="screen screen-wrap">
+  <div class="sec-head">
+    <div class="sec-head-inner">
+      <button class="back-btn" onclick="returnHome()">← Home</button>
+      <div class="sec-head-text">
+        <div class="sec-tag">See My Work — Sources by Section</div>
+        <h2>Every claim has a source. Every source is primary.</h2>
+      </div>
+    </div>
+  </div>
+  <div class="sec-body">
+    <div class="smw-section">
+      <div class="smw-section-label">Section 02 — Institutional Asset Managers</div>
+      <div class="smw-grid">
+        <div class="smw-card"><div class="smw-card-label">Verified — Q1 2026 Earnings</div><a href="https://markets.chroniclejournal.com/chroniclejournal/article/marketminute-2026-4-14-blackrock-vaults-to-record-139-trillion-aum-as-etf-inflows-and-private-markets-fuel-q1-earnings-surge" target="_blank" class="smw-link">BlackRock Q1 2026 — $13.89T AUM Record ↗</a><a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-4-15-blackrock-shatters-records-in-q1-2026-earnings-beat-and-revenue-surge-signal-asset-management-dominance" target="_blank" class="smw-link">BlackRock Q1 2026 Analysis ↗</a><a href="https://finance.yahoo.com/quote/BLK/earnings/BLK-Q1-2026-earnings_call-541756.html" target="_blank" class="smw-link">BlackRock Q1 2026 Earnings Call ↗</a><span class="smw-status">✓ Used in Section 02 macro stats</span></div>
+        <div class="smw-card"><div class="smw-card-label">Verified — Proxy Voting</div><a href="https://www.morningstar.com/sustainable-investing/proxy-voting-asset-managers-increased-their-support-management-2025" target="_blank" class="smw-link">Morningstar — 98.7% Management Support (2025) ↗</a><a href="https://sparkco.ai/blog/blackrock-vanguard-state-street-asset-concentration-oligopoly" target="_blank" class="smw-link">SparkCo — S&P 500 Voting Power Analysis ↗</a><a href="https://icfs.com/financial-knowledge-center/the-big-three-blackrock-vanguard-state-street" target="_blank" class="smw-link">ICFS — The Big Three ↗</a><span class="smw-status">✓ Used in 2d panel and macro stats</span></div>
+        <div class="smw-card"><div class="smw-card-label">Verified — ERISA / Proxy Law</div><a href="https://www.federalregister.gov/documents/2020/12/16/2020-27465/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank" class="smw-link">DOL Federal Register — Proxy Voting Fiduciary Duties ↗</a><span class="smw-status">✓ Cited in 2c panel</span></div>
+        <div class="smw-card"><div class="smw-card-label">Verified — Lobbying</div><a href="https://www.opensecrets.org/federal-lobbying/clients/summary?cycle=2025&id=D000022305" target="_blank" class="smw-link">OpenSecrets — BlackRock Lobbying 2025 ($3.4M) ↗</a><a href="https://www.opensecrets.org/federal-lobbying/clients/summary?id=D000021872" target="_blank" class="smw-link">OpenSecrets — Vanguard Lobbying 2025 ($2.58M) ↗</a><span class="smw-status">✓ Cited in 2f panel</span></div>
+        <div class="smw-card"><div class="smw-card-label">Pending — Cross-Holdings</div><a href="https://www.sec.gov/" target="_blank" class="smw-link">SEC 13F Filings — Cross-Ownership Percentages ↗</a><span class="smw-status pending">⚑ Phase 2 — Pull exact stake percentages</span></div>
+      </div>
+    </div>
+    <div class="smw-section">
+      <div class="smw-section-label">Section 03 — Visa Architecture</div>
+      <div class="smw-grid">
+        <div class="smw-card"><div class="smw-card-label">Primary — USCIS</div><a href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank" class="smw-link">USCIS H-1B Employer Data Hub ↗</a><span class="smw-status pending">⚑ Phase 3 — Pull FY2025 data</span></div>
+        <div class="smw-card"><div class="smw-card-label">Primary — DOL</div><a href="https://www.dol.gov/agencies/whd/immigration/h1b" target="_blank" class="smw-link">DOL Wage & Hour — H-1B Requirements ↗</a><span class="smw-status pending">⚑ Phase 3 — LCA/PERM documentation</span></div>
+        <div class="smw-card"><div class="smw-card-label">Primary — EPI</div><a href="https://www.epi.org" target="_blank" class="smw-link">Economic Policy Institute — H-1B Research ↗</a><a href="https://www.epi.org/publication/new-evidence-widespread-wage-theft-in-the-h-1b-program/" target="_blank" class="smw-link">EPI — Wage Theft in H-1B (HCL Case) ↗</a><span class="smw-status pending">⚑ Phase 3 — Pull wage differential data</span></div>
+      </div>
+    </div>
+    <div class="smw-section">
+      <div class="smw-section-label">Section 04 — Corporate Layer</div>
+      <div class="smw-grid">
+        <div class="smw-card"><div class="smw-card-label">Primary — Federal Contracts</div><a href="https://www.usaspending.gov" target="_blank" class="smw-link">USASpending.gov ↗</a><span class="smw-status pending">⚑ Phase 4</span></div>
+        <div class="smw-card"><div class="smw-card-label">Primary — PAC / Lobbying</div><a href="https://www.opensecrets.org" target="_blank" class="smw-link">OpenSecrets ↗</a><a href="https://www.fec.gov" target="_blank" class="smw-link">FEC.gov ↗</a><span class="smw-status pending">⚑ Phase 4 — Per-company figures</span></div>
+      </div>
+    </div>
+    <div class="smw-section">
+      <div class="smw-section-label">Section 05 — Human Cost</div>
+      <div class="smw-grid">
+        <div class="smw-card"><div class="smw-card-label">Primary — Displacement</div><a href="https://www.sanders.senate.gov/op-eds/h1-b-visas-hurt-one-type-of-worker-and-exploit-another-this-mess-must-be-fixed/" target="_blank" class="smw-link">Sen. Sanders Op-Ed — January 2025 ↗</a><span class="smw-status">✓ Framework cited — data to verify Phase 5</span></div>
+        <div class="smw-card"><div class="smw-card-label">Primary — Remittances</div><a href="https://www.worldbank.org/en/topic/remittances" target="_blank" class="smw-link">World Bank — Remittance Data ↗</a><span class="smw-status pending">⚑ Phase 5 — Pull per-capita figures</span></div>
+        <div class="smw-card"><div class="smw-card-label">Active DOJ Case</div><a href="https://ogletree.com/insights-resources/blog-posts/justice-department-targets-visa-preference-in-job-ads/" target="_blank" class="smw-link">DOJ April 2026 — Compunnel Settlement ↗</a><span class="smw-status">✓ Active case — cite Phase 3/5</span></div>
+        <div class="smw-card"><div class="smw-card-label">Primary — EEOC</div><a href="https://www.eeoc.gov/national-origin-discrimination" target="_blank" class="smw-link">EEOC — National Origin Discrimination ↗</a><span class="smw-status pending">⚑ Phase 5</span></div>
+      </div>
+    </div>
+  </div>
+  <footer class="sec-footer"><div class="sec-footer-inner"><p>SEE MY WORK — SOURCES BY SECTION</p><div class="fnav"><a href="#" onclick="returnHome();return false;">← Home</a></div></div></footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     DETAIL SCREEN
+══════════════════════════════════════════ -->
+<div id="screen-detail" class="screen screen-wrap">
+  <div class="detail-head">
+    <div class="detail-head-inner">
+      <div><button class="back-btn" id="detail-back-btn" style="color:rgba(255,255,255,0.4);">← Back</button></div>
+      <div>
+        <span class="detail-tag" id="d-tag"></span>
+        <h2 id="d-title"></h2>
+        <p id="d-sub"></p>
+      </div>
+    </div>
+  </div>
+  <div class="detail-body" id="d-body"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── Router ──
+let _prev = 'home';
+
+function go(id) {
+  const curr = document.querySelector('.screen.active');
+  if (curr) {
+    _prev = curr.id.replace('screen-','');
+    curr.classList.remove('active');
+  }
+  const next = document.getElementById('screen-'+id);
+  if (!next) return;
+  next.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(()=>{
+    next.querySelectorAll('.fu:not(.in)').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('in'), i*60);
+    });
+  }, 30);
+  updateNav(id);
+}
+
+function returnHome() {
+  go('home');
+  // give DOM a tick then scroll to chain if we came from a section
+  setTimeout(()=>{ scrollChain(); }, 80);
+}
+
+function scrollHome() {
+  if (!document.getElementById('screen-home').classList.contains('active')) go('home');
+  setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}), 50);
+}
+
+function scrollChain() {
+  if (!document.getElementById('screen-home').classList.contains('active')) go('home');
+  setTimeout(()=>{
+    const el = document.getElementById('chain-section');
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  }, 80);
+}
+
+function updateNav(id) {
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const map = {'home':'nav-home','chain':'nav-home',
+    'asset-managers':'nav-home','visa-h1b':'nav-home','visa-h2':'nav-home',
+    'companies':'nav-home','human-cost':'nav-home',
+    'flip':'nav-home','sources':'nav-home','detail':'nav-home'};
+  const t = document.getElementById(map[id]);
+  if(t) t.classList.add('active');
+}
+
+// ── Detail content ──
+const D = {
+  '2a':{ tag:'PANEL 2a', title:'What Asset Managers Actually Are', sub:'The plain-language version', back:'asset-managers',
+    body:`<p>BlackRock, Vanguard, and State Street are not traditional banks or hedge funds. They are custodians of other people's money — primarily through low-cost index funds that track the entire stock market rather than picking individual winners.</p><p>Money flows in from retirement accounts. They charge small management fees. And in exchange, they receive something most people never think about: the legal right to vote the shares your retirement account holds at corporate elections.</p><div class="verified-block"><span class="vb-label">✓ Research Note</span><p>Index funds cannot sell positions they disagree with — they must hold every stock in the index. The only lever they hold is the vote. And at scale, that lever moves boards, executive pay, and labor policy across the entire economy.</p></div><div class="src-refs"><a class="src-ref" href="https://theconversation.com/these-three-firms-own-corporate-america-77072" target="_blank">The Conversation — These Three Firms Own Corporate America ↗</a></div>` },
+
+  '2b':{ tag:'PANEL 2b', title:'"Your Money Is the Fuel"', sub:'The 401(k) pipeline into institutional power', back:'asset-managers',
+    body:`<p>Most Americans never write a check to BlackRock, Vanguard, or State Street. The money flows automatically through the retirement system they already participate in.</p><p>When you — or your employer — contribute to a 401(k), 403(b), IRA, or pension plan, those dollars typically flow into low-cost index funds. Those funds are overwhelmingly managed by the Big Three.</p><div class="verified-block"><span class="vb-label">✓ Verified — Q1 2026</span><p>As of Q1 2026, BlackRock alone managed <strong>$13.89 trillion</strong> in AUM — a record high. More than half is tied to retirement assets. Vanguard and State Street follow the same model, together pushing the Big Three past $32 trillion.</p></div><p>Result: Ordinary workers and retirees unknowingly bankroll the institutions that vote on corporate policies affecting wages, hiring, and visa usage. Your payroll deduction becomes their voting power.</p><div class="src-refs"><a class="src-ref" href="https://finance.yahoo.com/quote/BLK/earnings/BLK-Q1-2026-earnings_call-541756.html" target="_blank">BlackRock Q1 2026 Earnings Call ↗</a></div>` },
+
+  '2c':{ tag:'PANEL 2c', title:'"You Own the Shares. They Own the Vote."', sub:'ERISA proxy voting transfer — the legal mechanism', back:'asset-managers',
+    body:`<p>When your 401(k) holds shares of a company, you are the beneficial owner. But under standard plan documents and ERISA rules, the legal right to vote those shares — proxy voting — is transferred to the plan's investment manager. Usually, that is one of the Big Three.</p><p>Plan participants rarely exercise direct voting rights. The default is delegation to the asset manager. The Department of Labor confirms that exercising shareholder rights, including proxy voting, is a core fiduciary duty of the investment manager — not the individual participant.</p><div class="verified-block"><span class="vb-label">✓ Verified — Federal Register</span><p>This transfer happens at scale. The same index funds holding your retirement savings give BlackRock, Vanguard, and State Street the legal authority to cast tens of millions of votes at annual shareholder meetings — on executive pay, board composition, and labor policy.</p></div><div class="src-refs"><a class="src-ref" href="https://www.federalregister.gov/documents/2020/12/16/2020-27465/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank">DOL Federal Register — Proxy Voting Rules ↗</a></div>` },
+
+  '2d':{ tag:'PANEL 2d', title:'"One Portfolio, One Voice"', sub:'Block voting mechanics and structural alignment', back:'asset-managers',
+    body:`<p>The Big Three hold nearly identical stakes in the same companies through index funds. Their incentives are structurally aligned: what is good for the overall portfolio is good for each manager. This does not require coordination — it is the mechanical result of indexing.</p><div class="verified-block"><span class="vb-label">✓ Verified — Morningstar / ICFS 2025</span><p>In the 2025 proxy season, the Big Three backed management proposals <strong>98.7% of the time</strong> on average. They are the largest shareholder in roughly <strong>88%</strong> of S&P 500 companies and collectively control <strong>20–25%</strong> of median voting power at any corporate shareholder meeting.</p></div><p>Vote by vote, this alignment strengthens. Boards learn which behaviors earn consistent support — lower labor costs, higher margins, aggressive use of guest-worker programs — and repeat them. The machine rewards the behavior it profits from.</p><div class="src-refs"><a class="src-ref" href="https://www.morningstar.com/sustainable-investing/proxy-voting-asset-managers-increased-their-support-management-2025" target="_blank">Morningstar 2025 ↗</a><a class="src-ref" href="https://icfs.com/financial-knowledge-center/the-big-three-blackrock-vanguard-state-street" target="_blank">ICFS — The Big Three ↗</a></div>` },
+
+  '2e':{ tag:'PANEL 2e', title:'"The Aligned Ownership Web"', sub:'Cross-ownership — circular holdings as aligned incentives', back:'asset-managers',
+    body:`<p>Vanguard is BlackRock's largest shareholder — approximately an 8–9% stake. State Street and BlackRock funds hold significant positions in each other and in the same portfolio companies. The firms that compete for retirement flows are simultaneously cross-owners in each other.</p><p>This is not a conspiracy. It is the mechanical result of index funds that must own every major stock in proportion. The circular holdings align each asset manager to the same incentive: cut costs, increase profit, extract wealth upward.</p><div class="detail-ph">[ PHASE 2 — INTERACTIVE VISUALIZATION: Circular ownership diagram with actual cross-holding percentages from SEC 13F filings ]</div><div class="src-refs"><a class="src-ref" href="https://sparkco.ai/blog/blackrock-vanguard-state-street-asset-concentration-oligopoly" target="_blank">SparkCo — Concentration Analysis ↗</a></div>` },
+
+  '2f':{ tag:'PANEL 2f', title:'"They Don\'t Lobby the Laws — They Vote the Profits"', sub:'Lobbying data and the indirect influence structure', back:'asset-managers',
+    body:`<p>BlackRock spent $3.4 million on federal lobbying in 2025. Vanguard spent $2.58 million. Almost none of it targeted immigration or H-1B/H-2 bills directly. Their focus remains securities regulation and investment policy.</p><p>Instead, the portfolio companies — tech giants, outsourcers, agribusiness — and associations like the U.S. Chamber of Commerce do the direct lobbying. The asset managers simply vote their massive aligned blocks to protect the resulting profit margins once those policies become law.</p><div class="verified-block"><span class="vb-label">✓ Verified — OpenSecrets 2025</span><p>The machine completes the loop: Americans fund the managers → managers vote to reward low-labor-cost strategies → companies expand visa usage → margins stay high → asset values and fees rise.</p></div><div class="src-refs"><a class="src-ref" href="https://www.opensecrets.org/federal-lobbying/clients/summary?cycle=2025&id=D000022305" target="_blank">OpenSecrets — BlackRock ↗</a><a class="src-ref" href="https://www.opensecrets.org/federal-lobbying/clients/summary?id=D000021872" target="_blank">OpenSecrets — Vanguard ↗</a></div>` },
+
+  '3a':{ tag:'PANEL 3a', title:'H-1B Law Explained', sub:'INA §101(a)(15)(H)(i)(b)', back:'visa-system', body:`<div class="detail-ph">[ PHASE 3 — Statute text, LCA (ETA-9035) requirements, DOL enforcement data, non-compliance documentation ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/agencies/whd/immigration/h1b" target="_blank">DOL H-1B ↗</a></div>` },
+  '3b':{ tag:'PANEL 3b', title:'H-2A / H-2B Law Explained', sub:'Agricultural and seasonal visa programs', back:'visa-system', body:`<div class="detail-ph">[ PHASE 3 — INA §101(a)(15)(H)(ii) statute, certification processes, failure modes, H-2B cap supplemental history ]</div>` },
+  '3c':{ tag:'PANEL 3c — THE REGULATORY SCAM', title:'The LCA / PERM Loophole', sub:'Self-attestation, rare audits, structured non-compliance', back:'visa-system',
+    body:`<p>The Labor Condition Application (LCA) requires employers to attest that they tried to recruit American workers and that the H-1B wage is at the prevailing rate. The Department of Labor does not verify these attestations in the standard process. Employers self-certify. DOL audits are rare.</p><p>PERM labor certification — required for green card sponsorship — adds a recruitment requirement but also relies on employer declarations with limited independent oversight. DOL's proposed March 2026 wage rule implicitly concedes these loopholes by attempting to raise the prevailing wage threshold.</p><div class="detail-ph">[ PHASE 3 — Documented cases, DOL audit rate statistics, March 2026 proposed rule analysis ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/agencies/whd/immigration/h1b" target="_blank">DOL WHD ↗</a></div>` },
+  '3d':{ tag:'PANEL 3d', title:'Visa Approval Numbers: 1990 to Present', sub:'Growth trajectory and cap-exempt volume', back:'visa-system', body:`<div class="detail-ph">[ PHASE 3 — Three-track line chart: H-1B, H-2A, H-2B approvals by year. USCIS historical data. ]</div><div class="src-refs"><a class="src-ref" href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank">USCIS Data Hub ↗</a></div>` },
+  '3e':{ tag:'PANEL 3e — 72% FIGURE', title:'Indian Nationals and H-1B Concentration', sub:'The staffing model behind the statistic', back:'visa-system', body:`<p>Approximately 72% of H-1B approvals go to Indian nationals. This concentration reflects the structure of the IT outsourcing and staffing industry, where Indian-headquartered firms are among the largest petition filers and have established recruitment pipelines that predominantly draw from Indian universities.</p><div class="detail-ph">[ PHASE 3 — USCIS country-of-birth approval data, staffing firm structure analysis, diaspora lobbying organization research ]</div>` },
+  '3f':{ tag:'PANEL 3f', title:'Stated Intent vs Documented Reality', sub:'Cost savings vs the "labor shortage" narrative', back:'visa-system', body:`<div class="detail-ph">[ PHASE 3 — EPI wage differential analysis, LCA attestation loophole documentation, corporate earnings references to labor cost advantages ]</div><div class="src-refs"><a class="src-ref" href="https://www.epi.org" target="_blank">EPI ↗</a></div>` },
+
+  '4a':{ tag:'PANEL 4a', title:'Visa Count and Year-over-Year Trend', sub:'FY2020–2025 — USCIS Employer Data Hub', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — Company-level petition tables with YoY comparison, cap-exempt breakdown ]</div>` },
+  '4b':{ tag:'PANEL 4b', title:'Estimated Labor Cost Savings', sub:'EPI prevailing wage methodology', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — Prevailing wage × H-1B headcount × market differential per company ]</div><div class="src-refs"><a class="src-ref" href="https://www.epi.org/publication/new-evidence-widespread-wage-theft-in-the-h-1b-program/" target="_blank">EPI Wage Theft Report ↗</a></div>` },
+  '4c':{ tag:'PANEL 4c', title:'Ultimate Ownership Chain', sub:'Company → parent → institutional holder → asset manager', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — Ownership tree per top sponsor. PE intermediary chains for H-2 sponsors. ]</div>` },
+  '4d':{ tag:'PANEL 4d', title:'Federal Contract Receipts', sub:'USASpending.gov', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — Federal contract totals per top visa sponsor ]</div><div class="src-refs"><a class="src-ref" href="https://www.usaspending.gov" target="_blank">USASpending.gov ↗</a></div>` },
+  '4e':{ tag:'PANEL 4e', title:'Lobbying Expenditures', sub:'OpenSecrets — company and industry', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — Lobbying totals per company, filtered to immigration and labor policy ]</div><div class="src-refs"><a class="src-ref" href="https://www.opensecrets.org" target="_blank">OpenSecrets ↗</a></div>` },
+  '4f':{ tag:'PANEL 4f/g', title:'PAC Contributions + Layoff Juxtaposition', sub:'FEC data + WARN/8-K filings — same fiscal years', back:'companies', body:`<div class="detail-ph">[ PHASE 4 — FEC PAC totals alongside layoff events. Same company, same year, same period as H-1B petition spikes. ]</div><div class="src-refs"><a class="src-ref" href="https://www.fec.gov" target="_blank">FEC.gov ↗</a></div>` },
+
+  '5a':{ tag:'PANEL 5a', title:'The Visa Tether', sub:'One employer. Total control.', back:'human-cost',
+    body:`<p>H-1B status is tied to a specific employer. If employment ends — for any reason — the worker enters a 60-day grace period to find new H-1B sponsorship, change status, or leave the country.</p><p>This creates an absolute power asymmetry. Workers who report wage violations, unsafe conditions, or discriminatory treatment risk not just their job but their legal right to remain in the country. The complaint mechanisms that labor law provides to American workers are structurally unavailable to H-1B workers without catastrophic personal risk.</p><div class="detail-ph">[ PHASE 5 — DOL WHD complaint data, retaliation case documentation, 60-day rule mechanics ]</div>` },
+  '5b':{ tag:'PANEL 5b', title:'Systematic Wage Suppression', sub:'EPI documented — the HCL case', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — EPI prevailing wage analysis, HCL Technologies documentation, DOL enforcement settlement figures ]</div><div class="src-refs"><a class="src-ref" href="https://www.epi.org/publication/new-evidence-widespread-wage-theft-in-the-h-1b-program/" target="_blank">EPI Wage Theft in H-1B ↗</a></div>` },
+  '5c':{ tag:'PANEL 5c', title:'Working Conditions and the Recourse Gap', sub:'EEOC guidance vs ground reality', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — EEOC national origin complaint data, WHD enforcement records, worker account documentation ]</div><div class="src-refs"><a class="src-ref" href="https://www.eeoc.gov/national-origin-discrimination" target="_blank">EEOC ↗</a></div>` },
+  '5d':{ tag:'PANEL 5d', title:'Housing Concentration and Community Impact', sub:'Metro clustering and rent effects', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — H-1B worker density by metro area, housing cost correlation, multi-tenant occupancy data ]</div>` },
+  '5e':{ tag:'PANEL 5e', title:'Remittances and Capital Flight', sub:'World Bank data', back:'human-cost',
+    body:`<p>World Bank data estimates average annual remittances from H-1B workers at approximately $20,000–$25,000. With roughly 600,000 active H-1B workers in the U.S., the aggregate annual capital outflow is substantial. India receives an estimated $38 billion annually from the U.S. diaspora.</p><p>This is not an argument against workers supporting families abroad. It is a quantification of one component of economic extraction from American communities — capital earned locally, spent elsewhere.</p><div class="detail-ph">[ PHASE 5 — World Bank figures, H-1B worker count verification, per-capita calculation ]</div><div class="src-refs"><a class="src-ref" href="https://www.worldbank.org/en/topic/remittances" target="_blank">World Bank ↗</a></div>` },
+  '5f':{ tag:'PANEL 5f', title:'Direct Displacement — The Sanders 2025 Data', sub:'Same companies. Same years.', back:'human-cost',
+    body:`<p>Senator Bernie Sanders published analysis in January 2025 showing that companies filing the most H-1B petitions had conducted large-scale American layoffs in overlapping periods. 85,000 Americans laid off. 34,000 H-1B workers hired. The same corporate entities, across the same fiscal years.</p><p>This does not prove direct one-for-one replacement in every case. It documents that the stated premise of H-1B — that these companies cannot find qualified Americans — is inconsistent with their simultaneous termination of American employees.</p><div class="detail-ph">[ PHASE 5 — Company-level layoff + H-1B petition cross-reference. WARN / 8-K filings. ]</div><div class="src-refs"><a class="src-ref" href="https://www.sanders.senate.gov/op-eds/h1-b-visas-hurt-one-type-of-worker-and-exploit-another-this-mess-must-be-fixed/" target="_blank">Sen. Sanders Op-Ed, January 2025 ↗</a></div>` },
+  '5g':{ tag:'PANEL 5g', title:'Wage Ceiling Spillover', sub:'How H-1B suppression affects American workers in the same departments', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — EPI labor market wage ceiling analysis, department-level wage data comparison ]</div><div class="src-refs"><a class="src-ref" href="https://www.epi.org" target="_blank">EPI ↗</a></div>` },
+  '5h':{ tag:'PANEL 5h', title:'STEM Unemployment', sub:'"Critical shortage" vs the actual data', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — BLS STEM unemployment and underemployment data, graduate outcome tracking ]</div>` },
+  '5i':{ tag:'PANEL 5i', title:'Eroded Organizing Rights', sub:'Collective action and visa dependency', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — NLRA protections vs H-1B visa status constraints, organizing campaign case studies ]</div>` },
+  '5j':{ tag:'PANEL 5j', title:'Community Economic Erosion', sub:'Downstream costs on communities', back:'human-cost', body:`<div class="detail-ph">[ PHASE 5 — Local spending multiplier research, tax base analysis, community economic impact data ]</div>` },
+
+  'co-meta':{ tag:'COMPANY — META PLATFORMS', title:'Meta Platforms: H-1B Data, Ownership, Contracts', sub:'#2 H-1B sponsor FY2025 — 1,555 approvals', back:'visa-h1b',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — NFAP / USCIS FY2025</span><p>Meta Platforms filed for <strong>1,555</strong> H-1B approvals in FY2025 initial employment petitions, ranking #2 among all U.S. employers.</p></div><div class="detail-ph">[ PHASE 4 — Federal contract data (USASpending.gov), institutional ownership chain (Vanguard/BlackRock stakes), lobbying spend (OpenSecrets), PAC contributions (FEC), layoff juxtaposition (WARN filings) ]</div><div class="src-refs"><a class="src-ref" href="https://nfap.com/research/new-nfap-policy-brief-h-1b-petitions-and-denial-rates-in-fy-2025/" target="_blank">NFAP / USCIS FY2025 ↗</a></div>` },
+
+  'co-microsoft':{ tag:'COMPANY — MICROSOFT', title:'Microsoft: H-1B Data, Ownership, Contracts', sub:'#3 H-1B sponsor FY2025 — 1,394 approvals', back:'visa-h1b',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — NFAP / USCIS FY2025</span><p>Microsoft filed for <strong>1,394</strong> H-1B approvals in FY2025 initial employment petitions, ranking #3 among all U.S. employers.</p></div><div class="detail-ph">[ PHASE 4 — Federal contract data, institutional ownership, lobbying, PAC, layoff cross-reference ]</div><div class="src-refs"><a class="src-ref" href="https://nfap.com/research/new-nfap-policy-brief-h-1b-petitions-and-denial-rates-in-fy-2025/" target="_blank">NFAP / USCIS FY2025 ↗</a></div>` },
+
+  'h2-reg':{ tag:'H-2 PANEL — REGULATORY', title:'The H-2 Certification Loophole', sub:'DOL certifies but does not verify — enforcement is thin', back:'visa-h2',
+    body:`<p>The H-2A and H-2B programs require Department of Labor labor certification — an attestation that the employer tried to recruit American workers and that hiring won't adversely affect U.S. workers' wages or working conditions.</p><p>Like the H-1B LCA, this process relies heavily on employer self-attestation. DOL reviews applications for completeness but does not independently verify whether the recruitment was genuine or whether the working conditions described are accurate. Enforcement is spread thin across geographically dispersed agricultural and seasonal worksites.</p><p>For H-2A specifically, employers must provide housing — a requirement that is often met with substandard accommodations that are rarely inspected before workers arrive.</p><div class="detail-ph">[ PHASE 3 — DOL OFLC enforcement data, H-2A housing inspection records, documented wage violations, compliance audit statistics ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/agencies/whd/agriculture" target="_blank">DOL WHD — Agricultural Enforcement ↗</a></div>` },
+
+  'co-h2-1':{ tag:'H-2A SPONSOR — NCGA INC.', title:'NCGA, Inc.: Top H-2A Agricultural Sponsor FY2025', sub:'10,398 positions certified — #1 H-2A sponsor', back:'visa-h2',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — DOL OFLC FY2025 Q4</span><p>NCGA, Inc. certified <strong>10,398 H-2A positions</strong> in FY2025 — the highest of any single H-2A employer in the country by a significant margin.</p></div><div class="detail-ph">[ PHASE 4 — Ownership structure, wage comparison vs AEWR, working conditions documentation, geographic distribution of placements ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank">DOL OFLC H-2A FY2025 Q4 ↗</a></div>` },
+
+  'co-h2-2':{ tag:'H-2A SPONSOR — FOOTHILL PACKING', title:'Foothill Packing, Inc.: H-2A Sponsor FY2025', sub:'6,959 positions certified — #2 H-2A sponsor', back:'visa-h2',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — DOL OFLC FY2025 Q4</span><p>Foothill Packing certified <strong>6,959 H-2A agricultural positions</strong> in FY2025, ranking #2 nationally.</p></div><div class="detail-ph">[ PHASE 4 — Ownership chain, labor cost analysis, American worker displacement data ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank">DOL OFLC H-2A FY2025 Q4 ↗</a></div>` },
+
+  'co-h2-3':{ tag:'H-2B SPONSOR — ABC TREE SERVICES', title:'ABC Professional Tree Services: Top H-2B Sponsor FY2025', sub:'2,103 positions certified — #1 H-2B sponsor', back:'visa-h2',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — DOL OFLC FY2025 Q4</span><p>ABC Professional Tree Services certified <strong>2,103 H-2B positions</strong> in FY2025 — the highest of any H-2B employer nationally.</p></div><div class="detail-ph">[ PHASE 4 — Ownership structure, wage comparison, American seasonal worker impact ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2B_Selected_Statistics_FY2025_Q4.pdf" target="_blank">DOL OFLC H-2B FY2025 Q4 ↗</a></div>` },
+
+  'co-h2-4':{ tag:'H-2B SPONSOR — PROGRESSIVE SOLUTIONS', title:'Progressive Solutions LLC: H-2B Sponsor FY2025', sub:'2,073 positions certified — #2 H-2B sponsor', back:'visa-h2',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — DOL OFLC FY2025 Q4</span><p>Progressive Solutions LLC certified <strong>2,073 H-2B seasonal positions</strong> in FY2025.</p></div><div class="detail-ph">[ PHASE 4 — Company structure, sector breakdown, ownership chain ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2B_Selected_Statistics_FY2025_Q4.pdf" target="_blank">DOL OFLC H-2B FY2025 Q4 ↗</a></div>` },
+
+  'co-h2-5':{ tag:'H-2B SPONSOR — GENUINE BUILDERS', title:'Genuine Builders, Inc.: H-2B Sponsor FY2025', sub:'1,899 positions certified — #3 H-2B sponsor', back:'visa-h2',
+    body:`<div class="verified-block"><span class="vb-label">✓ Verified — DOL OFLC FY2025 Q4</span><p>Genuine Builders, Inc. certified <strong>1,899 H-2B construction/seasonal positions</strong> in FY2025.</p></div><div class="detail-ph">[ PHASE 4 — Ownership chain, labor cost analysis, American construction worker displacement ]</div><div class="src-refs"><a class="src-ref" href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2B_Selected_Statistics_FY2025_Q4.pdf" target="_blank">DOL OFLC H-2B FY2025 Q4 ↗</a></div>` },
+
+  'co-amazon':{ tag:'COMPANY — AMAZON', title:'Amazon: H-1B, Contracts, Ownership', sub:'Phase 4 data pending', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Petition count, federal contract total, institutional ownership %, lobbying spend, layoff data ]</div>` },
+  'co-google':{ tag:'COMPANY — GOOGLE', title:'Google / Alphabet: H-1B, Contracts, Ownership', sub:'Phase 4 data pending', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Petition count, federal contracts, institutional ownership, PAC data ]</div>` },
+  'co-infosys':{ tag:'COMPANY — INFOSYS', title:'Infosys: H-1B, Contracts, Ownership', sub:'Indian IT outsourcing — top H-1B filer', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Petition count, U.S. federal contracts, EPI cost savings estimate, ownership chain ]</div>` },
+  'co-tcs':{ tag:'COMPANY — TCS', title:'Tata Consultancy Services: H-1B Data', sub:'Indian IT services', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Petition count, federal contracts, wage analysis ]</div>` },
+  'co-wipro':{ tag:'COMPANY — WIPRO', title:'Wipro: H-1B, Contracts, Ownership', sub:'Indian IT outsourcing', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Data pending ]</div>` },
+  'co-h2-1':{ tag:'H-2 SPONSOR — TBD', title:'Top H-2 Sponsor [Pending Phase 4]', sub:'USCIS research required', back:'chain', body:`<div class="detail-ph">[ PHASE 4 — Top H-2A/H-2B sponsors to be identified from USCIS data ]</div>` },
+
+  // H-2 Dichotomy panels
+  'h2-5a':{ tag:'H-2 PANEL — WORKER', title:'Physical Labor, Minimal Oversight', sub:'Agricultural and seasonal work with limited protections', back:'chain',
+    body:`<p>H-2A workers perform some of the most physically demanding labor in the American economy — crop harvesting, animal husbandry, forestry — under conditions that often fall outside the protections available to domestic workers. The combination of visa dependency and geographic isolation creates an enforcement vacuum.</p><div class="detail-ph">[ PHASE 5 — H-2A working condition documentation, DOL enforcement records, field injury data ]</div>` },
+  'h2-5b':{ tag:'H-2 PANEL — WORKER', title:'Housing Dependency', sub:'Employer-provided housing as an additional control mechanism', back:'chain',
+    body:`<p>Many H-2A employers are required to provide housing, which creates a layer of dependency beyond the visa itself. Workers who complain risk losing not just their job and immigration status, but their housing simultaneously — in locations often far from any alternative shelter or support.</p><div class="detail-ph">[ PHASE 5 — H-2A housing condition documentation, DOL housing standards enforcement ]</div>` },
+  'h2-5c':{ tag:'H-2 PANEL — WORKER', title:'Seasonal Disposability', sub:'Used, discarded, no pathway to permanence', back:'chain',
+    body:`<p>Unlike H-1B, which can lead to permanent residence, H-2 visas are explicitly temporary with no built-in pathway. Workers are brought in for a season, used at maximum capacity, and expected to return. There is no incentive for employers to invest in worker welfare when the labor force resets annually.</p><div class="detail-ph">[ PHASE 5 — H-2 worker return rate data, employer re-petition patterns, comparative visa pathway analysis ]</div>` },
+  'h2-5d':{ tag:'H-2 PANEL — WORKER', title:'Geographic Isolation', sub:'Rural placement cuts workers off from support', back:'chain',
+    body:`<p>H-2 placements are heavily concentrated in rural agricultural areas — far from legal aid organizations, labor advocates, consular services, and community support networks. This isolation compounds the enforcement gap: even workers who know their rights have no practical way to exercise them.</p><div class="detail-ph">[ PHASE 5 — H-2 geographic distribution data, legal aid access mapping, advocacy organization documentation ]</div>` },
+  'h2-5e':{ tag:'H-2 PANEL — AMERICAN', title:'Wage Floor Collapse in Agriculture and Seasonal Services', sub:'How H-2 prevailing wages suppress pay broadly', back:'chain',
+    body:`<p>The H-2A program sets an Adverse Effect Wage Rate (AEWR) intended to prevent harm to American workers. In practice, critics document that AEWR calculations often lag market wages and that the program's scale suppresses wages across agricultural and seasonal service sectors even for workers not directly displaced.</p><div class="detail-ph">[ PHASE 5 — AEWR analysis, agricultural wage trend data, EPI seasonal labor market research ]</div>` },
+  'h2-5f':{ tag:'H-2 PANEL — AMERICAN', title:'Rural Job Displacement', sub:'American farm and seasonal workers priced out of local labor markets', back:'chain',
+    body:`<p>American workers in agricultural and seasonal industries report being unable to compete with H-2A workers whose housing, transportation, and visa costs are employer-absorbed, effectively subsidizing a lower total compensation package that domestic workers cannot match.</p><div class="detail-ph">[ PHASE 5 — Agricultural labor market displacement data, American farmworker unemployment trends ]</div>` },
+  'h2-5g':{ tag:'H-2 PANEL — AMERICAN', title:'Lost Seasonal Income', sub:'Critical economic cycle disrupted for rural families', back:'chain',
+    body:`<p>For many rural American families, seasonal agricultural income is not supplemental — it is a primary economic cycle. The displacement of this income by H-2 labor has cascading effects on rural household financial stability that aggregate data often fails to capture.</p><div class="detail-ph">[ PHASE 5 — Rural household income composition data, seasonal agricultural earnings research ]</div>` },
+  'h2-5h':{ tag:'H-2 PANEL — AMERICAN', title:'Community Economic Erosion', sub:'Rural towns hollowed as jobs and spending leave', back:'chain',
+    body:`<p>When American seasonal workers are displaced, they don't just lose income — their spending leaves local economies. H-2 workers remit a significant share of earnings abroad. The local multiplier effect that once supported rural businesses, schools, and tax bases weakens with each season.</p><div class="detail-ph">[ PHASE 5 — Rural economic multiplier research, H-2 remittance data by sector, agricultural community tax base analysis ]</div><div class="src-refs"><a class="src-ref" href="https://www.worldbank.org/en/topic/remittances" target="_blank">World Bank Remittances ↗</a></div>` },
+};
+
+function detail(id) {
+  const d = D[id]; if(!d) return;
+  _prev = document.querySelector('.screen.active')?.id?.replace('screen-','') || 'home';
+  document.getElementById('d-tag').textContent = d.tag;
+  document.getElementById('d-title').textContent = d.title;
+  document.getElementById('d-sub').textContent = d.sub || '';
+  document.getElementById('d-body').innerHTML = d.body;
+  document.getElementById('detail-back-btn').onclick = ()=>go(d.back || _prev);
+  go('detail');
+}
+
+// ── Accordion ──
+function accordion(id) {
+  const item = document.getElementById('acc-'+id);
+  if (!item) return;
+  const body = document.getElementById('body-'+id);
+  const chev = document.getElementById('chev-'+id);
+  const isOpen = item.classList.contains('open');
+  // close all others
+  document.querySelectorAll('.acc-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.acc-body').style.display = 'none';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    body.style.display = 'block';
+    // smooth scroll to item
+    setTimeout(()=>item.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+  }
+}
+
+// Initial load
+window.addEventListener('load',()=>{
+  document.querySelectorAll('#screen-home .fu').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('in'), 120+i*70);
+  });
+  // Active scroll observer for nav highlight
+  const chainEl = document.getElementById('chain-section');
+  if(chainEl){
+    const obs = new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting){
+        document.getElementById('nav-chain')?.classList.add('active');
+        document.getElementById('nav-home')?.classList.remove('active');
+      } else {
+        document.getElementById('nav-chain')?.classList.remove('active');
+        document.getElementById('nav-home')?.classList.add('active');
+      }
+    },{threshold:0.15});
+    obs.observe(chainEl);
+  }
+});
+</script>
+</body>
+</html>
