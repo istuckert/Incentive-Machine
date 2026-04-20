@@ -111,7 +111,7 @@ nav {
 }
 .nav-back {
   font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none;
+  text-transform: uppercase; color: rgba(255,255,255,0.82); text-decoration: none;
   transition: color 0.2s; white-space: nowrap; flex-shrink: 0;
 }
 .nav-back:hover { color: var(--ink-dark); }
@@ -185,13 +185,13 @@ nav {
   opacity: 0; animation: fadeUp 1s ease forwards 0.65s;
 }
 .hero-tagline {
-  font-family: var(--serif-2); font-style: italic;
-  font-size: clamp(1.21rem, 2.2vw, 1.6rem);
-  color: rgba(255,255,255,0.92); margin-bottom: 2.5rem;
+  font-family: var(--serif-2); font-style: italic; font-weight: 700;
+  font-size: clamp(1.815rem, 3.3vw, 2.4rem);
+  color: #fff; margin-bottom: 2.5rem;
   opacity: 0; animation: fadeUp 0.9s ease forwards 0.85s;
 }
 .hero-thesis {
-  background: rgba(74,143,212,0.12);
+  background: rgba(26,34,53,0.90);
   border: 1px solid rgba(74,143,212,0.28);
   border-left: 3px solid var(--acc-lt);
   padding: 1.4rem 1.75rem; max-width: 680px;
@@ -199,21 +199,15 @@ nav {
   opacity: 0; animation: fadeUp 0.9s ease forwards 1.05s;
 }
 .hero-thesis-label {
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--acc-lt);
-  margin-bottom: 0.65rem; display: block;
+  font-family: var(--serif); font-size: 17px; font-weight: 900; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #fff;
+  margin-bottom: 0.75rem; display: block;
 }
 .hero-thesis p {
-  font-family: var(--serif-2); font-size: 0.97rem; line-height: 1.78;
-  color: rgba(255,255,255,0.88);
+  font-family: var(--sans); font-size: 0.96rem; font-weight: 400; line-height: 1.82;
+  color: #fff;
 }
 .hero-thesis p strong { color: #fff; font-weight: 500; }
-.hero-chain-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: rgba(255,255,255,0.22);
-  margin-bottom: 1.25rem; display: block;
-  opacity: 0; animation: fadeIn 0.9s ease forwards 1.2s;
-}
 .hero-stats {
   display: flex; gap: 1px; justify-content: center; flex-wrap: wrap;
   background: var(--border-dark);
@@ -247,6 +241,21 @@ nav {
 #diagram {
   background: var(--bg-dark);
   border-bottom: 1px solid var(--border-dark);
+}
+#diagram-title {
+  text-align: center;
+  padding: 2.75rem 2rem 2rem;
+  background: var(--bg-dark);
+}
+.diagram-headline {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  max-width: 760px;
+  margin: 0 auto;
 }
 #legend-bar {
   background: var(--bg-mid);
@@ -865,10 +874,8 @@ footer {
 
     <div class="hero-thesis">
       <span class="hero-thesis-label">Thesis</span>
-      <p>Asset managers are exploiting both visa workers and ordinary Americans through the same mechanism. The public debate is framed as a left moral issue or a right economic issue. That framing is deliberate. It is the same system. It is the same beneficiary. The H-1B and H-2 programs are discussed as separate issues by design. This tool follows the money to show they are nodes in a single extraction loop — one that American retirement accounts are unknowingly funding.</p>
+      <p>Asset managers are exploiting both visa workers and Americans through the same mechanism. The public debate is framed as a left moral issue or a right economic issue. That framing is deliberate. It is the same system. It is the same beneficiary. The H-1B and H-2 programs are discussed as separate issues by design. This tool follows the money to show they are nodes in a single extraction loop — one that American retirement accounts are unknowingly funding.</p>
     </div>
-
-    <span class="hero-chain-label">One machine. Two visa programs. The same people get rich.</span>
 
     <div class="hero-stats">
       <div class="hero-stat">
@@ -899,6 +906,11 @@ footer {
      DIAGRAM SECTION
 ═══════════════════════════════════════════════════════ -->
 <div id="diagram">
+
+  <!-- Diagram title -->
+  <div id="diagram-title">
+    <h2 class="diagram-headline">One machine. Two visa programs. The same people get rich.</h2>
+  </div>
 
   <!-- Legend bar -->
   <div id="legend-bar">
