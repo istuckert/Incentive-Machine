@@ -318,9 +318,10 @@ nav {
   gap: 8px; margin-top: 10px; flex-wrap: wrap;
 }
 .dn-logos img {
-  height: 44px; width: auto; max-width: 68px; object-fit: contain;
-  background: rgba(255,255,255,0.08);
-  padding: 4px 7px; border-radius: 4px;
+  width: 60px; height: 34px; object-fit: contain;
+  background: rgba(5,10,18,0.72);
+  padding: 5px 8px; border-radius: 4px;
+  box-sizing: content-box;
 }
 /* node color themes */
 .dn-am     .dn-inner { background:rgba(31,56,100,0.38);  border-color:rgba(68,114,196,0.7); }
@@ -1972,15 +1973,15 @@ document.querySelectorAll('.acc-btn').forEach(btn => {
 /* ── NODE DEFINITIONS ─────────────────────────────────── */
 /* cx/cy = center; w/h = dimensions; cls = CSS class suffix */
 const NODES = {
-  am:     { cx:600, cy:80,  w:355, h:84, cls:'dn-am',    tag:'', name:'The Big Three Asset Managers',  sub:'', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
+  am:     { cx:600, cy:80,  w:355, h:90, cls:'dn-am',    tag:'', name:'The Big Three Asset Managers',  sub:'', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
   ni:     { cx:140, cy:80,  w:148, h:56, cls:'dn-ni',    tag:'', name:'Narrative Infrastructure',      sub:'Think tanks & trade groups' },
   univ:   { cx:78,  cy:245, w:130, h:56, cls:'dn-univ',  tag:'', name:'Universities',                  sub:'Cap-exempt sponsors' },
-  tds:    { cx:255, cy:265, w:195, h:106, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
-  ecc:    { cx:466, cy:265, w:195, h:106, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
+  tds:    { cx:255, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
+  ecc:    { cx:466, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
   pe:     { cx:1122,cy:175, w:130, h:56, cls:'dn-pe',    tag:'', name:'Private Equity',                sub:'LP capital from asset managers' },
-  lao:    { cx:937, cy:230, w:195, h:84, cls:'dn-h2',    tag:'', name:'Large AG / Seasonal Operators', sub:'', logos:['dole.svg','taylor farms.png'] },
+  lao:    { cx:937, cy:230, w:195, h:90, cls:'dn-h2',    tag:'', name:'Large AG / Seasonal Operators', sub:'', logos:['dole.svg','taylor farms.png'] },
   h2ds:   { cx:722, cy:215, w:192, h:56, cls:'dn-h2',    tag:'', name:'H-2B Direct Sponsors',          sub:'~60,000 H-2B certified FY2024' },
-  osf:    { cx:360, cy:415, w:202, h:84, cls:'dn-h1b',   tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
+  osf:    { cx:360, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
   euf:    { cx:820, cy:335, w:202, h:56, cls:'dn-h2',    tag:'', name:'H-2A End-User Farms',           sub:'End-user ag operations' },
   h1w:    { cx:121, cy:610, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
   flc:    { cx:820, cy:455, w:202, h:56, cls:'dn-h2dk',  tag:'', name:'Farm Labor Contractors',        sub:'Employer of record intermediaries' },
