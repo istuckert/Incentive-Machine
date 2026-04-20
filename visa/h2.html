@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H-2 — The Manufactured Divide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark:     #0f1623;
+  --bg-mid:      #1a2235;
+  --bg-panel:    #202840;
+  --border-dark: #2a3550;
+  --bg-light:    #f4f1ec;
+  --ink-dark:    #e8e4dc;
+  --ink-dark-2:  rgba(232,228,220,0.65);
+  --ink-dark-3:  rgba(232,228,220,0.32);
+  --h2:          #3db87a;
+  --acc-lt:      #6fa3e8;
+  --accent:      #2d5fa6;
+  --sans:        'DM Sans', sans-serif;
+  --serif:       'Playfair Display', Georgia, serif;
+  --serif-2:     'Cormorant Garamond', Georgia, serif;
+  --mono:        'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-dark);
+  color: var(--ink-dark);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+}
+a { color: var(--accent); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  height: 52px;
+  background: rgba(15,22,35,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-dark);
+  display: flex; align-items: center;
+}
+.nav-inner {
+  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.nav-back {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(255,255,255,0.82); text-decoration: none;
+  transition: color 0.2s; white-space: nowrap; flex-shrink: 0;
+}
+.nav-back:hover { color: var(--ink-dark); }
+.nav-brand {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--acc-lt); white-space: nowrap;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 0; list-style: none;
+}
+.nav-links a {
+  display: block; padding: 0 1rem; height: 52px; line-height: 52px;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.70); text-decoration: none;
+  border-left: 1px solid var(--border-dark);
+  transition: color 0.2s, background 0.2s; white-space: nowrap;
+}
+.nav-links a:last-child { border-right: 1px solid var(--border-dark); }
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.nav-links a.active { color: var(--h2); }
+@media (max-width: 640px) { .nav-links { display: none; } }
+
+/* PLACEHOLDER */
+.placeholder {
+  min-height: 100vh;
+  padding-top: 52px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 52px 2rem 4rem;
+}
+.ph-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--h2);
+  display: block; margin-bottom: 1.25rem;
+}
+.ph-title {
+  font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+  color: #fff; margin-bottom: 1.5rem;
+}
+.ph-text {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-dark-3);
+}
+
+/* FOOTER */
+footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+  padding: 2.5rem 0;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer-left p {
+  font-family: var(--mono); font-size: 7.5px; color: var(--ink-dark-3);
+  letter-spacing: 0.1em; line-height: 1.9;
+}
+.footer-left strong { color: var(--ink-dark-2); }
+.footer-left a { color: var(--acc-lt); text-decoration: none; }
+.footer-left a:hover { text-decoration: underline; }
+.footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-link {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none;
+  transition: color 0.18s;
+}
+.footer-link:hover { color: var(--ink-dark); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← The Manufactured Divide</a>
+    <span class="nav-brand">H-1B / H-2 · Visa Machine</span>
+    <ul class="nav-links">
+      <li><a href="asset-managers.html">Asset Managers</a></li>
+      <li><a href="h1.html">H-1</a></li>
+      <li><a href="h2.html" class="active">H-2</a></li>
+      <li><a href="media.html">Media</a></li>
+      <li><a href="political-flip.html">Political Flip</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="placeholder">
+  <span class="ph-label">Visa Machine · H-2</span>
+  <h1 class="ph-title">H-2</h1>
+  <p class="ph-text">Content coming soon.</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p><strong>H-1B / H-2: The Visa Incentive Machine</strong> &nbsp;·&nbsp; Module 01 of The Manufactured Divide</p>
+      <p>All claims sourced to primary government, academic, and investigative sources through April 2026.</p>
+      <p>Research synthesis and build assisted by Claude (Anthropic). All figures verified against primary sources.</p>
+      <p>
+        Created by Ian &nbsp;·&nbsp;
+        <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener">Submit feedback</a>
+        &nbsp;·&nbsp;
+        <a href="#">Sources →</a>
+        &nbsp;·&nbsp;
+        <a href="https://istuckert.github.io/Incentive-Machine/visa/" target="_blank" rel="noopener">Live URL</a>
+      </p>
+    </div>
+    <div class="footer-right">
+      <a href="../index.html" class="footer-link">← Main Platform</a>
+      <a href="index.html" class="footer-link">← Visa Hub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
