@@ -773,6 +773,129 @@ nav {
 }
 .src-card a:hover { text-decoration: underline; }
 
+/* ── HUB SECTION ── */
+.hub-section {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+}
+.hub-label-area {
+  padding: 2rem 2rem 1.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-dark);
+}
+.hub-label-text {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-dark-3);
+}
+.hub-tiles-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.hub-tile {
+  display: block;
+  text-decoration: none;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dark);
+  border-top: none;
+  border-left: 3px solid transparent;
+  padding: 2rem 2.5rem;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.hub-tile:first-child { border-top: 1px solid var(--border-dark); }
+.hub-tile:hover { background: var(--bg-mid); }
+.hub-tile-label {
+  font-family: var(--serif-2);
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+.hub-tile-body {
+  font-family: var(--sans);
+  font-size: 0.87rem;
+  font-weight: 400;
+  color: var(--ink-dark-2);
+  line-height: 1.78;
+  margin-bottom: 1.25rem;
+  max-width: 680px;
+}
+.hub-tile-cta {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.hub-tile:hover .hub-tile-cta { text-decoration: underline; }
+
+/* tile accent variants */
+.hub-tile--gold { border-left-color: var(--gold); }
+.hub-tile--gold .hub-tile-label { color: var(--gold); }
+.hub-tile--gold .hub-tile-cta  { color: var(--gold); }
+
+.hub-tile--h1b { border-left-color: var(--h1b); }
+.hub-tile--h1b .hub-tile-label { color: var(--h1b); }
+.hub-tile--h1b .hub-tile-cta  { color: var(--h1b); }
+
+.hub-tile--h2 { border-left-color: var(--h2); }
+.hub-tile--h2 .hub-tile-label { color: var(--h2); }
+.hub-tile--h2 .hub-tile-cta  { color: var(--h2); }
+
+.hub-tile--media { border-left-color: rgba(232,228,220,0.18); }
+.hub-tile--media .hub-tile-label { color: var(--ink-dark-2); }
+.hub-tile--media .hub-tile-cta  { color: var(--ink-dark-2); }
+
+.hub-tile--flip { border-left-color: var(--absorb); }
+.hub-tile--flip .hub-tile-label { color: var(--return-red); }
+.hub-tile--flip .hub-tile-cta  { color: var(--return-red); }
+
+/* split row: H-1 / H-2 */
+.hub-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+}
+.hub-split-row .hub-tile {
+  border: none;
+  border-left: 3px solid transparent;
+}
+.hub-split-row .hub-tile--h1b { border-left-color: var(--h1b); }
+.hub-split-row .hub-tile--h2 {
+  border-left: 1px solid var(--border-dark);
+  padding-left: calc(2.5rem - 1px);
+}
+/* H-2's accent comes from a pseudo-element so we can stack border-left for divider */
+.hub-split-row .hub-tile--h2::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--h2);
+}
+.hub-split-row .hub-tile--h2 { position: relative; }
+
+@media (max-width: 640px) {
+  .hub-split-row { grid-template-columns: 1fr; }
+  .hub-split-row .hub-tile--h2 {
+    border-left: 3px solid var(--h2);
+    border-top: 1px solid var(--border-dark);
+    padding-left: 2.5rem;
+  }
+  .hub-split-row .hub-tile--h2::before { display: none; }
+}
+
 /* ── FOOTER ── */
 footer {
   background: var(--bg-dark);
@@ -856,11 +979,11 @@ footer {
     <a href="../index.html" class="nav-back">← The Manufactured Divide</a>
     <span class="nav-brand">H-1B / H-2 · Visa Machine</span>
     <ul class="nav-links">
-      <li><a href="#asset-managers">Asset Managers</a></li>
-      <li><a href="#h1b">H-1B</a></li>
-      <li><a href="#h2">H-2</a></li>
-      <li><a href="#dichotomy-h1b">Dichotomy</a></li>
-      <li><a href="#sources">Sources</a></li>
+      <li><a href="#">Asset Managers</a></li>
+      <li><a href="#">H-1</a></li>
+      <li><a href="#">H-2</a></li>
+      <li><a href="#">Media</a></li>
+      <li><a href="#">Political Flip</a></li>
     </ul>
   </div>
 </nav>
@@ -1011,905 +1134,49 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     DIVIDER BAND
+     HUB — EXPLORE THE MACHINE
 ═══════════════════════════════════════════════════════ -->
-<div class="band">
-  <p class="band-text">
-    Asset managers <strong>own the companies</strong> that sponsor visa workers.
-    Those workers produce <strong>labor cost savings</strong> that improve margins.
-    Improved margins raise share prices. Share prices grow <strong>your retirement account.</strong>
-    The same Americans whose wages are suppressed are unknowingly funding
-    <strong>the mechanism that suppresses them.</strong>
-  </p>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 02 — ASSET MANAGERS
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="asset-managers">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-acc">Section 02 — Who Controls It</span>
-      <h2 class="sec-title">Institutional Asset Managers</h2>
-      <p class="sec-sub">BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households. When you signed up for your 401(k), buried in the terms and conditions nobody reads, you handed them something more valuable than your money: your vote.</p>
-    </div>
-
-    <div class="sec-img reveal" style="background: linear-gradient(rgba(15,22,35,0.40), rgba(15,22,35,0.40)), url('images/blackrock-hq. 1.jpeg') center/cover no-repeat;"></div>
-
-    <div class="stats-grid reveal d1">
-      <div class="stat-card">
-        <span class="stat-num a">$13.89T</span>
-        <span class="stat-label">BlackRock AUM<br>Q1 2026 — record high</span>
-        <span class="stat-note">BlackRock Q1 2026 earnings</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">$26T+</span>
-        <span class="stat-label">Combined Big Three AUM<br>BlackRock · Vanguard · State Street</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">128M</span>
-        <span class="stat-label">U.S. Household Investors<br>56.4% of all U.S. households</span>
-        <span class="stat-note">ICI 2025</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">~88%</span>
-        <span class="stat-label">of S&amp;P 500 Companies<br>where Big Three is largest shareholder</span>
-        <span class="stat-note">Morningstar 2025</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">20–25%</span>
-        <span class="stat-label">Median Voting Power<br>at any shareholder meeting</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">98.7%</span>
-        <span class="stat-label">Management Proposal<br>Support Rate, 2025 proxy season</span>
-      </div>
-    </div>
-
-    <div class="accordion reveal d2">
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">Where Their Money Comes From</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>They collect fees from your retirement account — typically 0.03–0.20% of assets under management annually</li>
-            <li>At $26 trillion combined AUM, that is $7.8–52 billion per year in fees from ordinary Americans' retirement savings</li>
-            <li>You pay these fees whether markets go up or down — the fee is on assets held, not performance</li>
-            <li>~74% of U.S. equity ETF market is controlled by the Big Three — most passive investors have no alternative</li>
-            <li>BlackRock pension AUM alone: $3.9 trillion (Q1 2026 earnings)</li>
-          </ul>
-          <span class="src"><a href="https://markets.chroniclejournal.com/chroniclejournal/article/marketminute-2026-4-14-blackrock-vaults-to-record-139-trillion-aum-as-etf-inflows-and-private-markets-fuel-q1-earnings-surge" target="_blank" rel="noopener">BlackRock Q1 2026 earnings</a> · <a href="https://www.ici.org/statistical-report/ret_23_q4" target="_blank" rel="noopener">ICI 2025</a></span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">How You Gave Away Your Vote</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>Federal law — ERISA §403(a)(2) — makes proxy voting the fiduciary duty of the fund manager, not the account holder</li>
-            <li>When you enrolled in your 401(k) at work, you transferred your shareholder votes to the asset manager by default, with no notification required</li>
-            <li>Every share in your retirement account comes with a vote in how that company is run — you gave those votes away buried in enrollment terms</li>
-            <li>You cannot retrieve them: your employer plan selects the fund, the fund selects the manager, the manager votes your shares</li>
-          </ul>
-          <span class="src"><a href="https://www.federalregister.gov/documents/2020/12/16/2020-27471/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank" rel="noopener">DOL Federal Register Dec 2020 — ERISA §403(a)(2)</a></span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">What They Do With That Voting Power</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>98.7% management proposal support rate in the 2025 proxy season — they almost always vote with company management</li>
-            <li>At 20–25% median voting block in every S&amp;P 500 company, they rarely lose a vote they want to win</li>
-            <li>When they vote for a CEO compensation package that rewards H-1B labor cost savings, they are voting with your shares</li>
-            <li>They almost never vote against executive compensation packages that include H-1B-driven cost reduction targets</li>
-          </ul>
-          <span class="src">Morningstar 2025 · <a href="https://www.opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/" target="_blank" rel="noopener">OpenSecrets 2025</a></span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">Why They Always Vote the Same Way</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>The Big Three own each other: Vanguard owns ~9% of BlackRock · BlackRock owns ~8% of State Street · State Street owns ~4% of BlackRock</li>
-            <li>They hold aligned positions and vote in the same direction — together, they cannot be outvoted by retail shareholders</li>
-            <li>Their shared interest is simple: higher share prices across the S&amp;P 500 increase AUM, which increases fee revenue</li>
-            <li>Labor cost suppression via H-1B outsourcing raises margins → raises share prices → raises AUM → raises management fees</li>
-          </ul>
-          <span class="src">SEC 13F Q4 2025 · Morningstar 2025</span>
-        </div>
-      </div>
-      <div class="acc-item">
-        <button class="acc-btn">
-          <span class="acc-btn-title">How They Influence Policy Without Lobbying For It</span>
-          <span class="acc-icon">+</span>
-        </button>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>BlackRock federal lobbying 2025: $3.4M — almost none on immigration</li>
-            <li>Vanguard federal lobbying 2025: $2.58M — almost none on immigration</li>
-            <li>They don't need to lobby on immigration — the companies they own do the lobbying</li>
-            <li>Meta: $26.29M lobbying in 2025 · Amazon: $18.87M · Google: $16.54M · Microsoft: $10.11M</li>
-            <li>The asset managers vote aligned blocks; their portfolio companies buy the Congressional access</li>
-            <li>All four tech sponsors donated $1M each to Trump's 2025 inaugural committee</li>
-          </ul>
-          <span class="src"><a href="https://www.opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/" target="_blank" rel="noopener">OpenSecrets Lobbying 2025</a></span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
+<div class="hub-section">
+  <div class="hub-label-area">
+    <span class="hub-label-text">Explore the Machine</span>
   </div>
-</div>
+  <div class="hub-tiles-wrap">
 
+    <!-- Tile 1: Asset Managers (full width) -->
+    <a href="#" class="hub-tile hub-tile--gold">
+      <span class="hub-tile-label">Asset Managers</span>
+      <p class="hub-tile-body">Placeholder: Brief description of what asset managers are and their role in the system. BlackRock, Vanguard, and State Street. AUM figure. Voting power. The retirement account connection. Two to three sentences maximum.</p>
+      <span class="hub-tile-cta">Explore the ownership chain →</span>
+    </a>
 
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 03a — H-1B VISA
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap" id="h1b">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-h1b">Section 03a — Left Stream</span>
-      <h2 class="sec-title">The H-1B Visa</h2>
-      <p class="sec-sub">Specialty Occupation Program: what the law says vs. what actually happens. The Labor Condition Application is self-attested, minimally audited, and approved 99% of the time. The result is a captive labor pool paid below market and unable to safely assert rights.</p>
+    <!-- Split row: H-1 / H-2 (50/50) -->
+    <div class="hub-split-row">
+      <a href="#" class="hub-tile hub-tile--h1b">
+        <span class="hub-tile-label">H-1</span>
+        <p class="hub-tile-body">Placeholder: What the H-1 program says it is versus what it actually does. Statutory framing. One to two sentences.</p>
+        <span class="hub-tile-cta">Explore the H-1 chain →</span>
+      </a>
+      <a href="#" class="hub-tile hub-tile--h2">
+        <span class="hub-tile-label">H-2</span>
+        <p class="hub-tile-body">Placeholder: What the H-2 program says it is versus what it actually does. Statutory framing. One to two sentences.</p>
+        <span class="hub-tile-cta">Explore the H-2 chain →</span>
+      </a>
     </div>
 
-    <div class="sec-img-placeholder reveal d1">[Image Placeholder — Tech / Office Environment, Horizontal Crop]</div>
+    <!-- Tile 3: Media (full width) -->
+    <a href="#" class="hub-tile hub-tile--media">
+      <span class="hub-tile-label">Media</span>
+      <p class="hub-tile-body">Placeholder: Brief description of how media narratives around these programs are constructed. Who funds the think tanks. How the same raw data gets interpreted in opposite directions. Two to three sentences.</p>
+      <span class="hub-tile-cta">Explore the media chain →</span>
+    </a>
 
-    <div class="stats-grid reveal d1">
-      <div class="stat-card">
-        <span class="stat-num h1">~730k</span>
-        <span class="stat-label">H-1B Workers<br>Active in U.S. early 2026</span>
-        <span class="stat-note">USCIS H-1B Employer Data Hub FY2025</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num h1">71–73%</span>
-        <span class="stat-label">Indian Nationals<br>among H-1B approvals</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">16%</span>
-        <span class="stat-label">Wage Gap vs. comparable<br>U.S. workers after controls</span>
-        <span class="stat-note">NBER Working Paper w34793, Feb 2026</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">~99%</span>
-        <span class="stat-label">DOL LCA Approval Rate<br>self-attested, minimally audited</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num h1">60 days</span>
-        <span class="stat-label">Deportation Clock<br>after last paid work</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num r">12+ yr</span>
-        <span class="stat-label">India EB-2 Backlog<br>Priority date ~2013</span>
-        <span class="stat-note">Visa Bulletin Feb 2026</span>
-      </div>
-    </div>
+    <!-- Tile 4: Political Flip (full width) -->
+    <a href="#" class="hub-tile hub-tile--flip">
+      <span class="hub-tile-label">Political Flip</span>
+      <p class="hub-tile-body">Placeholder: Brief description of how both parties have held both positions on these programs within the last decade. Position shifts correlate with donor needs, not ideology. Two to three sentences.</p>
+      <span class="hub-tile-cta">See the evidence →</span>
+    </a>
 
-    <div class="two-col reveal d2">
-      <div>
-        <p class="prose">The H-1B program was designed for "specialty occupations" requiring at least a bachelor's degree in a specific field. The mechanism that makes it exploitable is structural, not illegal: the Labor Condition Application is <strong>self-attested and approved ~99% of the time</strong>. The employer sets the wage. The employer files the paperwork. The employer controls the visa.</p>
-        <p class="prose">The outsourcing model adds a second layer. TCS, Cognizant, Infosys, Wipro, and HCL sponsor H-1B workers and deploy them to third-party end-clients — banks, telecom, retail — at <strong>30–40% below the cost of a direct hire</strong>. The worker's visa is tied to the outsourcer, not the company where they actually work. The Big Three own both the outsourcer and every major end-client.</p>
-        <p class="prose">The visa tether — one employer controls immigration status, visa renewal, and green card sponsorship simultaneously — is the structural mechanism. Workers who face deportation in 60 days cannot safely report wage theft, refuse bench time, or participate in collective action. <strong>This is not incidental to the program: it is the program.</strong></p>
-        <span class="src"><a href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank" rel="noopener">USCIS H-1B Employer Data Hub FY2025</a> · <a href="https://www.nber.org/system/files/working_papers/w34793/w34793.pdf" target="_blank" rel="noopener">NBER w34793 Feb 2026</a> · <a href="https://www.bloomberg.com/graphics/2025-h1b-visa-middlemen-cheap-labor-for-us-banks" target="_blank" rel="noopener">Bloomberg H-1B Middlemen 2025</a></span>
-      </div>
-      <div>
-        <ul class="facts">
-          <li>
-            <span class="fact-key">Top Direct Sponsor FY2025</span>
-            <span class="fact-val">Amazon — 4,644 initial (+20% YoY) · 14,532 continuing</span>
-          </li>
-          <li>
-            <span class="fact-key">Meta</span>
-            <span class="fact-val">1,555 initial (+112% vs FY2023) · 4,740 continuing</span>
-          </li>
-          <li>
-            <span class="fact-key">Microsoft</span>
-            <span class="fact-val">1,394 initial · 4,863 continuing</span>
-          </li>
-          <li>
-            <span class="fact-key">Google</span>
-            <span class="fact-val">1,050 initial · 4,509 continuing</span>
-          </li>
-          <li>
-            <span class="fact-key">TCS (outsourcing)</span>
-            <span class="fact-val">846 initial FY2025 — down 42% from FY2024 peak of 1,452</span>
-          </li>
-          <li>
-            <span class="fact-key">Cognizant</span>
-            <span class="fact-val">743 initial — down from 2,873 in FY2024</span>
-          </li>
-          <li>
-            <span class="fact-key">Wage gap — outsourcers</span>
-            <span class="fact-val r">Up to 35% below comparable U.S. workers (NBER 2026)</span>
-          </li>
-          <li>
-            <span class="fact-key">HCL wage theft (EPI)</span>
-            <span class="fact-val r">$95M documented across H-1B workers</span>
-          </li>
-          <li>
-            <span class="fact-key">Layoffs same period</span>
-            <span class="fact-val r">Amazon: +20% H-1B / ~30,000 layoffs simultaneously</span>
-          </li>
-        </ul>
-        <span class="src"><a href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank" rel="noopener">USCIS H-1B Employer Data Hub FY2025</a> · <a href="https://nfap.com/wp-content/uploads/2025/11/H-1B-Petitions-and-Denial-Rates-For-FY-2025.NFAP-Policy-Brief.2025.pdf" target="_blank" rel="noopener">NFAP Policy Brief FY2025</a></span>
-      </div>
-    </div>
-
-    <div class="research-flag reveal d3">
-      <strong>University Feedback Loop:</strong> Major research universities are cap-exempt H-1B sponsors. They convert F-1 international students into H-1B workers who feed directly into the corporate sponsor pipeline. TCS gifted $35M to Carnegie Mellon in 2015 explicitly for industry-academia talent partnerships. Amazon, Google, Meta, and Microsoft fund university AI/ML centers and endowed professorships. Harvard spent nearly $1M lobbying in 2025 — alongside tech companies — for cap-exempt preservation. Stanford: 329 initial approvals FY2025. MIT: 104. Harvard: 112.
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 03b — H-2 VISA
-     (H-2A and H-2B as separate subsections throughout)
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="h2">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-h2">Section 03b — Right Stream</span>
-      <h2 class="sec-title">The H-2 Visa</h2>
-      <p class="sec-sub">Agricultural &amp; seasonal workers: a different program, the same extraction. H-2A and H-2B are separate programs with distinct sponsor chains. Both run at ~99% DOL approval. Both transfer billions annually from workers and communities to operators and their institutional owners.</p>
-    </div>
-
-    <!-- H-2A -->
-    <div class="reveal d1" style="margin-bottom:3.5rem;">
-      <span class="sec-overline ov-h2">H-2A — Agricultural Workers</span>
-      <h3 style="font-family:var(--serif);font-size:1.55rem;font-weight:900;color:var(--ink);margin:0.4rem 0 1.25rem;line-height:1.1;">The Triple Tether</h3>
-      <div class="sec-img" style="background: linear-gradient(rgba(15,22,35,0.28), rgba(15,22,35,0.28)), url('images/farmworkers.jpeg') center/cover no-repeat; height:200px; margin-bottom:1.75rem;"></div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-num h2c">398k+</span>
-          <span class="stat-label">H-2A Positions Certified<br>FY2025 — nearly triple mid-2010s</span>
-          <span class="stat-note">DOL OFLC FY2025 Q4</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num h2c">90–92%</span>
-          <span class="stat-label">Mexican Nationals<br>among H-2A workers</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">$785M</span>
-          <span class="stat-label">Transferred from H-2A workers<br>to employers FY2025 alone</span>
-          <span class="stat-note">DOL's own IFR analysis, Oct 2025</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">$1.7–2.1B</span>
-          <span class="stat-label">Annual transfer from H-2A<br>workers to employers (EPI 2026)</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">~99%</span>
-          <span class="stat-label">DOL H-2A Approval Rate<br>minimal audit — GAO-25-106389</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">2,841</span>
-          <span class="stat-label">H-2A Trafficking Victims<br>identified by Polaris 2018–2020</span>
-        </div>
-      </div>
-
-      <div class="two-col" style="margin-top:1.75rem;">
-        <div>
-          <p class="prose">The triple tether is the structural mechanism of the H-2A program: a single entity simultaneously controls the worker's visa status, housing, and employment. Lose one — lose all three at the same moment. This is not a corner case. It is the stated design of the program.</p>
-          <p class="prose">Farm Labor Contractors (FLCs) — the certified sponsors — file ~15% of H-2A applications but drive the majority of debarments. DOL's approval rate is ~99%, largely self-attested with minimal audit. H-2A violations account for <strong>54% of all agricultural back-wage assessments FY2018–2023</strong>, but annual back-wage recovery is only ~$8.3M — negligible against a 400,000+ position program.</p>
-          <p class="prose">Operation Blooming Onion (Georgia, 2015–2026): FLC operators charged with forced labor, violence, sexual assault, and worker deaths. $200M+ contractor profit. Federal prosecutors called it "modern-day slavery." The program's self-attestation mechanism made it possible.</p>
-          <span class="src"><a href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank" rel="noopener">DOL OFLC H-2A FY2025 Q4</a> · <a href="https://www.gao.gov/products/gao-25-106389" target="_blank" rel="noopener">GAO-25-106389</a> · <a href="https://projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/" target="_blank" rel="noopener">ProPublica — Operation Blooming Onion</a> · <a href="https://polarisproject.org/wp-content/uploads/2023/12/Polaris-H2A-Trafficking-Cases-Report.pdf" target="_blank" rel="noopener">Polaris Project H-2A Trafficking Report</a></span>
-        </div>
-        <div>
-          <ul class="facts">
-            <li>
-              <span class="fact-key">Top FLC sponsor FY2025</span>
-              <span class="fact-val">NCGA Inc. — 10,398 positions (600+ NC member farms)</span>
-            </li>
-            <li>
-              <span class="fact-key">Foothill Packing</span>
-              <span class="fact-val">6,959 positions — end-users: Ocean Mist, Dole, Taylor Farms</span>
-            </li>
-            <li>
-              <span class="fact-key">Wafla</span>
-              <span class="fact-val">4,913 positions — WA/OR/ID apple, cherry, berry</span>
-            </li>
-            <li>
-              <span class="fact-key">Temp Labor LLC</span>
-              <span class="fact-val">4,891 positions</span>
-            </li>
-            <li>
-              <span class="fact-key">Fresh Harvest</span>
-              <span class="fact-val">4,375 positions — CA/AZ vegetables, berries</span>
-            </li>
-            <li>
-              <span class="fact-key">Recruiter fees</span>
-              <span class="fact-val r">$1,000–$9,000+ upfront; loans at up to 20%/month interest</span>
-            </li>
-            <li>
-              <span class="fact-key">Grimmway Farms (PE-owned)</span>
-              <span class="fact-val r">$427,456 back wages ordered Aug 2025</span>
-            </li>
-            <li>
-              <span class="fact-key">Dole plc ownership</span>
-              <span class="fact-val">BlackRock 5.11% / State Street 1.36% / Vanguard 0.82%</span>
-            </li>
-          </ul>
-          <span class="src"><a href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank" rel="noopener">DOL OFLC H-2A FY2025 Q4</a> · <a href="https://pestakeholder.org/wp-content/uploads/2025/03/PESP_Report_Agriculture_2025.pdf" target="_blank" rel="noopener">PESP "Betting the Farm" Mar 2025</a></span>
-        </div>
-      </div>
-    </div>
-
-    <!-- H-2B -->
-    <div class="reveal d2" style="border-top:1px solid var(--border);padding-top:3rem;">
-      <span class="sec-overline ov-h2">H-2B — Seasonal Service Workers</span>
-      <h3 style="font-family:var(--serif);font-size:1.55rem;font-weight:900;color:var(--ink);margin:0.4rem 0 1.25rem;line-height:1.1;">"Temporary" in Name Only</h3>
-      <div class="sec-img" style="background: linear-gradient(rgba(15,22,35,0.35), rgba(15,22,35,0.35)), url('images/meatpacking.jpg') center/cover no-repeat; height:200px; margin-bottom:1.75rem;"></div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-num h2c">169k</span>
-          <span class="stat-label">H-2B Workers FY2024<br>More than 2.5× original 66k statutory cap</span>
-          <span class="stat-note">DOL OFLC H-2B Performance Data FY2024</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num h2c">232 days</span>
-          <span class="stat-label">Average Certified Job Duration<br>53% certified for 8+ months</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">24.7%</span>
-          <span class="stat-label">Forest Worker Wage Gap<br>$15.51/hr vs. $20.59/hr national avg</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">$2.238B</span>
-          <span class="stat-label">H-2B Wage Theft Assessed<br>FY2000–2024, 247k compliance actions</span>
-          <span class="stat-note">EPI Sep 2025</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">45.86%</span>
-          <span class="stat-label">Landscaping/Groundskeeping<br>top occupation — largest H-2B share</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num r">853</span>
-          <span class="stat-label">H-2B Trafficking Victims<br>identified by Polaris 2018–2020</span>
-        </div>
-      </div>
-
-      <div class="two-col" style="margin-top:1.75rem;">
-        <div>
-          <p class="prose">Unlike H-2A, H-2B workers are not covered by mandatory employer housing — a different coercion structure, but the same 60-day deportation clock. In all top-15 H-2B occupations, certified wages fall below the OEWS national average. The statutory cap is 66,000 — set in 1992 and never raised by legislation. Congress has instead authorized DHS supplements every year since FY2016. FY2024 total reached 130,716.</p>
-          <p class="prose">The meatpacking expansion is the most documented employer strategy: U.S. meatpacking unionization fell from <strong>37.4% in 1983 to 13.5% in 2024</strong>; foreign-born share rose to 42%. Employers are now lobbying Congress to expand H-2B to year-round meatpacking, currently prohibited under the seasonal program definition.</p>
-          <span class="src"><a href="https://epi.org/310379" target="_blank" rel="noopener">EPI H-2B Report Sep 2025</a> · <a href="https://www.dol.gov/agencies/eta/foreign-labor/performance" target="_blank" rel="noopener">DOL OFLC H-2B Performance Data FY2024</a></span>
-        </div>
-        <div>
-          <ul class="facts">
-            <li>
-              <span class="fact-key">Top sponsor FY2025</span>
-              <span class="fact-val">ABC Professional Tree Services — 2,103 workers</span>
-            </li>
-            <li>
-              <span class="fact-key">Progressive Solutions LLC</span>
-              <span class="fact-val">2,073 workers</span>
-            </li>
-            <li>
-              <span class="fact-key">Genuine Builders Inc.</span>
-              <span class="fact-val">1,899 workers</span>
-            </li>
-            <li>
-              <span class="fact-key">Landscape Workshop LLC</span>
-              <span class="fact-val">1,840 workers</span>
-            </li>
-            <li>
-              <span class="fact-key">Landscaping wage gap</span>
-              <span class="fact-val r">$17.55/hr vs. $19.66/hr national (10.7% below)</span>
-            </li>
-            <li>
-              <span class="fact-key">Meatpacking — H-2B cert.</span>
-              <span class="fact-val r">$16.66/hr vs. $26.20/hr U.S.-born workers</span>
-            </li>
-            <li>
-              <span class="fact-key">National origin</span>
-              <span class="fact-val">Mexico ~62% · Central America + Jamaica ~30%</span>
-            </li>
-          </ul>
-          <span class="src"><a href="https://epi.org/310379" target="_blank" rel="noopener">EPI H-2B Report Sep 2025</a> · <a href="https://www.uscis.gov/tools/reports-and-studies/h-2b-employer-data-hub" target="_blank" rel="noopener">USCIS H-2B Employer Data Hub</a></span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 04 — CORPORATE LAYER (Phase 4 pending)
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap" id="corporate">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 04 — Closing the Loop</span>
-      <h2 class="sec-title">The Corporate Layer</h2>
-    </div>
-
-    <div class="coming-soon-wrap reveal d1">
-      <span class="cs-badge">Phase 4 — In Research</span>
-      <h3 class="cs-title">The Ownership Chain</h3>
-      <p class="cs-text">This section will document the direct line from each top visa sponsor through its ultimate institutional holder to the Big Three — completing the circuit between visa labor and retirement savings. Every claim will be sourced to SEC 13F filings, USASpending.gov, OpenSecrets, and FEC records.</p>
-      <ul class="cs-items">
-        <li>Phase 4a — Per-company H-1B visa count and year-over-year trend (USCIS Employer Data Hub)</li>
-        <li>Phase 4b — Estimated labor cost savings per employer (EPI prevailing wage methodology)</li>
-        <li>Phase 4c — Full ownership chain: Company → Parent → Institutional Holder → Asset Manager (SEC 13F)</li>
-        <li>Phase 4d — Federal contract receipts per top H-1B sponsor (USASpending.gov)</li>
-        <li>Phase 4e — Lobbying expenditures per company (OpenSecrets)</li>
-        <li>Phase 4f/g — PAC contributions + layoff records vs. H-1B hiring (FEC + WARN Act / 8-K filings)</li>
-        <li>Phase 4h — H-2 sponsor → PE intermediary → Big Three ownership chain</li>
-      </ul>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2" style="display:block;text-align:center;margin-top:2.5rem;">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 05a — DICHOTOMY: H-1B
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="dichotomy-h1b">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 05a — Dichotomy of Truth</span>
-      <h2 class="sec-title">H-1B: What Is Actually Happening</h2>
-      <p class="sec-sub">Americans are arguing about the wrong thing. Below is documented reality on both sides — not the argument, but the evidence the argument is designed to obscure.</p>
-    </div>
-
-    <div class="dict-grid reveal d1">
-      <div class="dict-col">
-        <span class="dict-col-label lbl-h1b">Who Are the H-1B Workers?</span>
-        <div class="dict-item">
-          <p class="dict-text"><strong>16% wage gap</strong> vs. comparable U.S. workers after controls — up to 35% at outsourcing firms</p>
-          <span class="dict-src"><a href="https://www.nber.org/system/files/working_papers/w34793/w34793.pdf" target="_blank" rel="noopener">NBER Working Paper w34793, Feb 2026</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>60-day deportation clock</strong> starts the day after last paid work — job loss is an immigration crisis, not just a career setback</p>
-          <span class="dict-src">USCIS H-1B regulations</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">India EB-2 green card wait: priority date <strong>~2013 = 12+ year backlog</strong> — cannot change employers without restarting the process</p>
-          <span class="dict-src">Visa Bulletin Feb 2026</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Bench time between client projects: <strong>reduced or no pay</strong> while still legally tied to sponsor — cannot work elsewhere</p>
-          <span class="dict-src"><a href="https://www.epi.org/publication/new-evidence-widespread-wage-theft-in-the-h-1b-program/" target="_blank" rel="noopener">EPI H-1B wage theft report</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Illegal recruiter fees: <strong>hundreds to thousands upfront</strong>, prohibited but common in outsourcing pipelines</p>
-          <span class="dict-src"><a href="https://www.justice.gov/opa/pr/civil-rights-division-obtains-settlement-company-discouraged-us-workers-applying-jobs" target="_blank" rel="noopener">DOJ Compunnel settlement April 2026</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>4× more likely</strong> to live in overcrowded housing than U.S. natives</p>
-          <span class="dict-src">CIS housing report</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>$15,000–$25,000+</strong> remitted annually to India — capital extracted from U.S. communities</p>
-          <span class="dict-src"><a href="https://www.worldbank.org/en/topic/remittances" target="_blank" rel="noopener">World Bank remittances</a></span>
-        </div>
-      </div>
-      <div class="dict-col">
-        <span class="dict-col-label lbl-red">What Is the True Effect on Americans?</span>
-        <div class="dict-item">
-          <p class="dict-text"><strong>85,000 Americans laid off; 34,000 H-1B workers hired</strong> — same companies, same years</p>
-          <span class="dict-src"><a href="https://www.sanders.senate.gov" target="_blank" rel="noopener">Sen. Sanders Op-Ed, Jan 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Disney 2015: <strong>250 IT workers laid off and forced to train their H-1B replacements</strong> from HCL and Cognizant</p>
-          <span class="dict-src"><a href="https://www.epi.org/publication/h-1b-visas-and-prevailing-wage-levels/" target="_blank" rel="noopener">EPI displacement cases</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Southern California Edison 2015: <strong>500 workers displaced</strong> by H-1B outsourcing contract</p>
-          <span class="dict-src">EPI 2015</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Average offered H-1B wages <strong>~$10,191 below OEWS mean</strong> — suppresses wages for entire IT departments, not just displaced workers</p>
-          <span class="dict-src">DOL LCA data analysis · EPI</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">LCA wage floors <strong>anchor IT department compensation below market</strong> — affects U.S. workers in the same roles who were never displaced</p>
-          <span class="dict-src">EPI prevailing wage analysis</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Captive visa workforce <strong>undermines collective organizing</strong> — colleagues facing deportation cannot safely participate in labor action or NLRB complaints</p>
-          <span class="dict-src">EPI H-1B labor rights analysis</span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 05b — DICHOTOMY: H-2A WORKERS
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap" id="dichotomy-h2a">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 05b — Dichotomy of Truth</span>
-      <h2 class="sec-title">H-2A: What Is Actually Happening</h2>
-      <p class="sec-sub">Agricultural workers face the same extraction mechanism as H-1B workers — but with added physical danger, rural isolation, and the triple tether of employer-controlled visa status, housing, and employment simultaneously.</p>
-    </div>
-
-    <div class="dict-grid reveal d1">
-      <div class="dict-col">
-        <span class="dict-col-label lbl-h2">Who Are the H-2A Workers?</span>
-        <div class="dict-item">
-          <p class="dict-text"><strong>84% of H-2A jobs require lifting, extreme temperatures, and repetitive movements</strong></p>
-          <span class="dict-src"><a href="https://www.gao.gov/products/gao-25-106389" target="_blank" rel="noopener">GAO-25-106389</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Triple tether:</strong> employer controls visa status, housing, and employment simultaneously — complain, quit, or get fired and you lose all three at once</p>
-          <span class="dict-src">DOL OFLC program design</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Illegal recruiter debt: <strong>$1,000–$9,000+ upfront; loans at up to 20%/month interest</strong> — documented debt bondage before workers arrive</p>
-          <span class="dict-src"><a href="https://projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/" target="_blank" rel="noopener">ProPublica 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">AEWR gross wage often <strong>$12–$16/hr</strong> — then meal deductions up to $16.78/day and housing deductions up to 30% of AEWR under 2025 IFR</p>
-          <span class="dict-src"><a href="https://www.federalregister.gov/documents/2025/10/02/2025-19365/adverse-effect-wage-rate-methodology-for-the-temporary-employment-of-h-2a-nonimmigrants-in-non-range" target="_blank" rel="noopener">DOL Federal Register IFR Oct 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>No FICA/Social Security/Medicare</strong> — workers pay U.S. income tax and receive no U.S. social insurance benefits of any kind</p>
-          <span class="dict-src">IRS / DOL program rules</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Operation Blooming Onion (Georgia, 2015–2026): <strong>forced labor, violence, sexual assault, deaths</strong> — $200M+ contractor profit. Federal prosecutors called it "modern-day slavery."</p>
-          <span class="dict-src"><a href="https://projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/" target="_blank" rel="noopener">ProPublica — Operation Blooming Onion</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Polaris: <strong>2,841 H-2A trafficking victims</strong> identified 2018–2020; immigration threats used as primary control in 59% of foreign-national labor trafficking cases</p>
-          <span class="dict-src"><a href="https://polarisproject.org/wp-content/uploads/2023/12/Polaris-H2A-Trafficking-Cases-Report.pdf" target="_blank" rel="noopener">Polaris Project H-2A Trafficking Report</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>3-year absolute cap, no pathway to permanence</strong>; rural isolation cuts workers off from legal aid, advocates, and support networks</p>
-          <span class="dict-src">8 U.S.C. §1101(a)(15)(H)(ii)(a)</span>
-        </div>
-      </div>
-      <div class="dict-col">
-        <span class="dict-col-label lbl-red">What Is the True Effect on American Farmworkers?</span>
-        <div class="dict-item">
-          <p class="dict-text">EPI 2026: AEWR cuts reduce U.S. farmworker wages <strong>$2.7–$3.3 billion annually</strong> — a 7.1–8.7% wage loss across the domestic agricultural workforce</p>
-          <span class="dict-src"><a href="https://www.epi.org/blog/trumps-new-h-2a-wage-rule-will-radically-cut-the-wages-of-all-farmworkers" target="_blank" rel="noopener">EPI Nov 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">DOL's own IFR analysis: <strong>$785M transferred from H-2A workers to employers FY2025 alone</strong></p>
-          <span class="dict-src"><a href="https://www.federalregister.gov/documents/2025/10/02/2025-19365/adverse-effect-wage-rate-methodology-for-the-temporary-employment-of-h-2a-nonimmigrants-in-non-range" target="_blank" rel="noopener">DOL Federal Register IFR Oct 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">A 10% AEWR increase raises domestic farm wages only <strong>~2.8%</strong> — suppression is structural, not marginal; the floor sets the ceiling</p>
-          <span class="dict-src"><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ajae.12557" target="_blank" rel="noopener">Rutledge et al. 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">H-2A violations = <strong>54% of all agricultural back-wage assessments FY2018–2023</strong> — enforcement collapse benefits employers directly</p>
-          <span class="dict-src"><a href="https://www.gao.gov/products/gao-25-106389" target="_blank" rel="noopener">GAO-25-106389</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Only <strong>611 WHD investigators</strong> policing a 170 million worker labor market as of May 2025 — enforcement is structurally incapable of deterrence</p>
-          <span class="dict-src">Rutgers Workplace Justice Lab, May 2025</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>Rural towns hollowed</strong> as seasonal jobs go to visa workers; local spending multiplier collapses as remittances exit the community</p>
-          <span class="dict-src">EPI rural wage analysis</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">UFW lawsuit E.D. Cal. 1:25-cv-01614 (Nov 2025): <strong>challenges AEWR wage rule cuts</strong> on behalf of domestic agricultural workers</p>
-          <span class="dict-src"><a href="https://clearinghouse.net/case/47407/" target="_blank" rel="noopener">Clearinghouse.net case 47407</a></span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 05c — DICHOTOMY: H-2B WORKERS
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="dichotomy-h2b">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 05c — Dichotomy of Truth</span>
-      <h2 class="sec-title">H-2B: What Is Actually Happening</h2>
-      <p class="sec-sub">Seasonal service workers — landscaping, construction, home services — face the same 60-day deportation clock as agricultural workers, without the mandatory employer housing. "Temporary" by name: 53% of certified positions run eight months or longer.</p>
-    </div>
-
-    <div class="dict-grid reveal d1">
-      <div class="dict-col">
-        <span class="dict-col-label lbl-h2">Who Are the H-2B Workers?</span>
-        <div class="dict-item">
-          <p class="dict-text">Average certified job duration: <strong>232 days</strong> — 53% of positions certified for 8+ months. "Temporary" in name only.</p>
-          <span class="dict-src">DOL OFLC H-2B Performance Data FY2024</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>No mandatory employer housing</strong> — different coercion structure than H-2A, but the same 60-day deportation clock applies on job loss</p>
-          <span class="dict-src">H-2B regulations (8 C.F.R. §214.2(h))</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>All top-15 H-2B occupations pay below OEWS national average</strong> — wage suppression is not an aberration; it is the occupational baseline</p>
-          <span class="dict-src"><a href="https://epi.org/310379" target="_blank" rel="noopener">EPI H-2B Report Sep 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Forest workers: <strong>$15.51/hr vs. $20.59/hr</strong> national average — 24.7% below, the largest documented gap across all H-2B occupations</p>
-          <span class="dict-src"><a href="https://www.bls.gov/oes/" target="_blank" rel="noopener">BLS OEWS</a> · <a href="https://epi.org/310379" target="_blank" rel="noopener">EPI Sep 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">New H-2B meatpacking certifications: <strong>$16.66/hr vs. U.S.-born meatpacking workers earning $26.20/hr</strong></p>
-          <span class="dict-src">EPI CPS microdata analysis</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Polaris identified <strong>853 H-2B trafficking victims</strong> 2018–2020</p>
-          <span class="dict-src">Polaris Project</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text"><strong>$2.238B in assessed back wages</strong> across 247,180 compliance actions affecting 1.82M workers in H-2B-heavy industries FY2000–2024</p>
-          <span class="dict-src"><a href="https://epi.org/310379" target="_blank" rel="noopener">EPI H-2B Report Sep 2025</a></span>
-        </div>
-      </div>
-      <div class="dict-col">
-        <span class="dict-col-label lbl-red">What Is the True Effect on American Seasonal Workers?</span>
-        <div class="dict-item">
-          <p class="dict-text">H-2B occupational wage depression in landscaping: <strong>10.7% below national average</strong> in the top occupation — a floor that suppresses the entire local labor market</p>
-          <span class="dict-src"><a href="https://epi.org/310379" target="_blank" rel="noopener">EPI Sep 2025</a> · BLS OEWS</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">U.S. meatpacking unionization fell from <strong>37.4% in 1983 to 13.5% in 2024</strong>; foreign-born share rose to 42% — documented employer substitution strategy over four decades</p>
-          <span class="dict-src">EPI CPS microdata analysis</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Employers lobbying Congress to expand H-2B to <strong>year-round meatpacking</strong> — currently prohibited under the seasonal program definition</p>
-          <span class="dict-src"><a href="https://www.opensecrets.org" target="_blank" rel="noopener">OpenSecrets lobbying disclosures 2025</a></span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Statutory cap set at <strong>66,000 in 1992 — never raised by Congress</strong>. Both parties have authorized DHS supplements every year since FY2016 rather than amend the statute.</p>
-          <span class="dict-src">8 U.S.C. §1184(g)(1) · DHS supplemental cap reports</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">Seasonal workers lose <strong>income, community spending multiplier, and career continuity</strong> as rural and suburban service-sector jobs are filled by visa workers</p>
-          <span class="dict-src">EPI rural wage analysis</span>
-        </div>
-        <div class="dict-item">
-          <p class="dict-text">H-2B remittances add additional capital outflow from <strong>landscaping, construction, and seasonal service communities</strong> — amplifies the rural hollowing already documented in H-2A markets</p>
-          <span class="dict-src"><a href="https://www.worldbank.org/en/topic/remittances" target="_blank" rel="noopener">World Bank remittances</a></span>
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 06 — POLITICAL FLIP (Phase 6 pending)
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap" id="political-flip">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 06 — The Political Flip</span>
-      <h2 class="sec-title">Both Sides Switch When the Donors Need Them To</h2>
-    </div>
-
-    <div class="reveal d1" style="margin-bottom:2rem;">
-      <p class="prose">The standard political frame — Democrats support visa expansion for moral reasons; Republicans oppose it for economic reasons — has never been stable. Both parties have held both positions within the last decade. The positions correlate strongly with donor needs, not with ideology.</p>
-    </div>
-
-    <div class="stats-grid reveal d2" style="margin-bottom:2.5rem;">
-      <div class="stat-card">
-        <span class="stat-num">$1M</span>
-        <span class="stat-label">Amazon · Meta · Microsoft · Google<br>each to Trump 2025 inaugural committee</span>
-        <span class="stat-note">While their employees gave 77–90% to Democrats</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num a">~50/50</span>
-        <span class="stat-label">Tech PAC Contributions<br>Split bipartisan — access strategy, not ideology</span>
-        <span class="stat-note">OpenSecrets 2024 cycle</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">S.2928</span>
-        <span class="stat-label">Grassley-Durbin H-1B Reform Act<br>Sep 29, 2025 — bipartisan bill</span>
-        <span class="stat-note">Sanders AND Tuberville as co-sponsors</span>
-      </div>
-    </div>
-
-    <div class="two-col reveal d3">
-      <div>
-        <h3 style="font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:1rem;">Verified — Documented Position Shifts</h3>
-        <ul class="facts">
-          <li>
-            <span class="fact-key">Sen. Sanders Op-Ed Jan 2025</span>
-            <span class="fact-val">Documents 85,000 American layoffs, 34,000 H-1B hires at same companies — a Democrat making the Republican economic argument</span>
-          </li>
-          <li>
-            <span class="fact-key">S.2928 Grassley-Durbin (Sep 29, 2025)</span>
-            <span class="fact-val">Bipartisan H-1B reform bill — Sanders AND Tuberville co-sponsors; left and right on the same bill simultaneously</span>
-          </li>
-          <li>
-            <span class="fact-key">Tech companies — Trump inaugural</span>
-            <span class="fact-val">All four donated $1M each while their own employees gave 77–90% to Democrats — corporate access strategy, not ideology</span>
-          </li>
-          <li>
-            <span class="fact-key">Trump 2025–2026</span>
-            <span class="fact-val">$100k fee, wage-weighted lottery, raised wage floors — MAGA anti-H-1B position</span>
-          </li>
-          <li>
-            <span class="fact-key">Tech billionaire wing (Musk et al.)</span>
-            <span class="fact-val">Publicly pro-H-1B expansion late 2024 — documented intra-GOP split between nationalist and tech-billionaire factions</span>
-          </li>
-          <li>
-            <span class="fact-key">GOP establishment pre-2016</span>
-            <span class="fact-val">Consistently pro-visa expansion as pro-business immigration — aligned with Chamber of Commerce and tech industry donors</span>
-          </li>
-        </ul>
-        <span class="src"><a href="https://congress.gov/bill/119th-congress/senate-bill/2928" target="_blank" rel="noopener">S.2928 Grassley-Durbin</a> · <a href="https://www.opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/" target="_blank" rel="noopener">OpenSecrets 2025</a></span>
-      </div>
-      <div>
-        <div class="research-flag" style="margin-top:0;">
-          <strong>Phase 6 — Research Pending</strong><br><br>
-          The following data has been identified but not yet fully compiled. These items will be populated in Phase 6.<br><br>
-          · Congressional vote records on H-1B / H-2 expansion — specific roll calls with party breakdowns<br>
-          · Exact quotes with dates: Sanders, Grassley, Durbin, Musk, GOP establishment pre-2016<br>
-          · Party platform language on immigration: 2008, 2012, 2016, 2020, 2024 — both parties<br>
-          · Pew Research polling data — immigration views by party and year<br>
-          · Donor tracking by company and party by year (OpenSecrets)
-        </div>
-      </div>
-    </div>
-
-    <a href="#diagram" class="back-diag reveal d2" style="display:block;text-align:center;margin-top:2.5rem;">↑ Return to diagram</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 07 — PRIMARY SOURCES
-═══════════════════════════════════════════════════════ -->
-<div class="sec-wrap alt" id="sources">
-  <div class="sec-inner">
-    <div class="sec-header reveal">
-      <span class="sec-overline ov-dim">Section 07 — Primary Sources</span>
-      <h2 class="sec-title">Verified Through April 2026</h2>
-      <p class="sec-sub">Every factual claim in this module links to a primary government, academic, or investigative source. No figure is presented without a citation.</p>
-    </div>
-
-    <div class="sources-grid reveal d1">
-      <div class="src-card">
-        <span class="src-card-label">H-1B · USCIS</span>
-        <a href="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" target="_blank" rel="noopener">USCIS H-1B Employer Data Hub FY2025</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · USCIS</span>
-        <a href="https://www.uscis.gov/sites/default/files/document/legal-docs/fy25_h1b_petitions_021126_v1.0.pdf" target="_blank" rel="noopener">USCIS FY2025 H-1B Petitions Report</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · NBER</span>
-        <a href="https://www.nber.org/system/files/working_papers/w34793/w34793.pdf" target="_blank" rel="noopener">NBER Working Paper w34793 — H-1B Wage Effects (Feb 2026)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · NFAP</span>
-        <a href="https://nfap.com/wp-content/uploads/2025/11/H-1B-Petitions-and-Denial-Rates-For-FY-2025.NFAP-Policy-Brief.2025.pdf" target="_blank" rel="noopener">NFAP Policy Brief — H-1B Petitions &amp; Denial Rates FY2025</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · EPI</span>
-        <a href="https://www.epi.org/publication/new-evidence-widespread-wage-theft-in-the-h-1b-program/" target="_blank" rel="noopener">EPI — New Evidence of Widespread Wage Theft in the H-1B Program</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · Bloomberg</span>
-        <a href="https://www.bloomberg.com/graphics/2025-h1b-visa-middlemen-cheap-labor-for-us-banks" target="_blank" rel="noopener">Bloomberg — H-1B Visa Middlemen: Cheap Labor for U.S. Banks (2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-1B · DOJ</span>
-        <a href="https://www.justice.gov/opa/pr/civil-rights-division-obtains-settlement-company-discouraged-us-workers-applying-jobs" target="_blank" rel="noopener">DOJ Compunnel Settlement — Excluded U.S. Workers (April 2026)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · DOL</span>
-        <a href="https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs/H-2A_Selected_Statistics_FY2025_Q4.pdf" target="_blank" rel="noopener">DOL OFLC H-2A Selected Statistics FY2025 Q4</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · DOL Federal Register</span>
-        <a href="https://www.federalregister.gov/documents/2025/10/02/2025-19365/adverse-effect-wage-rate-methodology-for-the-temporary-employment-of-h-2a-nonimmigrants-in-non-range" target="_blank" rel="noopener">DOL IFR — AEWR Methodology (Oct 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · GAO</span>
-        <a href="https://www.gao.gov/products/gao-25-106389" target="_blank" rel="noopener">GAO-25-106389 — H-2A Program Oversight</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · EPI</span>
-        <a href="https://www.epi.org/blog/trumps-new-h-2a-wage-rule-will-radically-cut-the-wages-of-all-farmworkers" target="_blank" rel="noopener">EPI — Trump's New H-2A Wage Rule Will Cut Farmworker Wages (Nov 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · Academic</span>
-        <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ajae.12557" target="_blank" rel="noopener">Rutledge et al. (2025) — H-2A Wage Effects on Domestic Workers</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · ProPublica</span>
-        <a href="https://projects.propublica.org/h2a-visa-farmworkers-operation-blooming-onion/" target="_blank" rel="noopener">ProPublica — Operation Blooming Onion</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · Polaris Project</span>
-        <a href="https://polarisproject.org/wp-content/uploads/2023/12/Polaris-H2A-Trafficking-Cases-Report.pdf" target="_blank" rel="noopener">Polaris Project — H-2A Human Trafficking Cases Report</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · UFW Litigation</span>
-        <a href="https://clearinghouse.net/case/47407/" target="_blank" rel="noopener">UFW v. DOL — E.D. Cal. 1:25-cv-01614 (Nov 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2B · DOL</span>
-        <a href="https://www.dol.gov/agencies/eta/foreign-labor/performance" target="_blank" rel="noopener">DOL OFLC H-2B Performance Data FY2024</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2B · EPI</span>
-        <a href="https://epi.org/310379" target="_blank" rel="noopener">EPI — H-2B Guestworker Program (Sep 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Asset Managers · BlackRock</span>
-        <a href="https://markets.chroniclejournal.com/chroniclejournal/article/marketminute-2026-4-14-blackrock-vaults-to-record-139-trillion-aum-as-etf-inflows-and-private-markets-fuel-q1-earnings-surge" target="_blank" rel="noopener">BlackRock Q1 2026 Earnings — $13.89T AUM Record</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Asset Managers · ICI</span>
-        <a href="https://www.ici.org/statistical-report/ret_23_q4" target="_blank" rel="noopener">ICI 2025 — U.S. Retirement Market Statistics</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Asset Managers · ERISA</span>
-        <a href="https://www.federalregister.gov/documents/2020/12/16/2020-27471/fiduciary-duties-regarding-proxy-voting-and-shareholder-rights" target="_blank" rel="noopener">DOL Federal Register — Proxy Voting Fiduciary Duty (Dec 2020)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Private Equity · PESP</span>
-        <a href="https://pestakeholder.org/wp-content/uploads/2025/03/PESP_Report_Agriculture_2025.pdf" target="_blank" rel="noopener">PESP — Betting the Farm: Private Equity in Agriculture (Mar 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Private Equity · DOL WHD</span>
-        <a href="https://www.dol.gov/newsroom/releases/whd/whd20250822" target="_blank" rel="noopener">DOL WHD — Grimmway Farms Consent Judgment (Aug 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Corporate Ownership · SEC</span>
-        <a href="https://www.sec.gov/Archives/edgar/data/1857475/000185747525000036/a2025vegpurchaseagreement.htm" target="_blank" rel="noopener">Dole plc — Vegetable Division Sale to Arable Capital (SEC, Aug 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Lobbying · OpenSecrets</span>
-        <a href="https://www.opensecrets.org/news/2026/01/lobbying-firms-took-in-a-record-5-billion-in-2025/" target="_blank" rel="noopener">OpenSecrets — Record $5 Billion in Lobbying 2025</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Subsidies · Good Jobs First</span>
-        <a href="https://subsidytracker.goodjobsfirst.org" target="_blank" rel="noopener">Good Jobs First — Subsidy Tracker</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Political Flip · Congress</span>
-        <a href="https://congress.gov/bill/119th-congress/senate-bill/2928" target="_blank" rel="noopener">S.2928 — Grassley-Durbin H-1B Reform Act (Sep 29, 2025)</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">H-2A · DOL WHD</span>
-        <a href="https://www.dol.gov/newsroom/releases/osec/osec20250919" target="_blank" rel="noopener">DOL Project Firewall — Agricultural Enforcement Initiative</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Remittances · World Bank</span>
-        <a href="https://www.worldbank.org/en/topic/remittances" target="_blank" rel="noopener">World Bank — Remittances Data</a>
-      </div>
-      <div class="src-card">
-        <span class="src-card-label">Federal Contracts</span>
-        <a href="https://www.usaspending.gov" target="_blank" rel="noopener">USASpending.gov — Federal Contract Data</a>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1927,7 +1194,7 @@ footer {
         Created by Ian &nbsp;·&nbsp;
         <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener">Submit feedback</a>
         &nbsp;·&nbsp;
-        <a href="#sources">Primary sources</a>
+        <a href="#">Sources →</a>
         &nbsp;·&nbsp;
         <a href="https://istuckert.github.io/Incentive-Machine/visa/" target="_blank" rel="noopener">Live URL</a>
       </p>
@@ -1935,8 +1202,6 @@ footer {
     <div class="footer-right">
       <a href="../index.html" class="footer-link">← Main Platform</a>
       <a href="#diagram" class="footer-link">Diagram</a>
-      <a href="#dichotomy-h1b" class="footer-link">Dichotomy</a>
-      <a href="#sources" class="footer-link">Sources</a>
     </div>
   </div>
 </footer>
