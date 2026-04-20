@@ -1971,11 +1971,11 @@ document.querySelectorAll('.acc-btn').forEach(btn => {
 /* cx/cy = center; w/h = dimensions; cls = CSS class suffix */
 const NODES = {
   am:     { cx:600, cy:80,  w:355, h:88, cls:'dn-am',    tag:'Shared — Tier I',          name:'The Big Three Asset Managers',  sub:'BlackRock · Vanguard · State Street', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
-  ni:     { cx:1055,cy:80,  w:148, h:62, cls:'dn-ni',    tag:'Influence',                name:'Narrative Infrastructure',      sub:'NFAP · AFBF · CSIS · MPI · EIG' },
+  ni:     { cx:140, cy:80,  w:148, h:62, cls:'dn-ni',    tag:'Influence',                name:'Narrative Infrastructure',      sub:'NFAP · AFBF · CSIS · MPI · EIG' },
   univ:   { cx:78,  cy:245, w:130, h:62, cls:'dn-univ',  tag:'H-1B Side Node',           name:'Universities',                  sub:'Stanford · MIT · Harvard +22 more' },
   tds:    { cx:255, cy:245, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',              name:'Tech Direct Sponsors',          sub:'Amazon · Meta · Microsoft · Google', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
   ecc:    { cx:466, cy:245, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',              name:'H-1B End-Client Companies',     sub:'Citi · JPMorgan · Goldman · Verizon', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
-  pe:     { cx:1122,cy:215, w:130, h:62, cls:'dn-pe',    tag:'H-2 Side Node',            name:'Private Equity',                sub:'Teays River · Butterfly · Arable Capital' },
+  pe:     { cx:1122,cy:175, w:130, h:62, cls:'dn-pe',    tag:'H-2 Side Node',            name:'Private Equity',                sub:'Teays River · Butterfly · Arable Capital' },
   lao:    { cx:937, cy:215, w:195, h:88, cls:'dn-h2',    tag:'H-2 Tier 2',               name:'Large AG / Seasonal Operators', sub:'Grimmway · Dole · Taylor Farms · Ocean Mist', logos:['dole.svg','taylor farms.png'] },
   h2ds:   { cx:722, cy:215, w:192, h:68, cls:'dn-h2',    tag:'H-2 Tier 2',               name:'H-2B Direct Sponsors',          sub:'ABC Tree · Progressive · Genuine Builders' },
   osf:    { cx:360, cy:390, w:202, h:88, cls:'dn-h1b',   tag:'H-1B Tier 3',              name:'Outsourcing / Staffing Firms',  sub:'TCS · Cognizant · Infosys · Wipro · HCL', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
@@ -2657,7 +2657,8 @@ function scaleDiagram(){
   if(!outer||!stage) return;
   const avail=outer.clientWidth;
   const scale=Math.min(1,avail/STAGE_W);
-  stage.style.transform=`scale(${scale})`;
+  const offsetX=Math.max(0,(avail-STAGE_W*scale)/2);
+  stage.style.transform=`translateX(${offsetX}px) scale(${scale})`;
   outer.style.height=Math.round(STAGE_H*scale)+'px';
 }
 
