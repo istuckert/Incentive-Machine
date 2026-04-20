@@ -279,12 +279,12 @@ nav {
 #diagram-stage {
   position: relative;
   width: 1200px;
-  height: 1070px;
+  height: 700px;
   transform-origin: top left;
 }
 #diagram-svg {
   position: absolute; top: 0; left: 0;
-  width: 1200px; height: 1070px;
+  width: 1200px; height: 700px;
   pointer-events: none; overflow: visible;
 }
 
@@ -1970,24 +1970,22 @@ document.querySelectorAll('.acc-btn').forEach(btn => {
 /* ── NODE DEFINITIONS ─────────────────────────────────── */
 /* cx/cy = center; w/h = dimensions; cls = CSS class suffix */
 const NODES = {
-  am:     { cx:600, cy:85,  w:355, h:88, cls:'dn-am',    tag:'Shared — Tier I',        name:'The Big Three Asset Managers',  sub:'BlackRock · Vanguard · State Street', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
-  ni:     { cx:1055,cy:85,  w:148, h:62, cls:'dn-ni',    tag:'Influence',              name:'Narrative Infrastructure',      sub:'NFAP · AFBF · CSIS · MPI · EIG' },
-  univ:   { cx:78,  cy:263, w:130, h:62, cls:'dn-univ',  tag:'H-1B Side Node',         name:'Universities',                  sub:'Stanford · MIT · Harvard +22 more' },
-  tds:    { cx:255, cy:263, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',            name:'Tech Direct Sponsors',          sub:'Amazon · Meta · Microsoft · Google', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
-  ecc:    { cx:466, cy:263, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',            name:'H-1B End-Client Companies',     sub:'Citi · JPMorgan · Goldman · Verizon', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
-  pe:     { cx:1122,cy:233, w:130, h:62, cls:'dn-pe',    tag:'H-2 Side Node',          name:'Private Equity',                sub:'Teays River · Butterfly · Arable Capital' },
-  lao:    { cx:937, cy:233, w:195, h:88, cls:'dn-h2',    tag:'H-2 Tier 2',             name:'Large AG / Seasonal Operators', sub:'Grimmway · Dole · Taylor Farms · Ocean Mist', logos:['dole.svg','taylor farms.png'] },
-  h2ds:   { cx:722, cy:233, w:192, h:68, cls:'dn-h2',    tag:'H-2 Tier 2',             name:'H-2B Direct Sponsors',          sub:'ABC Tree · Progressive · Genuine Builders' },
-  osf:    { cx:360, cy:441, w:202, h:88, cls:'dn-h1b',   tag:'H-1B Tier 3',            name:'Outsourcing / Staffing Firms',  sub:'TCS · Cognizant · Infosys · Wipro · HCL', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
-  euf:    { cx:820, cy:381, w:202, h:68, cls:'dn-h2',    tag:'H-2 Tier 3',             name:'H-2A End-User Farms',           sub:'Ocean Mist · NCGA members · Taylor Farms' },
-  h1w:    { cx:280, cy:619, w:202, h:68, cls:'dn-h1w',   tag:'H-1B Tier 4',            name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
-  flc:    { cx:820, cy:529, w:202, h:68, cls:'dn-h2dk',  tag:'H-2 Tier 4 — Below Farms',name:'Farm Labor Contractors',       sub:'NCGA · Foothill Packing · Wafla · Fresh Harvest' },
-  ustw:   { cx:155, cy:797, w:188, h:62, cls:'dn-absorb',tag:'H-1B Cost Absorber',      name:'U.S. Tech Workers',             sub:'Displaced · Wage-suppressed' },
-  h2aw:   { cx:730, cy:677, w:188, h:68, cls:'dn-h2w',   tag:'H-2A Tier 5',            name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
-  h2bw:   { cx:965, cy:677, w:188, h:68, cls:'dn-h2w',   tag:'H-2B Tier 5',            name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
-  ap_h1b: { cx:200, cy:975, w:188, h:62, cls:'dn-people',tag:'H-1B Stream',            name:'American People',               sub:'128M retirement holders' },
-  usfw:   { cx:860, cy:825, w:188, h:62, cls:'dn-absorb',tag:'H-2 Cost Absorber',       name:'U.S. Farm / Seasonal Workers',  sub:'Wage-suppressed · Rural hollowed' },
-  ap_h2:  { cx:795, cy:975, w:188, h:62, cls:'dn-people',tag:'H-2 Stream',             name:'American People',               sub:'128M retirement holders' },
+  am:     { cx:600, cy:80,  w:355, h:88, cls:'dn-am',    tag:'Shared — Tier I',          name:'The Big Three Asset Managers',  sub:'BlackRock · Vanguard · State Street', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
+  ni:     { cx:1055,cy:80,  w:148, h:62, cls:'dn-ni',    tag:'Influence',                name:'Narrative Infrastructure',      sub:'NFAP · AFBF · CSIS · MPI · EIG' },
+  univ:   { cx:78,  cy:245, w:130, h:62, cls:'dn-univ',  tag:'H-1B Side Node',           name:'Universities',                  sub:'Stanford · MIT · Harvard +22 more' },
+  tds:    { cx:255, cy:245, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',              name:'Tech Direct Sponsors',          sub:'Amazon · Meta · Microsoft · Google', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
+  ecc:    { cx:466, cy:245, w:195, h:88, cls:'dn-h1b',   tag:'H-1B Tier 2',              name:'H-1B End-Client Companies',     sub:'Citi · JPMorgan · Goldman · Verizon', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
+  pe:     { cx:1122,cy:215, w:130, h:62, cls:'dn-pe',    tag:'H-2 Side Node',            name:'Private Equity',                sub:'Teays River · Butterfly · Arable Capital' },
+  lao:    { cx:937, cy:215, w:195, h:88, cls:'dn-h2',    tag:'H-2 Tier 2',               name:'Large AG / Seasonal Operators', sub:'Grimmway · Dole · Taylor Farms · Ocean Mist', logos:['dole.svg','taylor farms.png'] },
+  h2ds:   { cx:722, cy:215, w:192, h:68, cls:'dn-h2',    tag:'H-2 Tier 2',               name:'H-2B Direct Sponsors',          sub:'ABC Tree · Progressive · Genuine Builders' },
+  osf:    { cx:360, cy:390, w:202, h:88, cls:'dn-h1b',   tag:'H-1B Tier 3',              name:'Outsourcing / Staffing Firms',  sub:'TCS · Cognizant · Infosys · Wipro · HCL', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
+  euf:    { cx:820, cy:335, w:202, h:68, cls:'dn-h2',    tag:'H-2 Tier 3',               name:'H-2A End-User Farms',           sub:'Ocean Mist · NCGA members · Taylor Farms' },
+  h1w:    { cx:121, cy:610, w:202, h:68, cls:'dn-h1w',   tag:'H-1B Tier 4',              name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
+  flc:    { cx:820, cy:455, w:202, h:68, cls:'dn-h2dk',  tag:'H-2 Tier 4 — Below Farms', name:'Farm Labor Contractors',        sub:'NCGA · Foothill Packing · Wafla · Fresh Harvest' },
+  h2aw:   { cx:606, cy:610, w:188, h:68, cls:'dn-h2w',   tag:'H-2A Tier 5',              name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
+  h2bw:   { cx:1084,cy:610, w:188, h:68, cls:'dn-h2w',   tag:'H-2B Tier 5',              name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
+  ap_h1b: { cx:367, cy:610, w:210, h:88, cls:'dn-people',tag:'H-1B Stream',              name:'Americans',                     sub:'Displaced & wage-suppressed · 128M retirement holders' },
+  ap_h2:  { cx:845, cy:610, w:210, h:88, cls:'dn-people',tag:'H-2 Stream',               name:'Americans',                     sub:'Rural hollowed · Wage-suppressed · 128M retirement holders' },
 };
 
 /* ── EDGE DEFINITIONS ─────────────────────────────────── */
@@ -2011,20 +2009,15 @@ const EDGES = [
   { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'h1b-solid',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
   { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'h1b-solid',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
   { id:'e-h1w-tds', from:'h1w',   to:'tds',    type:'h1b-dashed', label:'DIRECT PATH: H-1B employed directly at tech sponsor — no outsourcing intermediary' },
-  { id:'e-h1w-ustw',from:'h1w',   to:'ustw',   type:'h1b-solid',  label:'LCA wage floors suppress IT sector wages · visa tether prevents collective organizing' },
-  { id:'e-ustw-ap', from:'ustw',  to:'ap_h1b', type:'h1b-solid',  label:'Reduced family income · depleted community tax base · career displacement costs never measured' },
-  { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'h1b-solid',  label:'$15k–25k annual remittances to India · capital extracted from U.S. communities' },
+  { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'h1b-solid',  label:'LCA wage floors suppress IT wages · visa tether prevents organizing · $15k–25k annual remittances' },
   // H-2 labor chain
   { id:'e-h2aw-euf',from:'h2aw',  to:'euf',    type:'h2-solid',   label:'Workers deployed to end-user farms · geographic isolation · no transit or legal aid' },
   { id:'e-euf-flc', from:'euf',   to:'flc',    type:'h2-solid',   label:'FLCs certify, house, and manage H-2A crews placed at end-user farm sites' },
   { id:'e-flc-lao', from:'flc',   to:'lao',    type:'h2-solid',   label:'Supplies tethered labor · large operators avoid sponsorship liability via FLC intermediary' },
   { id:'e-flc-h2aw',from:'flc',   to:'h2aw',   type:'h2-solid',   label:'Triple tether: visa + housing + employment controlled by single entity · 60-day deportation clock' },
   { id:'e-h2bw-ds', from:'h2bw',  to:'h2ds',   type:'h2-dashed',  label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
-  { id:'e-h2aw-usfw',from:'h2aw', to:'usfw',   type:'h2-solid',   label:'AEWR wage floor suppression · $2.7–3.3B/yr documented impact on domestic farmworker wages' },
-  { id:'e-h2bw-usfw',from:'h2bw', to:'usfw',   type:'h2-solid',   label:'H-2B wage depression in landscaping, construction, seasonal services (all top-15 occupations below OEWS)' },
-  { id:'e-usfw-ap', from:'usfw',  to:'ap_h2',  type:'h2-solid',   label:'Rural economic hollowing · spending multiplier collapse · seasonal income lost to rural families' },
-  { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'h2-solid',   label:'$20k–25k annual remittances to Mexico & Central America · capital exits rural U.S.' },
-  { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'h2-solid',   label:'Seasonal worker remittances · capital outflow from rural and suburban communities' },
+  { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'h2-solid',   label:'AEWR suppression · rural hollowing · $2.7–3.3B/yr wage loss for domestic farmworkers' },
+  { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'h2-solid',   label:'H-2B wage depression across all top occupations · seasonal income loss · remittances exit communities' },
   // return loops (arc wide, red dashed)
   { id:'e-ap1-am',  from:'ap_h1b',to:'am',     type:'return',     label:'401(k)/IRA/pension auto-contributions → Big Three AUM → proxy voting power (128M U.S. households)' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
@@ -2045,7 +2038,7 @@ const ES = {
   'return':    { color:'#D95B5B', w:1.5, dash:'8,4' },
   'connector': { color:'#7B2C2C', w:1,   dash:'' },
 };
-const STAGE_W = 1200, STAGE_H = 1070;
+const STAGE_W = 1200, STAGE_H = 700;
 
 /* ── NODE BOX HELPERS ─────────────────────────────────── */
 function nb(id) {
@@ -2144,7 +2137,7 @@ function renderEdges() {
   // subtle center divider
   const divLine=document.createElementNS('http://www.w3.org/2000/svg','line');
   divLine.setAttribute('x1','596'); divLine.setAttribute('y1','30');
-  divLine.setAttribute('x2','596'); divLine.setAttribute('y2','1040');
+  divLine.setAttribute('x2','596'); divLine.setAttribute('y2','670');
   divLine.setAttribute('stroke','rgba(42,53,80,0.45)');
   divLine.setAttribute('stroke-width','1');
   divLine.setAttribute('stroke-dasharray','3,10');
