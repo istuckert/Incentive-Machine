@@ -323,6 +323,25 @@ nav {
   padding: 5px 8px; border-radius: 4px;
   box-sizing: content-box;
 }
+/* Light backdrop for dark-fill logos */
+.dn-logos img[src*="Tata"],
+.dn-logos img[src*="Cognizant"],
+.dn-logos img[src*="JPMorgan"] {
+  background: rgba(228,234,246,0.92);
+}
+/* JPMorgan is 7:1 aspect — widen chip so text reaches readable height */
+.dn-logos img[src*="JPMorgan"] {
+  width: 88px;
+}
+/* Reduce Infosys chip slightly to match TCS/Cognizant visual weight */
+.dn-logos img[src*="Infosys"] {
+  width: 48px; height: 28px; padding: 8px 14px;
+}
+/* AG logos: dark green backdrop matches node color, absorbs white fills */
+.dn-logos img[src*="dole"],
+.dn-logos img[src*="taylor"] {
+  background: rgba(28,50,14,0.88);
+}
 /* node color themes */
 .dn-am     .dn-inner { background:rgba(31,56,100,0.38);  border-color:rgba(68,114,196,0.7); }
 .dn-am     .dn-tag   { color:#8ca8d4; }
