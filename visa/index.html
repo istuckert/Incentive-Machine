@@ -35,32 +35,21 @@
   --ink-2:       #3d4155;
   --ink-3:       #7a7e8a;
 
-  /* H-1B stream — blue family */
+  /* H-1B node and content colors */
   --h1b:         #4a8fd4;   /* primary (readable on dark bg) */
   --h1b-deep:    #1B4F8C;
-  --h1b-lt:      #dde8f6;   /* light section use */
-  --h1b-side:    #9DC3E6;
 
-  /* H-2 stream — green family */
+  /* H-2 node and content colors */
   --h2:          #3db87a;   /* primary (readable on dark bg) */
   --h2-deep:     #375623;
-  --h2-lt:       #d9efe9;   /* light section use */
-
-  /* Shared / special node colors */
-  --am-color:    #1F3864;
-  --ni-color:    #374151;
 
   /* Accent colors */
-  --return-red:  #e05a4a;   /* profit return loop edges */
-  --gold:        #d4a843;   /* narrative infrastructure edges */
+  --return-red:  #e05a4a;   /* Political Flip hub tile label/CTA · mobile fallback return-loop text */
+  --gold:        #d4a843;   /* Asset Managers hub tile border, label, and CTA */
   --acc-lt:      #6fa3e8;   /* links / accent on dark bg */
   --accent:      #2d5fa6;   /* links / accent on light bg */
-  --acc2:        #1a3d6e;
-  --acc-bg:      #e8eef8;
-
-  /* Absorber / American People node colors */
+  /* Absorber node color */
   --absorb:      #7B2C2C;
-  --people:      #4A0000;
 
   /* Red / teal (kept from v8 for content sections) */
   --red:         #b93a2b;
@@ -1215,34 +1204,33 @@ const NODES = {
 /* ── EDGE DEFINITIONS ─────────────────────────────────── */
 const EDGES = [
   // asset manager ownership (downward)
-  { id:'e-am-tds',  from:'am',    to:'tds',    type:'h1b-solid',  label:'Owns 7–10% via index funds · votes 98.7% with management · rewards H-1B labor-cost strategies' },
-  { id:'e-am-ecc',  from:'am',    to:'ecc',    type:'h1b-solid',  label:'Owns 5–10% · proxy votes capture margin gains from outsourced H-1B labor savings' },
-  { id:'e-am-pe',   from:'am',    to:'pe',     type:'h2-solid',   label:'Pension & endowment capital flows as LP allocations into PE funds targeting ag labor arbitrage' },
-  { id:'e-am-lao',  from:'am',    to:'lao',    type:'h2-solid',   label:'Owns Dole plc (BlackRock 5.11% / State Street 1.36% / Vanguard 0.82%) + public ag stakes' },
-  { id:'e-am-h2ds', from:'am',    to:'h2ds',   type:'h2-solid',   label:'Owns parent companies of H-2B sponsors via broad S&P index holdings' },
-  // narrative influence (gold dashed, lateral)
-  { id:'e-ni-tds',  from:'ni',    to:'tds',    type:'narrative',  label:'NFAP/EIG/CSIS frame same DOL data as net fiscal surplus — provides legislative cover' },
-  { id:'e-ni-lao',  from:'ni',    to:'lao',    type:'narrative',  label:'AFBF + NCAE advocacy frames H-2 as essential for genuine labor shortages' },
+  { id:'e-am-tds',  from:'am',    to:'tds',    type:'edge',  label:'Owns 7–10% via index funds · votes 98.7% with management · rewards H-1B labor-cost strategies' },
+  { id:'e-am-ecc',  from:'am',    to:'ecc',    type:'edge',  label:'Owns 5–10% · proxy votes capture margin gains from outsourced H-1B labor savings' },
+  { id:'e-am-pe',   from:'am',    to:'pe',     type:'edge',   label:'Pension & endowment capital flows as LP allocations into PE funds targeting ag labor arbitrage' },
+  { id:'e-am-lao',  from:'am',    to:'lao',    type:'edge',   label:'Owns Dole plc (BlackRock 5.11% / State Street 1.36% / Vanguard 0.82%) + public ag stakes' },
+  { id:'e-am-h2ds', from:'am',    to:'h2ds',   type:'edge',   label:'Owns parent companies of H-2B sponsors via broad S&P index holdings' },
+  { id:'e-ni-tds',  from:'ni',    to:'tds',    type:'edge',  label:'NFAP/EIG/CSIS frame same DOL data as net fiscal surplus — provides legislative cover' },
+  { id:'e-ni-lao',  from:'ni',    to:'lao',    type:'edge',  label:'AFBF + NCAE advocacy frames H-2 as essential for genuine labor shortages' },
   // university lateral (light blue side-dashed)
-  { id:'e-univ-tds',from:'univ',  to:'tds',    type:'h1b-side',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
-  { id:'e-univ-am', from:'univ',  to:'am',     type:'h1b-side',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
-  { id:'e-tds-univ',from:'tds',   to:'univ',   type:'h1b-side',   label:'Funds STEM programs · TCS $35M CMU · Amazon/Google/Meta/Microsoft AI research centers' },
+  { id:'e-univ-tds',from:'univ',  to:'tds',    type:'edge',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
+  { id:'e-univ-am', from:'univ',  to:'am',     type:'edge',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
+  { id:'e-tds-univ',from:'tds',   to:'univ',   type:'edge',   label:'Funds STEM programs · TCS $35M CMU · Amazon/Google/Meta/Microsoft AI research centers' },
   // private equity lateral
-  { id:'e-pe-lao',  from:'pe',    to:'lao',    type:'h2-solid',   label:'Acquires at scale (Grimmway 2021, Bolthouse 2019, Dole Fresh Veg $140M Aug 2025) · installs H-2A labor discipline for 20–30% IRR' },
+  { id:'e-pe-lao',  from:'pe',    to:'lao',    type:'edge',   label:'Acquires at scale (Grimmway 2021, Bolthouse 2019, Dole Fresh Veg $140M Aug 2025) · installs H-2A labor discipline for 20–30% IRR' },
   // H-1B labor chain
-  { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'h1b-solid',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
-  { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'h1b-solid',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
-  { id:'e-h1w-tds', from:'h1w',   to:'tds',    type:'h1b-dashed', label:'DIRECT PATH: H-1B employed directly at tech sponsor — no outsourcing intermediary' },
-  { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'h1b-solid',  label:'LCA wage floors suppress IT wages · visa tether prevents organizing · $15k–25k annual remittances' },
+  { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'edge',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
+  { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'edge',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
+  { id:'e-h1w-tds', from:'h1w',   to:'tds',    type:'edge', label:'DIRECT PATH: H-1B employed directly at tech sponsor — no outsourcing intermediary' },
+  { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'edge',  label:'LCA wage floors suppress IT wages · visa tether prevents organizing · $15k–25k annual remittances' },
   // H-2 labor chain
-  { id:'e-h2aw-euf',from:'h2aw',  to:'euf',    type:'h2-solid',   label:'Workers deployed to end-user farms · geographic isolation · no transit or legal aid' },
-  { id:'e-euf-flc', from:'euf',   to:'flc',    type:'h2-solid',   label:'FLCs certify, house, and manage H-2A crews placed at end-user farm sites' },
-  { id:'e-flc-lao', from:'flc',   to:'lao',    type:'h2-solid',   label:'Supplies tethered labor · large operators avoid sponsorship liability via FLC intermediary' },
-  { id:'e-flc-h2aw',from:'flc',   to:'h2aw',   type:'h2-solid',   label:'Triple tether: visa + housing + employment controlled by single entity · 60-day deportation clock' },
-  { id:'e-h2bw-ds', from:'h2bw',  to:'h2ds',   type:'h2-dashed',  label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
-  { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'h2-solid',   label:'AEWR suppression · rural hollowing · $2.7–3.3B/yr wage loss for domestic farmworkers' },
-  { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'h2-solid',   label:'H-2B wage depression across all top occupations · seasonal income loss · remittances exit communities' },
-  // return loops (arc wide, red dashed)
+  { id:'e-h2aw-euf',from:'h2aw',  to:'euf',    type:'edge',   label:'Workers deployed to end-user farms · geographic isolation · no transit or legal aid' },
+  { id:'e-euf-flc', from:'euf',   to:'flc',    type:'edge',   label:'FLCs certify, house, and manage H-2A crews placed at end-user farm sites' },
+  { id:'e-flc-lao', from:'flc',   to:'lao',    type:'edge',   label:'Supplies tethered labor · large operators avoid sponsorship liability via FLC intermediary' },
+  { id:'e-flc-h2aw',from:'flc',   to:'h2aw',   type:'edge',   label:'Triple tether: visa + housing + employment controlled by single entity · 60-day deportation clock' },
+  { id:'e-h2bw-ds', from:'h2bw',  to:'h2ds',   type:'edge',  label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
+  { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'edge',   label:'AEWR suppression · rural hollowing · $2.7–3.3B/yr wage loss for domestic farmworkers' },
+  { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'edge',   label:'H-2B wage depression across all top occupations · seasonal income loss · remittances exit communities' },
+  // return loops (arc wide)
   { id:'e-ap1-am',  from:'ap_h1b',to:'am',     type:'return',     label:'401(k)/IRA/pension auto-contributions → Big Three AUM → proxy voting power (128M U.S. households)' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
   { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
@@ -1252,16 +1240,7 @@ const EDGES = [
 ];
 
 /* ── EDGE STYLES ──────────────────────────────────────── */
-const ES = {
-  'h1b-solid': { color:'#4472C4', w:2,   dash:'' },
-  'h1b-dashed':{ color:'#4472C4', w:2,   dash:'8,4' },
-  'h1b-side':  { color:'#9DC3E6', w:1.5, dash:'5,3' },
-  'h2-solid':  { color:'#548235', w:2,   dash:'' },
-  'h2-dashed': { color:'#548235', w:2,   dash:'8,4' },
-  'narrative': { color:'#C9A227', w:1.5, dash:'5,3' },
-  'return':    { color:'#D95B5B', w:1.5, dash:'8,4' },
-  'connector': { color:'#7B2C2C', w:1,   dash:'' },
-};
+const EDGE_STYLE = { color:'#6B7280', w:1.5 };
 const STAGE_W = 1200, STAGE_H = 700;
 
 /* ── NODE BOX HELPERS ─────────────────────────────────── */
@@ -1312,15 +1291,15 @@ function connectorPath(from,to) {
 /* ── BUILD ARROWHEAD MARKERS ─────────────────────────── */
 function buildMarkers(svg) {
   const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
-  Object.entries(ES).forEach(([type,s]) => {
+  [['arr-edge','#6B7280'],['arr-edge-hover','#F59E0B']].forEach(([id,fill])=>{
     const m=document.createElementNS('http://www.w3.org/2000/svg','marker');
-    m.setAttribute('id','arr-'+type);
+    m.setAttribute('id',id);
     m.setAttribute('markerWidth','7'); m.setAttribute('markerHeight','5');
     m.setAttribute('refX','6.5');     m.setAttribute('refY','2.5');
     m.setAttribute('orient','auto');
     const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
     poly.setAttribute('points','0 0, 7 2.5, 0 5');
-    poly.setAttribute('fill',s.color);
+    poly.setAttribute('fill',fill);
     m.appendChild(poly); defs.appendChild(m);
   });
   svg.appendChild(defs);
@@ -1370,7 +1349,6 @@ function renderEdges() {
   // "same entity" label on connector
   edgeEls={};
   EDGES.forEach(edge=>{
-    const s=ES[edge.type];
     const d=computePath(edge.from,edge.to,edge.type);
     if(!d) return;
     const g=document.createElementNS('http://www.w3.org/2000/svg','g');
@@ -1379,11 +1357,10 @@ function renderEdges() {
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d',d);
     path.setAttribute('fill','none');
-    path.setAttribute('stroke',s.color);
-    path.setAttribute('stroke-width',s.w);
-    path.setAttribute('stroke-opacity','0.44');
-    if(s.dash) path.setAttribute('stroke-dasharray',s.dash);
-    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-'+edge.type+')');
+    path.setAttribute('stroke','#6B7280');
+    path.setAttribute('stroke-width','1.5');
+    path.setAttribute('stroke-opacity','0.55');
+    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
     // wide invisible hit zone
     const hit=document.createElementNS('http://www.w3.org/2000/svg','path');
     hit.setAttribute('d',d);
@@ -1422,10 +1399,15 @@ function renderEdges() {
 function onEdgeEnter(edge){
   Object.values(edgeEls).forEach(({path,edge:e})=>{
     if(e.id===edge.id){
+      path.setAttribute('stroke','#F59E0B');
       path.setAttribute('stroke-opacity','1');
-      path.setAttribute('stroke-width',String(ES[e.type].w+1.5));
+      path.setAttribute('stroke-width','2.5');
+      if(e.type!=='connector') path.setAttribute('marker-end','url(#arr-edge-hover)');
     } else {
-      path.setAttribute('stroke-opacity','0.05');
+      path.setAttribute('stroke','#6B7280');
+      path.setAttribute('stroke-opacity','0.1');
+      path.setAttribute('stroke-width','1.5');
+      if(e.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
     }
   });
   Object.keys(NODES).forEach(id=>{
@@ -1442,9 +1424,16 @@ function highlightNode(nid){
   EDGES.forEach(e=>{ if(e.from===nid||e.to===nid){ conn.add(e.from);conn.add(e.to);connE.add(e.id); } });
   Object.values(edgeEls).forEach(({path,edge})=>{
     if(connE.has(edge.id)){
-      path.setAttribute('stroke-opacity','0.92');
-      path.setAttribute('stroke-width',String(ES[edge.type].w+0.8));
-    } else { path.setAttribute('stroke-opacity','0.04'); }
+      path.setAttribute('stroke','#F59E0B');
+      path.setAttribute('stroke-opacity','1');
+      path.setAttribute('stroke-width','2.5');
+      if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge-hover)');
+    } else {
+      path.setAttribute('stroke','#6B7280');
+      path.setAttribute('stroke-opacity','0.1');
+      path.setAttribute('stroke-width','1.5');
+      if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
+    }
   });
   Object.keys(NODES).forEach(id=>{
     const el=document.getElementById('n-'+id);
@@ -1456,8 +1445,10 @@ function highlightNode(nid){
 
 function clearHighlight(){
   Object.values(edgeEls).forEach(({path,edge})=>{
-    path.setAttribute('stroke-opacity','0.44');
-    path.setAttribute('stroke-width',String(ES[edge.type].w));
+    path.setAttribute('stroke','#6B7280');
+    path.setAttribute('stroke-opacity','0.55');
+    path.setAttribute('stroke-width','1.5');
+    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
   });
   document.querySelectorAll('.dn.dimmed,.dn.highlighted').forEach(el=>{
     el.classList.remove('dimmed','highlighted');
