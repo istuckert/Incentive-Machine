@@ -1240,10 +1240,10 @@ const EDGES = [
   { id:'e-ap1-am',  from:'ap_h1b',to:'am',     type:'return',     label:'401(k)/IRA/pension auto-contributions → Big Three AUM → proxy voting power (128M U.S. households)' },
   { id:'e-ap1-osf', from:'ap_h1b',to:'osf',   type:'edge',       label:'' },
   { id:'e-ap1-tds', from:'ap_h1b',to:'tds',   type:'edge',       label:'' },
+  { id:'e-ap2-flc', from:'ap_h2', to:'flc',    type:'edge',       label:'' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
   { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
   // bottom connector ("same entity")
-  { id:'e-conn',    from:'ap_h1b',to:'ap_h2',  type:'connector',  label:'Same entity — 128 million Americans fund both streams simultaneously' },
 ];
 
 /* ── EDGE STYLES ──────────────────────────────────────── */
@@ -1419,6 +1419,13 @@ function highlightNode(nid){
     EDGES.forEach(e=>{
       if((e.from==='osf'&&e.to==='h1w')||(e.from==='h1w'&&e.to==='osf')||
          (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
+  if(nid==='osf'){
+    EDGES.forEach(e=>{
+      if((e.from==='ecc'&&e.to==='am')||(e.from==='am'&&e.to==='ecc')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
