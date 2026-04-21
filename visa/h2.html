@@ -72,13 +72,11 @@ nav {
 .nav-links a.active { color: var(--h2); }
 @media (max-width: 640px) { .nav-links { display: none; } }
 
-/* PLACEHOLDER */
-.placeholder {
-  min-height: 100vh;
-  padding-top: 52px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center; padding: 52px 2rem 4rem;
+/* PAGE HERO */
+.page-hero {
+  padding: 7rem 2rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-dark);
 }
 .ph-label {
   font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
@@ -88,11 +86,37 @@ nav {
 .ph-title {
   font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900; line-height: 1; letter-spacing: -0.02em;
-  color: #fff; margin-bottom: 1.5rem;
+  color: #fff; margin-bottom: 0;
 }
-.ph-text {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink-dark-3);
+
+/* CONTENT SECTIONS */
+.content-section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid var(--border-dark);
+}
+.content-section:last-of-type { border-bottom: none; }
+.section-label {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--h2);
+  display: block; margin-bottom: 1.5rem;
+}
+.section-intro {
+  font-family: var(--serif-2); font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 300; font-style: italic;
+  color: var(--ink-dark); line-height: 1.75;
+  margin-bottom: 2rem;
+}
+.data-list {
+  list-style: none; padding: 0; margin: 0;
+  border-top: 1px solid var(--border-dark);
+}
+.data-list li {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+  line-height: 1.6; color: #fff;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(42,53,80,0.6);
 }
 
 /* FOOTER */
@@ -137,10 +161,127 @@ footer {
   </div>
 </nav>
 
-<div class="placeholder">
+<div class="page-hero">
   <span class="ph-label">Visa Machine · H-2</span>
   <h1 class="ph-title">H-2</h1>
-  <p class="ph-text">Content coming soon.</p>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Large AG / Seasonal Operators</span>
+  <p class="section-intro">Large-scale agricultural producers, packers, and processors that are the ultimate economic beneficiaries of H-2A labor — whether they sponsor directly, receive workers through FLCs, or operate through PE-owned entities. Higher margins from suppressed input costs flow to share price and PE returns. The Big Three hold stakes in publicly traded entities across this sector.</p>
+  <ul class="data-list">
+    <li>Dole plc: BlackRock 5.11% / State Street 1.36% / Vanguard 0.82% (Q4 2025–Q1 2026)</li>
+    <li>Dole Fresh Vegetables sold to Arable Capital Partners PE for $140M Aug 2025</li>
+    <li>Foothill Packing end-users: Ocean Mist Farms · Dole Fresh Vegetables · Taylor Farms — 2019 $2.2M wage settlement</li>
+    <li>Grimmway Farms (PE-owned): Aug 2025 court ordered $427,456 back wages</li>
+    <li>DOL IFR analysis: $785M transferred from H-2A workers to employers FY2025 alone</li>
+    <li>EPI 2026 IFR estimate: $1.7–$2.1B transferred from H-2A workers to employers in one year</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-2B Direct Sponsors</span>
+  <p class="section-intro">Private companies in landscaping, construction, tree services, and home services that sponsor H-2B workers directly — no FLC intermediary. Unlike H-2A, H-2B workers are not covered by mandatory housing requirements, creating a different coercion structure: visa control without housing control, but with the same 60-day deportation clock.</p>
+  <ul class="data-list">
+    <li>Top FY2025 sponsors: ABC Professional Tree Services (2,103) · Progressive Solutions LLC (2,073) · Genuine Builders Inc. (1,899) · Landscape Workshop LLC (1,840)</li>
+    <li>Statutory cap: 66,000 (set 1992, never raised by legislation)</li>
+    <li>DHS supplements authorized by both parties every year since FY2016</li>
+    <li>Total H-2B workers FY2024: 169,177 — more than 2.5× the original statutory cap</li>
+    <li>Average certified job duration: 232 days — 53% certified for 8+ months ('temporary' in name only)</li>
+    <li>In all top-15 H-2B occupations, certified wages were below OEWS national average</li>
+    <li>Landscaping gap: $17.55/hr H-2B vs. $19.66/hr national average (10.7% below)</li>
+    <li>Forest workers gap: $15.51/hr vs. $20.59/hr national average (24.7% below — largest gap)</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-2A End-User Farms</span>
+  <p class="section-intro">The farms and agricultural operations where H-2A workers actually perform labor. FLCs are often the certified sponsors, but end-user farms are where the work happens and where the employment relationship is experienced. Many are small-to-mid-scale family operations that pool demand through associations like NCGA.</p>
+  <ul class="data-list">
+    <li>NCGA serves 600+ member farms across NC — 93.2% of NC farms under 500 acres</li>
+    <li>Foothill Packing primary end-user: Ocean Mist Farms (fourth-generation; artichokes, lettuce, Central Coast CA)</li>
+    <li>Foothill end-users also include Dole Fresh Vegetables · Taylor Farms — 2019 $2.2M wage settlement</li>
+    <li>Wafla serves WA/OR/ID apple, cherry, berry operations</li>
+    <li>Fresh Harvest: custom harvester for mid-to-large CA/AZ vegetable and berry operations</li>
+    <li>Lucky Growers Inc. (CA, Dec 2025): charged rent for pest-infested housing — DOL recovered $171,400 back wages + $76,274 penalties</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Farm Labor Contractors</span>
+  <p class="section-intro">Farm Labor Contractors are the certified H-2A sponsors — they file the petitions, manage the housing, and deploy workers to end-user farms. They account for ~15% of H-2A applications but drive the majority of debarments. In this chain they sit below end-user farms because the labor logic flows: workers arrive, farms receive them, FLCs manage the deployment chain upward.</p>
+  <ul class="data-list">
+    <li>Top FY2025 sponsors: NCGA Inc. (10,398) · Foothill Packing (6,959) · Wafla (4,913) · Temp Labor LLC (4,891) · Fresh Harvest (4,375)</li>
+    <li>FLCs file ~15% of H-2A applications but drive majority of debarments</li>
+    <li>DOL approval rate: ~99% (self-attested; minimal audit — confirmed by GAO-25-106389)</li>
+    <li>H-2A violations = 54% of all agricultural back-wage assessments FY2018–2023</li>
+    <li>DOL/WHD agricultural investigations: only 649 — down &gt;50% from a decade ago, while program nearly tripled</li>
+    <li>Annual back-wage recovery: ~$8.3M — negligible relative to 400,000+ position program scale</li>
+    <li>Operation Blooming Onion (Georgia, 2015–2026): forced labor, violence, sexual assault, deaths — $200M+ contractor profit. Federal prosecutors called it 'modern-day slavery.'</li>
+    <li>Illegal recruiter fees through FLCs: $1,000–$9,000+ upfront; loans at up to 20%/month interest</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-2A Workers</span>
+  <p class="section-intro">Approximately 398,000 H-2A agricultural workers certified in FY2025 — nearly triple mid-2010s levels. Predominantly Mexican nationals. Subject to the triple tether: employer controls visa status, housing, and employment simultaneously. Complain, quit, or get fired and you lose all three in the same moment.</p>
+  <ul class="data-list">
+    <li>FY2025: 398,258 certified positions — nearly triple mid-2010s levels</li>
+    <li>Mexico: ~90–92% of H-2A workers</li>
+    <li>84% of jobs require lifting, extreme temperatures, and repetitive movements (GAO-25-106389)</li>
+    <li>AEWR gross wage: often $12–$16/hr — then meal deductions up to $16.78/day + housing deductions up to 30% of AEWR (2025 IFR)</li>
+    <li>No FICA/Social Security/Medicare — pay income tax, receive no U.S. social insurance benefits</li>
+    <li>Illegal recruiter fees: $1,000–$9,000+ upfront; loans at up to 20%/month interest — documented debt bondage</li>
+    <li>60-day deportation clock on job loss; 3-year absolute cap, no pathway to permanence</li>
+    <li>Polaris: 2,841 H-2A trafficking victims identified 2018–2020; immigration threats used in 59% of foreign-national labor trafficking cases</li>
+    <li>DOL IFR analysis: $785M transferred from H-2A workers to employers FY2025 alone</li>
+    <li>Annual remittances: ~$20,000–$25,000 per worker</li>
+    <li>2024 Farmworker Protection Rule suspended June 2025 — primary anti-retaliation tool removed</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-2B Workers</span>
+  <p class="section-intro">Approximately 169,000 H-2B seasonal workers employed in FY2024, predominantly in landscaping, construction, food service, and home services. No mandatory employer housing — different coercion structure than H-2A, but same 60-day deportation clock. 'Temporary' in name: 53% of certified positions run 8+ months.</p>
+  <ul class="data-list">
+    <li>FY2024: 169,177 total workers — more than 2.5× the original 66,000 statutory cap</li>
+    <li>Mexico: ~62% · Central America + Jamaica: ~30%</li>
+    <li>Average certified job duration: 232 days (7.6 months) — 53% certified for 8+ months</li>
+    <li>Top occupation: Landscaping/groundskeeping — 45.86% of all H-2B</li>
+    <li>All top-15 occupations pay below OEWS national average</li>
+    <li>Forest workers: $15.51/hr vs. $20.59/hr national average (24.7% below)</li>
+    <li>New H-2B meatpacking certifications: $16.66/hr vs. U.S.-born meatpacking workers $26.20/hr</li>
+    <li>U.S. meatpacking unionization fell from 37.4% in 1983 to 13.5% in 2024; foreign-born share rose to 42%</li>
+    <li>Polaris identified 853 H-2B trafficking victims 2018–2020</li>
+    <li>H-2B wage theft aggregate FY2000–2024: $2.238B assessed back wages across 247,180 compliance actions</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">U.S. Farm / Seasonal Workers</span>
+  <p class="section-intro">American workers in agricultural and seasonal service industries who compete in labor markets where H-2A and H-2B wage floors set below market rates suppress wages sector-wide — not just for workers directly displaced. Rural communities lose both income and the local spending multiplier.</p>
+  <ul class="data-list">
+    <li>EPI 2026 IFR estimate: U.S. farmworker wages reduced $2.7–$3.3B annually by AEWR cuts (7.1–8.7% wage loss)</li>
+    <li>DOL's own IFR analysis: $785M transferred from H-2A workers to employers FY2025</li>
+    <li>10% AEWR increase raises domestic farm wages only ~2.8% — suppression is structural (Rutledge et al. 2025)</li>
+    <li>H-2A violations = 54% of all agricultural back-wage assessments FY2018–2023</li>
+    <li>Only 611 WHD investigators policing a 170 million worker labor market (Rutgers, May 2025)</li>
+    <li>UFW lawsuit E.D. Cal. 1:25-cv-01614 (Nov 2025): challenges AEWR wage rule cuts on behalf of domestic workers</li>
+    <li>Rural towns hollowed as seasonal jobs go to visa workers; local spending multiplier collapses</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">American People</span>
+  <p class="section-intro">The same 128 million Americans as the H-1B side. Their pension and endowment capital flows as LP allocations into PE funds targeting agricultural labor arbitrage. Their index fund holdings include Dole plc and other publicly traded ag companies that benefit from suppressed H-2A wage floors. Same retirement account. Same asset managers. Both streams. Simultaneously.</p>
+  <ul class="data-list">
+    <li>Same 128M households as the H-1B American People node — connected by 'same entity' line</li>
+    <li>Public pension capital confirmed as LP in Arable Capital Partners (Washington State Investment Board)</li>
+    <li>Dole plc: BlackRock 5.11% / State Street 1.36% / Vanguard 0.82% — stock appreciation benefits index funds</li>
+    <li>H-2A remittances: ~$20,000–$25,000 per worker × ~400,000 workers — substantial capital outflow from rural U.S.</li>
+    <li>H-2B remittances: additional outflow from landscaping, construction, seasonal service communities</li>
+    <li>Rural communities absorb reduced spending multiplier as seasonal income exits via remittances</li>
+  </ul>
 </div>
 
 <footer>
