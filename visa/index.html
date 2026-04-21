@@ -1288,22 +1288,6 @@ function connectorPath(from,to) {
   return `M ${f.r} ${f.cy} L ${t.l} ${t.cy}`;
 }
 
-/* ── BUILD ARROWHEAD MARKERS ─────────────────────────── */
-function buildMarkers(svg) {
-  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
-  [['arr-edge','#6B7280'],['arr-edge-hover','#F59E0B']].forEach(([id,fill])=>{
-    const m=document.createElementNS('http://www.w3.org/2000/svg','marker');
-    m.setAttribute('id',id);
-    m.setAttribute('markerWidth','7'); m.setAttribute('markerHeight','5');
-    m.setAttribute('refX','6.5');     m.setAttribute('refY','2.5');
-    m.setAttribute('orient','auto');
-    const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
-    poly.setAttribute('points','0 0, 7 2.5, 0 5');
-    poly.setAttribute('fill',fill);
-    m.appendChild(poly); defs.appendChild(m);
-  });
-  svg.appendChild(defs);
-}
 
 /* ── BUILD NODE DIVS ─────────────────────────────────── */
 function buildNodes() {
@@ -1360,7 +1344,6 @@ function renderEdges() {
     path.setAttribute('stroke','#6B7280');
     path.setAttribute('stroke-width','1.5');
     path.setAttribute('stroke-opacity','0.55');
-    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
     // wide invisible hit zone
     const hit=document.createElementNS('http://www.w3.org/2000/svg','path');
     hit.setAttribute('d',d);
@@ -1402,12 +1385,10 @@ function onEdgeEnter(edge){
       path.setAttribute('stroke','#F59E0B');
       path.setAttribute('stroke-opacity','1');
       path.setAttribute('stroke-width','2.5');
-      if(e.type!=='connector') path.setAttribute('marker-end','url(#arr-edge-hover)');
     } else {
       path.setAttribute('stroke','#6B7280');
       path.setAttribute('stroke-opacity','0.1');
       path.setAttribute('stroke-width','1.5');
-      if(e.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
     }
   });
   Object.keys(NODES).forEach(id=>{
@@ -1427,12 +1408,10 @@ function highlightNode(nid){
       path.setAttribute('stroke','#F59E0B');
       path.setAttribute('stroke-opacity','1');
       path.setAttribute('stroke-width','2.5');
-      if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge-hover)');
     } else {
       path.setAttribute('stroke','#6B7280');
       path.setAttribute('stroke-opacity','0.1');
       path.setAttribute('stroke-width','1.5');
-      if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
     }
   });
   Object.keys(NODES).forEach(id=>{
@@ -1448,7 +1427,6 @@ function clearHighlight(){
     path.setAttribute('stroke','#6B7280');
     path.setAttribute('stroke-opacity','0.55');
     path.setAttribute('stroke-width','1.5');
-    if(edge.type!=='connector') path.setAttribute('marker-end','url(#arr-edge)');
   });
   document.querySelectorAll('.dn.dimmed,.dn.highlighted').forEach(el=>{
     el.classList.remove('dimmed','highlighted');
@@ -1494,7 +1472,6 @@ function scaleDiagram(){
 /* ── INIT ─────────────────────────────────────────────── */
 function initDiagram(){
   const svg=document.getElementById('diagram-svg');
-  buildMarkers(svg);
   buildNodes();
   renderEdges();
   scaleDiagram();
