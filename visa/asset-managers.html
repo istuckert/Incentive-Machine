@@ -72,13 +72,11 @@ nav {
 .nav-links a.active { color: var(--gold); }
 @media (max-width: 640px) { .nav-links { display: none; } }
 
-/* PLACEHOLDER */
-.placeholder {
-  min-height: 100vh;
-  padding-top: 52px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center; padding: 52px 2rem 4rem;
+/* PAGE HERO */
+.page-hero {
+  padding: 7rem 2rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-dark);
 }
 .ph-label {
   font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
@@ -88,11 +86,37 @@ nav {
 .ph-title {
   font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900; line-height: 1; letter-spacing: -0.02em;
-  color: #fff; margin-bottom: 1.5rem;
+  color: #fff; margin-bottom: 0;
 }
-.ph-text {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink-dark-3);
+
+/* CONTENT SECTIONS */
+.content-section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid var(--border-dark);
+}
+.content-section:last-of-type { border-bottom: none; }
+.section-label {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--gold);
+  display: block; margin-bottom: 1.5rem;
+}
+.section-intro {
+  font-family: var(--serif-2); font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 300; font-style: italic;
+  color: var(--ink-dark); line-height: 1.75;
+  margin-bottom: 2rem;
+}
+.data-list {
+  list-style: none; padding: 0; margin: 0;
+  border-top: 1px solid var(--border-dark);
+}
+.data-list li {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.06em;
+  line-height: 1.6; color: var(--ink-dark-2);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(42,53,80,0.6);
 }
 
 /* FOOTER */
@@ -137,10 +161,40 @@ footer {
   </div>
 </nav>
 
-<div class="placeholder">
+<div class="page-hero">
   <span class="ph-label">Visa Machine · Asset Managers</span>
   <h1 class="ph-title">Asset Managers</h1>
-  <p class="ph-text">Content coming soon.</p>
+</div>
+
+<div class="content-section">
+  <span class="section-label">The Big Three Asset Managers</span>
+  <p class="section-intro">BlackRock, Vanguard, and State Street manage retirement accounts for more than half of all U.S. households. When you signed up for your 401(k), buried in the terms and conditions nobody reads, you handed them something more valuable than your money: your vote. Every share in your retirement account comes with a vote in how that company is run. You gave those votes away without knowing it.</p>
+  <ul class="data-list">
+    <li>BlackRock AUM Q1 2026: $13.89 trillion — record high</li>
+    <li>Combined Big Three AUM: &gt;$26 trillion</li>
+    <li>128 million U.S. household investors — 56.4% of all U.S. households</li>
+    <li>~74% of U.S. equity ETF market (Big Three combined)</li>
+    <li>Largest shareholder in ~88% of S&amp;P 500 companies</li>
+    <li>20–25% median voting power at any shareholder meeting</li>
+    <li>98.7% management proposal support rate, 2025 proxy season</li>
+    <li>ERISA §403(a)(2): proxy voting is the fiduciary duty of the manager, not the participant</li>
+    <li>BlackRock federal lobbying 2025: $3.4M · Vanguard: $2.58M — almost none on immigration</li>
+    <li>Cross-ownership: Vanguard owns ~9% of BlackRock · BlackRock owns ~8% of State Street</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Private Equity</span>
+  <p class="section-intro">PE funds acquire large-scale agricultural producers, packers, and processors, then deploy H-2A labor discipline to achieve IRR targets through labor cost arbitrage. PE operates one layer upstream from the top individual H-2 sponsors, owning the end-users of H-2A labor. Asset managers feed PE through pension and endowment LP allocations.</p>
+  <ul class="data-list">
+    <li>Grimmway Farms → Teays River Investments PE (Dec 2020) → Aug 2025: $427,456 back wages for H-2A underpayments and unsafe housing</li>
+    <li>Bolthouse Farms → Butterfly Equity PE ($510M acquisition from Campbell Soup, 2019)</li>
+    <li>Dole Fresh Vegetables → Arable Capital Partners PE (Aug 5, 2025, $140M) — confirmed LP: Washington State Investment Board (public pension)</li>
+    <li>PE controls 60%+ of U.S. fresh carrot production post-buyouts</li>
+    <li>Carrot producer price increase post-PE buyouts: &gt;40% vs. 22% general inflation</li>
+    <li>PE deals in U.S. horticulture/cultivation 2018–2023: 129 documented (PESP/PitchBook)</li>
+    <li>Post-acquisition pattern: PE installs labor cost discipline → H-2A compliance failures follow</li>
+  </ul>
 </div>
 
 <footer>
