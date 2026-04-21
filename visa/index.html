@@ -299,6 +299,16 @@ nav {
   padding: 5px 8px; border-radius: 4px;
   box-sizing: content-box;
 }
+.dn-badge {
+  font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.12); color: rgba(232,228,220,0.82);
+  padding: 2px 6px; border-radius: 3px; white-space: nowrap;
+  display: inline-flex; align-items: center;
+}
+.dn-logo-wrap { display: inline-flex; align-items: center; justify-content: center; }
+.dn-logo-wrap .dn-badge { display: none; }
+.dn-logo-wrap.img-err img { display: none; }
+.dn-logo-wrap.img-err .dn-badge { display: inline-flex; }
 /* node color themes */
 .dn-am     .dn-inner { background:rgba(31,56,100,0.38);  border-color:rgba(68,114,196,0.7); }
 .dn-am     .dn-tag   { color:#8ca8d4; }
@@ -1188,11 +1198,11 @@ const NODES = {
   tds:    { cx:255, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
   ecc:    { cx:466, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
   pe:     { cx:1122,cy:175, w:130, h:56, cls:'dn-pe',    tag:'', name:'Private Equity',                sub:'LP capital from asset managers' },
-  h2ds:   { cx:945, cy:278, w:192, h:56, cls:'dn-h2',    tag:'', name:'H-2 Direct Sponsors',           sub:'~60,000 H-2B certified FY2024' },
+  h2ds:   { cx:945, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 Direct Sponsors',           sub:'', logos:['vivint.svg','abc tree services.png','Landscape workshop.webp'] },
   osf:    { cx:360, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
-  euf:    { cx:734, cy:278, w:202, h:56, cls:'dn-h2',    tag:'', name:'H-2 End-Client Companies',      sub:'End-user ag operations' },
+  euf:    { cx:734, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 End-Client Companies',      sub:'', logos:['dole.svg','Ocean mist.webp','taylor farms.png'] },
   h1w:    { cx:121, cy:610, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
-  flc:    { cx:840, cy:450, w:202, h:56, cls:'dn-h2dk',  tag:'', name:'Farm Labor Contractors',        sub:'Employer of record intermediaries' },
+  flc:    { cx:840, cy:450, w:202, h:140, cls:'dn-h2dk', tag:'', name:'Farm Labor Contractors',        sub:'Employer of record intermediaries', logos:['foothill packing.jpeg','NCGA.webp','Wafla.webp'] },
   h2aw:   { cx:606, cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
   h2bw:   { cx:1084,cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
   ap_h1b: { cx:367, cy:610, w:210, h:68, cls:'dn-people',tag:'', name:'Americans',                     sub:'Displaced & wage-suppressed · 128M retirement holders' },
@@ -1297,11 +1307,17 @@ function buildNodes() {
     div.dataset.nid=id;
     div.style.cssText=`left:${n.cx-n.w/2}px;top:${n.cy-n.h/2}px;width:${n.w}px;height:${n.h}px;`;
     let logosHtml='';
+    const parts=[];
     if(n.logos&&n.logos.length){
-      logosHtml=`<div class="dn-logos">`
-        +n.logos.map(l=>`<img src="logos/${l}" alt="" loading="lazy" onerror="this.style.display='none'">`).join('')
-        +`</div>`;
+      parts.push(...n.logos.map(l=>{
+        const name=l.replace(/\.[^.]+$/,'').replace(/[-_ ]+/g,' ');
+        return `<span class="dn-logo-wrap"><img src="logos/${l}" alt="${name}" loading="lazy" onerror="this.parentNode.classList.add('img-err')"><span class="dn-badge">${name}</span></span>`;
+      }));
     }
+    if(n.badges&&n.badges.length){
+      parts.push(...n.badges.map(b=>`<span class="dn-badge">${b}</span>`));
+    }
+    if(parts.length){ logosHtml=`<div class="dn-logos">${parts.join('')}</div>`; }
     const tagHtml = n.tag ? `<span class="dn-tag">${n.tag}</span>` : '';
     const subHtml = n.sub ? `<div class="dn-sub">${n.sub}</div>` : '';
     div.innerHTML=`<div class="dn-inner">${tagHtml}<div class="dn-name">${n.name}</div>${subHtml}${logosHtml}</div>`;
