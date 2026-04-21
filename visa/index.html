@@ -1194,16 +1194,16 @@ const NODES = {
   univ:   { cx:315, cy:364, w:130, h:56, cls:'dn-univ',  tag:'', name:'Universities' },
   tds:    { cx:140, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
   ecc:    { cx:490, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
-  pe:     { cx:543, cy:165, w:237, h:56, cls:'dn-pe',    tag:'', name:'Private Equity' },
+  pe:     { cx:600, cy:165, w:237, h:56, cls:'dn-pe',    tag:'', name:'Private Equity' },
   h2ds:   { cx:945, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 Direct Sponsors',           sub:'', logos:['vivint.svg','abc tree services.png','Landscape workshop.webp'] },
   osf:    { cx:490, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
   euf:    { cx:734, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 End-Client Companies',      sub:'', logos:['dole.svg','Ocean mist.webp','taylor farms.png'] },
-  h1w:    { cx:100, cy:560, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers' },
+  h1w:    { cx:100, cy:595, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers' },
   flc:    { cx:734, cy:450, w:202, h:140, cls:'dn-h2dk', tag:'', name:'Farm Labor Contractors',        sub:'', logos:['foothill packing.jpeg','NCGA.webp','Wafla.webp'] },
-  h2aw:   { cx:606, cy:560, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2A Workers' },
-  h2bw:   { cx:1084,cy:560, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2B Workers' },
-  ap_h1b: { cx:315, cy:560, w:210, h:68, cls:'dn-people',tag:'', name:'Americans' },
-  ap_h2:  { cx:845, cy:560, w:210, h:68, cls:'dn-people',tag:'', name:'Americans' },
+  h2aw:   { cx:606, cy:595, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2A Workers' },
+  h2bw:   { cx:1084,cy:595, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2B Workers' },
+  ap_h1b: { cx:315, cy:595, w:210, h:68, cls:'dn-people',tag:'', name:'Americans' },
+  ap_h2:  { cx:845, cy:595, w:210, h:68, cls:'dn-people',tag:'', name:'Americans' },
 };
 
 /* ── EDGE DEFINITIONS ─────────────────────────────────── */
@@ -1220,6 +1220,9 @@ const EDGES = [
   { id:'e-ecc-univ',from:'ecc',   to:'univ',   type:'edge',   label:'End-client companies recruit cap-exempt OPT/CPT graduates directly from university pipelines' },
   { id:'e-osf-univ',from:'osf',   to:'univ',   type:'edge',   label:'Staffing firms recruit from OPT pools · partner with universities to maintain H-1B candidate pipelines' },
   // private equity lateral
+  { id:'e-pe-euf',  from:'pe',    to:'euf',    type:'edge',   label:'' },
+  { id:'e-pe-h2ds', from:'pe',    to:'h2ds',   type:'edge',   label:'' },
+  { id:'e-pe-ecc',  from:'pe',    to:'ecc',    type:'edge',   label:'' },
   // H-1B labor chain
   { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'edge',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
   { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'edge',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
@@ -1477,6 +1480,20 @@ function highlightNode(nid){
     EDGES.forEach(e=>{
       if((e.from==='flc'&&e.to==='euf')||(e.from==='euf'&&e.to==='flc')||
          (e.from==='euf'&&e.to==='am')||(e.from==='am'&&e.to==='euf')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
+  if(nid==='pe'){
+    ['am','euf','h2ds','flc','osf','ecc'].forEach(n=>conn.add(n));
+    EDGES.forEach(e=>{
+      if((e.from==='pe'&&e.to==='am')||(e.from==='am'&&e.to==='pe')||
+         (e.from==='pe'&&e.to==='euf')||(e.from==='euf'&&e.to==='pe')||
+         (e.from==='pe'&&e.to==='h2ds')||(e.from==='h2ds'&&e.to==='pe')||
+         (e.from==='pe'&&e.to==='flc')||(e.from==='flc'&&e.to==='pe')||
+         (e.from==='pe'&&e.to==='osf')||(e.from==='osf'&&e.to==='pe')||
+         (e.from==='ecc'&&e.to==='osf')||(e.from==='osf'&&e.to==='ecc')||
+         (e.from==='euf'&&e.to==='flc')||(e.from==='flc'&&e.to==='euf')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
