@@ -284,7 +284,6 @@ nav {
   font-family: var(--serif); font-size: 0.79rem; font-weight: 700;
   line-height: 1.2; color: var(--ink-dark);
 }
-#n-lao .dn-name { font-size: 0.67rem; white-space: nowrap; }
 #n-am  .dn-name { text-align: center; }
 .dn-sub {
   font-family: var(--mono); font-size: 0.58rem; line-height: 1.38;
@@ -1189,12 +1188,11 @@ const NODES = {
   tds:    { cx:255, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
   ecc:    { cx:466, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
   pe:     { cx:1122,cy:175, w:130, h:56, cls:'dn-pe',    tag:'', name:'Private Equity',                sub:'LP capital from asset managers' },
-  lao:    { cx:937, cy:230, w:195, h:90, cls:'dn-h2',    tag:'', name:'Large AG / Seasonal Operators', sub:'', logos:['dole.svg','taylor farms.png'] },
-  h2ds:   { cx:722, cy:215, w:192, h:56, cls:'dn-h2',    tag:'', name:'H-2B Direct Sponsors',          sub:'~60,000 H-2B certified FY2024' },
+  h2ds:   { cx:945, cy:278, w:192, h:56, cls:'dn-h2',    tag:'', name:'H-2B Direct Sponsors',          sub:'~60,000 H-2B certified FY2024' },
   osf:    { cx:360, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
-  euf:    { cx:820, cy:335, w:202, h:56, cls:'dn-h2',    tag:'', name:'H-2A End-User Farms',           sub:'End-user ag operations' },
+  euf:    { cx:734, cy:278, w:202, h:56, cls:'dn-h2',    tag:'', name:'H-2A End-User Farms',           sub:'End-user ag operations' },
   h1w:    { cx:121, cy:610, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
-  flc:    { cx:820, cy:455, w:202, h:56, cls:'dn-h2dk',  tag:'', name:'Farm Labor Contractors',        sub:'Employer of record intermediaries' },
+  flc:    { cx:840, cy:450, w:202, h:56, cls:'dn-h2dk',  tag:'', name:'Farm Labor Contractors',        sub:'Employer of record intermediaries' },
   h2aw:   { cx:606, cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
   h2bw:   { cx:1084,cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
   ap_h1b: { cx:367, cy:610, w:210, h:68, cls:'dn-people',tag:'', name:'Americans',                     sub:'Displaced & wage-suppressed · 128M retirement holders' },
@@ -1207,27 +1205,25 @@ const EDGES = [
   { id:'e-am-tds',  from:'am',    to:'tds',    type:'edge',  label:'Owns 7–10% via index funds · votes 98.7% with management · rewards H-1B labor-cost strategies' },
   { id:'e-am-ecc',  from:'am',    to:'ecc',    type:'edge',  label:'Owns 5–10% · proxy votes capture margin gains from outsourced H-1B labor savings' },
   { id:'e-am-pe',   from:'am',    to:'pe',     type:'edge',   label:'Pension & endowment capital flows as LP allocations into PE funds targeting ag labor arbitrage' },
-  { id:'e-am-lao',  from:'am',    to:'lao',    type:'edge',   label:'Owns Dole plc (BlackRock 5.11% / State Street 1.36% / Vanguard 0.82%) + public ag stakes' },
   { id:'e-am-h2ds', from:'am',    to:'h2ds',   type:'edge',   label:'Owns parent companies of H-2B sponsors via broad S&P index holdings' },
   { id:'e-ni-tds',  from:'ni',    to:'tds',    type:'edge',  label:'NFAP/EIG/CSIS frame same DOL data as net fiscal surplus — provides legislative cover' },
-  { id:'e-ni-lao',  from:'ni',    to:'lao',    type:'edge',  label:'AFBF + NCAE advocacy frames H-2 as essential for genuine labor shortages' },
   // university lateral (light blue side-dashed)
   { id:'e-univ-tds',from:'univ',  to:'tds',    type:'edge',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
   { id:'e-univ-am', from:'univ',  to:'am',     type:'edge',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
   { id:'e-tds-univ',from:'tds',   to:'univ',   type:'edge',   label:'Funds STEM programs · TCS $35M CMU · Amazon/Google/Meta/Microsoft AI research centers' },
   // private equity lateral
-  { id:'e-pe-lao',  from:'pe',    to:'lao',    type:'edge',   label:'Acquires at scale (Grimmway 2021, Bolthouse 2019, Dole Fresh Veg $140M Aug 2025) · installs H-2A labor discipline for 20–30% IRR' },
   // H-1B labor chain
   { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'edge',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
   { id:'e-osf-ecc', from:'osf',   to:'ecc',    type:'edge',  label:'Deploys H-1B workers to end-client sites at 30–40% below direct hire cost (Citi: ~3,000 TCS workers)' },
   { id:'e-h1w-tds', from:'h1w',   to:'tds',    type:'edge', label:'DIRECT PATH: H-1B employed directly at tech sponsor — no outsourcing intermediary' },
   { id:'e-h1w-ap',  from:'h1w',   to:'ap_h1b', type:'edge',  label:'LCA wage floors suppress IT wages · visa tether prevents organizing · $15k–25k annual remittances' },
   // H-2 labor chain
-  { id:'e-h2aw-euf',from:'h2aw',  to:'euf',    type:'edge',   label:'Workers deployed to end-user farms · geographic isolation · no transit or legal aid' },
+  { id:'e-am-euf',  from:'am',    to:'euf',    type:'edge',   label:'' },
   { id:'e-euf-flc', from:'euf',   to:'flc',    type:'edge',   label:'FLCs certify, house, and manage H-2A crews placed at end-user farm sites' },
-  { id:'e-flc-lao', from:'flc',   to:'lao',    type:'edge',   label:'Supplies tethered labor · large operators avoid sponsorship liability via FLC intermediary' },
   { id:'e-flc-h2aw',from:'flc',   to:'h2aw',   type:'edge',   label:'Triple tether: visa + housing + employment controlled by single entity · 60-day deportation clock' },
-  { id:'e-h2bw-ds', from:'h2bw',  to:'h2ds',   type:'edge',  label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
+  { id:'e-flc-h2bw',from:'flc',   to:'h2bw',   type:'edge',   label:'' },
+  { id:'e-h2ds-h2aw',from:'h2ds', to:'h2aw',   type:'edge',   label:'' },
+  { id:'e-h2ds-h2bw',from:'h2ds', to:'h2bw',   type:'edge',   label:'DIRECT PATH: H-2B employment · no FLC intermediary · seasonal services (landscaping, construction)' },
   { id:'e-h2aw-ap', from:'h2aw',  to:'ap_h2',  type:'edge',   label:'AEWR suppression · rural hollowing · $2.7–3.3B/yr wage loss for domestic farmworkers' },
   { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'edge',   label:'H-2B wage depression across all top occupations · seasonal income loss · remittances exit communities' },
   // return loops (arc wide)
@@ -1236,7 +1232,6 @@ const EDGES = [
   { id:'e-ap1-tds', from:'ap_h1b',to:'tds',   type:'edge',       label:'' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
   { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
-  { id:'e-lao-am',  from:'lao',   to:'am',     type:'return',     label:'PE IRR + Dole plc stock appreciation → index fund returns → asset manager fee base growth' },
   // bottom connector ("same entity")
   { id:'e-conn',    from:'ap_h1b',to:'ap_h2',  type:'connector',  label:'Same entity — 128 million Americans fund both streams simultaneously' },
 ];
@@ -1281,7 +1276,6 @@ function returnPath(from,to) {
   if (from==='ap_h1b') return `M ${f.l} ${f.cy} Q -155 ${midY} ${t.l} ${t.cy}`;
   if (from==='ap_h2')  return `M ${f.r} ${f.cy} Q 1355 ${midY} ${t.r} ${t.cy}`;
   if (from==='tds')    return `M ${f.cx-30} ${f.t} Q ${f.cx-110} ${(f.t+t.b)/2-20} ${t.cx-90} ${t.b}`;
-  if (from==='lao')    return `M ${f.cx+30} ${f.t} Q ${f.cx+110} ${(f.t+t.b)/2-20} ${t.cx+90} ${t.b}`;
   return '';
 }
 
