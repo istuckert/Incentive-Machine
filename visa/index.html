@@ -312,8 +312,6 @@ nav {
 /* node color themes */
 .dn-am     .dn-inner { background:rgba(31,56,100,0.38);  border-color:rgba(68,114,196,0.7); }
 .dn-am     .dn-tag   { color:#8ca8d4; }
-.dn-ni     .dn-inner { background:rgba(55,65,81,0.38);   border-color:rgba(100,116,139,0.7); }
-.dn-ni     .dn-tag   { color:#9DA3B0; }
 .dn-univ   .dn-inner { background:rgba(35,102,168,0.22); border-color:rgba(70,150,210,0.55); }
 .dn-univ   .dn-tag   { color:#7eb5e5; }
 .dn-h1b    .dn-inner { background:rgba(27,79,140,0.28);  border-color:rgba(68,114,196,0.65); }
@@ -1193,16 +1191,15 @@ document.querySelectorAll('.acc-btn').forEach(btn => {
 /* cx/cy = center; w/h = dimensions; cls = CSS class suffix */
 const NODES = {
   am:     { cx:600, cy:80,  w:355, h:90, cls:'dn-am',    tag:'', name:'The Big Three Asset Managers',  sub:'', logos:['blackrock.svg','vanguard.svg','State_Street_Investment_Management_idPQ0SXU-u_0.svg'] },
-  ni:     { cx:140, cy:80,  w:148, h:56, cls:'dn-ni',    tag:'', name:'Narrative Infrastructure',      sub:'Think tanks & trade groups' },
   univ:   { cx:78,  cy:245, w:130, h:56, cls:'dn-univ',  tag:'', name:'Universities',                  sub:'Cap-exempt sponsors' },
   tds:    { cx:255, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'Tech Direct Sponsors',          sub:'', logos:['Amazon_Logo_0.svg','Meta_idlf4cVSsS_0.svg','Microsoft_Logo_0.svg','Google_Logo_0.svg'] },
   ecc:    { cx:466, cy:278, w:195, h:140, cls:'dn-h1b',  tag:'', name:'H-1B End-Client Companies',     sub:'', logos:['Citi_idkUhwKWva_0.svg','JPMorgan_Chase___Co-_Logo_0.svg','Goldman_Sachs_Logo_0.svg','Verizon_Logo_0.svg'] },
   pe:     { cx:1122,cy:175, w:130, h:56, cls:'dn-pe',    tag:'', name:'Private Equity',                sub:'LP capital from asset managers' },
   h2ds:   { cx:945, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 Direct Sponsors',           sub:'', logos:['vivint.svg','abc tree services.png','Landscape workshop.webp'] },
-  osf:    { cx:360, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
+  osf:    { cx:466, cy:450, w:202, h:140, cls:'dn-h1b',  tag:'', name:'Outsourcing / Staffing Firms',  sub:'', logos:['Tata_Consultancy_Services_Logo_0.svg','Cognizant_idqBwjBQXB_0.svg','Infosys_idxq8SaZnR_0.svg'] },
   euf:    { cx:734, cy:278, w:195, h:140, cls:'dn-h2',   tag:'', name:'H-2 End-Client Companies',      sub:'', logos:['dole.svg','Ocean mist.webp','taylor farms.png'] },
   h1w:    { cx:121, cy:610, w:202, h:58, cls:'dn-h1w',   tag:'', name:'H-1B Workers',                  sub:'~730,000 active · 71–73% Indian nationals' },
-  flc:    { cx:840, cy:450, w:202, h:140, cls:'dn-h2dk', tag:'', name:'Farm Labor Contractors',        sub:'', logos:['foothill packing.jpeg','NCGA.webp','Wafla.webp'] },
+  flc:    { cx:734, cy:450, w:202, h:140, cls:'dn-h2dk', tag:'', name:'Farm Labor Contractors',        sub:'', logos:['foothill packing.jpeg','NCGA.webp','Wafla.webp'] },
   h2aw:   { cx:606, cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2A Workers',                  sub:'~398,000 active · 90–92% Mexican nationals' },
   h2bw:   { cx:1084,cy:610, w:188, h:58, cls:'dn-h2w',   tag:'', name:'H-2B Workers',                  sub:'~169,000 FY2024 · 62% Mexican nationals' },
   ap_h1b: { cx:367, cy:610, w:210, h:68, cls:'dn-people',tag:'', name:'Americans',                     sub:'Displaced & wage-suppressed · 128M retirement holders' },
@@ -1216,7 +1213,6 @@ const EDGES = [
   { id:'e-am-ecc',  from:'am',    to:'ecc',    type:'edge',  label:'Owns 5–10% · proxy votes capture margin gains from outsourced H-1B labor savings' },
   { id:'e-am-pe',   from:'am',    to:'pe',     type:'edge',   label:'Pension & endowment capital flows as LP allocations into PE funds targeting ag labor arbitrage' },
   { id:'e-am-h2ds', from:'am',    to:'h2ds',   type:'edge',   label:'Owns parent companies of H-2B sponsors via broad S&P index holdings' },
-  { id:'e-ni-tds',  from:'ni',    to:'tds',    type:'edge',  label:'NFAP/EIG/CSIS frame same DOL data as net fiscal surplus — provides legislative cover' },
   // university lateral (light blue side-dashed)
   { id:'e-univ-tds',from:'univ',  to:'tds',    type:'edge',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
   { id:'e-univ-am', from:'univ',  to:'am',     type:'edge',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
@@ -1241,6 +1237,7 @@ const EDGES = [
   { id:'e-ap1-osf', from:'ap_h1b',to:'osf',   type:'edge',       label:'' },
   { id:'e-ap1-tds', from:'ap_h1b',to:'tds',   type:'edge',       label:'' },
   { id:'e-ap2-flc', from:'ap_h2', to:'flc',    type:'edge',       label:'' },
+  { id:'e-ap2-h2ds',from:'ap_h2', to:'h2ds',   type:'edge',       label:'' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
   { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
   // bottom connector ("same entity")
@@ -1426,6 +1423,30 @@ function highlightNode(nid){
   if(nid==='osf'){
     EDGES.forEach(e=>{
       if((e.from==='ecc'&&e.to==='am')||(e.from==='am'&&e.to==='ecc')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
+  if(nid==='euf'){
+    ['h2aw','ap_h2','h2bw'].forEach(n=>conn.add(n));
+    EDGES.forEach(e=>{
+      if((['h2aw','ap_h2','h2bw'].includes(e.from)&&e.to==='euf')||
+         (['h2aw','ap_h2','h2bw'].includes(e.to)&&e.from==='euf')){
+        connE.add(e.id);
+      }
+    });
+  }
+  if(nid==='flc'){
+    conn.add('am');
+    EDGES.forEach(e=>{
+      if((e.from==='flc'&&e.to==='am')||(e.from==='am'&&e.to==='flc')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
+  if(nid==='h2ds'){
+    EDGES.forEach(e=>{
+      if((e.from==='ap_h2'&&e.to==='h2ds')||(e.from==='h2ds'&&e.to==='ap_h2')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
