@@ -1217,6 +1217,8 @@ const EDGES = [
   { id:'e-univ-tds',from:'univ',  to:'tds',    type:'edge',   label:'F-1 OPT graduates cycle directly into H-1B at sponsoring companies' },
   { id:'e-univ-am', from:'univ',  to:'am',     type:'edge',   label:'Lobbies alongside tech for cap-exempt preservation · Harvard $1M+ lobbying 2025' },
   { id:'e-tds-univ',from:'tds',   to:'univ',   type:'edge',   label:'Funds STEM programs · TCS $35M CMU · Amazon/Google/Meta/Microsoft AI research centers' },
+  { id:'e-ecc-univ',from:'ecc',   to:'univ',   type:'edge',   label:'End-client companies recruit cap-exempt OPT/CPT graduates directly from university pipelines' },
+  { id:'e-osf-univ',from:'osf',   to:'univ',   type:'edge',   label:'Staffing firms recruit from OPT pools · partner with universities to maintain H-1B candidate pipelines' },
   // private equity lateral
   // H-1B labor chain
   { id:'e-h1w-osf', from:'h1w',   to:'osf',    type:'edge',  label:'Outsourcing firm is employer of record · controls visa · imposes bench time · charges illegal fees' },
@@ -1415,14 +1417,16 @@ function highlightNode(nid){
   if(nid==='ecc'){
     EDGES.forEach(e=>{
       if((e.from==='osf'&&e.to==='h1w')||(e.from==='h1w'&&e.to==='osf')||
-         (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')){
+         (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')||
+         (e.from==='ecc'&&e.to==='univ')||(e.from==='univ'&&e.to==='ecc')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
   }
   if(nid==='osf'){
     EDGES.forEach(e=>{
-      if((e.from==='ecc'&&e.to==='am')||(e.from==='am'&&e.to==='ecc')){
+      if((e.from==='ecc'&&e.to==='am')||(e.from==='am'&&e.to==='ecc')||
+         (e.from==='osf'&&e.to==='univ')||(e.from==='univ'&&e.to==='osf')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
