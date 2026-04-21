@@ -72,13 +72,11 @@ nav {
 .nav-links a.active { color: var(--h1b); }
 @media (max-width: 640px) { .nav-links { display: none; } }
 
-/* PLACEHOLDER */
-.placeholder {
-  min-height: 100vh;
-  padding-top: 52px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center; padding: 52px 2rem 4rem;
+/* PAGE HERO */
+.page-hero {
+  padding: 7rem 2rem 4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-dark);
 }
 .ph-label {
   font-family: var(--mono); font-size: 8px; letter-spacing: 0.32em;
@@ -88,11 +86,37 @@ nav {
 .ph-title {
   font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 900; line-height: 1; letter-spacing: -0.02em;
-  color: #fff; margin-bottom: 1.5rem;
+  color: #fff; margin-bottom: 0;
 }
-.ph-text {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink-dark-3);
+
+/* CONTENT SECTIONS */
+.content-section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid var(--border-dark);
+}
+.content-section:last-of-type { border-bottom: none; }
+.section-label {
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--h1b);
+  display: block; margin-bottom: 1.5rem;
+}
+.section-intro {
+  font-family: var(--serif-2); font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 300; font-style: italic;
+  color: var(--ink-dark); line-height: 1.75;
+  margin-bottom: 2rem;
+}
+.data-list {
+  list-style: none; padding: 0; margin: 0;
+  border-top: 1px solid var(--border-dark);
+}
+.data-list li {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+  line-height: 1.6; color: #fff;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(42,53,80,0.6);
 }
 
 /* FOOTER */
@@ -137,10 +161,114 @@ footer {
   </div>
 </nav>
 
-<div class="placeholder">
+<div class="page-hero">
   <span class="ph-label">Visa Machine · H-1</span>
   <h1 class="ph-title">H-1</h1>
-  <p class="ph-text">Content coming soon.</p>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Universities</span>
+  <p class="section-intro">Major research universities are cap-exempt H-1B sponsors — they can hire without entering the annual lottery. They also serve as the primary pipeline converting international F-1 students into H-1B workers at corporate sponsors. They receive substantial funding from the same companies that benefit from this pipeline.</p>
+  <ul class="data-list">
+    <li>Educational Services: 15,941 H-1B initial approvals FY2025 — second highest industry</li>
+    <li>25 major research universities each sponsor 100+ H-1B workers annually</li>
+    <li>Stanford: 329 initial approvals FY2025 · MIT: 104 · Harvard: 112 · Yale: 108</li>
+    <li>Stanford: 36% of graduate students are international</li>
+    <li>TCS: $35M gift to Carnegie Mellon 2015 — to strengthen industry-academia talent partnerships</li>
+    <li>Amazon, Google, Meta, Microsoft fund university AI/ML centers and endowed professorships</li>
+    <li>University lobbying 2025: record spending — Harvard spent nearly $1M</li>
+    <li>F-1 OPT graduates frequently transition directly to H-1B at sponsoring companies</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Tech Direct Sponsors</span>
+  <p class="section-intro">Amazon, Meta, Microsoft, and Google are the top four H-1B direct sponsors in FY2025 — a structural shift from prior years when Indian outsourcing firms dominated. Unlike outsourcing models, these companies sponsor H-1B workers in genuine specialty roles, predominantly at Master's degree level. The visa tether still applies: job loss triggers the 60-day deportation clock.</p>
+  <ul class="data-list">
+    <li>Amazon: 4,644 initial FY2025 (+20% YoY) · 14,532 continuing · ~19,176 total active</li>
+    <li>Meta: 1,555 initial FY2025 (+112% vs FY2023) · 4,740 continuing</li>
+    <li>Microsoft: 1,394 initial FY2025 · 4,863 continuing</li>
+    <li>Google: 1,050 initial FY2025 · 4,509 continuing</li>
+    <li>~70% Master's holders across all four sponsors</li>
+    <li>Big Three ownership — Amazon: Vanguard 7.86% / BlackRock 6.83% / State Street 3.61%</li>
+    <li>Big Three ownership — Meta: 7.91% / 6.78% / 3.59% · Microsoft: 9.67% / 8.11% / 4.12%</li>
+    <li>H-1B approvals vs. layoffs: Amazon +20% H-1B / ~30,000 layoffs · Meta +112% H-1B / ~21,000 layoffs</li>
+    <li>Federal contracts: Amazon/AWS ~$798M FY2022–2025 · Microsoft ~$532M</li>
+    <li>State subsidies: Amazon $11.6B+ since ~2000 · Google $2.319B · Microsoft $1.602B</li>
+    <li>Lobbying 2025: Meta $26.29M · Amazon $18.87M · Google $16.54M · Microsoft $10.11M</li>
+    <li>All four donated $1M each to Trump 2025 inaugural committee</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">Outsourcing / Staffing Firms</span>
+  <p class="section-intro">Indian IT services firms — TCS, Cognizant, Infosys, Wipro, HCL — act as middlemen. They sponsor H-1B visas but deploy workers to third-party end-client companies. The outsourcer profits from the spread between what the client pays and what the worker receives. The worker's visa is tied to the outsourcer, not the end-client where they actually work.</p>
+  <ul class="data-list">
+    <li>TCS FY2025: 846 initial (down 42% from FY2024 peak of 1,452) · 5,293 continuing</li>
+    <li>Cognizant FY2025: 743 initial (down from 2,873 in FY2024) · 3,622 continuing</li>
+    <li>TCS worker education: 85.2% Bachelor's — contrast with direct sponsors (~70% Master's)</li>
+    <li>Cost savings delivered to end-clients: 30–40% below direct hire</li>
+    <li>HCL documented underpayment (EPI): $95 million wage theft across H-1B workers</li>
+    <li>Wage gap at outsourcing firms: up to 35% below comparable U.S. workers (NBER 2026)</li>
+    <li>DOJ Compunnel settlement April 2026: ads explicitly excluded U.S. citizens, favored H-1B holders</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-1B End-Client Companies</span>
+  <p class="section-intro">Major U.S. corporations that receive H-1B workers deployed by outsourcing firms like TCS, Cognizant, and Infosys. They do not sponsor the workers directly — they pay a service contract to the outsourcer and receive IT labor at 30–40% below the cost of a direct hire. The Big Three own large stakes in both the outsourcers and every major end-client.</p>
+  <ul class="data-list">
+    <li>TCS's largest documented end-client: Citigroup — ~3,000 new H-1B contractors placed 2020–2024</li>
+    <li>Other documented TCS end-clients: Capital One, Verizon, AT&amp;T, Walmart, JPMorgan Chase, Goldman Sachs</li>
+    <li>Big Three ownership — JPMorgan: Vanguard 9.91% / BlackRock 7.89% / State Street 4.67%</li>
+    <li>Big Three ownership — Goldman Sachs: 9.84% / 7.88% / 6.63% · Verizon: 9.08% / 8.83% / 5.33%</li>
+    <li>Labor cost savings: 30–40% below direct hire cost — margin gains flow to share price</li>
+    <li>The Big Three own both the outsourcing firm and every major end-client receiving the workers</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">H-1B Workers</span>
+  <p class="section-intro">Approximately 730,000 H-1B workers are active in the U.S. as of early 2026. Predominantly Indian nationals, most holding Master's degrees, working in technology, finance, and professional services. The visa tether — one employer controls immigration status — creates a structural power imbalance regardless of skill level or compensation.</p>
+  <ul class="data-list">
+    <li>~730,000 active in U.S. early 2026</li>
+    <li>India: 71–73% of approvals · China: 11–12%</li>
+    <li>16% wage gap vs. comparable U.S. workers after controls (NBER w34793, Feb 2026)</li>
+    <li>At outsourcing firms: wage gap reaches up to 35%</li>
+    <li>Average offered wages ~$10,191 below OEWS mean for similar occupations</li>
+    <li>60-day deportation clock starts day after last paid work</li>
+    <li>India EB-2 green card wait: priority date ~2013 = 12+ year backlog (Visa Bulletin Feb 2026)</li>
+    <li>Bench time: non-billable periods = reduced or no pay while still tied to sponsor</li>
+    <li>Illegal recruiter fees: hundreds to thousands upfront, prohibited but common</li>
+    <li>4× more likely to live in overcrowded housing than U.S. natives</li>
+    <li>Annual remittances: $15,000–$25,000+ per worker</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">U.S. Tech Workers</span>
+  <p class="section-intro">American workers in technology and professional services who compete for roles in H-1B-heavy industries. The effect is not only direct displacement — LCA wage floors set below market rates suppress wages across entire departments even for workers who keep their jobs. The presence of visa-tethered colleagues also undermines collective organizing.</p>
+  <ul class="data-list">
+    <li>85,000 Americans laid off; 34,000 H-1B workers hired — same companies, same years (Sen. Sanders, Jan 2025)</li>
+    <li>Disney 2015: 250 IT workers laid off and forced to train their H-1B replacements from HCL/Cognizant</li>
+    <li>Southern California Edison 2015: 500 workers displaced by H-1B outsourcing</li>
+    <li>Average offered H-1B wages ~$10,191 below OEWS mean — suppresses entire department wages</li>
+    <li>LCA wage Level I/II structurally anchors pay below market — affects U.S. workers in the same roles</li>
+    <li>Captive visa workforce reduces ability to organize — colleagues facing deportation cannot safely participate</li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <span class="section-label">American People</span>
+  <p class="section-intro">The 128 million Americans whose retirement savings — through 401(k)s, IRAs, and pension funds — are managed by the Big Three. These same households absorb the wage suppression and displacement effects of the H-1B program through their labor market participation, while simultaneously funding the asset managers who profit from it through their retirement accounts.</p>
+  <ul class="data-list">
+    <li>128 million U.S. investors — 56.4% of all U.S. households</li>
+    <li>73% hold accounts through employer-sponsored plans (401k, pension)</li>
+    <li>20–25% median voting power transferred to Big Three at any S&amp;P 500 meeting</li>
+    <li>Return loop: 401(k)/IRA contributions → Big Three AUM → proxy votes aligned with H-1B sponsors</li>
+    <li>BlackRock pension AUM alone: $3.9 trillion (Q1 2026 earnings)</li>
+    <li>ERISA §403(a)(2): proxy voting is manager's fiduciary duty — participant has no vote</li>
+  </ul>
 </div>
 
 <footer>
