@@ -1431,6 +1431,15 @@ function highlightNode(nid){
       }
     });
   }
+  if(nid==='univ'){
+    ['tds','osf','ap_h1b'].forEach(n=>conn.add(n));
+    EDGES.forEach(e=>{
+      if((e.from==='tds'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='tds')||
+         (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
   if(nid==='euf'){
     ['h2aw','ap_h2','h2bw'].forEach(n=>conn.add(n));
     EDGES.forEach(e=>{
