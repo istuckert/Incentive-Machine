@@ -257,20 +257,6 @@ nav {
   max-width: 760px;
   margin: 0 auto;
 }
-#legend-bar {
-  background: var(--bg-mid);
-  border-bottom: 1px solid var(--border-dark);
-  padding: 0.55rem 1.5rem;
-  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
-  position: sticky; top: 52px; z-index: 400;
-}
-.leg-item {
-  display: flex; align-items: center; gap: 0.4rem;
-  font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink-dark-3);
-}
-.leg-line { height: 2px; width: 24px; flex-shrink: 0; }
-.leg-line.dashed { border-top: 2px dashed; background: transparent !important; height: 0; }
 
 #diagram-outer {
   overflow: hidden;
@@ -487,7 +473,7 @@ nav {
 @media (max-width: 640px) {
   #diagram-outer  { display: none; }
   #diagram-static { display: block; }
-  #legend-bar .leg-hint { display: none; }
+
   .ds-chains { grid-template-columns: 1fr; }
 }
 
@@ -1039,24 +1025,6 @@ footer {
     <h2 class="diagram-headline">One machine. Two visa programs. The same people get rich.</h2>
   </div>
 
-  <!-- Legend bar -->
-  <div id="legend-bar">
-    <div class="leg-item">
-      <div class="leg-line" style="background:#4472C4;"></div>H-1B Stream
-    </div>
-    <div class="leg-item">
-      <div class="leg-line" style="background:#548235;"></div>H-2 Stream
-    </div>
-    <div class="leg-item">
-      <div class="leg-line dashed" style="border-color:#C9A227;"></div>Narrative Influence
-    </div>
-    <div class="leg-item">
-      <div class="leg-line dashed" style="border-color:#D95B5B;"></div>Profit Return Loop
-    </div>
-    <div class="leg-item leg-hint" style="margin-left:auto;">
-      <span style="color:rgba(232,228,220,0.22);">Solid = main chain &nbsp;·&nbsp; Dashed = direct path &nbsp;·&nbsp; Hover edges for detail &nbsp;·&nbsp; Click nodes for data</span>
-    </div>
-  </div>
 
   <!-- Diagram outer (handles overflow / scaling) -->
   <div id="diagram-outer">
