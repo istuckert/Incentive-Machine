@@ -1232,6 +1232,8 @@ const EDGES = [
   { id:'e-h2bw-ap', from:'h2bw',  to:'ap_h2',  type:'edge',   label:'H-2B wage depression across all top occupations · seasonal income loss · remittances exit communities' },
   // return loops (arc wide)
   { id:'e-ap1-am',  from:'ap_h1b',to:'am',     type:'return',     label:'401(k)/IRA/pension auto-contributions → Big Three AUM → proxy voting power (128M U.S. households)' },
+  { id:'e-ap1-osf', from:'ap_h1b',to:'osf',   type:'edge',       label:'' },
+  { id:'e-ap1-tds', from:'ap_h1b',to:'tds',   type:'edge',       label:'' },
   { id:'e-ap2-am',  from:'ap_h2', to:'am',     type:'return',     label:'Retirement capital funds PE funds (via pension LP) and ag company stock held in index funds' },
   { id:'e-tds-am',  from:'tds',   to:'am',     type:'return',     label:'H-1B cost suppression → higher margins → share price rise → index fund gains → asset manager fees' },
   { id:'e-lao-am',  from:'lao',   to:'am',     type:'return',     label:'PE IRR + Dole plc stock appreciation → index fund returns → asset manager fee base growth' },
@@ -1403,6 +1405,14 @@ function highlightNode(nid){
   const conn=new Set([nid]);
   const connE=new Set();
   EDGES.forEach(e=>{ if(e.from===nid||e.to===nid){ conn.add(e.from);conn.add(e.to);connE.add(e.id); } });
+  if(nid==='ecc'){
+    EDGES.forEach(e=>{
+      if((e.from==='osf'&&e.to==='h1w')||(e.from==='h1w'&&e.to==='osf')||
+         (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')){
+        conn.add(e.from); conn.add(e.to); connE.add(e.id);
+      }
+    });
+  }
   Object.values(edgeEls).forEach(({path,edge})=>{
     if(connE.has(edge.id)){
       path.setAttribute('stroke','#F59E0B');
