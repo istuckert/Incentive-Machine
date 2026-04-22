@@ -285,6 +285,7 @@ nav {
   line-height: 1.2; color: var(--ink-dark);
 }
 #n-am  .dn-name { text-align: center; }
+#n-pe  .dn-name { text-align: center; }
 .dn-sub {
   font-family: var(--mono); font-size: 0.58rem; line-height: 1.38;
   color: rgba(232,228,220,0.35); letter-spacing: 0.02em;
@@ -1485,7 +1486,7 @@ function highlightNode(nid){
     });
   }
   if(nid==='pe'){
-    ['am','euf','h2ds','flc','osf','ecc'].forEach(n=>conn.add(n));
+    ['am','euf','h2ds','flc','osf','ecc','h1w','ap_h1b','h2aw','h2bw','ap_h2'].forEach(n=>conn.add(n));
     EDGES.forEach(e=>{
       if((e.from==='pe'&&e.to==='am')||(e.from==='am'&&e.to==='pe')||
          (e.from==='pe'&&e.to==='euf')||(e.from==='euf'&&e.to==='pe')||
@@ -1493,7 +1494,12 @@ function highlightNode(nid){
          (e.from==='pe'&&e.to==='flc')||(e.from==='flc'&&e.to==='pe')||
          (e.from==='pe'&&e.to==='osf')||(e.from==='osf'&&e.to==='pe')||
          (e.from==='ecc'&&e.to==='osf')||(e.from==='osf'&&e.to==='ecc')||
-         (e.from==='euf'&&e.to==='flc')||(e.from==='flc'&&e.to==='euf')){
+         (e.from==='euf'&&e.to==='flc')||(e.from==='flc'&&e.to==='euf')||
+         (e.from==='osf'&&e.to==='h1w')||(e.from==='h1w'&&e.to==='osf')||
+         (e.from==='osf'&&e.to==='ap_h1b')||(e.from==='ap_h1b'&&e.to==='osf')||
+         (e.from==='flc'&&e.to==='h2aw')||(e.from==='h2aw'&&e.to==='flc')||
+         (e.from==='flc'&&e.to==='h2bw')||(e.from==='h2bw'&&e.to==='flc')||
+         (e.from==='flc'&&e.to==='ap_h2')||(e.from==='ap_h2'&&e.to==='flc')){
         conn.add(e.from); conn.add(e.to); connE.add(e.id);
       }
     });
