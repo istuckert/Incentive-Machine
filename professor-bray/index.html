@@ -43,11 +43,14 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg-light); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.65; overflow-x: hidden; }
+body { background: var(--bg-light); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; overflow-x: hidden; }
 body {
   background-color: var(--bg-page);
   color: var(--text-body);
-  font-family: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  font-weight: 450;
 }
 
 nav {
@@ -125,11 +128,13 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 }
 .panel--wide { max-width: 1400px; }
 .panel-title {
-  font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.4rem; font-weight: 700;
   color: var(--text-body); margin-bottom: 1.25rem; text-align: left;
 }
 .panel-subtitle {
-  font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.1rem; font-weight: 700;
   color: var(--text-body); margin-bottom: 1rem; text-align: left;
 }
 .panel-body {
@@ -159,6 +164,24 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   color: var(--text-muted); font-size: 0.92em;
   line-height: 1.6; margin-top: 1.5rem;
   padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.case-sequence {
+  margin: 0 0 1rem 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-scaffold);
+}
+.case-sequence p {
+  color: var(--text-body); font-size: 1rem;
+  line-height: 1.6; margin-bottom: 0.5rem;
+}
+.case-sequence p:last-child { margin-bottom: 0; }
+.hypothesis-flag { color: var(--flag-hypothesis); font-style: italic; font-size: 0.9em; }
+#legal-short strong { font-weight: 600; }
+#legal-short .lead-in { margin-bottom: 0.35rem; }
+#legal-short .continuation { margin-bottom: 1.75rem; }
+:is(#bray-statement, #legal-short, #working-thesis, #law-school-combined)
+  :is(.panel-title, .panel-p, .panel-disclosure, .case-sequence) {
+  max-width: 720px;
 }
 @media (max-width: 768px) {
   .panel, .panel--wide { max-width: 100%; margin-left: 1rem; margin-right: 1rem; }
@@ -199,7 +222,27 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 
   <section id="legal-short" class="panel">
     <h2 class="panel-title">Legal Foundation — In Short</h2>
-    <p class="panel-body">Content pending.</p>
+
+    <p class="lead-in"><strong>Exaction:</strong></p>
+    <p class="continuation">a condition the government attaches to a permit — dedicate land, pay an impact fee, fund off-site improvements. The Takings Clause of the Fifth Amendment as applied to the states through the Fourteenth creates the question of when a condition becomes an unconstitutional taking.</p>
+
+    <p class="lead-in"><strong>The case sequence.</strong></p>
+    <div class="case-sequence">
+      <p><em>Nollan v. California Coastal Commission</em> (1987) required an essential nexus between the exaction and the government's stated regulatory interest.</p>
+      <p><em>Dolan v. City of Tigard</em> (1994) added rough proportionality in nature and extent.</p>
+      <p><em>Koontz v. St. Johns River Water Management District</em> (2013) extended Nollan/Dolan to denied permits and to monetary demands.</p>
+      <p><em>Sheetz v. County of El Dorado</em> (2024) held that California courts had been reviewing development impact fee schedules too leniently to satisfy the constitutional standard.</p>
+    </div>
+
+    <p class="lead-in"><strong>The doctrine only protects the landowner who says no.</strong></p>
+    <p class="continuation">Enforcement requires someone willing to walk away from their permit and litigate. In practice, the constitutional test only activates when someone fights — and people almost never fight, because a lawsuit costs $500,000 or more, takes years, and risks the entire project.</p>
+
+    <p class="lead-in"><strong>Tax treatment layers on top of doctrine.</strong></p>
+    <p class="continuation">Under IRS Revenue Ruling 2002-9 (building on <em>Oriole Homes Corp. v. U.S.</em>), impact fees required for subdivision approval are capitalized as a development cost and deducted pro rata as homes sell. The IRS reasoned that the fees increase the value of the subdivision and secure a benefit lasting beyond the taxable year. Treatment varies by industry: housing developers defer deductions to sale; telecom expenses franchise fees immediately; oil, gas, and renewables deduct against operations; cannabis, uniquely, is blocked from most deductions under Section 280E.</p>
+
+    <p class="lead-in"><strong>LIHTC and Section 8 — a double-extraction mechanism.</strong></p>
+    <p class="continuation">The Low-Income Housing Tax Credit allocates federal tax credits to developers who build affordable units; developers sell those credits to investors, typically financial institutions, who take a 99% ownership stake. When Section 8 rental assistance attaches to LIHTC units, the federal taxpayer funds the building twice: first as foregone tax revenue to finance construction, then as monthly rent subsidy paid to the operator for the life of the property. The tenant is not the customer. The government is the customer. The tenant is the commodity the government pays the operator to house.&nbsp;<span class="hypothesis-flag">(Working hypothesis.)</span></p>
+
   </section>
 
   <section id="working-thesis" class="panel">
