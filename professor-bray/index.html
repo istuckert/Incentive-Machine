@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professor Bray — The Manufactured Divide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark:     #0f1623;
+  --border-dark: #2a3550;
+  --bg-light:    #f4f1ec;
+  --ink-dark:    #e8e4dc;
+  --ink-dark-2:  rgba(232,228,220,0.65);
+  --ink-dark-3:  rgba(232,228,220,0.32);
+  --ink:         #1c1f2e;
+  --ink-3:       #7a7e8a;
+  --acc-lt:      #6fa3e8;
+  --accent:      #2d5fa6;
+  --sans:        'DM Sans', sans-serif;
+  --serif:       'Playfair Display', Georgia, serif;
+  --mono:        'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-light); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.65; overflow-x: hidden; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  height: 52px; background: rgba(15,22,35,0.97);
+  backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-dark);
+  display: flex; align-items: center;
+}
+.nav-inner {
+  width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.nav-back {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(255,255,255,0.82); text-decoration: none;
+  transition: color 0.2s; white-space: nowrap; flex-shrink: 0;
+}
+.nav-back:hover { color: var(--ink-dark); }
+.nav-brand {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--acc-lt); white-space: nowrap;
+}
+
+footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); padding: 2.5rem 0; }
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer-left p { font-family: var(--mono); font-size: 7.5px; color: var(--ink-dark-3); letter-spacing: 0.1em; line-height: 1.9; }
+.footer-left strong { color: var(--ink-dark-2); }
+.footer-left a { color: var(--acc-lt); text-decoration: none; }
+.footer-left a:hover { text-decoration: underline; }
+.footer-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-link { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none; transition: color 0.18s; }
+.footer-link:hover { color: var(--ink-dark); }
+
+.placeholder {
+  min-height: calc(100vh - 52px);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: calc(52px + 5rem) 2rem 5rem;
+}
+.placeholder-status {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← The Manufactured Divide</a>
+    <span class="nav-brand">Professor Bray</span>
+  </div>
+</nav>
+
+<div class="placeholder">
+  <p class="placeholder-status">To be Included</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p><strong>Professor Bray</strong> &nbsp;·&nbsp; Module of The Manufactured Divide</p>
+      <p>Created by Ian &nbsp;·&nbsp; <a href="https://forms.gle/fLaPAhALSbHqioBa6" target="_blank" rel="noopener">Submit feedback</a></p>
+    </div>
+    <div class="footer-right">
+      <a href="../index.html" class="footer-link">← Main Platform</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
