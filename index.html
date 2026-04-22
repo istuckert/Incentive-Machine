@@ -285,12 +285,15 @@ footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.07
 const tooltip = document.getElementById('tooltip');
 
 const NODE_DATA = {
-  visa:       { tag:'', title:'H-1B / H-2: The Visa Machine',  desc:'', cta:'Click to investigate', url:'visa/index.html'       },
-  healthcare: { tag:'', title:'Hidden Margins of Healthcare',  desc:'', cta:'In Development',         url:'healthcare/index.html' },
-  defense:    { tag:'', title:'Wars & Margins',                desc:'', cta:'In Development',         url:'defense/index.html'    },
-  banking:    { tag:'', title:'What Is Money?',                desc:'', cta:'In Development',         url:'banking/index.html'    },
-  education:  { tag:'', title:'Students for Sale',             desc:'', cta:'In Development',         url:'education/index.html'  },
+  visa:            { tag:'', title:'H-1B / H-2: The Visa Machine',  desc:'', cta:'Click to investigate', url:'visa/index.html'            },
+  healthcare:      { tag:'', title:'Hidden Margins of Healthcare',  desc:'', cta:'In Development',         url:'healthcare/index.html'      },
+  defense:         { tag:'', title:'Wars & Margins',                desc:'', cta:'In Development',         url:'defense/index.html'         },
+  banking:         { tag:'', title:'What Is Money?',                desc:'', cta:'In Development',         url:'banking/index.html'         },
+  education:       { tag:'', title:'Students for Sale',             desc:'', cta:'In Development',         url:'education/index.html'       },
+  'professor-bray':{ tag:'', title:'Professor Bray',               desc:'', cta:'Click to investigate',   url:'professor-bray/index.html'  },
 };
+
+const LIVE_IDS = new Set(['visa', 'professor-bray']);
 
 const svg = d3.select('#web-svg');
 const webSection = document.getElementById('web-section');
@@ -303,7 +306,8 @@ const nodes = [
   { id: 'healthcare' },
   { id: 'defense' },
   { id: 'banking' },
-  { id: 'education' }
+  { id: 'education' },
+  { id: 'professor-bray' }
 ];
 
 const links = [
@@ -311,7 +315,8 @@ const links = [
   { source: 'healthcare', target: 'defense' },
   { source: 'defense', target: 'banking' },
   { source: 'banking', target: 'education' },
-  { source: 'education', target: 'visa' }
+  { source: 'education', target: 'professor-bray' },
+  { source: 'professor-bray', target: 'visa' }
 ];
 
 nodes.forEach((d, i) => {
@@ -321,6 +326,7 @@ nodes.forEach((d, i) => {
     { x: width * 0.38, y: height * 0.72 },
     { x: width * 0.22, y: height * 0.38 },
     { x: width * 0.62, y: height * 0.78 },
+    { x: width * 0.82, y: height * 0.32 },
   ];
   d.x = positions[i].x;
   d.y = positions[i].y;
@@ -332,11 +338,11 @@ const simulation = d3.forceSimulation(nodes)
   .force('center', d3.forceCenter(width / 2, height / 2))
   .force('collision', d3.forceCollide().radius(80))
   .force('x', d3.forceX().x(d => {
-    const targets = [width*0.58, width*0.72, width*0.35, width*0.25, width*0.60];
+    const targets = [width*0.58, width*0.72, width*0.35, width*0.25, width*0.60, width*0.82];
     return targets[nodes.indexOf(d)];
   }).strength(0.04))
   .force('y', d3.forceY().y(d => {
-    const targets = [height*0.25, height*0.52, height*0.70, height*0.40, height*0.75];
+    const targets = [height*0.25, height*0.52, height*0.70, height*0.40, height*0.75, height*0.30];
     return targets[nodes.indexOf(d)];
   }).strength(0.04))
   .alphaDecay(0.02)
@@ -369,10 +375,10 @@ const nodeGroup = g.append('g')
   );
 
 nodeGroup.append('circle')
-  .attr('r', d => d.id === 'visa' ? 10 : 8)
+  .attr('r', d => LIVE_IDS.has(d.id) ? 10 : 8)
   .attr('fill', 'rgba(0,0,0,0)')
-  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
-  .attr('stroke-width', d => d.id === 'visa' ? 2.2 : 1.8);
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
+  .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.8);
 
 
 nodeGroup
@@ -380,7 +386,7 @@ nodeGroup
     const data = NODE_DATA[d.id];
     if (!data) return;
     d3.select(this).select('circle')
-      .attr('fill', d.id === 'visa' ? 'rgba(45,95,166,0.08)' : 'rgba(28,31,46,0.06)')
+      .attr('fill', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.08)' : 'rgba(28,31,46,0.06)')
       .attr('stroke-width', 2.5);
     link
       .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id)
@@ -407,7 +413,7 @@ nodeGroup
   .on('mouseout', function(event, d) {
     d3.select(this).select('circle')
       .attr('fill', 'rgba(0,0,0,0)')
-      .attr('stroke-width', d.id === 'visa' ? 2.2 : 1.8);
+      .attr('stroke-width', LIVE_IDS.has(d.id) ? 2.2 : 1.8);
     link.attr('stroke', 'rgba(45,95,166,0.55)').attr('stroke-width', 1.2);
     tooltip.classList.remove('visible');
   })
@@ -427,7 +433,7 @@ callouts.append('rect')
   .attr('rx', 3)
   .attr('ry', 3)
   .attr('fill', 'rgba(244,241,236,0.96)')
-  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
   .attr('stroke-width', 1);
 
 callouts.append('text')
@@ -435,7 +441,7 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '12px')
   .style('font-weight', '500')
-  .style('fill', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.75)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.75)')
   .style('letter-spacing', '0.06em')
   .text(d => NODE_DATA[d.id]?.title || d.id);
 
@@ -444,13 +450,13 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '10px')
   .style('font-weight', '400')
-  .style('fill', d => d.id === 'visa' ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
   .style('letter-spacing', '0.05em')
-  .text(d => d.id === 'visa' ? '● Live — Click to Investigate' : '○ In Development');
+  .text(d => LIVE_IDS.has(d.id) ? '● Live — Click to Investigate' : '○ In Development');
 
 callouts.append('line')
   .attr('class', 'callout-connector')
-  .attr('stroke', d => d.id === 'visa' ? 'rgba(45,95,166,0.3)' : 'rgba(28,31,46,0.2)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.3)' : 'rgba(28,31,46,0.2)')
   .attr('stroke-width', 0.8)
   .attr('stroke-dasharray', '2,2');
 
@@ -462,12 +468,12 @@ callouts
   })
   .on('mouseover', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', d.id === 'visa' ? 'rgba(45,95,166,0.7)' : 'rgba(28,31,46,0.4)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.7)' : 'rgba(28,31,46,0.4)')
       .attr('stroke-width', 1.5);
   })
   .on('mouseout', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', d.id === 'visa' ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
       .attr('stroke-width', 1);
   });
 
