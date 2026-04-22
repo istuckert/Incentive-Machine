@@ -85,14 +85,35 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 .footer-link { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dark-3); text-decoration: none; transition: color 0.18s; }
 .footer-link:hover { color: var(--ink-dark); }
 
-.placeholder {
-  min-height: calc(100vh - 52px);
+/* ── HERO ── */
+.hero { width: 100%; margin-top: 52px; }
+.hero-split { display: flex; flex-direction: row; height: 60vh; }
+.hero-half {
+  flex: 1; position: relative;
   display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: calc(52px + 5rem) 2rem 5rem;
+  overflow: hidden; background-size: cover; background-position: center;
 }
-.placeholder-status {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ink-3);
+.hero-half::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--hero-overlay); z-index: 1;
+}
+.hero-half--exaction { background-image: url('reference/Exaction-web.jpeg'); }
+.hero-half--utility  { background-image: url('reference/Utility-web.jpeg'); }
+.hero-label {
+  position: relative; z-index: 2;
+  font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700; color: var(--text-body);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.hero-byline {
+  width: 100%; text-align: center; padding: 0.85rem 1rem;
+  background: var(--bg-page); font-family: var(--mono);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem); letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+@media (max-width: 768px) {
+  .hero-split { flex-direction: column; height: auto; }
+  .hero-half  { height: 40vh; }
 }
 </style>
 </head>
@@ -105,9 +126,17 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   </div>
 </nav>
 
-<div class="placeholder">
-  <p class="placeholder-status">To be Included</p>
-</div>
+<section class="hero" aria-label="Professor Bray module introduction">
+  <div class="hero-split">
+    <div class="hero-half hero-half--exaction">
+      <span class="hero-label">Exactions</span>
+    </div>
+    <div class="hero-half hero-half--utility">
+      <span class="hero-label">Utilities</span>
+    </div>
+  </div>
+  <p class="hero-byline">The Manufactured Divide · Professor Bray</p>
+</section>
 
 <footer>
   <div class="footer-inner">
