@@ -122,11 +122,12 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 /* ── PANELS ── */
 .panels { padding: 2rem 1rem 4rem; }
 .panel {
-  max-width: 1100px; margin: 0 auto 2rem;
+  max-width: 900px; margin: 0 auto 2rem;
   background: var(--bg-panel); border: 1px solid var(--border-scaffold);
   padding: 2.5rem 2rem;
 }
 .panel--wide { max-width: 1400px; }
+#law-school-split { max-width: 1100px; }
 .panel-title {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   font-size: 1.4rem; font-weight: 700;
@@ -184,14 +185,17 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 .panel-list { margin: 0 0 1rem; padding-left: 1.5rem; list-style: disc; }
 .panel-list li { color: var(--text-body); font-size: 1rem; line-height: 1.6; margin-bottom: 0.5rem; }
 .panel-list li:last-child { margin-bottom: 0; }
-#jurisdictional-fragmentation {
-  border-left: 4px solid #6B6B75;
-  padding-left: 2.5rem;
+.frag-col {
+  max-width: 800px; margin: 0 auto;
+  border-left: 4px solid #6B6B75; padding-left: 2.5rem;
 }
-:is(#bray-statement, #legal-short, #working-thesis, #law-school-combined, #jurisdictional-fragmentation)
+:is(#bray-statement, #legal-short, #working-thesis, #law-school-combined)
   :is(.panel-title, .panel-p, .panel-disclosure, .case-sequence, .lead-in, .continuation, .subtitle, .numbered-point, .panel-list) {
-  max-width: 720px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
+#legal-short .case-sequence { padding-left: 2.5rem; }
 @media (max-width: 768px) {
   .panel, .panel--wide { max-width: 100%; margin-left: 1rem; margin-right: 1rem; }
   .diagram-split, .law-split { flex-direction: column; }
@@ -281,17 +285,19 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   </section>
 
   <section id="jurisdictional-fragmentation" class="panel panel--wide">
-    <h2 class="panel-title">Jurisdictional Fragmentation</h2>
-    <p class="subtitle">An open question.</p>
-    <p class="panel-p">The mechanisms above sit across three different legal regimes, each with its own court system and none with shared jurisdiction over the others:</p>
-    <ul class="panel-list">
-      <li><strong>Constitutional takings doctrine</strong> (<em>Nollan</em> / <em>Dolan</em> / <em>Koontz</em> / <em>Sheetz</em>) — federal courts, Article III.</li>
-      <li><strong>Tax treatment</strong> (Rev. Rul. 2002-9, Section 280E, transfer pricing between affiliated entities) — Tax Court under Article I, federal district courts, and IRS administrative proceedings.</li>
-      <li><strong>Property law, HOA governance, CC&Rs, declarant control, utility rate-setting</strong> — state courts, and in many cases state Article II administrative bodies.</li>
-    </ul>
-    <p class="panel-p">A takings challenge addresses the exaction layer. A tax dispute addresses the deduction layer. An HOA governance action addresses the lock-in layer. Each forum has jurisdiction over its own slice and no authority over the others.</p>
-    <p class="panel-p">The observation I am working through is this: I am not sure the mechanism is protected <em>despite</em> this fragmentation. I think it may be protected <em>by</em> it. The whole pattern cannot be brought into any single courtroom, because no court has jurisdiction over the whole pattern. That would mean the structural shielding is an emergent feature of how American law allocates jurisdiction, not something anyone designed.</p>
-    <p class="panel-p">This is the part that is most convoluted and new to me. The incentive structures and the individual mechanisms I am familiar with. The jurisdictional split as a pattern is newer to me, and I am not confident I am reading it correctly.</p>
+    <div class="frag-col">
+      <h2 class="panel-title">Jurisdictional Fragmentation</h2>
+      <p class="subtitle">An open question.</p>
+      <p class="panel-p">The mechanisms above sit across three different legal regimes, each with its own court system and none with shared jurisdiction over the others:</p>
+      <ul class="panel-list">
+        <li><strong>Constitutional takings doctrine</strong> (<em>Nollan</em> / <em>Dolan</em> / <em>Koontz</em> / <em>Sheetz</em>) — federal courts, Article III.</li>
+        <li><strong>Tax treatment</strong> (Rev. Rul. 2002-9, Section 280E, transfer pricing between affiliated entities) — Tax Court under Article I, federal district courts, and IRS administrative proceedings.</li>
+        <li><strong>Property law, HOA governance, CC&Rs, declarant control, utility rate-setting</strong> — state courts, and in many cases state Article II administrative bodies.</li>
+      </ul>
+      <p class="panel-p">A takings challenge addresses the exaction layer. A tax dispute addresses the deduction layer. An HOA governance action addresses the lock-in layer. Each forum has jurisdiction over its own slice and no authority over the others.</p>
+      <p class="panel-p">The observation I am working through is this: I am not sure the mechanism is protected <em>despite</em> this fragmentation. I think it may be protected <em>by</em> it. The whole pattern cannot be brought into any single courtroom, because no court has jurisdiction over the whole pattern. That would mean the structural shielding is an emergent feature of how American law allocates jurisdiction, not something anyone designed.</p>
+      <p class="panel-p">This is the part that is most convoluted and new to me. The incentive structures and the individual mechanisms I am familiar with. The jurisdictional split as a pattern is newer to me, and I am not confident I am reading it correctly.</p>
+    </div>
   </section>
 
   <section id="law-school-split" class="panel">
