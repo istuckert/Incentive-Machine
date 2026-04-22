@@ -20,10 +20,35 @@
   --sans:        'DM Sans', sans-serif;
   --serif:       'Playfair Display', Georgia, serif;
   --mono:        'DM Mono', monospace;
+
+  /* Page */
+  --bg-page: #1F1F26;
+  --bg-panel: #2A2A32;
+  --border-scaffold: #555560;
+
+  /* Typography */
+  --text-body: #F0EBE0;
+  --text-muted: #A09A8E;
+
+  /* Stream accents */
+  --accent-exaction: #C4A56E;
+  --accent-utility: #4A6B7C;
+
+  /* Flag colors */
+  --flag-hypothesis: #B8954A;
+  --flag-research: #8B4A3C;
+
+  /* Hero overlay */
+  --hero-overlay: rgba(0, 0, 0, 0.20);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { background: var(--bg-light); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.65; overflow-x: hidden; }
+body {
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  font-family: inherit;
+}
 
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
