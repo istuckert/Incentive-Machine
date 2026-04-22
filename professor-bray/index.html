@@ -176,11 +176,13 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 }
 .case-sequence p:last-child { margin-bottom: 0; }
 .hypothesis-flag { color: var(--flag-hypothesis); font-style: italic; font-size: 0.9em; }
-#legal-short strong { font-weight: 600; }
-#legal-short .lead-in { margin-bottom: 0.35rem; }
-#legal-short .continuation { margin-bottom: 1.75rem; }
+#legal-short strong, #working-thesis strong { font-weight: 600; }
+:is(#legal-short, #working-thesis) .lead-in { margin-bottom: 0.35rem; }
+:is(#legal-short, #working-thesis) .continuation { margin-bottom: 1.75rem; }
+.subtitle { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; }
+.numbered-point { margin-bottom: 1.75rem; }
 :is(#bray-statement, #legal-short, #working-thesis, #law-school-combined)
-  :is(.panel-title, .panel-p, .panel-disclosure, .case-sequence) {
+  :is(.panel-title, .panel-p, .panel-disclosure, .case-sequence, .lead-in, .continuation, .subtitle) {
   max-width: 720px;
 }
 @media (max-width: 768px) {
@@ -246,8 +248,16 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   </section>
 
   <section id="working-thesis" class="panel">
-    <h2 class="panel-title">Working Thesis</h2>
-    <p class="panel-body">Content pending.</p>
+    <h2 class="panel-title">Identified Patterns</h2>
+    <p class="subtitle">My current working observations.</p>
+
+    <p class="numbered-point"><strong>1.</strong> Exactions and public utilities are not the exact same extraction mechanism, but they run on structurally similar ones. Both use legal instruments that shift liability off the operator, both pair private revenue with governmental funding, both rely on mandate or permit conditions to secure captive revenue, and both have essentially no recourse for failed, over-budget, or otherwise unsatisfactory service or product.</p>
+
+    <p class="numbered-point"><strong>2.</strong> The mechanism is protected from unified scrutiny because its components live in separate legal regimes — federal takings doctrine, tax court, state property and HOA law. No single forum has jurisdiction over the whole pattern. The same separation exists at the legislative and executive levels, where different state and federal committees, agencies, and statutes govern different pieces of the mechanism. The fragmentation enables a compounding effect that obscures how the system functions.</p>
+
+    <p class="numbered-point"><strong>3.</strong> Constitutional doctrine (<em>Nollan</em> / <em>Dolan</em> / <em>Koontz</em> / <em>Sheetz</em>) addresses a narrow slice of the actual extraction mechanics. Most of the mechanism operates outside the reach of the doctrine that ostensibly governs it. Legislative deference does not solve this, because the legislature is itself incentivized to favor exaction and utility companies — the costs are borne downstream by ratepayers, buyers, and the larger tax base, and the benefits are delivered up front as infrastructure and development.</p>
+
+    <p class="numbered-point"><strong>4.</strong> The ultimate cost falls on end buyers, ratepayers, and the larger tax base who had no seat at the table when the decisions that created the system were made. This is compounded by geographic lock-in: utilities operate in monopoly service territories, and housing costs are tied to specific local markets. Most people bearing the cost have limited meaningful choice in location, which further shields the system from the normal market pressures of capitalism.</p>
   </section>
 
   <section id="diagram" class="panel panel--wide">
