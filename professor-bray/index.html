@@ -115,6 +115,46 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   .hero-split { flex-direction: column; height: auto; }
   .hero-half  { height: 40vh; }
 }
+
+/* ── PANELS ── */
+.panels { padding: 2rem 1rem 4rem; }
+.panel {
+  max-width: 1100px; margin: 0 auto 2rem;
+  background: var(--bg-panel); border: 1px solid var(--border-scaffold);
+  padding: 2.5rem 2rem;
+}
+.panel--wide { max-width: 1400px; }
+.panel-title {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
+  color: var(--text-body); margin-bottom: 1.25rem; text-align: left;
+}
+.panel-subtitle {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  color: var(--text-body); margin-bottom: 1rem; text-align: left;
+}
+.panel-body {
+  font-family: var(--sans); font-style: italic;
+  color: var(--text-muted); font-size: 0.95rem;
+}
+.diagram-split { display: flex; gap: 1.5rem; }
+.diagram-placeholder {
+  flex: 1; border: 1px solid var(--border-scaffold);
+  background: rgba(255,255,255,0.03);
+  padding: 3rem 1rem;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: 0.75rem;
+}
+.diagram-label {
+  font-family: var(--mono); font-size: 0.8rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+}
+.law-split { display: flex; gap: 1.5rem; }
+.law-sub-panel { flex: 1; border: 1px solid var(--border-scaffold); padding: 1.5rem; }
+@media (max-width: 768px) {
+  .panel, .panel--wide { max-width: 100%; margin-left: 1rem; margin-right: 1rem; }
+  .diagram-split, .law-split { flex-direction: column; }
+}
 </style>
 </head>
 <body>
@@ -137,6 +177,61 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   </div>
   <p class="hero-byline">The Manufactured Divide · Professor Bray</p>
 </section>
+
+<main class="panels">
+
+  <section id="bray-statement" class="panel">
+    <h2 class="panel-title">For Professor Bray</h2>
+    <p class="panel-body">Content pending.</p>
+  </section>
+
+  <section id="legal-short" class="panel">
+    <h2 class="panel-title">Legal Foundation — In Short</h2>
+    <p class="panel-body">Content pending.</p>
+  </section>
+
+  <section id="working-thesis" class="panel">
+    <h2 class="panel-title">Working Thesis</h2>
+    <p class="panel-body">Content pending.</p>
+  </section>
+
+  <section id="diagram" class="panel panel--wide">
+    <div class="diagram-split">
+      <div class="diagram-placeholder">
+        <span class="diagram-label">Exactions Diagram</span>
+        <p class="panel-body">Diagram pending.</p>
+      </div>
+      <div class="diagram-placeholder">
+        <span class="diagram-label">Utilities Diagram</span>
+        <p class="panel-body">Diagram pending.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="jurisdictional-fragmentation" class="panel panel--wide">
+    <h2 class="panel-title">Jurisdictional Fragmentation</h2>
+    <p class="panel-body">Content pending.</p>
+  </section>
+
+  <section id="law-school-split" class="panel">
+    <div class="law-split">
+      <div class="law-sub-panel">
+        <h3 class="panel-subtitle">Exactions — Recruits and Placements</h3>
+        <p class="panel-body">Content pending.</p>
+      </div>
+      <div class="law-sub-panel">
+        <h3 class="panel-subtitle">Utilities — Recruits and Placements</h3>
+        <p class="panel-body">Content pending.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="law-school-combined" class="panel">
+    <h2 class="panel-title">Culture and the Asymmetry of Legibility</h2>
+    <p class="panel-body">Content pending.</p>
+  </section>
+
+</main>
 
 <footer>
   <div class="footer-inner">
