@@ -268,24 +268,35 @@
         }));
 
         // ── Inline label ─────────────────────────────────────────────────────
-        var t   = (staggerTMap[edge.id] !== undefined) ? staggerTMap[edge.id] : labelT(i, n);
+        // labelOverride.locked bypasses parametric placement entirely.
+        // t uses override value (or 0.5); position is anchor + raw dx/dy.
+        var ovr = edge.labelOverride;
+        var t;
+        if (ovr && ovr.locked) {
+          t = (ovr.t !== undefined) ? ovr.t : 0.50;
+        } else {
+          t = (staggerTMap[edge.id] !== undefined) ? staggerTMap[edge.id] : labelT(i, n);
+        }
         var lp  = bezierPoint(srcPt, cp, dstPt, t);
         var tan = bezierTangent(srcPt, cp, dstPt, t);
 
-        // Perpendicular offset — push label outward using the bundle's unified
-        // direction (centroid → bundle midpoint), not the per-edge tangent perp.
-        // Unified direction ensures both A→B and B→A edges fan the same way.
-        // Formula: baseline + step*i, capped so outermost labels stay readable.
         var labelX = lp.x, labelY = lp.y;
-        var perpIdx = perpIndexMap[edge.id];
-        if (perpIdx !== undefined) {
-          var outward  = perpOutwardMap[edge.id];
-          var perpDist = Math.min(
-            PERPENDICULAR_OFFSET_BASELINE + PERPENDICULAR_OFFSET_STEP * perpIdx,
-            PERPENDICULAR_OFFSET_MAX
-          );
-          labelX = lp.x + outward.ox * perpDist;
-          labelY = lp.y + outward.oy * perpDist;
+        if (ovr && ovr.locked) {
+          labelX = lp.x + (ovr.dx || 0);
+          labelY = lp.y + (ovr.dy || 0);
+        } else {
+          // Perpendicular offset — push label outward using the bundle's unified
+          // direction (centroid → bundle midpoint).
+          var perpIdx = perpIndexMap[edge.id];
+          if (perpIdx !== undefined) {
+            var outward  = perpOutwardMap[edge.id];
+            var perpDist = Math.min(
+              PERPENDICULAR_OFFSET_BASELINE + PERPENDICULAR_OFFSET_STEP * perpIdx,
+              PERPENDICULAR_OFFSET_MAX
+            );
+            labelX = lp.x + outward.ox * perpDist;
+            labelY = lp.y + outward.oy * perpDist;
+          }
         }
 
         // Rotate to align with curve tangent. If tangent points leftward, flip
