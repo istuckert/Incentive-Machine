@@ -19,7 +19,7 @@
   var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
   var PERPENDICULAR_OFFSET_STEP          = 14; // SVG units per step outward from centroid
-  var PERPENDICULAR_OFFSET_MAX           = 80; // cap — labels beyond i=5 stack at this distance
+  var PERPENDICULAR_OFFSET_MAX           = 55; // cap — labels beyond i=3 stack at this distance
   var PERPENDICULAR_OFFSET_BASELINE      = 6;  // i=0 lifts slightly off its edge
   var PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE = 3; // same threshold as along-edge staggering
 
