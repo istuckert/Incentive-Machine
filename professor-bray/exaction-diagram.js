@@ -126,9 +126,11 @@
       var pY   =  dx / len;
       var midX = (sPos.x + dPos.x) / 2;
       var midY = (sPos.y + dPos.y) / 2;
+      // G→C fans toward interior by default; flip to exterior.
+      var fanSign = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ? -1 : 1;
 
       group.forEach(function (edge, i) {
-        var offset = 22 + i * 28;
+        var offset = (22 + i * 28) * fanSign;
         var cpX    = midX + pX * offset;
         var cpY    = midY + pY * offset;
         var cp     = { x: cpX, y: cpY };
