@@ -94,7 +94,7 @@
   // i=0 → t=0.20 (source-side), i=n-1 → t=0.80 (destination-side).
   function labelT(i, n) {
     if (n === 1) return 0.50;
-    return 0.20 + (i / (n - 1)) * 0.60;
+    return 0.10 + (i / (n - 1)) * 0.80;
   }
 
   function buildDefs(svg) {
