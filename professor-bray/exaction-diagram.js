@@ -3,7 +3,7 @@
   var JSON_PATH = 'reference/exaction_edges.json';
 
   var VIEWBOX_W       = 1200;  // expanded for wider AP/COMP spread
-  var VIEWBOX_H       = 1060;  // expanded: C↔P unified fan reaches y≈880
+  var VIEWBOX_H       = 780;   // reduced: split fan peaks at y≈617 below, y≈263 above
   var VIEWBOX_X       = -150;  // SVG units of left padding
   var VIEWBOX_Y       = -100;  // SVG units of top padding
   var NODE_W          = 170;
@@ -16,16 +16,17 @@
   var PORT_SPACING    = 22;    // SVG units between adjacent port centres (default channels)
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
   var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
-  var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
+  var PORT_SPACING_AP_C_AP   = 10; // AP right face for AP↔C: span ±40 from center (face ±28)
+  var PORT_SPACING_AP_C_COMP = 11; // COMP left face for AP↔C: unified 9-port span ±44 from center
   var STAGGER_RANGE_MIN    = 0.30; // label t-range start for dense bundles
   var STAGGER_RANGE_MAX    = 0.70; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers fanning + staggering
   var BOW_BASE        = 20;   // bow for first edge in a dense bundle (SVG units from chord midpoint)
   var BOW_STEP        = 35;   // additional bow per edge index step
   var BOW_MAX         = 280;  // cap — prevents S-curves on outermost edges
-  var AP_C_BOW_BASE   = 40;   // C↔P-specific: wider base for 9-edge fan
-  var AP_C_BOW_STEP   = 125;  // C↔P-specific: large step to clear label height at extremes
-  var AP_C_BOW_MAX    = 1100; // C↔P-specific: outermost edge reaches bow≈1040
+  var AP_C_BOW_BASE   = 30;   // C↔P-specific: base bow for split sub-fans
+  var AP_C_BOW_STEP   = 95;   // C↔P-specific: step per index in each sub-fan
+  var AP_C_BOW_MAX    = 450;  // C↔P-specific: cap (4-edge up max bow=315; 5-edge down max bow=410)
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -159,10 +160,15 @@
     var apGovBundle  = interleaveAlts(groups['P → G'] || [], groups['G → P'] || []);
     var apCompBundle = interleaveAlts(groups['P → C'] || [], groups['C → P'] || []);
     var apGovPorts   = spreadPorts('N-PEOPLE', POSITIONS['N-GOV'],  apGovBundle.length,  PORT_SPACING_AP_GOV);
-    var apCompPorts  = spreadPorts('N-PEOPLE', POSITIONS['N-COMP'], apCompBundle.length, PORT_SPACING_AP_COMP);
+    var apCompPorts  = spreadPorts('N-PEOPLE', POSITIONS['N-COMP'], apCompBundle.length, PORT_SPACING_AP_C_AP);
     var apPortMap    = {};
     apGovBundle.forEach(function  (e, i) { apPortMap[e.id] = apGovPorts[i];  });
     apCompBundle.forEach(function (e, i) { apPortMap[e.id] = apCompPorts[i]; });
+
+    // Unified COMP-face port map for AP↔C — same interleave order as AP side, wider spacing.
+    var cpCompPorts = spreadPorts('N-COMP', POSITIONS['N-PEOPLE'], apCompBundle.length, PORT_SPACING_AP_C_COMP);
+    var compPortMap = {};
+    apCompBundle.forEach(function (e, i) { compPortMap[e.id] = cpCompPorts[i]; });
 
     // Triangle centroid — bow outward directions are relative to this point.
     var CENTROID_X = (POSITIONS['N-GOV'].x + POSITIONS['N-COMP'].x + POSITIONS['N-PEOPLE'].x) / 3;
@@ -191,6 +197,27 @@
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
       if (bundle.length < STAGGER_THRESHOLD) return;
+
+      if (key === CP_BUNDLE_KEY) {
+        // AP↔C: split by sorted index — first floor(N/2) edges bow above chord,
+        // remainder bow below. Pure geometry optimization; not direction-semantic.
+        var sorted = bundle.slice().sort(function (a, b) {
+          return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+        });
+        var N       = sorted.length;
+        var upCount = Math.floor(N / 2);    // 4 up (E-11..E-14)
+        var dnCount = N - upCount;          // 5 down (E-15..E-19)
+        sorted.forEach(function (e, gi) {
+          var inUp     = gi < upCount;
+          var localIdx = inUp ? gi : gi - upCount;
+          var localN   = inUp ? upCount : dnCount;
+          staggerTMap[e.id] = (localN === 1) ? 0.50
+            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * localIdx / (localN - 1);
+          bowIndexMap[e.id]   = localIdx;
+          bowOutwardMap[e.id] = inUp ? { ox: 0, oy: -1 } : { ox: 0, oy: 1 };
+        });
+        return;
+      }
 
       var nodeIds = key.split('|');
       var posA = POSITIONS[nodeIds[0]], posB = POSITIONS[nodeIds[1]];
@@ -238,11 +265,12 @@
       var ps   = isGC ? PORT_SPACING_GC : PORT_SPACING;
       var srcPorts = spreadPorts(parsed.src, dPos, n, ps);
       var dstPorts = spreadPorts(parsed.dst, sPos, n, ps);
-      // C↔P uses larger per-bundle bow constants; all other bundles use globals.
-      var bundleKey = [parsed.src, parsed.dst].sort().join('|');
-      var bBase = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_BASE : BOW_BASE;
-      var bStep = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_STEP : BOW_STEP;
-      var bMax  = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_MAX  : BOW_MAX;
+      // C↔P uses larger per-bundle bow constants and compPortMap for COMP endpoints.
+      var bundleKey  = [parsed.src, parsed.dst].sort().join('|');
+      var isAPCBundle = (bundleKey === CP_BUNDLE_KEY);
+      var bBase = isAPCBundle ? AP_C_BOW_BASE : BOW_BASE;
+      var bStep = isAPCBundle ? AP_C_BOW_STEP : BOW_STEP;
+      var bMax  = isAPCBundle ? AP_C_BOW_MAX  : BOW_MAX;
 
       group.forEach(function (edge, i) {
         // Dense bundles: fan control points outward from centroid using per-edge bow.
@@ -261,10 +289,21 @@
         }
         var cp = { x: cpX, y: cpY };
 
-        var srcPt  = (parsed.src === 'N-PEOPLE' && apPortMap[edge.id])
-                       ? apPortMap[edge.id] : srcPorts[i];
-        var dstPt  = (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id])
-                       ? apPortMap[edge.id] : dstPorts[i];
+        var srcPt, dstPt;
+        if (parsed.src === 'N-PEOPLE' && apPortMap[edge.id]) {
+          srcPt = apPortMap[edge.id];
+        } else if (parsed.src === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
+          srcPt = compPortMap[edge.id];
+        } else {
+          srcPt = srcPorts[i];
+        }
+        if (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id]) {
+          dstPt = apPortMap[edge.id];
+        } else if (parsed.dst === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
+          dstPt = compPortMap[edge.id];
+        } else {
+          dstPt = dstPorts[i];
+        }
         var color  = EDGE_COLORS[edge.color_category] || '#888';
 
         // ── Edge path ────────────────────────────────────────────────────────
