@@ -3,7 +3,7 @@
   var JSON_PATH = 'reference/exaction_edges.json';
 
   var VIEWBOX_W       = 1200;  // expanded for wider AP/COMP spread
-  var VIEWBOX_H       = 780;   // 540 + 100 top + 140 bottom (C↔P fan)
+  var VIEWBOX_H       = 1060;  // expanded: C↔P unified fan reaches y≈880
   var VIEWBOX_X       = -150;  // SVG units of left padding
   var VIEWBOX_Y       = -100;  // SVG units of top padding
   var NODE_W          = 170;
@@ -23,6 +23,9 @@
   var BOW_BASE        = 20;   // bow for first edge in a dense bundle (SVG units from chord midpoint)
   var BOW_STEP        = 35;   // additional bow per edge index step
   var BOW_MAX         = 280;  // cap — prevents S-curves on outermost edges
+  var AP_C_BOW_BASE   = 40;   // C↔P-specific: wider base for 9-edge fan
+  var AP_C_BOW_STEP   = 125;  // C↔P-specific: large step to clear label height at extremes
+  var AP_C_BOW_MAX    = 1100; // C↔P-specific: outermost edge reaches bow≈1040
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -178,8 +181,7 @@
     // For dense bundles (≥ STAGGER_THRESHOLD): assign a stable sort index to each
     // edge that drives both the along-edge label stagger and the CP bow offset.
     // The bow direction is outward from centroid (centroid → bundle chord midpoint).
-    // Exception: C↔P bundle splits by direction — P→C (larger) bows below the
-    // chord, C→P (smaller) bows above — opening the fan in both directions.
+    // C↔P uses per-bundle AP_C_BOW_* constants; all other bundles use globals.
     var staggerTMap   = {};   // edgeId → label t-value along its curve
     var bowIndexMap   = {};   // edgeId → bow index for CP fanning
     var bowOutwardMap = {};   // edgeId → outward unit vector {ox,oy}
@@ -189,37 +191,6 @@
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
       if (bundle.length < STAGGER_THRESHOLD) return;
-
-      if (key === CP_BUNDLE_KEY) {
-        // Split C↔P by edge direction. P→C (people → companies, 5 edges) fans
-        // downward below the chord. C→P (companies → people, 4 edges) fans
-        // upward above the chord, through the triangle interior.
-        var downEdges = bundle.filter(function (e) {
-          var p = parseDirection(e.direction); return p && p.src === 'N-PEOPLE';
-        });
-        var upEdges = bundle.filter(function (e) {
-          var p = parseDirection(e.direction); return p && p.src === 'N-COMP';
-        });
-        // If counts ever flip, keep larger group below.
-        if (upEdges.length > downEdges.length) {
-          var tmp = downEdges; downEdges = upEdges; upEdges = tmp;
-        }
-        var assignGroup = function (group, oxVal, oyVal) {
-          var sorted = group.slice().sort(function (a, b) {
-            return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-          });
-          var N = sorted.length;
-          sorted.forEach(function (e, i) {
-            staggerTMap[e.id] = (N === 1) ? 0.50
-              : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * i / (N - 1);
-            bowIndexMap[e.id]   = i;
-            bowOutwardMap[e.id] = { ox: oxVal, oy: oyVal };
-          });
-        };
-        assignGroup(downEdges,  0,  1);  // P→C: below chord
-        assignGroup(upEdges,    0, -1);  // C→P: above chord (interior)
-        return;
-      }
 
       var nodeIds = key.split('|');
       var posA = POSITIONS[nodeIds[0]], posB = POSITIONS[nodeIds[1]];
@@ -267,6 +238,11 @@
       var ps   = isGC ? PORT_SPACING_GC : PORT_SPACING;
       var srcPorts = spreadPorts(parsed.src, dPos, n, ps);
       var dstPorts = spreadPorts(parsed.dst, sPos, n, ps);
+      // C↔P uses larger per-bundle bow constants; all other bundles use globals.
+      var bundleKey = [parsed.src, parsed.dst].sort().join('|');
+      var bBase = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_BASE : BOW_BASE;
+      var bStep = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_STEP : BOW_STEP;
+      var bMax  = (bundleKey === CP_BUNDLE_KEY) ? AP_C_BOW_MAX  : BOW_MAX;
 
       group.forEach(function (edge, i) {
         // Dense bundles: fan control points outward from centroid using per-edge bow.
@@ -275,7 +251,7 @@
         var cpX, cpY;
         if (bowIdx !== undefined) {
           var outward = bowOutwardMap[edge.id];
-          var bow = Math.min(BOW_BASE + BOW_STEP * bowIdx, BOW_MAX);
+          var bow = Math.min(bBase + bStep * bowIdx, bMax);
           cpX = midX + outward.ox * bow;
           cpY = midY + outward.oy * bow;
         } else {
