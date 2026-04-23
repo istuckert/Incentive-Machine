@@ -1,0 +1,380 @@
+{
+  "title": "EXACTION TRIANGLE — EDGE INVENTORY v3",
+  "description": "Incorporates all decisions from v1 and v2 review. Ready for your final pass before JSON conversion. Three sections: NODES, CLUSTERS, EDGES. Orphan edges now have click-modal text. Services edge reworked as dual-face with quotes. Node modals use hybrid prose + table structure per the data.",
+  "nodes": [
+    {
+      "id": "N-GOV",
+      "label": "Government",
+      "position": "top center",
+      "modal": {
+        "structure": "table of actors by jurisdictional tier, followed by a short prose paragraph on the fragmentation argument",
+        "table": {
+          "headers": ["Tier", "Actors"],
+          "rows": [
+            {
+              "tier": "Federal",
+              "actors": "IRS, HUD, FCC, Congress (statutory framework), FERC"
+            },
+            {
+              "tier": "State",
+              "actors": "housing finance agencies (CalHFA, NYSHCR, equivalents), Public Utility Commissions, state legislatures, state courts enforcing CC&Rs"
+            },
+            {
+              "tier": "Local",
+              "actors": "city councils, county boards, municipal utility districts, building departments, school districts"
+            }
+          ]
+        },
+        "prose": "The exaction is collected by the municipality. The tax deduction runs through the IRS. The Section 8 voucher originates with HUD. The bulk-billing protection comes from the FCC. The CC&R enforcement happens in state court. No single agency oversees the pattern the diagram traces. The jurisdictional fragmentation is not incidental to how the system works — it is part of what keeps the pattern from being seen whole."
+      }
+    },
+    {
+      "id": "N-COMP",
+      "label": "Companies",
+      "position": "bottom right",
+      "modal": {
+        "structure": "table of corporate-family layers, followed by a short prose paragraph on the same-family-both-sides argument",
+        "table": {
+          "headers": ["Layer", "Examples"],
+          "rows": [
+            {
+              "layer": "Developers / builders",
+              "examples": "Greystar, Lennar, D.R. Horton, Alliance Residential, Mill Creek Residential, Trammell Crow, AvalonBay, Equity Residential, MAA, Related Group"
+            },
+            {
+              "layer": "Affiliated subsidiaries",
+              "examples": "Lennar Title, Lennar Mortgage, DHI Mortgage, DHI Title, Greystar Management, developer-controlled HOA management entities, developer-affiliated construction subsidiaries"
+            },
+            {
+              "layer": "LIHTC syndicators",
+              "examples": "Raymond James, Hunt Capital, RBC Community Investments, National Equity Fund, Enterprise Community Partners, Boston Financial"
+            },
+            {
+              "layer": "Captive service vendors",
+              "examples": "bulk telecom providers under HOA contracts, solar PPA operators recorded against title, property management firms selected during declarant control"
+            }
+          ]
+        },
+        "prose": "A single corporate family is often on both sides of the invoice the diagram references. When the developer owns the construction subsidiary, the title company, the mortgage originator, and the management company, the \"cost\" booked for any given transaction is whatever the corporate family invoices to itself. IRS transfer pricing enforcement is concentrated on international transactions, not domestic affiliated construction within a single real estate development."
+      }
+    },
+    {
+      "id": "N-PEOPLE",
+      "label": "American People",
+      "position": "bottom left",
+      "modal": {
+        "structure": "list of roles, followed by a short prose paragraph on the same-person argument",
+        "roles": [
+          "Federal income taxpayer",
+          "Property taxpayer",
+          "Homebuyer",
+          "Renter",
+          "Section 8 tenant",
+          "Ratepayer",
+          "HOA assessment-payer",
+          "Solar PPA obligor (tied to deed, not person)"
+        ],
+        "prose": "These are not separate people. A single resident of a new development is frequently paying in most or all of these roles simultaneously — funding LIHTC equity and Section 8 vouchers as federal taxpayer, maintenance on existing infrastructure as property taxpayer, the exaction pass-through as homebuyer, declarant-selected vendor contracts as HOA member, and a captive service obligation recorded against their title. Each role is a separate payment channel. The person playing all of them is the same person. The diagram does not visually separate the roles because the point is that they are not separate in reality."
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "id": "CL-1",
+      "label": "Exaction Return",
+      "text": "Companies pay the exaction to Government. Government contracts the required infrastructure build, frequently to a developer-affiliated entity. The money the developer paid as the exaction returns to the corporate family through the construction invoice. The municipality is the conduit, not the beneficiary. When a single corporate family controls both sides of the invoice, the booked cost of the exaction is whatever the affiliated entity chooses to invoice, and IRS transfer pricing enforcement focuses on international transactions rather than domestic affiliated construction."
+    },
+    {
+      "id": "CL-2",
+      "label": "Tax Dump",
+      "text": "Companies capitalize the exaction as a development cost and deduct it pro rata at each unit sale under Rev. Rul. 2002-9. The federal taxpayer reimburses approximately 21–37% of the exaction to the developer through the deduction. The buyer pays the full exaction as part of the purchase price and cannot claim any corresponding deduction because the home is a personal residence. The developer is paid twice for the same exaction — once by the buyer in the sale price, once by the federal taxpayer through the deduction."
+    },
+    {
+      "id": "CL-3",
+      "label": "Pass-Through",
+      "text": "Government charges Companies the exaction. Companies embed the full cost in the unit sale price. The buyer pays the exaction the developer was nominally charged. The constitutional doctrine that ostensibly governs exactions — Nollan, Dolan, Koontz, Sheetz — addresses the Government → Companies charge in isolation, asking whether the condition imposed on the developer satisfies nexus and rough proportionality. The doctrine does not reach the downstream edge where the same dollar is extracted from the buyer. The constitutional test also only activates when a developer litigates, which almost never happens because the litigation cost exceeds the exaction."
+    },
+    {
+      "id": "CL-4",
+      "label": "LIHTC + Section 8 Double Extraction",
+      "text": "The federal taxpayer funds the Low-Income Housing Tax Credit at construction through forgone tax revenue. Developers sell the credits to investors — typically financial institutions taking a 99% silent ownership stake — in exchange for construction equity. When Section 8 rental assistance attaches to LIHTC units, HUD pays the operator directly each month for the life of the property. The federal taxpayer funds the same building twice: once as LIHTC equity at construction, once as Section 8 voucher payments in operation. The tenant is the commodity the government pays the operator to house, not the customer the operator must satisfy."
+    },
+    {
+      "id": "CL-5",
+      "label": "HOA Capture",
+      "text": "During the declarant-control phase, the developer establishes the HOA, writes the governing documents, and signs long-term vendor contracts for property management, maintenance, landscaping, bulk telecom, and related services. These contracts persist after control transfers to the homeowner board. State statutes typically allow a narrow post-turnover window — often 30 days — to cancel declarant contracts, but owners are rarely informed of the window or supported in using it. Under Florida Statute 720.309(2), an HOA board can enter a bulk cable and internet contract without a member vote; the FCC's 2025 withdrawal of the proposed opt-out rule left bulk billing enforceable. Residents pay monthly assessments that flow to vendors the developer selected before they arrived."
+    },
+    {
+      "id": "CL-6",
+      "label": "Captive Geography",
+      "text": "Solar PPAs and similar service obligations are recorded against the title of the home rather than held by the homeowner. The obligation follows the property, not the person. A solar PPA runs 15–25 years with a 2–5% annual escalator, cannot be fully bought out during the first 5–6 years due to federal tax equity rules, and must be either assumed by a new buyer or bought out by the seller before a home can be sold clear. Utility service territories function on the same principle at a larger scale: the ratepayer is lock-in-by-zone rather than lock-in-by-deed. Both mechanisms deny the consumer the ability to change providers by moving their custom; the only exit is to sell the property."
+    },
+    {
+      "id": "CL-7",
+      "label": "Vertical Integration at Resale",
+      "text": "When a resident sells the home, the transactions required to complete the sale — title insurance, mortgage origination for the incoming buyer, closing services — often route through developer-affiliated entities. Lennar operates Lennar Title and Lennar Mortgage. D.R. Horton operates DHI Title and DHI Mortgage. The same corporate family that captured the original construction margin, the exaction pass-through, the HOA assessment stream, and the recurring service fees captures an additional margin layer at resale. Every step of the home's economic life loops back through the corporate family that built it."
+    }
+  ],
+  "color_categories": {
+    "money-out": "People paying",
+    "money-in": "returns flowing to Companies",
+    "legal-power": "permits, regulatory authorizations, enforcement instruments",
+    "cluster_active_state": "base color preserved, gold border added"
+  },
+  "cluster_behavior": "Hover any member edge → whole cluster lights with directional pulse. Click any member edge → modal opens showing cluster chain text. Multi-cluster edges stack all relevant cluster texts in one modal.",
+  "edges": [
+    {
+      "id": "E-01",
+      "label": "Permit Approval",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-3"],
+      "source": "Nollan, Dolan, Koontz case sequence.",
+      "modal": null
+    },
+    {
+      "id": "E-02",
+      "label": "Affiliated Contracts",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-1"],
+      "source": "Research Section 8 (Transfer Pricing); corporate filings for Lennar, D.R. Horton, Greystar.",
+      "modal": null
+    },
+    {
+      "id": "E-03",
+      "label": "Rev. Rul. 2002-9",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-2"],
+      "source": "irs.gov/pub/irs-drop/rr-02-9.pdf.",
+      "modal": null
+    },
+    {
+      "id": "E-04",
+      "label": "LIHTC Credits",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-4"],
+      "source": "Novogradac LIHTC primer; CRS RS22389.",
+      "modal": null
+    },
+    {
+      "id": "E-05",
+      "label": "Section 8 Rent",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-4"],
+      "source": "HUD Resident Fact Sheet 13; Niskanen Center analysis.",
+      "modal": null
+    },
+    {
+      "id": "E-06",
+      "label": "Bulk Billing Allowed",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-5", "CL-6"],
+      "source": "FL Stat 720.309(2); 47 CFR 76.2000; FCC 2025 withdrawal coverage (Cord Cutters News).",
+      "modal": null
+    },
+    {
+      "id": "E-07",
+      "label": "Captive Geography Enforcement",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-6"],
+      "source": "Research Section 13 (Solar PPA); solarpanelexit.com.",
+      "modal": null
+    },
+    {
+      "id": "E-08",
+      "label": "Impact Fees",
+      "direction": "C → G",
+      "color_category": "money-out",
+      "clusters": ["CL-1", "CL-2", "CL-3"],
+      "source": "Terner Center; CA YIMBY (cayimby.org/reports/the-impact-of-fees/); HUD impact fees report.",
+      "modal": null
+    },
+    {
+      "id": "E-09",
+      "label": "Lobbying",
+      "direction": "C → G",
+      "color_category": "money-out",
+      "visual_note": "visually thin",
+      "clusters": [],
+      "source": "NMHC/NAA public statements; Cord Cutters News.",
+      "modal": {
+        "text": "A small dollar investment in lobbying produces a much larger return in favorable rules. The visual thinness of this edge relative to the thick subsidy edges returning from Government to Companies is itself the argument. When the FCC withdrew the Rosenworcel bulk-billing opt-out proposal in 2025, NMHC, NAA, and RETTC celebrated the withdrawal publicly — industry advocacy framing the protection of a developer revenue stream as a consumer benefit. The asymmetry between the cost of influence and the value of favorable rules is the structural feature. Source: NMHC/NAA public statements; Cord Cutters News."
+      }
+    },
+    {
+      "id": "E-10",
+      "label": "Permit Application",
+      "direction": "C → G",
+      "color_category": "legal-power",
+      "clusters": ["CL-3"],
+      "source": "Research Section 1 (Doctrinal Significance).",
+      "modal": null
+    },
+    {
+      "id": "E-11",
+      "label": "Construction Margin",
+      "direction": "C → P",
+      "direction_note": "unit delivery; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": [],
+      "source": "NMHC rankings; Hunterbrook Media (hntrbrk.com/homebuilders/).",
+      "modal": {
+        "text": "Standard developer profit on building the unit itself. D.R. Horton closed approximately 83,000 homes and single-family rentals in 2022 and has held the title of nation's leading builder since 2002. This edge is not part of any extraction cluster — it is what the diagram treats as the baseline transaction. Every other edge on the diagram is something added on top of this baseline, either as an additional extraction or as a mechanism that supports one. Source: NMHC rankings; Hunterbrook Media (hntrbrk.com/homebuilders/)."
+      }
+    },
+    {
+      "id": "E-12",
+      "label": "Exaction Pass-Through",
+      "direction": "C → P",
+      "direction_note": "unit delivery; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-3"],
+      "source": "Terner Center; CA YIMBY.",
+      "modal": null
+    },
+    {
+      "id": "E-13",
+      "label": "HOA Assessments",
+      "direction": "C → P",
+      "direction_note": "services; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-5"],
+      "source": "flslawyer.com; mikekosor.com/declarant-control-dark-secret.",
+      "modal": null
+    },
+    {
+      "id": "E-14",
+      "label": "Junk Fees",
+      "direction": "P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-5"],
+      "source": "FTC v. Greystar press release, January 2025.",
+      "modal": null
+    },
+    {
+      "id": "E-15",
+      "label": "Title / Mortgage / Closing",
+      "direction": "P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-7"],
+      "source": "Research Section 8 (Vertical Integration); Lennar and D.R. Horton corporate structure.",
+      "modal": null
+    },
+    {
+      "id": "E-16",
+      "label": "Solar PPA / Bulk Service",
+      "direction": "P → C",
+      "direction_note": "recurring",
+      "color_category": "money-in",
+      "clusters": ["CL-6"],
+      "source": "Research Section 13; solarpanelexit.com; solar-to-the-people.com.",
+      "modal": null
+    },
+    {
+      "id": "E-17",
+      "label": "Build Quality Exploitation",
+      "direction": "C → P",
+      "color_category": "legal-power",
+      "color_note": "non-monetary — surfaces delivery gap",
+      "clusters": [],
+      "cluster_note": "orthogonal to dollar-flow clusters; this is the quality-of-delivery edge",
+      "source": "Hunterbrook Media (hntrbrk.com/homebuilders/); The Advocate (Baton Rouge); NOLA.com Lakeshore Villages coverage.",
+      "modal": {
+        "text": "D.R. Horton city manager Leslie Gulliksen, 2021, addressing building failures in the humid Gulf Coast climate: \"we are building them to the way the federal government says to.\" The explicit version of the thesis. Financial exposure ends at closing; the build is optimized to pass inspection on day one, not to perform at year five. Recently unsealed court documents show D.R. Horton handled at least 1,100 complaints about mold, water leaks, and structural defects in Louisiana homes dating to 2007. Limited warranties exclude drainage, grading, soil, and biological contaminants — the most common workmanship-related defects and the ones most likely to render a home uninhabitable. The edge sits on the diagram without a cluster because it is not a dollar flow; it is the gap between what was paid for and what was delivered. Source: Hunterbrook Media (hntrbrk.com/homebuilders/); The Advocate (Baton Rouge); NOLA.com Lakeshore Villages coverage."
+      }
+    },
+    {
+      "id": "E-18",
+      "label": "Purchase Price",
+      "direction": "P → C",
+      "color_category": "money-out",
+      "clusters": ["CL-3"],
+      "source": "Terner Center; CA YIMBY.",
+      "modal": null
+    },
+    {
+      "id": "E-19",
+      "label": "Rent",
+      "direction": "P → C",
+      "color_category": "money-out",
+      "clusters": ["CL-4"],
+      "source": "Multifamily Dive (NMHC coverage); HUD Resident Fact Sheet 13.",
+      "modal": null
+    },
+    {
+      "id": "E-20",
+      "label": "Federal Tax",
+      "direction": "P → G",
+      "color_category": "money-out",
+      "clusters": ["CL-2", "CL-4"],
+      "source": "Research Section 5; Section 11 (LIHTC and Section 8 as Double Extraction).",
+      "modal": null
+    },
+    {
+      "id": "E-21",
+      "label": "Property Tax",
+      "direction": "P → G",
+      "color_category": "money-out",
+      "clusters": [],
+      "cluster_note": "orthogonal; funds the substrate the whole stack runs on",
+      "source": "Evans-Cowley (impactfees.com/publications%20pdf/evans-cowley-planning.pdf).",
+      "modal": {
+        "text": "Property tax pays for maintenance and rehabilitation of existing infrastructure — the same infrastructure a new buyer has already paid for once through the exaction embedded in their purchase price. From Evans-Cowley: \"A new household pays the exactions and impact fees, taxes that pay for the maintenance and rehabilitation of existing infrastructure, and service charges for the use of the existing infrastructure system.\" Three separate payments for the same physical asset. The asset itself is publicly owned, tax-exempt, and was already paid for by a previous generation of buyers through their own exactions. Source: Evans-Cowley (impactfees.com/publications%20pdf/evans-cowley-planning.pdf)."
+      }
+    },
+    {
+      "id": "E-22",
+      "label": "Connection Fees",
+      "direction": "P → G",
+      "direction_note": "routed through building department to utility districts",
+      "color_category": "money-out",
+      "clusters": [],
+      "cluster_note": "orthogonal; collected by one jurisdiction, routed to another that the first has no authority over",
+      "source": "Terner Center (ternercenter.berkeley.edu/blog/residential-impact-fees/); HCD sample analysis.",
+      "modal": {
+        "text": "Water, sewer, electric, and school connection fees are collected by the building department but routed to separate authorities — municipal utility districts, investor-owned utilities, co-ops, school districts. The city has no jurisdiction over these fees and no authority to waive them. Terner Center explicitly carved utility connection fees out of their impact-fee study because they could not estimate them without detailed development plans, noting that \"utility fees can pose the largest local expense.\" The single largest category of development fees is the one no single jurisdiction has the authority to touch. Source: Terner Center (ternercenter.berkeley.edu/blog/residential-impact-fees/); HCD sample analysis."
+      }
+    },
+    {
+      "id": "E-23",
+      "label": "Section 8 Voucher (authorization)",
+      "direction": "G → P",
+      "color_category": "legal-power",
+      "clusters": ["CL-4"],
+      "source": "Research Section 11; HUD Resident Fact Sheet 13.",
+      "modal": null
+    },
+    {
+      "id": "E-24",
+      "label": "\"Services\"",
+      "direction": "G → P",
+      "color_category": "legal-power",
+      "clusters": [],
+      "cluster_note": "dual-face edge",
+      "source": "Evans-Cowley; FL Stat 720.309(2); Cord Cutters News on FCC withdrawal; general news coverage of municipal service failures.",
+      "modal": {
+        "type": "dual-face",
+        "text": "This edge has two faces.\n\nThe first face is what government is nominally delivering to residents in exchange for their taxes. Roads, plowing, schools, public safety, water and sewer infrastructure, code enforcement. The delivery is frequently inadequate and sometimes catastrophic. Lexington, Kentucky schools closed for two weeks in winter because the city could not plow. Examples are not universal but they are neither rare nor local — Flint's water, Jackson's water, Texas power grid failures, chronic school funding collapses in states that rely on property tax. Residents pay for services the system often fails to deliver.\n\nThe second face is what government is enforcing against residents on behalf of developer-affiliated vendors. When the developer, as declarant, signs a long-term HOA management contract, a bulk telecom contract, or a captive utility service obligation, the state's legal apparatus stands behind those obligations. CC&Rs are enforceable in state court. HOA assessments can be collected like tax liens. Bulk billing contracts cannot be opted out of under Florida Statute 720.309(2) and parallel state laws. The FCC's 2025 withdrawal of the proposed bulk-billing opt-out left the enforcement standing. Residents pay for services the system mandates whether they want them or not.\n\nThe two faces are the same edge because the government's role in both directions is structurally similar — conduit and enforcer, not deliverer. The quotes in the edge label carry the argument the label itself stays neutral about. Source: Evans-Cowley; FL Stat 720.309(2); Cord Cutters News on FCC withdrawal; general news coverage of municipal service failures."
+      }
+    }
+  ],
+  "what_happens_next": [
+    "You read through and mark any final edits.",
+    "If anything changes, I build v4. If not, this is the source of truth.",
+    "Convert to JSON (can happen in a separate chat to save context here).",
+    "Hand to Claude Code with the spec document and the research doc."
+  ],
+  "summary_of_changes_from_v2": [
+    "Services edge renamed to \"Services\" with quotes. Typography carries the skepticism; label stays neutral on its surface.",
+    "Services edge rewritten as dual-face. First face: nominal government services, often inadequate, with concrete Lexington/Flint/Jackson examples. Second face: state's legal arm enforcing developer-set service obligations against residents. Single edge, two faces, both faces part of the argument.",
+    "Orphan edges now have click-modal text. Lobbying, Construction Margin, Build Quality Exploitation, Property Tax, Connection Fees, \"Services\" all have full modal text. No fallback placeholders.",
+    "Node modals restructured as hybrid. Government: table + one paragraph. Companies: table + one paragraph. People: list + one paragraph. Data where tabular fits, prose where the argument needs sentences.",
+    "E-24 cluster designation changed from \"orthogonal\" to \"dual-face\" in the modal text. Reflects that the edge now carries two faces of the same argument rather than sitting outside the main argument."
+  ]
+}
