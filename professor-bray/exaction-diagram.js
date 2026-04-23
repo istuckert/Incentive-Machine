@@ -10,11 +10,12 @@
   var NODE_FONT_SIZE  = '20';
   var LABEL_FONT_SIZE = '11';
   var LABEL_CHAR_W    = 6.3;   // estimated width per character at font-size 11
-  var ARROW_GAP       = 5;     // SVG units between arrowhead tip and node rect border
-  var PORT_SPACING    = 22;    // SVG units between adjacent port centres along a border edge
+  var ARROW_GAP       = 12;    // SVG units between arrowhead tip and node rect border
+  var PORT_SPACING    = 22;    // SVG units between adjacent port centres (default channels)
+  var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
 
   var POSITIONS = {
-    'N-GOV':    { x: 450, y: 80  },
+    'N-GOV':    { x: 450, y: 50  },
     'N-COMP':   { x: 725, y: 420 },
     'N-PEOPLE': { x: 175, y: 420 }
   };
@@ -44,7 +45,8 @@
   // approachPt to the node centre clips to. Ports are centred on the natural clip
   // point and spaced PORT_SPACING apart along the border's tangent. ARROW_GAP
   // pulls every port clear of the rect edge so arrowheads are visible.
-  function spreadPorts(nodeId, approachPt, n) {
+  function spreadPorts(nodeId, approachPt, n, spacing) {
+    spacing = (spacing !== undefined) ? spacing : PORT_SPACING;
     var pos  = POSITIONS[nodeId];
     var hw   = NODE_W / 2, hh = NODE_H / 2;
     var dx   = pos.x - approachPt.x;
@@ -67,7 +69,7 @@
     var half = (n - 1) / 2;
     var pts  = [];
     for (var i = 0; i < n; i++) {
-      var s = (i - half) * PORT_SPACING;
+      var s = (i - half) * spacing;
       pts.push({ x: cx + tanX * s, y: cy + tanY * s });
     }
     return pts;
@@ -148,10 +150,12 @@
       var midY = (sPos.y + dPos.y) / 2;
       // G→C fans toward interior by default; flip to exterior.
       var fanSign  = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ? -1 : 1;
-      // Pre-compute distributed ports for source and destination using the
-      // straight-line approach direction (node-centre to node-centre).
-      var srcPorts = spreadPorts(parsed.src, dPos, n);
-      var dstPorts = spreadPorts(parsed.dst, sPos, n);
+      // Pre-compute distributed ports; G↔C uses wider spacing to separate its 7 edges.
+      var isGC = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ||
+                 (parsed.src === 'N-COMP' && parsed.dst === 'N-GOV');
+      var ps   = isGC ? PORT_SPACING_GC : PORT_SPACING;
+      var srcPorts = spreadPorts(parsed.src, dPos, n, ps);
+      var dstPorts = spreadPorts(parsed.dst, sPos, n, ps);
 
       group.forEach(function (edge, i) {
         var offset = (22 + i * 28) * fanSign;
