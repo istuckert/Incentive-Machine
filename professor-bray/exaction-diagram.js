@@ -187,7 +187,27 @@
         if (aC !== bC) return aC - bC;
         return a.id < b.id ? -1 : 1;
       });
-    var gcGovPorts  = spreadPorts('N-GOV',  POSITIONS['N-COMP'], gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
+    // GOV-side ports: walk center-bottom → bottom-right corner → top-right corner.
+    // Two segments offset outward by ARROW_GAP; 10 points evenly spaced end-to-end.
+    var gcN          = gcAllBundle.length;
+    var govCx        = POSITIONS['N-GOV'].x;
+    var govCy        = POSITIONS['N-GOV'].y;
+    var govHW        = NODE_W / 2;                       // 85
+    var govHH        = NODE_H / 2;                       // 28
+    var gcPathBottom = govHW;                            // bottom segment length: 85
+    var gcPathRight  = NODE_H;                           // right segment length:  56
+    var gcPathTotal  = gcPathBottom + gcPathRight;       // 141
+    var gcGovPorts   = [];
+    for (var gi = 0; gi < gcN; gi++) {
+      var pos = (gcN === 1) ? 0 : gi * gcPathTotal / (gcN - 1);
+      var gpt;
+      if (pos <= gcPathBottom) {
+        gpt = { x: govCx + pos,                    y: govCy + govHH + ARROW_GAP };
+      } else {
+        gpt = { x: govCx + govHW + ARROW_GAP,      y: govCy + govHH - (pos - gcPathBottom) };
+      }
+      gcGovPorts.push(gpt);
+    }
     var gcCompPorts = spreadPorts('N-COMP', POSITIONS['N-GOV'],  gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
     var govPortMap    = {};
     var compGcPortMap = {};
