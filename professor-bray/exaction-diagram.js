@@ -11,7 +11,7 @@
   var LABEL_FONT_SIZE = '11';
   var LABEL_CHAR_W    = 6.3;   // estimated width per character at font-size 11
   var ARROW_GAP       = 5;     // SVG units between arrowhead tip and node rect border
-  var PORT_SPACING    = 10;    // SVG units between adjacent port centres along a border edge
+  var PORT_SPACING    = 22;    // SVG units between adjacent port centres along a border edge
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 80  },
@@ -94,7 +94,7 @@
   // i=0 → t=0.20 (source-side), i=n-1 → t=0.80 (destination-side).
   function labelT(i, n) {
     if (n === 1) return 0.50;
-    return 0.10 + (i / (n - 1)) * 0.80;
+    return 0.20 + (i / (n - 1)) * 0.60;
   }
 
   function buildDefs(svg) {
