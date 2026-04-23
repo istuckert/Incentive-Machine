@@ -32,6 +32,7 @@
   var AP_C_UP_FAN_PORT_SPACING =  7;  // y-spacing between adjacent up-fan endpoints
   var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
   var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
+  var PORT_SPACING_GC_UNIFIED = 14;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -174,6 +175,26 @@
     var cpCompPorts = spreadPorts('N-COMP', POSITIONS['N-PEOPLE'], apCompBundle.length, PORT_SPACING_AP_C_COMP);
     var compPortMap = {};
     apCompBundle.forEach(function (e, i) { compPortMap[e.id] = cpCompPorts[i]; });
+
+    // Unified G↔C port maps — 10 edges sorted liked-first then changed, matching the
+    // staggerTMap loop order. Single spreadPorts call per face eliminates the pile-up
+    // caused by two independent per-direction spreads landing on the same clip point.
+    var GC_CHANGED_PRE = { 'E-01': true, 'E-08': true, 'E-09': true, 'E-10': true };
+    var gcAllBundle = ((groups['G → C'] || []).concat(groups['C → G'] || []))
+      .sort(function (a, b) {
+        var aC = GC_CHANGED_PRE[a.id] ? 1 : 0;
+        var bC = GC_CHANGED_PRE[b.id] ? 1 : 0;
+        if (aC !== bC) return aC - bC;
+        return a.id < b.id ? -1 : 1;
+      });
+    var gcGovPorts  = spreadPorts('N-GOV',  POSITIONS['N-COMP'], gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
+    var gcCompPorts = spreadPorts('N-COMP', POSITIONS['N-GOV'],  gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
+    var govPortMap    = {};
+    var compGcPortMap = {};
+    gcAllBundle.forEach(function (e, i) {
+      govPortMap[e.id]    = gcGovPorts[i];
+      compGcPortMap[e.id] = gcCompPorts[i];
+    });
 
     // Triangle centroid — bow outward directions are relative to this point.
     var CENTROID_X = (POSITIONS['N-GOV'].x + POSITIONS['N-COMP'].x + POSITIONS['N-PEOPLE'].x) / 3;
@@ -330,7 +351,10 @@
 
         var isUpFan = isAPCBundle && bowOutwardMap[edge.id] && bowOutwardMap[edge.id].oy === -1;
         var srcPt, dstPt;
-        if (isUpFan) {
+        if (isGCBundle && govPortMap[edge.id]) {
+          srcPt = (parsed.src === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
+          dstPt = (parsed.dst === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
+        } else if (isUpFan) {
           var upFanPortY  = POSITIONS['N-PEOPLE'].y - AP_C_UP_FAN_PORT_Y_TOP + bowIndexMap[edge.id] * AP_C_UP_FAN_PORT_SPACING;
           var apUpFanPt   = { x: POSITIONS['N-PEOPLE'].x + NODE_W / 2, y: upFanPortY };
           var compUpFanPt = { x: POSITIONS['N-COMP'].x   - NODE_W / 2, y: upFanPortY };
