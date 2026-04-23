@@ -27,6 +27,9 @@
   var AP_C_BOW_BASE   = 30;   // C↔P-specific: base bow for split sub-fans
   var AP_C_BOW_STEP   = 95;   // C↔P-specific: step per index in each sub-fan
   var AP_C_BOW_MAX    = 450;  // C↔P-specific: cap (4-edge up max bow=315; 5-edge down max bow=410)
+  var AP_C_UP_FAN_CP_X_SPREAD  = 90;  // horizontal spread per half-step for up-fan control points
+  var AP_C_UP_FAN_PORT_Y_TOP   = 14;  // SVG units above node center for up-fan endpoint y-start
+  var AP_C_UP_FAN_PORT_SPACING =  7;  // y-spacing between adjacent up-fan endpoints
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -191,6 +194,7 @@
     var staggerTMap   = {};   // edgeId → label t-value along its curve
     var bowIndexMap   = {};   // edgeId → bow index for CP fanning
     var bowOutwardMap = {};   // edgeId → outward unit vector {ox,oy}
+    var bowCpXOffMap  = {};   // edgeId → horizontal cpX offset (up-fan only)
 
     var CP_BUNDLE_KEY = 'N-COMP|N-PEOPLE';
     var GC_BUNDLE_KEY = 'N-COMP|N-GOV';
@@ -216,6 +220,7 @@
             : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * localIdx / (localN - 1);
           bowIndexMap[e.id]   = localIdx;
           bowOutwardMap[e.id] = inUp ? { ox: 0, oy: -1 } : { ox: 0, oy: 1 };
+          bowCpXOffMap[e.id]  = inUp ? (localIdx - (upCount - 1) / 2) * AP_C_UP_FAN_CP_X_SPREAD : 0;
         });
         return;
       }
@@ -317,7 +322,7 @@
         if (bowIdx !== undefined) {
           var outward = bowOutwardMap[edge.id];
           var bow = Math.min(bBase + bStep * bowIdx, bMax);
-          cpX = midX + outward.ox * bow;
+          cpX = midX + outward.ox * bow + (bowCpXOffMap[edge.id] || 0);
           cpY = midY + outward.oy * bow;
         } else {
           var offset = (22 + i * 28) * fanSign;
@@ -326,20 +331,29 @@
         }
         var cp = { x: cpX, y: cpY };
 
+        var isUpFan = isAPCBundle && bowOutwardMap[edge.id] && bowOutwardMap[edge.id].oy === -1;
         var srcPt, dstPt;
-        if (parsed.src === 'N-PEOPLE' && apPortMap[edge.id]) {
+        if (isUpFan) {
+          var upFanPortY  = POSITIONS['N-PEOPLE'].y - AP_C_UP_FAN_PORT_Y_TOP + bowIndexMap[edge.id] * AP_C_UP_FAN_PORT_SPACING;
+          var apUpFanPt   = { x: POSITIONS['N-PEOPLE'].x + NODE_W / 2, y: upFanPortY };
+          var compUpFanPt = { x: POSITIONS['N-COMP'].x   - NODE_W / 2, y: upFanPortY };
+          srcPt = (parsed.src === 'N-PEOPLE') ? apUpFanPt : compUpFanPt;
+          dstPt = (parsed.dst === 'N-PEOPLE') ? apUpFanPt : compUpFanPt;
+        } else if (parsed.src === 'N-PEOPLE' && apPortMap[edge.id]) {
           srcPt = apPortMap[edge.id];
         } else if (parsed.src === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
           srcPt = compPortMap[edge.id];
         } else {
           srcPt = srcPorts[i];
         }
-        if (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id]) {
-          dstPt = apPortMap[edge.id];
-        } else if (parsed.dst === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
-          dstPt = compPortMap[edge.id];
-        } else {
-          dstPt = dstPorts[i];
+        if (!isUpFan) {
+          if (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id]) {
+            dstPt = apPortMap[edge.id];
+          } else if (parsed.dst === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
+            dstPt = compPortMap[edge.id];
+          } else {
+            dstPt = dstPorts[i];
+          }
         }
         var color  = EDGE_COLORS[edge.color_category] || '#888';
 
