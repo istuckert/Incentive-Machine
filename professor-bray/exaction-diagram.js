@@ -30,6 +30,8 @@
   var AP_C_UP_FAN_CP_X_SPREAD  = 90;  // horizontal spread per half-step for up-fan control points
   var AP_C_UP_FAN_PORT_Y_TOP   = 14;  // SVG units above node center for up-fan endpoint y-start
   var AP_C_UP_FAN_PORT_SPACING =  7;  // y-spacing between adjacent up-fan endpoints
+  var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
+  var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -226,8 +228,9 @@
       }
 
       if (key === GC_BUNDLE_KEY) {
-        // G↔C: split by edge direction — G→C bow outward (away from centroid),
-        // C→G bow inward. Each sub-fan resets bow index to 0, eliminating cap collision.
+        // G↔C: single unified outward fan. Liked edges (E-02..E-07) first, sorted by
+        // ID; changed edges (E-01, E-08..E-10) appended after, also sorted by ID.
+        // BOW_BASE_GC=55 preserves liked-edge bow values exactly (li=0→55 … li=5→230).
         var posA2 = POSITIONS['N-COMP'], posB2 = POSITIONS['N-GOV'];
         var cdx = posB2.x - posA2.x, cdy = posB2.y - posA2.y;
         var cdLen = Math.sqrt(cdx * cdx + cdy * cdy);
@@ -237,26 +240,19 @@
         if (outOx * (midX2 - CENTROID_X) + outOy * (midY2 - CENTROID_Y) < 0) {
           outOx = -outOx; outOy = -outOy;
         }
-        var gcOut = [], gcIn = [];
-        bundle.forEach(function (e) {
-          var p = parseDirection(e.direction);
-          if (p && p.src === 'N-GOV') { gcOut.push(e); } else { gcIn.push(e); }
+        var GC_CHANGED = { 'E-01': true, 'E-08': true, 'E-09': true, 'E-10': true };
+        var gcAll = bundle.slice().sort(function (a, b) {
+          var aC = GC_CHANGED[a.id] ? 1 : 0;
+          var bC = GC_CHANGED[b.id] ? 1 : 0;
+          if (aC !== bC) return aC - bC;        // liked before changed
+          return a.id < b.id ? -1 : 1;          // within each group, sort by id
         });
-        gcOut.sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
-        gcIn.sort(function  (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
-        gcOut.forEach(function (e, li) {
-          var ln = gcOut.length;
-          staggerTMap[e.id] = (ln === 1) ? 0.50
-            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * li / (ln - 1);
+        var gcN = gcAll.length;
+        gcAll.forEach(function (e, li) {
+          staggerTMap[e.id] = (gcN === 1) ? 0.50
+            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * li / (gcN - 1);
           bowIndexMap[e.id]   = li;
           bowOutwardMap[e.id] = { ox: outOx, oy: outOy };
-        });
-        gcIn.forEach(function (e, li) {
-          var ln = gcIn.length;
-          staggerTMap[e.id] = (ln === 1) ? 0.50
-            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * li / (ln - 1);
-          bowIndexMap[e.id]   = li;
-          bowOutwardMap[e.id] = { ox: -outOx, oy: -outOy };
         });
         return;
       }
@@ -310,9 +306,10 @@
       // C↔P uses larger per-bundle bow constants and compPortMap for COMP endpoints.
       var bundleKey  = [parsed.src, parsed.dst].sort().join('|');
       var isAPCBundle = (bundleKey === CP_BUNDLE_KEY);
-      var bBase = isAPCBundle ? AP_C_BOW_BASE : BOW_BASE;
+      var isGCBundle  = (bundleKey === GC_BUNDLE_KEY);
+      var bBase = isAPCBundle ? AP_C_BOW_BASE : (isGCBundle ? BOW_BASE_GC : BOW_BASE);
       var bStep = isAPCBundle ? AP_C_BOW_STEP : BOW_STEP;
-      var bMax  = isAPCBundle ? AP_C_BOW_MAX  : BOW_MAX;
+      var bMax  = isAPCBundle ? AP_C_BOW_MAX  : (isGCBundle ? BOW_MAX_GC  : BOW_MAX);
 
       group.forEach(function (edge, i) {
         // Dense bundles: fan control points outward from centroid using per-edge bow.
