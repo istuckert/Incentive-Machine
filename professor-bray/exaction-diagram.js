@@ -33,6 +33,8 @@
   var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
   var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
   var PORT_SPACING_GC_UNIFIED = 14;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
+  var GC_GOV_BOTTOM_SPAN = 220;  // virtual bottom segment: px right of GOV center-bottom
+  var GC_GOV_RIGHT_SPAN  = 220;  // virtual right segment: px up from bottom-right anchor
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -194,17 +196,17 @@
     var govCy        = POSITIONS['N-GOV'].y;
     var govHW        = NODE_W / 2;                       // 85
     var govHH        = NODE_H / 2;                       // 28
-    var gcPathBottom = govHW;                            // bottom segment length: 85
-    var gcPathRight  = NODE_H;                           // right segment length:  56
-    var gcPathTotal  = gcPathBottom + gcPathRight;       // 141
+    var gcPathBottom = GC_GOV_BOTTOM_SPAN;               // virtual bottom segment
+    var gcPathRight  = GC_GOV_RIGHT_SPAN;                // virtual right segment
+    var gcPathTotal  = gcPathBottom + gcPathRight;       // 440
     var gcGovPorts   = [];
     for (var gi = 0; gi < gcN; gi++) {
       var pos = (gcN === 1) ? 0 : gi * gcPathTotal / (gcN - 1);
       var gpt;
       if (pos <= gcPathBottom) {
-        gpt = { x: govCx + pos,   y: govCy + govHH };
+        gpt = { x: govCx + pos,                          y: govCy + govHH };
       } else {
-        gpt = { x: govCx + govHW, y: govCy + govHH - (pos - gcPathBottom) };
+        gpt = { x: govCx + GC_GOV_BOTTOM_SPAN,           y: govCy + govHH - (pos - gcPathBottom) };
       }
       gcGovPorts.push(gpt);
     }
