@@ -10,6 +10,8 @@
   var NODE_FONT_SIZE  = '20';
   var LABEL_FONT_SIZE = '11';
   var LABEL_CHAR_W    = 6.3;   // estimated width per character at font-size 11
+  var ARROW_GAP       = 5;     // SVG units between arrowhead tip and node rect border
+  var PORT_SPACING    = 10;    // SVG units between adjacent port centres along a border edge
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 80  },
@@ -38,19 +40,37 @@
       : null;
   }
 
-  // Point on node bounding-box edge in the direction from approachPt toward node center.
-  function nodeEdgePoint(nodeId, approachPt) {
-    var pos = POSITIONS[nodeId];
-    var hw = NODE_W / 2, hh = NODE_H / 2;
-    var dx = pos.x - approachPt.x;
-    var dy = pos.y - approachPt.y;
-    var len = Math.sqrt(dx * dx + dy * dy);
-    if (len < 1) return { x: pos.x, y: pos.y };
-    var nx = dx / len, ny = dy / len;
-    var tx = Math.abs(nx) > 1e-6 ? hw / Math.abs(nx) : Infinity;
-    var ty = Math.abs(ny) > 1e-6 ? hh / Math.abs(ny) : Infinity;
-    var t = Math.min(tx, ty) + 5;   // 5px gap before arrowhead reaches rect border
-    return { x: pos.x - nx * t, y: pos.y - ny * t };
+  // Returns n port points spread along the node border that the straight line from
+  // approachPt to the node centre clips to. Ports are centred on the natural clip
+  // point and spaced PORT_SPACING apart along the border's tangent. ARROW_GAP
+  // pulls every port clear of the rect edge so arrowheads are visible.
+  function spreadPorts(nodeId, approachPt, n) {
+    var pos  = POSITIONS[nodeId];
+    var hw   = NODE_W / 2, hh = NODE_H / 2;
+    var dx   = pos.x - approachPt.x;
+    var dy   = pos.y - approachPt.y;
+    var len  = Math.sqrt(dx * dx + dy * dy);
+    if (len < 1) {
+      var flat = [];
+      for (var j = 0; j < n; j++) flat.push({ x: pos.x, y: pos.y });
+      return flat;
+    }
+    var nx   = dx / len, ny = dy / len;
+    var tx   = Math.abs(nx) > 1e-6 ? hw / Math.abs(nx) : Infinity;
+    var ty   = Math.abs(ny) > 1e-6 ? hh / Math.abs(ny) : Infinity;
+    var t    = Math.min(tx, ty) + ARROW_GAP;
+    var cx   = pos.x - nx * t;
+    var cy   = pos.y - ny * t;
+    // Tangent runs along whichever border edge was hit.
+    var tanX = (ty <= tx) ? 1 : 0;   // horizontal border → horizontal spread
+    var tanY = (ty <= tx) ? 0 : 1;   // vertical border   → vertical spread
+    var half = (n - 1) / 2;
+    var pts  = [];
+    for (var i = 0; i < n; i++) {
+      var s = (i - half) * PORT_SPACING;
+      pts.push({ x: cx + tanX * s, y: cy + tanY * s });
+    }
+    return pts;
   }
 
   // Evaluate quadratic bezier at parameter t.
@@ -127,7 +147,11 @@
       var midX = (sPos.x + dPos.x) / 2;
       var midY = (sPos.y + dPos.y) / 2;
       // G→C fans toward interior by default; flip to exterior.
-      var fanSign = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ? -1 : 1;
+      var fanSign  = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ? -1 : 1;
+      // Pre-compute distributed ports for source and destination using the
+      // straight-line approach direction (node-centre to node-centre).
+      var srcPorts = spreadPorts(parsed.src, dPos, n);
+      var dstPorts = spreadPorts(parsed.dst, sPos, n);
 
       group.forEach(function (edge, i) {
         var offset = (22 + i * 28) * fanSign;
@@ -135,8 +159,8 @@
         var cpY    = midY + pY * offset;
         var cp     = { x: cpX, y: cpY };
 
-        var srcPt  = nodeEdgePoint(parsed.src, cp);
-        var dstPt  = nodeEdgePoint(parsed.dst, cp);
+        var srcPt  = srcPorts[i];
+        var dstPt  = dstPorts[i];
         var color  = EDGE_COLORS[edge.color_category] || '#888';
 
         // ── Edge path ────────────────────────────────────────────────────────
