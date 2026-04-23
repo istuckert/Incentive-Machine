@@ -49,7 +49,7 @@
     var nx = dx / len, ny = dy / len;
     var tx = Math.abs(nx) > 1e-6 ? hw / Math.abs(nx) : Infinity;
     var ty = Math.abs(ny) > 1e-6 ? hh / Math.abs(ny) : Infinity;
-    var t = Math.min(tx, ty);
+    var t = Math.min(tx, ty) + 5;   // 5px gap before arrowhead reaches rect border
     return { x: pos.x - nx * t, y: pos.y - ny * t };
   }
 
