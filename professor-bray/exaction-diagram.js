@@ -202,9 +202,9 @@
       var pos = (gcN === 1) ? 0 : gi * gcPathTotal / (gcN - 1);
       var gpt;
       if (pos <= gcPathBottom) {
-        gpt = { x: govCx + pos,                    y: govCy + govHH + ARROW_GAP };
+        gpt = { x: govCx + pos,   y: govCy + govHH };
       } else {
-        gpt = { x: govCx + govHW + ARROW_GAP,      y: govCy + govHH - (pos - gcPathBottom) };
+        gpt = { x: govCx + govHW, y: govCy + govHH - (pos - gcPathBottom) };
       }
       gcGovPorts.push(gpt);
     }
