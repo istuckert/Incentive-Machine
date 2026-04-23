@@ -2,12 +2,14 @@
   var SVG_NS    = 'http://www.w3.org/2000/svg';
   var JSON_PATH = 'reference/exaction_edges.json';
 
-  var VIEWBOX_W     = 600;
-  var VIEWBOX_H     = 480;
-  var NODE_W        = 170;
-  var NODE_H        = 56;
-  var NODE_RX       = 8;
-  var NODE_FONT_SIZE = '20';
+  var VIEWBOX_W       = 600;
+  var VIEWBOX_H       = 480;
+  var NODE_W          = 170;
+  var NODE_H          = 56;
+  var NODE_RX         = 8;
+  var NODE_FONT_SIZE  = '20';
+  var LABEL_FONT_SIZE = '11';
+  var LABEL_CHAR_W    = 6.3;   // estimated width per character at font-size 11
 
   var POSITIONS = {
     'N-GOV':    { x: 300, y: 84  },
@@ -51,6 +53,30 @@
     return { x: pos.x - nx * t, y: pos.y - ny * t };
   }
 
+  // Evaluate quadratic bezier at parameter t.
+  function bezierPoint(src, cp, dst, t) {
+    var mt = 1 - t;
+    return {
+      x: mt * mt * src.x + 2 * t * mt * cp.x + t * t * dst.x,
+      y: mt * mt * src.y + 2 * t * mt * cp.y + t * t * dst.y
+    };
+  }
+
+  // Tangent vector of quadratic bezier at parameter t (unnormalized).
+  function bezierTangent(src, cp, dst, t) {
+    return {
+      x: 2 * (1 - t) * (cp.x - src.x) + 2 * t * (dst.x - cp.x),
+      y: 2 * (1 - t) * (cp.y - src.y) + 2 * t * (dst.y - cp.y)
+    };
+  }
+
+  // Stagger label position across an n-edge channel.
+  // i=0 → t≈0.35 (source-side), i=n-1 → t≈0.65 (destination-side).
+  function labelT(i, n) {
+    if (n === 1) return 0.50;
+    return 0.35 + (i / (n - 1)) * 0.30;
+  }
+
   function buildDefs(svg) {
     var defs = svgEl('defs', {});
     Object.keys(EDGE_COLORS).forEach(function (cat) {
@@ -73,24 +99,20 @@
   }
 
   function renderEdges(svg, data) {
-    // Group edges by direction string
     var groups = {};
     data.edges.forEach(function (e) {
       if (!groups[e.direction]) groups[e.direction] = [];
       groups[e.direction].push(e);
     });
 
-    var edgesG = svgEl('g', { class: 'exaction-edges' });
+    var edgesG  = svgEl('g', { class: 'exaction-edges'  });
+    var labelsG = svgEl('g', { class: 'exaction-labels' });
     svg.appendChild(edgesG);
-
-    // Fan: all edges in a direction curve to the LEFT of that direction vector.
-    // Opposite directions naturally curve to opposite sides — no overlap.
-    // Offset for edge i in a group: 22 + i*28 (user units from midpoint along perp).
-    var FAN_START = 22;
-    var FAN_STEP  = 28;
+    // labelsG appended after loop so every label renders above every edge.
 
     Object.keys(groups).forEach(function (dir) {
       var group  = groups[dir];
+      var n      = group.length;
       var parsed = parseDirection(dir);
       if (!parsed) return;
 
@@ -99,21 +121,23 @@
       var dx   = dPos.x - sPos.x;
       var dy   = dPos.y - sPos.y;
       var len  = Math.sqrt(dx * dx + dy * dy);
-      // Left perpendicular unit vector
+      // Left perpendicular unit vector — same fanning logic as Stage 3a.
       var pX   = -dy / len;
       var pY   =  dx / len;
       var midX = (sPos.x + dPos.x) / 2;
       var midY = (sPos.y + dPos.y) / 2;
 
       group.forEach(function (edge, i) {
-        var offset = FAN_START + i * FAN_STEP;
+        var offset = 22 + i * 28;
         var cpX    = midX + pX * offset;
         var cpY    = midY + pY * offset;
+        var cp     = { x: cpX, y: cpY };
 
-        var srcPt = nodeEdgePoint(parsed.src, { x: cpX, y: cpY });
-        var dstPt = nodeEdgePoint(parsed.dst, { x: cpX, y: cpY });
-        var color = EDGE_COLORS[edge.color_category] || '#888';
+        var srcPt  = nodeEdgePoint(parsed.src, cp);
+        var dstPt  = nodeEdgePoint(parsed.dst, cp);
+        var color  = EDGE_COLORS[edge.color_category] || '#888';
 
+        // ── Edge path ────────────────────────────────────────────────────────
         edgesG.appendChild(svgEl('path', {
           d: [
             'M', srcPt.x.toFixed(1), srcPt.y.toFixed(1),
@@ -127,8 +151,50 @@
           class:          'exaction-edge edge-' + edge.color_category,
           'data-edge-id': edge.id
         }));
+
+        // ── Inline label ─────────────────────────────────────────────────────
+        var t   = labelT(i, n);
+        var lp  = bezierPoint(srcPt, cp, dstPt, t);
+        var tan = bezierTangent(srcPt, cp, dstPt, t);
+
+        // Rotate to align with curve tangent. If tangent points leftward, flip
+        // 180° so characters always read left-to-right.
+        var angle = Math.atan2(tan.y, tan.x) * 180 / Math.PI;
+        if (tan.x < 0) angle += 180;
+
+        // Background rect sized to estimated text width; masks the edge line.
+        var lw  = edge.label.length * LABEL_CHAR_W + 10;
+        var lhh = 7;    // half-height of masking rect (covers 3px stroke amply)
+
+        var labelG = svgEl('g', {
+          transform: 'translate(' + lp.x.toFixed(1) + ',' + lp.y.toFixed(1) + ')' +
+                     ' rotate(' + angle.toFixed(1) + ')',
+          class: 'exaction-label-group'
+        });
+
+        labelG.appendChild(svgEl('rect', {
+          x:      (-lw / 2).toFixed(1),
+          y:      String(-lhh),
+          width:  lw.toFixed(1),
+          height: String(lhh * 2),
+          class:  'exaction-label-bg'
+        }));
+
+        var txt = svgEl('text', {
+          x:                   '0',
+          y:                   '0',
+          'dominant-baseline': 'middle',
+          'text-anchor':       'middle',
+          'font-size':         LABEL_FONT_SIZE,
+          class:               'exaction-edge-label'
+        });
+        txt.textContent = edge.label;
+        labelG.appendChild(txt);
+        labelsG.appendChild(labelG);
       });
     });
+
+    svg.appendChild(labelsG);
   }
 
   function buildSVG() {
