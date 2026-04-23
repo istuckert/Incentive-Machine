@@ -13,6 +13,11 @@
   var ARROW_GAP       = 12;    // SVG units between arrowhead tip and node rect border
   var PORT_SPACING    = 22;    // SVG units between adjacent port centres (default channels)
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
+  var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
+  var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
+  var STAGGER_RANGE_MIN    = 0.25; // label t-range start for dense bundles
+  var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
+  var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -99,6 +104,18 @@
     return 0.20 + (i / (n - 1)) * 0.60;
   }
 
+  // Interleave two arrays alternately [a0,b0,a1,b1,…]; remainder appended.
+  // Used to order AP port assignments so they pair monotonically with the
+  // opposite-node ports, which eliminates crossing at the AP end.
+  function interleaveAlts(a, b) {
+    var out = [], max = Math.max(a.length, b.length);
+    for (var ii = 0; ii < max; ii++) {
+      if (ii < a.length) out.push(a[ii]);
+      if (ii < b.length) out.push(b[ii]);
+    }
+    return out;
+  }
+
   function buildDefs(svg) {
     var defs = svgEl('defs', {});
     Object.keys(EDGE_COLORS).forEach(function (cat) {
@@ -125,6 +142,48 @@
     data.edges.forEach(function (e) {
       if (!groups[e.direction]) groups[e.direction] = [];
       groups[e.direction].push(e);
+    });
+
+    // Pre-compute AP port assignments across combined bundles so all edges
+    // in the AP↔GOV face (5 edges) and AP↔COMP face (9 edges) spread
+    // uniformly together instead of each direction sub-group centering
+    // independently at the same clip point.
+    // Interleaving order matches the monotone GOV/COMP port sort, which
+    // prevents edge crossing at the AP end.
+    var apGovBundle  = interleaveAlts(groups['P → G'] || [], groups['G → P'] || []);
+    var apCompBundle = interleaveAlts(groups['P → C'] || [], groups['C → P'] || []);
+    var apGovPorts   = spreadPorts('N-PEOPLE', POSITIONS['N-GOV'],  apGovBundle.length,  PORT_SPACING_AP_GOV);
+    var apCompPorts  = spreadPorts('N-PEOPLE', POSITIONS['N-COMP'], apCompBundle.length, PORT_SPACING_AP_COMP);
+    var apPortMap    = {};
+    apGovBundle.forEach(function  (e, i) { apPortMap[e.id] = apGovPorts[i];  });
+    apCompBundle.forEach(function (e, i) { apPortMap[e.id] = apCompPorts[i]; });
+
+    // Stagger label t-values across combined bidirectional bundles.
+    // A→B and B→A share the same visual channel; staggering per direction
+    // group leaves both clouds centred on the same arc region.
+    // Edges are sorted by ID for stable, predictable assignment, then
+    // distributed evenly across [STAGGER_RANGE_MIN, STAGGER_RANGE_MAX].
+    var bundleEdges = {};
+    data.edges.forEach(function (e) {
+      var parsed = parseDirection(e.direction);
+      if (!parsed) return;
+      var key = [parsed.src, parsed.dst].sort().join('|');
+      if (!bundleEdges[key]) bundleEdges[key] = [];
+      bundleEdges[key].push(e);
+    });
+    var staggerTMap = {};
+    Object.keys(bundleEdges).forEach(function (key) {
+      var bundle = bundleEdges[key];
+      if (bundle.length < STAGGER_THRESHOLD) return;
+      var sorted = bundle.slice().sort(function (a, b) {
+        return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+      });
+      var N = sorted.length;
+      sorted.forEach(function (e, i) {
+        staggerTMap[e.id] = (N === 1)
+          ? 0.50
+          : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * i / (N - 1);
+      });
     });
 
     var edgesG  = svgEl('g', { class: 'exaction-edges'  });
@@ -163,8 +222,10 @@
         var cpY    = midY + pY * offset;
         var cp     = { x: cpX, y: cpY };
 
-        var srcPt  = srcPorts[i];
-        var dstPt  = dstPorts[i];
+        var srcPt  = (parsed.src === 'N-PEOPLE' && apPortMap[edge.id])
+                       ? apPortMap[edge.id] : srcPorts[i];
+        var dstPt  = (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id])
+                       ? apPortMap[edge.id] : dstPorts[i];
         var color  = EDGE_COLORS[edge.color_category] || '#888';
 
         // ── Edge path ────────────────────────────────────────────────────────
@@ -183,7 +244,7 @@
         }));
 
         // ── Inline label ─────────────────────────────────────────────────────
-        var t   = labelT(i, n);
+        var t = (staggerTMap[edge.id] !== undefined) ? staggerTMap[edge.id] : labelT(i, n);
         var lp  = bezierPoint(srcPt, cp, dstPt, t);
         var tan = bezierTangent(srcPt, cp, dstPt, t);
 
