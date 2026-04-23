@@ -27,3 +27,11 @@
   fill: var(--text-body);
   letter-spacing: 0.01em;
 }
+
+.exaction-edges {
+  pointer-events: none;
+}
+
+.exaction-edge {
+  /* per-edge color and stroke-width are set inline by JS */
+}

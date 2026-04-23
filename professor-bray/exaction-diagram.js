@@ -3,7 +3,7 @@
   var JSON_PATH = 'reference/exaction_edges.json';
 
   var VIEWBOX_W     = 600;
-  var VIEWBOX_H     = 440;
+  var VIEWBOX_H     = 480;
   var NODE_W        = 170;
   var NODE_H        = 56;
   var NODE_RX       = 8;
@@ -15,31 +15,136 @@
     'N-PEOPLE': { x: 96,  y: 356 }
   };
 
+  var EDGE_COLORS = {
+    'money-out':   '#C47A5A',
+    'money-in':    '#5C9468',
+    'legal-power': '#5A85C8'
+  };
+
+  var DIR_MAP = { 'G': 'N-GOV', 'C': 'N-COMP', 'P': 'N-PEOPLE' };
+
   function svgEl(tag, attrs) {
     var el = document.createElementNS(SVG_NS, tag);
     Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
     return el;
   }
 
+  function parseDirection(dirStr) {
+    var parts = dirStr.split('→').map(function (s) { return s.trim(); });
+    return (parts.length === 2 && DIR_MAP[parts[0]] && DIR_MAP[parts[1]])
+      ? { src: DIR_MAP[parts[0]], dst: DIR_MAP[parts[1]] }
+      : null;
+  }
+
+  // Point on node bounding-box edge in the direction from approachPt toward node center.
+  function nodeEdgePoint(nodeId, approachPt) {
+    var pos = POSITIONS[nodeId];
+    var hw = NODE_W / 2, hh = NODE_H / 2;
+    var dx = pos.x - approachPt.x;
+    var dy = pos.y - approachPt.y;
+    var len = Math.sqrt(dx * dx + dy * dy);
+    if (len < 1) return { x: pos.x, y: pos.y };
+    var nx = dx / len, ny = dy / len;
+    var tx = Math.abs(nx) > 1e-6 ? hw / Math.abs(nx) : Infinity;
+    var ty = Math.abs(ny) > 1e-6 ? hh / Math.abs(ny) : Infinity;
+    var t = Math.min(tx, ty);
+    return { x: pos.x - nx * t, y: pos.y - ny * t };
+  }
+
+  function buildDefs(svg) {
+    var defs = svgEl('defs', {});
+    Object.keys(EDGE_COLORS).forEach(function (cat) {
+      var marker = svgEl('marker', {
+        id:           'arrow-' + cat,
+        markerWidth:  '12',
+        markerHeight: '8',
+        refX:         '12',
+        refY:         '4',
+        orient:       'auto',
+        markerUnits:  'userSpaceOnUse'
+      });
+      marker.appendChild(svgEl('path', {
+        d:    'M0,0 L0,8 L12,4 z',
+        fill: EDGE_COLORS[cat]
+      }));
+      defs.appendChild(marker);
+    });
+    svg.appendChild(defs);
+  }
+
+  function renderEdges(svg, data) {
+    // Group edges by direction string
+    var groups = {};
+    data.edges.forEach(function (e) {
+      if (!groups[e.direction]) groups[e.direction] = [];
+      groups[e.direction].push(e);
+    });
+
+    var edgesG = svgEl('g', { class: 'exaction-edges' });
+    svg.appendChild(edgesG);
+
+    // Fan: all edges in a direction curve to the LEFT of that direction vector.
+    // Opposite directions naturally curve to opposite sides — no overlap.
+    // Offset for edge i in a group: 22 + i*28 (user units from midpoint along perp).
+    var FAN_START = 22;
+    var FAN_STEP  = 28;
+
+    Object.keys(groups).forEach(function (dir) {
+      var group  = groups[dir];
+      var parsed = parseDirection(dir);
+      if (!parsed) return;
+
+      var sPos = POSITIONS[parsed.src];
+      var dPos = POSITIONS[parsed.dst];
+      var dx   = dPos.x - sPos.x;
+      var dy   = dPos.y - sPos.y;
+      var len  = Math.sqrt(dx * dx + dy * dy);
+      // Left perpendicular unit vector
+      var pX   = -dy / len;
+      var pY   =  dx / len;
+      var midX = (sPos.x + dPos.x) / 2;
+      var midY = (sPos.y + dPos.y) / 2;
+
+      group.forEach(function (edge, i) {
+        var offset = FAN_START + i * FAN_STEP;
+        var cpX    = midX + pX * offset;
+        var cpY    = midY + pY * offset;
+
+        var srcPt = nodeEdgePoint(parsed.src, { x: cpX, y: cpY });
+        var dstPt = nodeEdgePoint(parsed.dst, { x: cpX, y: cpY });
+        var color = EDGE_COLORS[edge.color_category] || '#888';
+
+        edgesG.appendChild(svgEl('path', {
+          d: [
+            'M', srcPt.x.toFixed(1), srcPt.y.toFixed(1),
+            'Q', cpX.toFixed(1), cpY.toFixed(1),
+                 dstPt.x.toFixed(1), dstPt.y.toFixed(1)
+          ].join(' '),
+          fill:           'none',
+          stroke:         color,
+          'stroke-width': '3',
+          'marker-end':   'url(#arrow-' + edge.color_category + ')',
+          class:          'exaction-edge edge-' + edge.color_category,
+          'data-edge-id': edge.id
+        }));
+      });
+    });
+  }
+
   function buildSVG() {
     return svgEl('svg', {
-      viewBox:              '0 0 ' + VIEWBOX_W + ' ' + VIEWBOX_H,
-      preserveAspectRatio:  'xMidYMid meet',
-      'aria-label':         'Exactions triangle diagram',
-      role:                 'img',
-      id:                   'exaction-svg'
+      viewBox:             '0 0 ' + VIEWBOX_W + ' ' + VIEWBOX_H,
+      preserveAspectRatio: 'xMidYMid meet',
+      'aria-label':        'Exactions triangle diagram',
+      role:                'img',
+      id:                  'exaction-svg'
     });
   }
 
   function renderNode(svg, node) {
     var pos = POSITIONS[node.id];
     if (!pos) return;
-
-    var g = svgEl('g', {
-      class:          'exaction-node',
-      'data-node-id': node.id
-    });
-
+    var g = svgEl('g', { class: 'exaction-node', 'data-node-id': node.id });
     var rect = svgEl('rect', {
       x:      pos.x - NODE_W / 2,
       y:      pos.y - NODE_H / 2,
@@ -48,7 +153,6 @@
       rx:     NODE_RX,
       class:  'exaction-node-rect'
     });
-
     var text = svgEl('text', {
       x:                   pos.x,
       y:                   pos.y,
@@ -58,7 +162,6 @@
       class:               'exaction-node-label'
     });
     text.textContent = node.label;
-
     g.appendChild(rect);
     g.appendChild(text);
     svg.appendChild(g);
@@ -67,7 +170,6 @@
   function init() {
     var container = document.getElementById('exaction-diagram');
     if (!container) return;
-
     fetch(JSON_PATH)
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -75,11 +177,13 @@
       })
       .then(function (data) {
         var svg = buildSVG();
+        buildDefs(svg);
+        renderEdges(svg, data);
         data.nodes.forEach(function (node) { renderNode(svg, node); });
         container.appendChild(svg);
       })
       .catch(function (err) {
-        console.error('exaction-diagram: failed to load JSON', err);
+        console.error('exaction-diagram:', err);
       });
   }
 
