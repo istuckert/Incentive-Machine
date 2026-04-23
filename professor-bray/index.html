@@ -90,7 +90,7 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 
 /* ── HERO ── */
 .hero { width: 100%; margin-top: 52px; }
-.hero-split { display: flex; flex-direction: row; height: calc(100vh - 52px); }
+.hero-split { display: flex; flex-direction: row; height: calc(100vh - 52px); position: relative; }
 .hero-half {
   flex: 1; position: relative;
   display: flex; align-items: center; justify-content: center;
@@ -111,7 +111,30 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 @media (max-width: 768px) {
   .hero-split { flex-direction: column; height: auto; }
   .hero-half  { height: 50vh; }
-  .hero-label { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .hero-title-overlay { top: 25%; transform: translateY(-50%); }
+  .hero-main-title { font-size: clamp(1.75rem, 7vw, 3rem); }
+  .hero-tagline { font-size: 1rem; }
+}
+.hero-title-overlay {
+  position: absolute; top: 50%; left: 0; right: 0;
+  transform: translateY(-50%); z-index: 10;
+  text-align: center; padding: 0 2rem;
+  pointer-events: none;
+}
+.hero-main-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800; color: var(--text-body);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.75);
+  letter-spacing: -0.01em; line-height: 1.1;
+}
+.hero-tagline {
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  color: var(--text-muted);
+  letter-spacing: 0.035em; font-weight: 400;
+  margin-top: 0.75rem;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
 }
 
 /* ── PANELS ── */
@@ -195,6 +218,28 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
   .panel, .panel--wide { max-width: 100%; margin-left: 1rem; margin-right: 1rem; }
   .diagram-split, .law-split { flex-direction: column; }
 }
+/* ── DIAGRAM HEADERS ── */
+.diagram-block { display: flex; flex-direction: column; }
+.diagram-section-heading {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 2rem; font-weight: 800;
+  color: var(--text-body); margin-bottom: 0.6rem;
+}
+.diagram-section-rule {
+  height: 1px; border: none; width: 100%; margin-bottom: 1.25rem;
+}
+.diagram-section-rule--exaction { background: var(--accent-exaction); }
+.diagram-section-rule--utility  { background: var(--accent-utility); }
+.diagram-hinge-label {
+  font-size: 0.8rem; font-style: italic;
+  letter-spacing: 0.06em; color: var(--text-muted);
+}
+.diagram-section-subtitle {
+  font-style: italic; color: var(--text-muted);
+  font-size: 1.15rem; line-height: 1.5;
+  margin-top: 0.25rem;
+}
+.diagram-section-subtitle + .diagram-hinge-label { margin-top: 1rem; }
 </style>
 <link rel="stylesheet" href="exaction-diagram.css">
 </head>
@@ -209,11 +254,11 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 
 <section class="hero" aria-label="Professor Bray module introduction">
   <div class="hero-split">
-    <div class="hero-half hero-half--exaction">
-      <span class="hero-label">Exactions</span>
-    </div>
-    <div class="hero-half hero-half--utility">
-      <span class="hero-label">Utilities</span>
+    <div class="hero-half hero-half--exaction"></div>
+    <div class="hero-half hero-half--utility"></div>
+    <div class="hero-title-overlay">
+      <h1 class="hero-main-title">Quid Pro Quo — The Exceptions</h1>
+      <p class="hero-tagline">Markets where the payer is not the customer</p>
     </div>
   </div>
 </section>
@@ -268,12 +313,26 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 
   <section id="diagram" class="panel panel--wide">
     <div class="diagram-split">
-      <div class="diagram-placeholder" id="exaction-placeholder">
-        <div id="exaction-diagram"></div>
+      <div class="diagram-block">
+        <h2 class="diagram-section-heading">Exactions</h2>
+        <div class="diagram-section-rule diagram-section-rule--exaction"></div>
+        <p class="diagram-hinge-label">Quid pro quo, as stated.</p>
+        <p class="diagram-section-subtitle">The nexus and the proportionality the doctrine requires — permits in exchange for infrastructure the new development's impact requires.</p>
+        <p class="diagram-hinge-label">Quid pro quo, as practiced.</p>
+        <div class="diagram-placeholder" id="exaction-placeholder">
+          <div id="exaction-diagram"></div>
+        </div>
       </div>
-      <div class="diagram-placeholder">
-        <span class="diagram-label">Utilities Diagram</span>
-        <p class="panel-body">Diagram pending.</p>
+      <div class="diagram-block">
+        <h2 class="diagram-section-heading">Public Utilities</h2>
+        <div class="diagram-section-rule diagram-section-rule--utility"></div>
+        <p class="diagram-hinge-label">Quid pro quo, as stated.</p>
+        <p class="diagram-section-subtitle">A regulated rate of return in exchange for reliable, maintained service in the territory the utility is granted.</p>
+        <p class="diagram-hinge-label">Quid pro quo, as practiced.</p>
+        <div class="diagram-placeholder">
+          <span class="diagram-label">Utilities Diagram</span>
+          <p class="panel-body">Diagram pending.</p>
+        </div>
       </div>
     </div>
   </section>
