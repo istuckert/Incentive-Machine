@@ -3,9 +3,9 @@
   var JSON_PATH = 'reference/exaction_edges.json';
 
   var VIEWBOX_W       = 1200;  // expanded for wider AP/COMP spread
-  var VIEWBOX_H       = 780;   // reduced: split fan peaks at y≈617 below, y≈263 above
+  var VIEWBOX_H       = 1000;  // split fan peaks at y≈756 below, y≈352 above; canvas bottom y=850
   var VIEWBOX_X       = -150;  // SVG units of left padding
-  var VIEWBOX_Y       = -100;  // SVG units of top padding
+  var VIEWBOX_Y       = -150;  // SVG units of top padding
   var NODE_W          = 170;
   var NODE_H          = 56;
   var NODE_RX         = 8;
@@ -30,8 +30,8 @@
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
-    'N-COMP':   { x: 825, y: 420 },
-    'N-PEOPLE': { x: 75,  y: 420 }
+    'N-COMP':   { x: 825, y: 530 },
+    'N-PEOPLE': { x: 75,  y: 530 }
   };
 
   var EDGE_COLORS = {
