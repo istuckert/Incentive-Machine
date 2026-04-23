@@ -2,8 +2,8 @@
   var SVG_NS    = 'http://www.w3.org/2000/svg';
   var JSON_PATH = 'reference/exaction_edges.json';
 
-  var VIEWBOX_W       = 600;
-  var VIEWBOX_H       = 480;
+  var VIEWBOX_W       = 900;
+  var VIEWBOX_H       = 540;
   var NODE_W          = 170;
   var NODE_H          = 56;
   var NODE_RX         = 8;
@@ -12,9 +12,9 @@
   var LABEL_CHAR_W    = 6.3;   // estimated width per character at font-size 11
 
   var POSITIONS = {
-    'N-GOV':    { x: 300, y: 84  },
-    'N-COMP':   { x: 504, y: 356 },
-    'N-PEOPLE': { x: 96,  y: 356 }
+    'N-GOV':    { x: 450, y: 80  },
+    'N-COMP':   { x: 725, y: 420 },
+    'N-PEOPLE': { x: 175, y: 420 }
   };
 
   var EDGE_COLORS = {
@@ -71,10 +71,10 @@
   }
 
   // Stagger label position across an n-edge channel.
-  // i=0 → t≈0.35 (source-side), i=n-1 → t≈0.65 (destination-side).
+  // i=0 → t=0.20 (source-side), i=n-1 → t=0.80 (destination-side).
   function labelT(i, n) {
     if (n === 1) return 0.50;
-    return 0.35 + (i / (n - 1)) * 0.30;
+    return 0.20 + (i / (n - 1)) * 0.60;
   }
 
   function buildDefs(svg) {
