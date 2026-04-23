@@ -19,6 +19,8 @@
   var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
   var PERPENDICULAR_OFFSET_STEP          = 14; // SVG units per step outward from centroid
+  var PERPENDICULAR_OFFSET_MAX           = 80; // cap — labels beyond i=5 stack at this distance
+  var PERPENDICULAR_OFFSET_BASELINE      = 6;  // i=0 lifts slightly off its edge
   var PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE = 3; // same threshold as along-edge staggering
 
   var POSITIONS = {
@@ -176,11 +178,23 @@
       if (!bundleEdges[key]) bundleEdges[key] = [];
       bundleEdges[key].push(e);
     });
-    var staggerTMap  = {};
-    var perpIndexMap = {};  // edgeId → bundle sort index i (used for offset = STEP * i)
+    var staggerTMap    = {};
+    var perpIndexMap   = {};  // edgeId → bundle sort index i
+    var perpOutwardMap = {};  // edgeId → unified {ox,oy} outward unit vector for this bundle
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
       if (bundle.length < STAGGER_THRESHOLD) return;
+
+      // One outward direction for the whole bundle: centroid → bundle midpoint.
+      // This ensures all edges (both directions) push labels the same way,
+      // preventing two opposing fans from reconverging at the bundle centre.
+      var nodeIds = key.split('|');
+      var posA = POSITIONS[nodeIds[0]], posB = POSITIONS[nodeIds[1]];
+      var ox = (posA.x + posB.x) / 2 - CENTROID_X;
+      var oy = (posA.y + posB.y) / 2 - CENTROID_Y;
+      var oLen = Math.sqrt(ox * ox + oy * oy);
+      if (oLen > 1e-6) { ox /= oLen; oy /= oLen; }
+
       var sorted = bundle.slice().sort(function (a, b) {
         return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
       });
@@ -190,7 +204,8 @@
           ? 0.50
           : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * i / (N - 1);
         if (bundle.length >= PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE) {
-          perpIndexMap[e.id] = i;
+          perpIndexMap[e.id]   = i;
+          perpOutwardMap[e.id] = { ox: ox, oy: oy };
         }
       });
     });
@@ -257,23 +272,20 @@
         var lp  = bezierPoint(srcPt, cp, dstPt, t);
         var tan = bezierTangent(srcPt, cp, dstPt, t);
 
-        // Perpendicular offset — push label away from triangle centroid.
-        // i=0 stays on the edge; each subsequent bundle member steps outward.
+        // Perpendicular offset — push label outward using the bundle's unified
+        // direction (centroid → bundle midpoint), not the per-edge tangent perp.
+        // Unified direction ensures both A→B and B→A edges fan the same way.
+        // Formula: baseline + step*i, capped so outermost labels stay readable.
         var labelX = lp.x, labelY = lp.y;
         var perpIdx = perpIndexMap[edge.id];
-        if (perpIdx !== undefined && perpIdx > 0) {
-          var tanLen = Math.sqrt(tan.x * tan.x + tan.y * tan.y);
-          if (tanLen > 1e-6) {
-            var px = -tan.y / tanLen;  // left perpendicular of tangent
-            var py =  tan.x / tanLen;
-            // If left perp points toward centroid, flip to right perp.
-            if ((lp.x - CENTROID_X) * px + (lp.y - CENTROID_Y) * py < 0) {
-              px = -px; py = -py;
-            }
-            var perpDist = PERPENDICULAR_OFFSET_STEP * perpIdx;
-            labelX = lp.x + px * perpDist;
-            labelY = lp.y + py * perpDist;
-          }
+        if (perpIdx !== undefined) {
+          var outward  = perpOutwardMap[edge.id];
+          var perpDist = Math.min(
+            PERPENDICULAR_OFFSET_BASELINE + PERPENDICULAR_OFFSET_STEP * perpIdx,
+            PERPENDICULAR_OFFSET_MAX
+          );
+          labelX = lp.x + outward.ox * perpDist;
+          labelY = lp.y + outward.oy * perpDist;
         }
 
         // Rotate to align with curve tangent. If tangent points leftward, flip
