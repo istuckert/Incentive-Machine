@@ -274,7 +274,6 @@
       "color_category": "money-in",
       "clusters": ["CL-6"],
       "source": "Research Section 13; solarpanelexit.com; solar-to-the-people.com.",
-      "labelOverride": { "t": 0.50, "dx": 0, "dy": 15, "locked": true },
       "modal": null
     },
     {
@@ -286,7 +285,6 @@
       "clusters": [],
       "cluster_note": "orthogonal to dollar-flow clusters; this is the quality-of-delivery edge",
       "source": "Hunterbrook Media (hntrbrk.com/homebuilders/); The Advocate (Baton Rouge); NOLA.com Lakeshore Villages coverage.",
-      "labelOverride": { "t": 0.35, "dx": -20, "dy": -25, "locked": true },
       "modal": {
         "text": "D.R. Horton city manager Leslie Gulliksen, 2021, addressing building failures in the humid Gulf Coast climate: \"we are building them to the way the federal government says to.\" The explicit version of the thesis. Financial exposure ends at closing; the build is optimized to pass inspection on day one, not to perform at year five. Recently unsealed court documents show D.R. Horton handled at least 1,100 complaints about mold, water leaks, and structural defects in Louisiana homes dating to 2007. Limited warranties exclude drainage, grading, soil, and biological contaminants — the most common workmanship-related defects and the ones most likely to render a home uninhabitable. The edge sits on the diagram without a cluster because it is not a dollar flow; it is the gap between what was paid for and what was delivered. Source: Hunterbrook Media (hntrbrk.com/homebuilders/); The Advocate (Baton Rouge); NOLA.com Lakeshore Villages coverage."
       }
@@ -298,7 +296,6 @@
       "color_category": "money-out",
       "clusters": ["CL-3"],
       "source": "Terner Center; CA YIMBY.",
-      "labelOverride": { "t": 0.50, "dx": 0, "dy": 35, "locked": true },
       "modal": null
     },
     {
@@ -308,7 +305,6 @@
       "color_category": "money-out",
       "clusters": ["CL-4"],
       "source": "Multifamily Dive (NMHC coverage); HUD Resident Fact Sheet 13.",
-      "labelOverride": { "t": 0.50, "dx": 0, "dy": 20, "locked": true },
       "modal": null
     },
     {
@@ -352,8 +348,7 @@
       "color_category": "legal-power",
       "clusters": ["CL-4"],
       "source": "Research Section 11; HUD Resident Fact Sheet 13.",
-      "modal": null,
-      "labelOverride": { "t": 0.55, "dx": -8, "dy": -12, "locked": true }
+      "modal": null
     },
     {
       "id": "E-24",
@@ -363,7 +358,6 @@
       "clusters": [],
       "cluster_note": "dual-face edge",
       "source": "Evans-Cowley; FL Stat 720.309(2); Cord Cutters News on FCC withdrawal; general news coverage of municipal service failures.",
-      "labelOverride": { "t": 0.35, "dx": -15, "dy": 8, "locked": true },
       "modal": {
         "type": "dual-face",
         "text": "This edge has two faces.\n\nThe first face is what government is nominally delivering to residents in exchange for their taxes. Roads, plowing, schools, public safety, water and sewer infrastructure, code enforcement. The delivery is frequently inadequate and sometimes catastrophic. Lexington, Kentucky schools closed for two weeks in winter because the city could not plow. Examples are not universal but they are neither rare nor local — Flint's water, Jackson's water, Texas power grid failures, chronic school funding collapses in states that rely on property tax. Residents pay for services the system often fails to deliver.\n\nThe second face is what government is enforcing against residents on behalf of developer-affiliated vendors. When the developer, as declarant, signs a long-term HOA management contract, a bulk telecom contract, or a captive utility service obligation, the state's legal apparatus stands behind those obligations. CC&Rs are enforceable in state court. HOA assessments can be collected like tax liens. Bulk billing contracts cannot be opted out of under Florida Statute 720.309(2) and parallel state laws. The FCC's 2025 withdrawal of the proposed bulk-billing opt-out left the enforcement standing. Residents pay for services the system mandates whether they want them or not.\n\nThe two faces are the same edge because the government's role in both directions is structurally similar — conduit and enforcer, not deliverer. The quotes in the edge label carry the argument the label itself stays neutral about. Source: Evans-Cowley; FL Stat 720.309(2); Cord Cutters News on FCC withdrawal; general news coverage of municipal service failures."

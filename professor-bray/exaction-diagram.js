@@ -2,8 +2,10 @@
   var SVG_NS    = 'http://www.w3.org/2000/svg';
   var JSON_PATH = 'reference/exaction_edges.json';
 
-  var VIEWBOX_W       = 900;
-  var VIEWBOX_H       = 540;
+  var VIEWBOX_W       = 1060;  // 900 + 80 padding each side
+  var VIEWBOX_H       = 700;   // 540 + 80 padding each side
+  var VIEWBOX_X       = -80;   // SVG units of left padding
+  var VIEWBOX_Y       = -80;   // SVG units of top padding
   var NODE_W          = 170;
   var NODE_H          = 56;
   var NODE_RX         = 8;
@@ -15,13 +17,12 @@
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
   var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
   var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
-  var STAGGER_RANGE_MIN    = 0.25; // label t-range start for dense bundles
-  var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
-  var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
-  var PERPENDICULAR_OFFSET_STEP          = 14; // SVG units per step outward from centroid
-  var PERPENDICULAR_OFFSET_MAX           = 55; // cap — labels beyond i=3 stack at this distance
-  var PERPENDICULAR_OFFSET_BASELINE      = 6;  // i=0 lifts slightly off its edge
-  var PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE = 3; // same threshold as along-edge staggering
+  var STAGGER_RANGE_MIN    = 0.40; // label t-range start for dense bundles
+  var STAGGER_RANGE_MAX    = 0.60; // label t-range end   for dense bundles
+  var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers fanning + staggering
+  var BOW_BASE        = 20;   // bow for first edge in a dense bundle (SVG units from chord midpoint)
+  var BOW_STEP        = 25;   // additional bow per edge index step
+  var BOW_MAX         = 200;  // cap — prevents S-curves on outermost edges
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -152,8 +153,6 @@
     // in the AP↔GOV face (5 edges) and AP↔COMP face (9 edges) spread
     // uniformly together instead of each direction sub-group centering
     // independently at the same clip point.
-    // Interleaving order matches the monotone GOV/COMP port sort, which
-    // prevents edge crossing at the AP end.
     var apGovBundle  = interleaveAlts(groups['P → G'] || [], groups['G → P'] || []);
     var apCompBundle = interleaveAlts(groups['P → C'] || [], groups['C → P'] || []);
     var apGovPorts   = spreadPorts('N-PEOPLE', POSITIONS['N-GOV'],  apGovBundle.length,  PORT_SPACING_AP_GOV);
@@ -162,14 +161,11 @@
     apGovBundle.forEach(function  (e, i) { apPortMap[e.id] = apGovPorts[i];  });
     apCompBundle.forEach(function (e, i) { apPortMap[e.id] = apCompPorts[i]; });
 
-    // Triangle centroid — labels are pushed away from this point.
+    // Triangle centroid — bow outward directions are relative to this point.
     var CENTROID_X = (POSITIONS['N-GOV'].x + POSITIONS['N-COMP'].x + POSITIONS['N-PEOPLE'].x) / 3;
     var CENTROID_Y = (POSITIONS['N-GOV'].y + POSITIONS['N-COMP'].y + POSITIONS['N-PEOPLE'].y) / 3;
 
-    // Stagger label t-values and perpendicular offsets across combined
-    // bidirectional bundles. A→B and B→A share the same visual channel;
-    // staggering per direction group alone leaves both clouds centred on
-    // the same arc region. Edges are sorted by ID for a stable assignment.
+    // Group edges into combined bidirectional bundles (A→B and B→A share one key).
     var bundleEdges = {};
     data.edges.forEach(function (e) {
       var parsed = parseDirection(e.direction);
@@ -178,16 +174,18 @@
       if (!bundleEdges[key]) bundleEdges[key] = [];
       bundleEdges[key].push(e);
     });
-    var staggerTMap    = {};
-    var perpIndexMap   = {};  // edgeId → bundle sort index i
-    var perpOutwardMap = {};  // edgeId → unified {ox,oy} outward unit vector for this bundle
+
+    // For dense bundles (≥ STAGGER_THRESHOLD): assign a stable sort index to each
+    // edge that drives both the along-edge label stagger and the CP bow offset.
+    // The bow direction is outward from centroid (centroid → bundle chord midpoint).
+    var staggerTMap   = {};   // edgeId → label t-value along its curve
+    var bowIndexMap   = {};   // edgeId → bow index for CP fanning
+    var bowOutwardMap = {};   // edgeId → outward unit vector {ox,oy}
+
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
       if (bundle.length < STAGGER_THRESHOLD) return;
 
-      // One outward direction for the whole bundle: centroid → bundle midpoint.
-      // This ensures all edges (both directions) push labels the same way,
-      // preventing two opposing fans from reconverging at the bundle centre.
       var nodeIds = key.split('|');
       var posA = POSITIONS[nodeIds[0]], posB = POSITIONS[nodeIds[1]];
       var ox = (posA.x + posB.x) / 2 - CENTROID_X;
@@ -200,13 +198,10 @@
       });
       var N = sorted.length;
       sorted.forEach(function (e, i) {
-        staggerTMap[e.id] = (N === 1)
-          ? 0.50
+        staggerTMap[e.id] = (N === 1) ? 0.50
           : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * i / (N - 1);
-        if (bundle.length >= PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE) {
-          perpIndexMap[e.id]   = i;
-          perpOutwardMap[e.id] = { ox: ox, oy: oy };
-        }
+        bowIndexMap[e.id]   = i;
+        bowOutwardMap[e.id] = { ox: ox, oy: oy };
       });
     });
 
@@ -226,14 +221,12 @@
       var dx   = dPos.x - sPos.x;
       var dy   = dPos.y - sPos.y;
       var len  = Math.sqrt(dx * dx + dy * dy);
-      // Left perpendicular unit vector — same fanning logic as Stage 3a.
+      // Left perpendicular unit vector — fallback for small bundles only.
       var pX   = -dy / len;
       var pY   =  dx / len;
       var midX = (sPos.x + dPos.x) / 2;
       var midY = (sPos.y + dPos.y) / 2;
-      // G→C fans toward interior by default; flip to exterior.
       var fanSign  = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ? -1 : 1;
-      // Pre-compute distributed ports; G↔C uses wider spacing to separate its 7 edges.
       var isGC = (parsed.src === 'N-GOV' && parsed.dst === 'N-COMP') ||
                  (parsed.src === 'N-COMP' && parsed.dst === 'N-GOV');
       var ps   = isGC ? PORT_SPACING_GC : PORT_SPACING;
@@ -241,10 +234,21 @@
       var dstPorts = spreadPorts(parsed.dst, sPos, n, ps);
 
       group.forEach(function (edge, i) {
-        var offset = (22 + i * 28) * fanSign;
-        var cpX    = midX + pX * offset;
-        var cpY    = midY + pY * offset;
-        var cp     = { x: cpX, y: cpY };
+        // Dense bundles: fan control points outward from centroid using per-edge bow.
+        // Small bundles (< STAGGER_THRESHOLD): legacy left-perpendicular offset.
+        var bowIdx = bowIndexMap[edge.id];
+        var cpX, cpY;
+        if (bowIdx !== undefined) {
+          var outward = bowOutwardMap[edge.id];
+          var bow = Math.min(BOW_BASE + BOW_STEP * bowIdx, BOW_MAX);
+          cpX = midX + outward.ox * bow;
+          cpY = midY + outward.oy * bow;
+        } else {
+          var offset = (22 + i * 28) * fanSign;
+          cpX = midX + pX * offset;
+          cpY = midY + pY * offset;
+        }
+        var cp = { x: cpX, y: cpY };
 
         var srcPt  = (parsed.src === 'N-PEOPLE' && apPortMap[edge.id])
                        ? apPortMap[edge.id] : srcPorts[i];
@@ -269,7 +273,7 @@
 
         // ── Inline label ─────────────────────────────────────────────────────
         // labelOverride.locked bypasses parametric placement entirely.
-        // t uses override value (or 0.5); position is anchor + raw dx/dy.
+        // Labels sit directly on their fanned edges — no perpendicular offset.
         var ovr = edge.labelOverride;
         var t;
         if (ovr && ovr.locked) {
@@ -284,19 +288,6 @@
         if (ovr && ovr.locked) {
           labelX = lp.x + (ovr.dx || 0);
           labelY = lp.y + (ovr.dy || 0);
-        } else {
-          // Perpendicular offset — push label outward using the bundle's unified
-          // direction (centroid → bundle midpoint).
-          var perpIdx = perpIndexMap[edge.id];
-          if (perpIdx !== undefined) {
-            var outward  = perpOutwardMap[edge.id];
-            var perpDist = Math.min(
-              PERPENDICULAR_OFFSET_BASELINE + PERPENDICULAR_OFFSET_STEP * perpIdx,
-              PERPENDICULAR_OFFSET_MAX
-            );
-            labelX = lp.x + outward.ox * perpDist;
-            labelY = lp.y + outward.oy * perpDist;
-          }
         }
 
         // Rotate to align with curve tangent. If tangent points leftward, flip
@@ -341,7 +332,7 @@
 
   function buildSVG() {
     return svgEl('svg', {
-      viewBox:             '0 0 ' + VIEWBOX_W + ' ' + VIEWBOX_H,
+      viewBox:             VIEWBOX_X + ' ' + VIEWBOX_Y + ' ' + VIEWBOX_W + ' ' + VIEWBOX_H,
       preserveAspectRatio: 'xMidYMid meet',
       'aria-label':        'Exactions triangle diagram',
       role:                'img',
