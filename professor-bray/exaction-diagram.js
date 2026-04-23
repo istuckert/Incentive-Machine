@@ -15,9 +15,11 @@
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
   var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
   var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
-  var STAGGER_RANGE_MIN    = 0.35; // label t-range start for dense bundles
-  var STAGGER_RANGE_MAX    = 0.65; // label t-range end   for dense bundles
+  var STAGGER_RANGE_MIN    = 0.25; // label t-range start for dense bundles
+  var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
+  var PERPENDICULAR_OFFSET_STEP          = 14; // SVG units per step outward from centroid
+  var PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE = 3; // same threshold as along-edge staggering
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -158,11 +160,14 @@
     apGovBundle.forEach(function  (e, i) { apPortMap[e.id] = apGovPorts[i];  });
     apCompBundle.forEach(function (e, i) { apPortMap[e.id] = apCompPorts[i]; });
 
-    // Stagger label t-values across combined bidirectional bundles.
-    // A→B and B→A share the same visual channel; staggering per direction
-    // group leaves both clouds centred on the same arc region.
-    // Edges are sorted by ID for stable, predictable assignment, then
-    // distributed evenly across [STAGGER_RANGE_MIN, STAGGER_RANGE_MAX].
+    // Triangle centroid — labels are pushed away from this point.
+    var CENTROID_X = (POSITIONS['N-GOV'].x + POSITIONS['N-COMP'].x + POSITIONS['N-PEOPLE'].x) / 3;
+    var CENTROID_Y = (POSITIONS['N-GOV'].y + POSITIONS['N-COMP'].y + POSITIONS['N-PEOPLE'].y) / 3;
+
+    // Stagger label t-values and perpendicular offsets across combined
+    // bidirectional bundles. A→B and B→A share the same visual channel;
+    // staggering per direction group alone leaves both clouds centred on
+    // the same arc region. Edges are sorted by ID for a stable assignment.
     var bundleEdges = {};
     data.edges.forEach(function (e) {
       var parsed = parseDirection(e.direction);
@@ -171,7 +176,8 @@
       if (!bundleEdges[key]) bundleEdges[key] = [];
       bundleEdges[key].push(e);
     });
-    var staggerTMap = {};
+    var staggerTMap  = {};
+    var perpIndexMap = {};  // edgeId → bundle sort index i (used for offset = STEP * i)
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
       if (bundle.length < STAGGER_THRESHOLD) return;
@@ -183,6 +189,9 @@
         staggerTMap[e.id] = (N === 1)
           ? 0.50
           : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * i / (N - 1);
+        if (bundle.length >= PERPENDICULAR_OFFSET_MIN_BUNDLE_SIZE) {
+          perpIndexMap[e.id] = i;
+        }
       });
     });
 
@@ -244,9 +253,28 @@
         }));
 
         // ── Inline label ─────────────────────────────────────────────────────
-        var t = (staggerTMap[edge.id] !== undefined) ? staggerTMap[edge.id] : labelT(i, n);
+        var t   = (staggerTMap[edge.id] !== undefined) ? staggerTMap[edge.id] : labelT(i, n);
         var lp  = bezierPoint(srcPt, cp, dstPt, t);
         var tan = bezierTangent(srcPt, cp, dstPt, t);
+
+        // Perpendicular offset — push label away from triangle centroid.
+        // i=0 stays on the edge; each subsequent bundle member steps outward.
+        var labelX = lp.x, labelY = lp.y;
+        var perpIdx = perpIndexMap[edge.id];
+        if (perpIdx !== undefined && perpIdx > 0) {
+          var tanLen = Math.sqrt(tan.x * tan.x + tan.y * tan.y);
+          if (tanLen > 1e-6) {
+            var px = -tan.y / tanLen;  // left perpendicular of tangent
+            var py =  tan.x / tanLen;
+            // If left perp points toward centroid, flip to right perp.
+            if ((lp.x - CENTROID_X) * px + (lp.y - CENTROID_Y) * py < 0) {
+              px = -px; py = -py;
+            }
+            var perpDist = PERPENDICULAR_OFFSET_STEP * perpIdx;
+            labelX = lp.x + px * perpDist;
+            labelY = lp.y + py * perpDist;
+          }
+        }
 
         // Rotate to align with curve tangent. If tangent points leftward, flip
         // 180° so characters always read left-to-right.
@@ -258,7 +286,7 @@
         var lhh = 7;    // half-height of masking rect (covers 3px stroke amply)
 
         var labelG = svgEl('g', {
-          transform: 'translate(' + lp.x.toFixed(1) + ',' + lp.y.toFixed(1) + ')' +
+          transform: 'translate(' + labelX.toFixed(1) + ',' + labelY.toFixed(1) + ')' +
                      ' rotate(' + angle.toFixed(1) + ')',
           class: 'exaction-label-group'
         });
