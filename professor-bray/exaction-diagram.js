@@ -193,6 +193,7 @@
     var bowOutwardMap = {};   // edgeId → outward unit vector {ox,oy}
 
     var CP_BUNDLE_KEY = 'N-COMP|N-PEOPLE';
+    var GC_BUNDLE_KEY = 'N-COMP|N-GOV';
 
     Object.keys(bundleEdges).forEach(function (key) {
       var bundle = bundleEdges[key];
@@ -215,6 +216,42 @@
             : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * localIdx / (localN - 1);
           bowIndexMap[e.id]   = localIdx;
           bowOutwardMap[e.id] = inUp ? { ox: 0, oy: -1 } : { ox: 0, oy: 1 };
+        });
+        return;
+      }
+
+      if (key === GC_BUNDLE_KEY) {
+        // G↔C: split by edge direction — G→C bow outward (away from centroid),
+        // C→G bow inward. Each sub-fan resets bow index to 0, eliminating cap collision.
+        var posA2 = POSITIONS['N-COMP'], posB2 = POSITIONS['N-GOV'];
+        var cdx = posB2.x - posA2.x, cdy = posB2.y - posA2.y;
+        var cdLen = Math.sqrt(cdx * cdx + cdy * cdy);
+        cdx /= cdLen; cdy /= cdLen;
+        var outOx = -cdy, outOy = cdx;   // left perp of chord A→B
+        var midX2 = (posA2.x + posB2.x) / 2, midY2 = (posA2.y + posB2.y) / 2;
+        if (outOx * (midX2 - CENTROID_X) + outOy * (midY2 - CENTROID_Y) < 0) {
+          outOx = -outOx; outOy = -outOy;
+        }
+        var gcOut = [], gcIn = [];
+        bundle.forEach(function (e) {
+          var p = parseDirection(e.direction);
+          if (p && p.src === 'N-GOV') { gcOut.push(e); } else { gcIn.push(e); }
+        });
+        gcOut.sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+        gcIn.sort(function  (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+        gcOut.forEach(function (e, li) {
+          var ln = gcOut.length;
+          staggerTMap[e.id] = (ln === 1) ? 0.50
+            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * li / (ln - 1);
+          bowIndexMap[e.id]   = li;
+          bowOutwardMap[e.id] = { ox: outOx, oy: outOy };
+        });
+        gcIn.forEach(function (e, li) {
+          var ln = gcIn.length;
+          staggerTMap[e.id] = (ln === 1) ? 0.50
+            : STAGGER_RANGE_MIN + (STAGGER_RANGE_MAX - STAGGER_RANGE_MIN) * li / (ln - 1);
+          bowIndexMap[e.id]   = li;
+          bowOutwardMap[e.id] = { ox: -outOx, oy: -outOy };
         });
         return;
       }
