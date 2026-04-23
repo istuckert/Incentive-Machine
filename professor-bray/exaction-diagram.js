@@ -2,10 +2,10 @@
   var SVG_NS    = 'http://www.w3.org/2000/svg';
   var JSON_PATH = 'reference/exaction_edges.json';
 
-  var VIEWBOX_W       = 1060;  // 900 + 80 padding each side
-  var VIEWBOX_H       = 700;   // 540 + 80 padding each side
-  var VIEWBOX_X       = -80;   // SVG units of left padding
-  var VIEWBOX_Y       = -80;   // SVG units of top padding
+  var VIEWBOX_W       = 1100;  // 900 + 100 padding each side
+  var VIEWBOX_H       = 780;   // 540 + 100 top + 140 bottom (C↔P fan)
+  var VIEWBOX_X       = -100;  // SVG units of left padding
+  var VIEWBOX_Y       = -100;  // SVG units of top padding
   var NODE_W          = 170;
   var NODE_H          = 56;
   var NODE_RX         = 8;
@@ -17,12 +17,12 @@
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
   var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
   var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
-  var STAGGER_RANGE_MIN    = 0.40; // label t-range start for dense bundles
-  var STAGGER_RANGE_MAX    = 0.60; // label t-range end   for dense bundles
+  var STAGGER_RANGE_MIN    = 0.30; // label t-range start for dense bundles
+  var STAGGER_RANGE_MAX    = 0.70; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers fanning + staggering
   var BOW_BASE        = 20;   // bow for first edge in a dense bundle (SVG units from chord midpoint)
-  var BOW_STEP        = 25;   // additional bow per edge index step
-  var BOW_MAX         = 200;  // cap — prevents S-curves on outermost edges
+  var BOW_STEP        = 35;   // additional bow per edge index step
+  var BOW_MAX         = 280;  // cap — prevents S-curves on outermost edges
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
