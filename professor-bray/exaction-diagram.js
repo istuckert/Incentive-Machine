@@ -15,8 +15,8 @@
   var PORT_SPACING_GC = 28;    // wider spacing for G↔C channel (7 edges; (7-1)*28=168 ≤ 170)
   var PORT_SPACING_AP_GOV  = 22;   // AP top face: 5 edges toward GOV (span 88 ≤ width 170)
   var PORT_SPACING_AP_COMP = 6;    // AP right face: 9 edges toward COMP (span 48 ≤ height 56)
-  var STAGGER_RANGE_MIN    = 0.25; // label t-range start for dense bundles
-  var STAGGER_RANGE_MAX    = 0.75; // label t-range end   for dense bundles
+  var STAGGER_RANGE_MIN    = 0.35; // label t-range start for dense bundles
+  var STAGGER_RANGE_MAX    = 0.65; // label t-range end   for dense bundles
   var STAGGER_THRESHOLD    = 3;    // combined bundle size that triggers staggering
 
   var POSITIONS = {
