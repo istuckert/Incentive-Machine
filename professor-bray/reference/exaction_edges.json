@@ -193,7 +193,8 @@
       "color_category": "money-out",
       "clusters": ["CL-1", "CL-2", "CL-3"],
       "source": "Terner Center; CA YIMBY (cayimby.org/reports/the-impact-of-fees/); HUD impact fees report.",
-      "modal": null
+      "modal": null,
+      "labelOverride": { "locked": true, "t": 0.18 }
     },
     {
       "id": "E-09",
