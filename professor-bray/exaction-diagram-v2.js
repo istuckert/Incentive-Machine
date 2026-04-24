@@ -29,9 +29,15 @@
   };
 
   var COLORS = {
-    'money-out':   '#C47A5A',
-    'money-in':    '#5C9468',
-    'legal-power': '#5A85C8'
+    'money-out':   '#B5623A',
+    'money-in':    '#4A7D58',
+    'legal-power': '#4A6FB5'
+  };
+
+  var COLORS_BORDER = {
+    'money-out':   '#5a2a14',
+    'money-in':    '#1e3d28',
+    'legal-power': '#1e2e5a'
   };
 
   var DIR_MAP = { 'G': 'N-GOV', 'C': 'N-COMP', 'P': 'N-PEOPLE' };
@@ -124,6 +130,23 @@
     nodeGrad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#2e3350' }));
     nodeGrad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#1a1e35' }));
     defs.appendChild(nodeGrad);
+
+    var textGlow = svgEl('filter', { id: 'v2-text-glow', x: '-50%', y: '-200%', width: '200%', height: '500%' });
+    textGlow.appendChild(svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '2', result: 'blur' }));
+    var feMerge = svgEl('feMerge', {});
+    feMerge.appendChild(svgEl('feMergeNode', { in: 'blur' }));
+    feMerge.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+    textGlow.appendChild(feMerge);
+    defs.appendChild(textGlow);
+
+    var labelTextGrad = svgEl('linearGradient', {
+      id: 'v2-label-text', gradientUnits: 'userSpaceOnUse',
+      x1: '0', y1: String(-LH / 2), x2: '0', y2: String(LH / 2)
+    });
+    labelTextGrad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#f0d080' }));
+    labelTextGrad.appendChild(svgEl('stop', { offset: '45%',  'stop-color': '#c4a550' }));
+    labelTextGrad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#7a5520' }));
+    defs.appendChild(labelTextGrad);
 
     var nodeBorder = svgEl('linearGradient', { id: 'v2-node-border', x1: '0', y1: '0', x2: '0', y2: '1' });
     nodeBorder.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#f0d080' }));
@@ -226,6 +249,14 @@
         eg.appendChild(svgEl('stop', { offset: '100%', 'stop-color': color, 'stop-opacity': '1' }));
         defs.appendChild(eg);
 
+        // Border layer
+        edgesG.appendChild(svgEl('path', {
+          d: d,
+          fill:           'none',
+          stroke:         COLORS_BORDER[edge.color_category] || '#0a0c14',
+          'stroke-width': String(SW + 4)
+        }));
+
         // Main edge path
         edgesG.appendChild(svgEl('path', {
           d: d,
@@ -251,7 +282,7 @@
         if (angle >  90) angle -= 180;
         if (angle < -90) angle += 180;
 
-        var lw = Math.max(edge.label.length * CW + 8, 20);
+        var lw = Math.max(edge.label.length * CW + 22, 20);
 
         var gLabel = svgEl('g', {
           transform: 'translate(' + lx.toFixed(1) + ',' + ly.toFixed(1) + ')' +
@@ -262,7 +293,9 @@
           y: String(-LH / 2),
           width:  String(lw.toFixed(1)),
           height: String(LH),
-          fill: '#1c2035',
+          fill:   '#1c2035',
+          stroke: '#c4a550',
+          'stroke-width': '1',
           rx:   '2'
         }));
         var txt = svgEl('text', {
@@ -271,7 +304,7 @@
           'text-anchor':       'middle',
           'font-size':         String(FS),
           'font-family':       "'DM Mono', monospace",
-          fill: '#e8e4dc'
+          fill:   'url(#v2-node-border)'
         });
         txt.textContent = edge.label;
         gLabel.appendChild(txt);
