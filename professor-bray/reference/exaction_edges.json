@@ -130,6 +130,7 @@
       "color_category": "legal-power",
       "clusters": ["CL-3"],
       "source": "Nollan, Dolan, Koontz case sequence.",
+      "labelOverride": { "locked": true, "t": 0.88 },
       "modal": null
     },
     {
@@ -139,6 +140,7 @@
       "color_category": "money-in",
       "clusters": ["CL-1"],
       "source": "Research Section 8 (Transfer Pricing); corporate filings for Lennar, D.R. Horton, Greystar.",
+      "labelOverride": { "locked": true, "t": 0.66 },
       "modal": null
     },
     {
@@ -148,6 +150,7 @@
       "color_category": "money-in",
       "clusters": ["CL-2"],
       "source": "irs.gov/pub/irs-drop/rr-02-9.pdf.",
+      "labelOverride": { "locked": true, "t": 0.88 },
       "modal": null
     },
     {
@@ -157,6 +160,7 @@
       "color_category": "money-in",
       "clusters": ["CL-4"],
       "source": "Novogradac LIHTC primer; CRS RS22389.",
+      "labelOverride": { "locked": true, "t": 0.72 },
       "modal": null
     },
     {
@@ -166,6 +170,7 @@
       "color_category": "money-in",
       "clusters": ["CL-4"],
       "source": "HUD Resident Fact Sheet 13; Niskanen Center analysis.",
+      "labelOverride": { "locked": true, "t": 0.91 },
       "modal": null
     },
     {
@@ -175,6 +180,7 @@
       "color_category": "legal-power",
       "clusters": ["CL-5", "CL-6"],
       "source": "FL Stat 720.309(2); 47 CFR 76.2000; FCC 2025 withdrawal coverage (Cord Cutters News).",
+      "labelOverride": { "locked": true, "t": 0.61 },
       "modal": null
     },
     {
@@ -184,6 +190,7 @@
       "color_category": "legal-power",
       "clusters": ["CL-6"],
       "source": "Research Section 13 (Solar PPA); solarpanelexit.com.",
+      "labelOverride": { "locked": true, "t": 0.86 },
       "modal": null
     },
     {
@@ -194,7 +201,7 @@
       "clusters": ["CL-1", "CL-2", "CL-3"],
       "source": "Terner Center; CA YIMBY (cayimby.org/reports/the-impact-of-fees/); HUD impact fees report.",
       "modal": null,
-      "labelOverride": { "locked": true, "t": 0.18 }
+      "labelOverride": { "locked": true, "t": 0.88 }
     },
     {
       "id": "E-09",
@@ -204,6 +211,7 @@
       "visual_note": "visually thin",
       "clusters": [],
       "source": "NMHC/NAA public statements; Cord Cutters News.",
+      "labelOverride": { "locked": true, "t": 0.64 },
       "modal": {
         "text": "A small dollar investment in lobbying produces a much larger return in favorable rules. The visual thinness of this edge relative to the thick subsidy edges returning from Government to Companies is itself the argument. When the FCC withdrew the Rosenworcel bulk-billing opt-out proposal in 2025, NMHC, NAA, and RETTC celebrated the withdrawal publicly — industry advocacy framing the protection of a developer revenue stream as a consumer benefit. The asymmetry between the cost of influence and the value of favorable rules is the structural feature. Source: NMHC/NAA public statements; Cord Cutters News."
       }
@@ -215,6 +223,7 @@
       "color_category": "legal-power",
       "clusters": ["CL-3"],
       "source": "Research Section 1 (Doctrinal Significance).",
+      "labelOverride": { "locked": true, "t": 0.85 },
       "modal": null
     },
     {
