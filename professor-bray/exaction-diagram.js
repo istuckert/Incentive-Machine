@@ -208,7 +208,19 @@
       }
       gcGovPorts.push(gpt);
     }
-    var gcCompPorts = spreadPorts('N-COMP', POSITIONS['N-GOV'],  gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
+    // COMP-side ports: horizontal spread centered at COMP center x (not the approach
+    // clip point, which sits 30px left of center and pushes gi=0 outside the node).
+    var compCx      = POSITIONS['N-COMP'].x;
+    var compCy      = POSITIONS['N-COMP'].y;
+    var compHH      = NODE_H / 2;
+    var gcCompPortY = compCy - compHH - ARROW_GAP;
+    var gcCompPorts = [];
+    for (var ci = 0; ci < gcN; ci++) {
+      gcCompPorts.push({
+        x: compCx + (ci - (gcN - 1) / 2) * PORT_SPACING_GC_UNIFIED,
+        y: gcCompPortY
+      });
+    }
     var govPortMap    = {};
     var compGcPortMap = {};
     gcAllBundle.forEach(function (e, i) {
