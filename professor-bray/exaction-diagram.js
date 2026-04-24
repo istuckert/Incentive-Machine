@@ -32,7 +32,7 @@
   var AP_C_UP_FAN_PORT_SPACING =  7;  // y-spacing between adjacent up-fan endpoints
   var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
   var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
-  var PORT_SPACING_GC_UNIFIED = 14;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
+  var PORT_SPACING_GC_UNIFIED = 18;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
   var GC_GOV_BOTTOM_SPAN  = 110;   // virtual bottom segment: px right of GOV center-bottom
   var GC_GOV_RIGHT_SPAN   = 110;   // virtual right segment: px up from bottom-right anchor
   var GC_GOV_RIGHT_SCALE  = 0.85;  // vertical compression for right segment (edges 6-10)
@@ -139,15 +139,15 @@
     Object.keys(EDGE_COLORS).forEach(function (cat) {
       var marker = svgEl('marker', {
         id:           'arrow-' + cat,
-        markerWidth:  '12',
-        markerHeight: '8',
-        refX:         '12',
-        refY:         '4',
+        markerWidth:  '21',
+        markerHeight: '14',
+        refX:         '0',
+        refY:         '7',
         orient:       'auto',
         markerUnits:  'userSpaceOnUse'
       });
       marker.appendChild(svgEl('path', {
-        d:    'M0,0 L0,8 L12,4 z',
+        d:    'M0,0 L0,14 L21,7 z',
         fill: EDGE_COLORS[cat]
       }));
       defs.appendChild(marker);
@@ -203,22 +203,22 @@
       var pos = (gcN === 1) ? 0 : gi * gcPathTotal / (gcN - 1);
       var gpt;
       if (pos <= gcPathBottom) {
-        gpt = { x: govCx + pos,                y: govCy + govHH };
+        gpt = { x: govCx + pos,                y: govCy + govHH + 21 };
       } else {
         gpt = { x: govCx + GC_GOV_BOTTOM_SPAN, y: govCy + govHH - (pos - gcPathBottom) * GC_GOV_RIGHT_SCALE };
       }
       gcGovPorts.push(gpt);
     }
-    // COMP-side ports: horizontal spread centered at COMP center x (not the approach
-    // clip point, which sits 30px left of center and pushes gi=0 outside the node).
-    var compCx      = POSITIONS['N-COMP'].x;
-    var compCy      = POSITIONS['N-COMP'].y;
-    var compHH      = NODE_H / 2;
-    var gcCompPortY = compCy - compHH - ARROW_GAP;
-    var gcCompPorts = [];
+    // COMP-side ports: left-anchored spread — leftmost port stays fixed, spacing expands rightward only.
+    var compCx        = POSITIONS['N-COMP'].x;
+    var compCy        = POSITIONS['N-COMP'].y;
+    var compHH        = NODE_H / 2;
+    var gcCompPortY   = compCy - compHH - ARROW_GAP - 21;
+    var gcCompLeftX   = compCx - (gcN - 1) / 2 * PORT_SPACING_GC_UNIFIED;
+    var gcCompPorts   = [];
     for (var ci = 0; ci < gcN; ci++) {
       gcCompPorts.push({
-        x: compCx + (ci - (gcN - 1) / 2) * PORT_SPACING_GC_UNIFIED,
+        x: gcCompLeftX + ci * PORT_SPACING_GC_UNIFIED,
         y: gcCompPortY
       });
     }
@@ -420,7 +420,7 @@
           ].join(' '),
           fill:           'none',
           stroke:         color,
-          'stroke-width': '3',
+          'stroke-width': '12',
           'marker-end':   'url(#arrow-' + edge.color_category + ')',
           class:          'exaction-edge edge-' + edge.color_category,
           'data-edge-id': edge.id
