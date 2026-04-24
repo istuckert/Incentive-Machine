@@ -185,7 +185,7 @@
     },
     {
       "id": "E-07",
-      "label": "Captive Geography Enforcement",
+      "label": "Captive Geography",
       "direction": "G → C",
       "color_category": "legal-power",
       "clusters": ["CL-6"],
@@ -353,7 +353,7 @@
     },
     {
       "id": "E-23",
-      "label": "Section 8 Voucher (authorization)",
+      "label": "Section 8 Voucher",
       "direction": "G → P",
       "color_category": "legal-power",
       "clusters": ["CL-4"],
