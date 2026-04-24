@@ -403,9 +403,10 @@
             dstPt = apPortMap[edge.id];
           } else if (parsed.dst === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
             dstPt = compPortMap[edge.id];
-          } else {
+          } else if (!isGCBundle) {
             dstPt = dstPorts[i];
           }
+          // isGCBundle: dstPt already set correctly in first block — do not overwrite.
         }
         var color  = EDGE_COLORS[edge.color_category] || '#888';
 
