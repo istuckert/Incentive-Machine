@@ -12,9 +12,9 @@
   var DST_GAP = 36; // pull-back at destination end (AL + equal node whitespace)
   var AW   = 16;   // arrowhead base width
   var BOW  = 130;  // uniform bow magnitude for all bundles
-  var FS   = 14;   // label font size
+  var FS   = 16;   // label font size
   var LH   = 20;   // label box height
-  var CW   = 7.8;  // estimated px per character at FS=14
+  var CW   = 9.2;  // estimated px per character at FS=16
 
   var POS = {
     'N-GOV':    { x: 600,  y: 80   },
@@ -197,9 +197,10 @@
           'marker-end':   'url(#v2-arr-' + edge.color_category + ')'
         }));
 
-        // Label: stagger t along the curve to reduce overlap
-        var tMin = 0.30, tMax = 0.70;
-        var t = (n === 1) ? 0.50 : tMin + (tMax - tMin) * i / (n - 1);
+        // Label: near arrowhead end for all bundles
+        var tMin = 0.78;
+        var tMax = 0.92;
+        var t = (n === 1) ? tMin : tMin + (tMax - tMin) * i / (n - 1);
         var lx = (1-t)*(1-t)*srcPt.x + 2*(1-t)*t*cpX + t*t*drawX;
         var ly = (1-t)*(1-t)*srcPt.y + 2*(1-t)*t*cpY + t*t*drawY;
 
