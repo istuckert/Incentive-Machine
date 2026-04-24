@@ -6,8 +6,8 @@
   var VIEWBOX_H       = 1000;  // split fan peaks at y≈756 below, y≈352 above; canvas bottom y=850
   var VIEWBOX_X       = -150;  // SVG units of left padding
   var VIEWBOX_Y       = -150;  // SVG units of top padding
-  var NODE_W          = 170;
-  var NODE_H          = 56;
+  var NODE_W          = 286;
+  var NODE_H          = 94;
   var NODE_RX         = 8;
   var NODE_FONT_SIZE  = '20';
   var LABEL_FONT_SIZE = '11';
@@ -30,10 +30,10 @@
   var AP_C_UP_FAN_CP_X_SPREAD  = 90;  // horizontal spread per half-step for up-fan control points
   var AP_C_UP_FAN_PORT_Y_TOP   = 14;  // SVG units above node center for up-fan endpoint y-start
   var AP_C_UP_FAN_PORT_SPACING =  7;  // y-spacing between adjacent up-fan endpoints
-  var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
-  var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
-  var PORT_SPACING_GC_UNIFIED = 18;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
-  var GC_GOV_BOTTOM_SPAN  = 110;   // virtual bottom segment: px right of GOV center-bottom
+  var BOW_BASE_GC = 100;  // G↔C unified fan base
+  var BOW_MAX_GC  = 160;  // G↔C cap — tight range for consistent arc spacing
+  var PORT_SPACING_GC_UNIFIED = 22;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
+  var GC_GOV_BOTTOM_SPAN  = 150;   // virtual bottom segment: px right of GOV center-bottom
   var GC_GOV_RIGHT_SPAN   = 110;   // virtual right segment: px up from bottom-right anchor
   var GC_GOV_RIGHT_SCALE  = 0.85;  // vertical compression for right segment (edges 6-10)
 
@@ -369,11 +369,23 @@
         // Small bundles (< STAGGER_THRESHOLD): legacy left-perpendicular offset.
         var bowIdx = bowIndexMap[edge.id];
         var cpX, cpY;
+        var isUpFan = isAPCBundle && bowOutwardMap[edge.id] && bowOutwardMap[edge.id].oy === -1;
+        var srcPt, dstPt;
+
+        // G↔C: resolve ports first so control point uses actual port midpoint,
+        // ensuring consistent bow direction for both G→C and C→G edges.
+        if (isGCBundle && govPortMap[edge.id]) {
+          srcPt = (parsed.src === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
+          dstPt = (parsed.dst === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
+        }
+
         if (bowIdx !== undefined) {
           var outward = bowOutwardMap[edge.id];
           var bow = Math.min(bBase + bStep * bowIdx, bMax);
-          cpX = midX + outward.ox * bow + (bowCpXOffMap[edge.id] || 0);
-          cpY = midY + outward.oy * bow;
+          var cpMidX = (srcPt && dstPt) ? (srcPt.x + dstPt.x) / 2 : midX;
+          var cpMidY = (srcPt && dstPt) ? (srcPt.y + dstPt.y) / 2 : midY;
+          cpX = cpMidX + outward.ox * bow + (bowCpXOffMap[edge.id] || 0);
+          cpY = cpMidY + outward.oy * bow;
         } else {
           var offset = (22 + i * 28) * fanSign;
           cpX = midX + pX * offset;
@@ -381,23 +393,20 @@
         }
         var cp = { x: cpX, y: cpY };
 
-        var isUpFan = isAPCBundle && bowOutwardMap[edge.id] && bowOutwardMap[edge.id].oy === -1;
-        var srcPt, dstPt;
-        if (isGCBundle && govPortMap[edge.id]) {
-          srcPt = (parsed.src === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
-          dstPt = (parsed.dst === 'N-GOV') ? govPortMap[edge.id]    : compGcPortMap[edge.id];
-        } else if (isUpFan) {
+        if (isUpFan) {
           var upFanPortY  = POSITIONS['N-PEOPLE'].y - AP_C_UP_FAN_PORT_Y_TOP + bowIndexMap[edge.id] * AP_C_UP_FAN_PORT_SPACING;
           var apUpFanPt   = { x: POSITIONS['N-PEOPLE'].x + NODE_W / 2, y: upFanPortY };
           var compUpFanPt = { x: POSITIONS['N-COMP'].x   - NODE_W / 2, y: upFanPortY };
           srcPt = (parsed.src === 'N-PEOPLE') ? apUpFanPt : compUpFanPt;
           dstPt = (parsed.dst === 'N-PEOPLE') ? apUpFanPt : compUpFanPt;
-        } else if (parsed.src === 'N-PEOPLE' && apPortMap[edge.id]) {
-          srcPt = apPortMap[edge.id];
-        } else if (parsed.src === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
-          srcPt = compPortMap[edge.id];
-        } else {
-          srcPt = srcPorts[i];
+        } else if (!isGCBundle) {
+          if (parsed.src === 'N-PEOPLE' && apPortMap[edge.id]) {
+            srcPt = apPortMap[edge.id];
+          } else if (parsed.src === 'N-COMP' && isAPCBundle && compPortMap[edge.id]) {
+            srcPt = compPortMap[edge.id];
+          } else {
+            srcPt = srcPorts[i];
+          }
         }
         if (!isUpFan) {
           if (parsed.dst === 'N-PEOPLE' && apPortMap[edge.id]) {
