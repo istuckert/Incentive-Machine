@@ -6,7 +6,7 @@
 
   var VX = -320, VY = -200, VW = 1960, VH = 1400;
   var NW = 340, NH = 110, NRX = 10;
-  var SW   = 7;    // stroke width
+  var SW   = 9;    // stroke width
   var SG   = 10;   // gap between adjacent edges
   var AL   = 18;   // arrowhead length
   var DST_GAP = 36; // pull-back at destination end (AL + equal node whitespace)
@@ -110,7 +110,21 @@
       }));
       defs.appendChild(m);
     });
+    var grad = svgEl('radialGradient', {
+      id: 'v2-bg',
+      gradientUnits: 'userSpaceOnUse',
+      cx: String(CENTROID_X), cy: String(CENTROID_Y),
+      r:  '1100'
+    });
+    grad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#252a42' }));
+    grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#0d1020' }));
+    defs.appendChild(grad);
     svg.appendChild(defs);
+
+    svg.appendChild(svgEl('rect', {
+      x: String(VX), y: String(VY), width: String(VW), height: String(VH),
+      fill: 'url(#v2-bg)'
+    }));
 
     // Group edges by sorted node-pair bundle key
     var bundles = {};
@@ -186,15 +200,20 @@
         var drawSrcY = srcPt.y + (sdy / sl2) * AL;
 
         var color = COLORS[edge.color_category] || '#888';
+        var d = 'M ' + drawSrcX.toFixed(1) + ' ' + drawSrcY.toFixed(1) +
+                ' Q ' + cpX.toFixed(1) + ' ' + cpY.toFixed(1) +
+                ' '   + drawX.toFixed(1) + ' ' + drawY.toFixed(1);
+        var clusters = (edge.clusters && edge.clusters.length) ? edge.clusters.join(',') : '';
 
+        // Main edge path
         edgesG.appendChild(svgEl('path', {
-          d: 'M ' + drawSrcX.toFixed(1) + ' ' + drawSrcY.toFixed(1) +
-             ' Q ' + cpX.toFixed(1) + ' ' + cpY.toFixed(1) +
-             ' '   + drawX.toFixed(1) + ' ' + drawY.toFixed(1),
-          fill:           'none',
-          stroke:         color,
-          'stroke-width': String(SW),
-          'marker-end':   'url(#v2-arr-' + edge.color_category + ')'
+          d: d,
+          fill:             'none',
+          stroke:           color,
+          'stroke-width':   String(SW),
+          'marker-end':     'url(#v2-arr-' + edge.color_category + ')',
+          'data-edge-id':   edge.id,
+          'data-clusters':  clusters
         }));
 
         // Label: near arrowhead end for all bundles
