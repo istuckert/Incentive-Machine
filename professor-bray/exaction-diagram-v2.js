@@ -119,6 +119,17 @@
     grad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#252a42' }));
     grad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#0d1020' }));
     defs.appendChild(grad);
+
+    var nodeGrad = svgEl('linearGradient', { id: 'v2-node-fill', x1: '0', y1: '0', x2: '0', y2: '1' });
+    nodeGrad.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#2e3350' }));
+    nodeGrad.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#1a1e35' }));
+    defs.appendChild(nodeGrad);
+
+    var nodeBorder = svgEl('linearGradient', { id: 'v2-node-border', x1: '0', y1: '0', x2: '0', y2: '1' });
+    nodeBorder.appendChild(svgEl('stop', { offset: '0%',   'stop-color': '#f0d080' }));
+    nodeBorder.appendChild(svgEl('stop', { offset: '45%',  'stop-color': '#c4a550' }));
+    nodeBorder.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#7a5520' }));
+    defs.appendChild(nodeBorder);
     svg.appendChild(defs);
 
     svg.appendChild(svgEl('rect', {
@@ -205,11 +216,21 @@
                 ' '   + drawX.toFixed(1) + ' ' + drawY.toFixed(1);
         var clusters = (edge.clusters && edge.clusters.length) ? edge.clusters.join(',') : '';
 
+        var egId = 'v2-eg-' + edge.id;
+        var eg = svgEl('linearGradient', {
+          id: egId, gradientUnits: 'userSpaceOnUse',
+          x1: drawSrcX.toFixed(1), y1: drawSrcY.toFixed(1),
+          x2: drawX.toFixed(1),    y2: drawY.toFixed(1)
+        });
+        eg.appendChild(svgEl('stop', { offset: '0%',   'stop-color': color, 'stop-opacity': '0.35' }));
+        eg.appendChild(svgEl('stop', { offset: '100%', 'stop-color': color, 'stop-opacity': '1' }));
+        defs.appendChild(eg);
+
         // Main edge path
         edgesG.appendChild(svgEl('path', {
           d: d,
           fill:             'none',
-          stroke:           color,
+          stroke:           'url(#' + egId + ')',
           'stroke-width':   String(SW),
           'marker-end':     'url(#v2-arr-' + edge.color_category + ')',
           'data-edge-id':   edge.id,
@@ -217,8 +238,8 @@
         }));
 
         // Label: near arrowhead end for all bundles
-        var tMin = 0.78;
-        var tMax = 0.92;
+        var tMin = 0.72;
+        var tMax = 0.86;
         var t = (n === 1) ? tMin : tMin + (tMax - tMin) * i / (n - 1);
         var lx = (1-t)*(1-t)*srcPt.x + 2*(1-t)*t*cpX + t*t*drawX;
         var ly = (1-t)*(1-t)*srcPt.y + 2*(1-t)*t*cpY + t*t*drawY;
@@ -264,15 +285,22 @@
     var nodesG = svgEl('g', {});
     Object.keys(POS).forEach(function (id) {
       var p = POS[id];
+      var bw = 2.5;
+      nodesG.appendChild(svgEl('rect', {
+        x:      String(p.x - NW / 2 - bw),
+        y:      String(p.y - NH / 2 - bw),
+        width:  String(NW + bw * 2),
+        height: String(NH + bw * 2),
+        rx:     String(NRX + bw),
+        fill:   'url(#v2-node-border)'
+      }));
       nodesG.appendChild(svgEl('rect', {
         x:      String(p.x - NW / 2),
         y:      String(p.y - NH / 2),
         width:  String(NW),
         height: String(NH),
         rx:     String(NRX),
-        fill:   '#1c2035',
-        stroke: 'rgba(232,228,220,0.25)',
-        'stroke-width': '2'
+        fill:   'url(#v2-node-fill)'
       }));
       var label = svgEl('text', {
         x: String(p.x), y: String(p.y),
@@ -280,6 +308,7 @@
         'text-anchor':       'middle',
         'font-size':         '26',
         'font-weight':       '600',
+        'letter-spacing':    '0.04em',
         'font-family':       "'DM Sans', sans-serif",
         fill: '#e8e4dc'
       });
