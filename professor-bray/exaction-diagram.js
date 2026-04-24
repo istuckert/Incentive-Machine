@@ -33,8 +33,8 @@
   var BOW_BASE_GC = 55;   // G↔C unified fan base (preserves liked-edge bows: li=0→bow=55)
   var BOW_MAX_GC  = 400;  // G↔C cap — extended 10-edge fan; outermost bow=370
   var PORT_SPACING_GC_UNIFIED = 14;  // unified 10-port spread on GOV and COMP faces (9×14=126px)
-  var GC_GOV_DIAG_DX = 136;  // GOV-side diagonal total x span (220px toward COMP, unit 0.616)
-  var GC_GOV_DIAG_DY = 173;  // GOV-side diagonal total y span (220px toward COMP, unit 0.788)
+  var GC_GOV_BOTTOM_SPAN = 110;  // virtual bottom segment: px right of GOV center-bottom
+  var GC_GOV_RIGHT_SPAN  = 110;  // virtual right segment: px up from bottom-right anchor
 
   var POSITIONS = {
     'N-GOV':    { x: 450, y: 50  },
@@ -178,31 +178,35 @@
     var compPortMap = {};
     apCompBundle.forEach(function (e, i) { compPortMap[e.id] = cpCompPorts[i]; });
 
-    // Unified G↔C port maps — 10 edges sorted liked-first then changed, matching the
-    // staggerTMap loop order. Single spreadPorts call per face eliminates the pile-up
-    // caused by two independent per-direction spreads landing on the same clip point.
-    var GC_CHANGED_PRE = { 'E-01': true, 'E-08': true, 'E-09': true, 'E-10': true };
+    // Unified G↔C port maps — C→G edges first (arrowheads land on horizontal bottom
+    // segment of the L, visually connected to GOV), then G→C edges continuing along
+    // the L. Matching order used in staggerTMap loop below.
     var gcAllBundle = ((groups['G → C'] || []).concat(groups['C → G'] || []))
       .sort(function (a, b) {
-        var aC = GC_CHANGED_PRE[a.id] ? 1 : 0;
-        var bC = GC_CHANGED_PRE[b.id] ? 1 : 0;
-        if (aC !== bC) return aC - bC;
+        var aCtG = (a.direction === 'C → G') ? 0 : 1;
+        var bCtG = (b.direction === 'C → G') ? 0 : 1;
+        if (aCtG !== bCtG) return aCtG - bCtG;
         return a.id < b.id ? -1 : 1;
       });
-    // GOV-side ports: walk center-bottom → bottom-right corner → top-right corner.
-    // Two segments offset outward by ARROW_GAP; 10 points evenly spaced end-to-end.
+    // GOV-side ports: L-path from center-bottom rightward then upward along right side.
     var gcN          = gcAllBundle.length;
     var govCx        = POSITIONS['N-GOV'].x;
     var govCy        = POSITIONS['N-GOV'].y;
     var govHW        = NODE_W / 2;                       // 85
     var govHH        = NODE_H / 2;                       // 28
-    var gcGovPorts = [];
+    var gcPathBottom = GC_GOV_BOTTOM_SPAN;
+    var gcPathRight  = GC_GOV_RIGHT_SPAN;
+    var gcPathTotal  = gcPathBottom + gcPathRight;
+    var gcGovPorts   = [];
     for (var gi = 0; gi < gcN; gi++) {
-      var t = (gcN === 1) ? 0 : gi / (gcN - 1);
-      gcGovPorts.push({
-        x: govCx + govHW + t * GC_GOV_DIAG_DX,
-        y: govCy + govHH + t * GC_GOV_DIAG_DY
-      });
+      var pos = (gcN === 1) ? 0 : gi * gcPathTotal / (gcN - 1);
+      var gpt;
+      if (pos <= gcPathBottom) {
+        gpt = { x: govCx + pos,                y: govCy + govHH };
+      } else {
+        gpt = { x: govCx + GC_GOV_BOTTOM_SPAN, y: govCy + govHH - (pos - gcPathBottom) };
+      }
+      gcGovPorts.push(gpt);
     }
     var gcCompPorts = spreadPorts('N-COMP', POSITIONS['N-GOV'],  gcAllBundle.length, PORT_SPACING_GC_UNIFIED);
     var govPortMap    = {};
@@ -277,12 +281,11 @@
         if (outOx * (midX2 - CENTROID_X) + outOy * (midY2 - CENTROID_Y) < 0) {
           outOx = -outOx; outOy = -outOy;
         }
-        var GC_CHANGED = { 'E-01': true, 'E-08': true, 'E-09': true, 'E-10': true };
         var gcAll = bundle.slice().sort(function (a, b) {
-          var aC = GC_CHANGED[a.id] ? 1 : 0;
-          var bC = GC_CHANGED[b.id] ? 1 : 0;
-          if (aC !== bC) return aC - bC;        // liked before changed
-          return a.id < b.id ? -1 : 1;          // within each group, sort by id
+          var aCtG = (a.direction === 'C → G') ? 0 : 1;
+          var bCtG = (b.direction === 'C → G') ? 0 : 1;
+          if (aCtG !== bCtG) return aCtG - bCtG;  // C→G first (matches port map order)
+          return a.id < b.id ? -1 : 1;
         });
         var gcN = gcAll.length;
         gcAll.forEach(function (e, li) {
