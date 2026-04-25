@@ -155,9 +155,16 @@
     defs.appendChild(nodeBorder);
     svg.appendChild(defs);
 
+    svg.appendChild(svgEl('image', {
+      href: '../assets/bg-diagram.jpeg',
+      x: String(VX), y: String(VY), width: String(VW), height: String(VH),
+      preserveAspectRatio: 'xMidYMid slice'
+    }));
+
     svg.appendChild(svgEl('rect', {
       x: String(VX), y: String(VY), width: String(VW), height: String(VH),
-      fill: 'url(#v2-bg)'
+      fill: 'url(#v2-bg)',
+      opacity: '0.78'
     }));
 
     // Group edges by sorted node-pair bundle key
