@@ -4,7 +4,7 @@
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
-  var VX = -320, VY = -200, VW = 1960, VH = 1400;
+  var VX = -320, VY = -200, VW = 1960, VH = 1100;
   var NW = 340, NH = 110, NRX = 10;
   var SW   = 9;    // stroke width
   var SG   = 10;   // gap between adjacent edges
@@ -402,7 +402,7 @@
       fill: 'url(#v2-label-text)'
     });
     hintTxt.textContent = '↓ click an arrow';
-    hintEl = svgEl('g', { transform: 'translate(610, 1075)' });
+    hintEl = svgEl('g', { transform: 'translate(610, 890)' });
     hintEl.style.opacity    = '0.6';
     hintEl.style.transition = 'opacity 0.4s ease';
     hintEl.appendChild(hintTxt);
