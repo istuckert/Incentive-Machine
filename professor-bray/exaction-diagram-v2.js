@@ -42,8 +42,10 @@
 
   var DIR_MAP = { 'G': 'N-GOV', 'C': 'N-COMP', 'P': 'N-PEOPLE' };
 
-  var edgeData   = null;
-  var clusterMap = {};
+  var edgeData      = null;
+  var clusterMap    = {};
+  var edgeGroupMap  = {};
+  var labelGroupMap = {};
 
   var CENTROID_X = (600 + 1300 + (-80)) / 3;
   var CENTROID_Y = (80 + 780 + 780) / 3;
@@ -92,7 +94,10 @@
   var GOV_ZONE_RIGHT = 700;  // G↔C ports centered right of GOV center (600)
 
   function render(data) {
-    edgeData = data;
+    edgeData      = data;
+    clusterMap    = {};
+    edgeGroupMap  = {};
+    labelGroupMap = {};
     data.clusters.forEach(function (c) { clusterMap[c.id] = c; });
     var container = document.getElementById('exaction-diagram-v2');
     if (!container) return;
@@ -262,26 +267,29 @@
         eg.appendChild(svgEl('stop', { offset: '100%', 'stop-color': color, 'stop-opacity': '1' }));
         defs.appendChild(eg);
 
-        // Border layer
-        edgesG.appendChild(svgEl('path', {
-          d: d,
-          fill:            'none',
-          stroke:          COLORS_BORDER[edge.color_category] || '#0a0c14',
-          'stroke-width':  String(thisSW + 4),
+        var edgeGroup = svgEl('g', {
           'data-edge-id':  edge.id,
           'data-clusters': clusters
-        }));
-
-        // Main edge path
-        edgesG.appendChild(svgEl('path', {
+        });
+        edgeGroup.appendChild(svgEl('path', {
           d: d,
-          fill:             'none',
-          stroke:           'url(#' + egId + ')',
-          'stroke-width':   String(thisSW),
-          'marker-end':     'url(#v2-arr-' + edge.color_category + ')',
-          'data-edge-id':   edge.id,
-          'data-clusters':  clusters
+          fill:           'none',
+          stroke:         COLORS_BORDER[edge.color_category] || '#0a0c14',
+          'stroke-width': String(thisSW + 4)
         }));
+        edgeGroup.appendChild(svgEl('path', {
+          d: d,
+          fill:           'none',
+          stroke:         'url(#' + egId + ')',
+          'stroke-width': String(thisSW),
+          'marker-end':   'url(#v2-arr-' + edge.color_category + ')'
+        }));
+        (function (eid) {
+          edgeGroup.addEventListener('mouseenter', function () { onEdgeEnter(eid); });
+          edgeGroup.addEventListener('mouseleave', onEdgeLeave);
+        }(edge.id));
+        edgesG.appendChild(edgeGroup);
+        edgeGroupMap[edge.id] = edgeGroup;
 
         // Label: near arrowhead end for all bundles
         var tMin = 0.72;
@@ -324,6 +332,7 @@
         txt.textContent = edge.label;
         gLabel.appendChild(txt);
         labelsG.appendChild(gLabel);
+        labelGroupMap[edge.id] = gLabel;
       });
     });
 
@@ -367,6 +376,47 @@
 
     svg.addEventListener('click', handleClick);
     container.appendChild(svg);
+  }
+
+  function setEdgeOpacity(id, opacity) {
+    if (edgeGroupMap[id])  edgeGroupMap[id].style.opacity  = opacity;
+    if (labelGroupMap[id]) labelGroupMap[id].style.opacity = opacity;
+  }
+
+  function onEdgeEnter(edgeId) {
+    if (!edgeData) return;
+    var edge = null;
+    for (var i = 0; i < edgeData.edges.length; i++) {
+      if (edgeData.edges[i].id === edgeId) { edge = edgeData.edges[i]; break; }
+    }
+    if (!edge) return;
+
+    var clusters       = edge.clusters || [];
+    var primaryCluster = clusters[0] || null;
+    var secondary      = clusters.slice(1);
+
+    var primarySet   = {};
+    var secondarySet = {};
+
+    edgeData.edges.forEach(function (e) {
+      var ec = e.clusters || [];
+      if (primaryCluster && ec.indexOf(primaryCluster) !== -1) {
+        primarySet[e.id] = true;
+      } else {
+        secondary.forEach(function (sc) {
+          if (ec.indexOf(sc) !== -1) secondarySet[e.id] = true;
+        });
+      }
+    });
+
+    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 0.12); });
+    Object.keys(secondarySet).forEach(function (id) { setEdgeOpacity(id, 0.45); });
+    Object.keys(primarySet).forEach(function (id)   { setEdgeOpacity(id, 1);    });
+    setEdgeOpacity(edgeId, 1);
+  }
+
+  function onEdgeLeave() {
+    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 1); });
   }
 
   function handleClick(evt) {
