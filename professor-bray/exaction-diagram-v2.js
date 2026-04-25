@@ -447,7 +447,12 @@
     var bodyEl = document.getElementById('exaction-info-body');
     if (!panel) return;
 
-    panel.style.display = 'block';
+    if (panel.style.display !== 'block') {
+      panel.style.display = 'block';
+      requestAnimationFrame(function () { panel.classList.add('visible'); });
+      var hint = document.getElementById('exaction-hint');
+      if (hint) hint.classList.add('hidden');
+    }
     tabsEl.innerHTML = '';
 
     var clusters      = edge.clusters || [];

@@ -234,10 +234,25 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
 /* ── EDGE INFO PANEL ── */
 #exaction-info-panel {
   display: none;
+  opacity: 0;
+  transition: opacity 0.32s ease;
   margin-top: 0;
   border-top: 1px solid rgba(196,165,80,0.35);
   background: rgba(10,12,22,0.94);
 }
+#exaction-info-panel.visible { opacity: 1; }
+.diagram-click-hint {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.4rem 0 0.1rem;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.diagram-click-hint.hidden { opacity: 0; }
 #exaction-info-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -375,6 +390,7 @@ footer { background: var(--bg-dark); border-top: 1px solid var(--border-dark); p
       <p class="diagram-hinge-label">Quid pro quo, as stated.</p>
       <p class="diagram-section-subtitle">The nexus and the proportionality the doctrine requires — permits in exchange for infrastructure the new development's impact requires.</p>
       <p class="diagram-hinge-label">Quid pro quo, as practiced.</p>
+      <p id="exaction-hint" class="diagram-click-hint">↓ click an arrow</p>
       <div style="padding:0;">
         <div id="exaction-diagram-v2"></div>
         <div id="exaction-info-panel">
