@@ -46,6 +46,7 @@
   var clusterMap    = {};
   var edgeGroupMap  = {};
   var labelGroupMap = {};
+  var hintEl        = null;
 
   var CENTROID_X = (600 + 1300 + (-80)) / 3;
   var CENTROID_Y = (80 + 780 + 780) / 3;
@@ -98,6 +99,7 @@
     clusterMap    = {};
     edgeGroupMap  = {};
     labelGroupMap = {};
+    hintEl        = null;
     data.clusters.forEach(function (c) { clusterMap[c.id] = c; });
     var container = document.getElementById('exaction-diagram-v2');
     if (!container) return;
@@ -381,6 +383,22 @@
     });
     svg.appendChild(nodesG);
 
+    var hintTxt = svgEl('text', {
+      x: '610', y: '1075',
+      'text-anchor':       'middle',
+      'dominant-baseline': 'middle',
+      'font-size':         '17',
+      'font-family':       "'DM Mono', monospace",
+      'letter-spacing':    '0.1em',
+      fill: '#a09a8e'
+    });
+    hintTxt.textContent = '↓ click an arrow';
+    hintEl = svgEl('g', {});
+    hintEl.style.opacity    = '0.6';
+    hintEl.style.transition = 'opacity 0.4s ease';
+    hintEl.appendChild(hintTxt);
+    svg.appendChild(hintEl);
+
     svg.addEventListener('click', handleClick);
     container.appendChild(svg);
   }
@@ -450,8 +468,7 @@
     if (panel.style.display !== 'block') {
       panel.style.display = 'block';
       requestAnimationFrame(function () { panel.classList.add('visible'); });
-      var hint = document.getElementById('exaction-hint');
-      if (hint) hint.classList.add('hidden');
+      if (hintEl) hintEl.style.opacity = '0';
     }
     tabsEl.innerHTML = '';
 
