@@ -1,0 +1,407 @@
+{
+  "title": "UTILITY TRIANGLE — EDGE INVENTORY v1",
+  "description": "Nodes, clusters, and edges for the utility diagram. Three nodes: Government, Companies, American People. Six clusters. 26 edges. New color category: suppressed (half-length arrow, no arrowhead, click opens modal). Source of truth for utility-diagram.js build.",
+  "nodes": [
+    {
+      "id": "N-GOV",
+      "label": "Government",
+      "position": "top center",
+      "modal": {
+        "structure": "table of actors by jurisdictional tier, followed by a short prose paragraph on the structural role",
+        "table": {
+          "headers": ["Tier", "Actors"],
+          "rows": [
+            {
+              "tier": "Federal",
+              "actors": "FERC, DOE, Congress (PUHCA 1935, Rural Electrification Act, federal tax equity rules, EV tax credits, loan guarantee programs)"
+            },
+            {
+              "tier": "State — regulatory",
+              "actors": "Public Utility Commissions (50 state + DC), commissioners appointed in 40 states and elected in 10"
+            },
+            {
+              "tier": "State — legislative",
+              "actors": "state legislatures enacting bailout statutes (Ohio HB6, Indiana HB1414, West Virginia Pleasants Power tax break, Mississippi § 77-3-271(3), Kansas § 66-101i)"
+            },
+            {
+              "tier": "State — executive",
+              "actors": "governors who sign utility-friendly legislation and receive utility political contributions (DeWine, Justice)"
+            },
+            {
+              "tier": "Cooperative",
+              "actors": "rural electric cooperative authorities"
+            }
+          ]
+        },
+        "prose": "Utility regulation is distributed across federal and state bodies with no single agency holding jurisdiction over the complete pattern. FERC regulates interstate transmission and wholesale markets; state PUCs set retail rates and approve rate base; state legislatures pass statutes that bypass PUC review entirely (direct ratepayer surcharges, below-cost contract authorizations). When FERC in 2022 banned two return-on-equity models from federal proceedings for defying general financial logic, state PUCs continued using them. The fragmentation is not incidental — it is the structural condition that lets the same conduct be legal at one level and invisible at another."
+      }
+    },
+    {
+      "id": "N-COMP",
+      "label": "Companies",
+      "position": "bottom right",
+      "modal": {
+        "structure": "table of corporate-family layers including coordination infrastructure, followed by a short prose paragraph on the same-family-both-sides logic",
+        "table": {
+          "headers": ["Layer", "Examples"],
+          "rows": [
+            {
+              "layer": "Investor-owned utilities (IOUs)",
+              "examples": "PG&E, Southern California Edison, Duke Energy, FirstEnergy, Exelon (delivery), Dominion Energy, Arizona Public Service, Xcel Energy, We Energies, DTE Electric, SoCalGas, Georgia Power, AEP"
+            },
+            {
+              "layer": "Generation subsidiaries",
+              "examples": "Energy Harbor (formerly FirstEnergy Solutions), Constellation (formerly under Exelon)"
+            },
+            {
+              "layer": "Industry trade architecture",
+              "examples": "Edison Electric Institute (EEI), National Association of Regulatory Utility Commissioners (NARUC)"
+            },
+            {
+              "layer": "Rate-case consulting pipeline",
+              "examples": "Society of Utility and Regulatory Financial Analysts (SURFA); four consulting firms accounting for ~90% of testimony in rate cases"
+            },
+            {
+              "layer": "Solar PPA operators",
+              "examples": "Sunrun and similar providers whose contracts attach to home titles"
+            },
+            {
+              "layer": "Hyperscale / data-center load",
+              "examples": "Amazon, Google, Meta, Microsoft (as the customers reshaping the rate base through special contracts and co-location arrangements)"
+            }
+          ]
+        },
+        "prose": "IOUs serve approximately 72% of U.S. electricity customers and operate as state-granted monopolies within their service territories. The corporate family often spans both regulated and unregulated operations — the delivery utility and the generation subsidiary may be separate legal entities but the same ultimate owner. FERC's own cross-subsidization rule exists because affiliated-party sales 'could be made at a rate that is too high, which would give an undue profit to the affiliated [power plant] at the expense of the franchised public utility's captive customers.' Edison Electric Institute and NARUC are not utilities themselves but function as coordination infrastructure that gives the national pattern its coherence — EEI awarded FirstEnergy for the HB6 bailout legislation; NARUC networks the commissioners who sit across the rate-case table from the utilities they used to work for or will work for again."
+      }
+    },
+    {
+      "id": "N-PEOPLE",
+      "label": "American People",
+      "position": "bottom left",
+      "modal": {
+        "structure": "list of roles, followed by a short prose paragraph on the captive-geography principle",
+        "roles": [
+          "Federal income taxpayer (funds federal subsidies, loan guarantees, and EV tax credits that flow to utilities and affiliated entities)",
+          "State taxpayer (funds state-level tax breaks and direct bailouts)",
+          "Residential ratepayer (captive to service-territory monopoly)",
+          "Industrial ratepayer (captive to the same monopoly, sometimes shut down by rate increases — Northern Foundry, Hibbing MN)",
+          "Solar PPA obligor (captive by deed rather than by territory; obligation attaches to property title)",
+          "Voter and potential ballot-initiative participant (subject to suppression when initiatives threaten utility revenue)"
+        ],
+        "prose": "The defining condition of the American People in this diagram is that exit is not available. Unlike most consumer relationships, a ratepayer cannot change providers. The monopoly service territory means a single utility is the only legal supplier in a geographic zone; the captive-by-deed solar PPA means a service obligation follows the property rather than the person. Leah Stokes, describing ratepayers' inability to withhold payment from a corruptly-operated utility: 'There is no choice.' Every extraction mechanism documented elsewhere on this diagram depends on this condition. Remove the captive-geography lock, and normal market feedback would force most of the other mechanisms to retreat. The lock is the precondition."
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "id": "CL-UTIL-1",
+      "label": "Hidden Value Transfer",
+      "text": "The formal academic name for the utility side's central mechanism, as articulated by Aneil Kovvali and Joshua C. Macey in 171 U. Pa. L. Rev. 2129 (2023) and adopted by Martin and Peskoe as the controlling term. Vertically integrated monopoly utilities increase overall profits by manipulating the regulated rate-setting process to funnel value from captive rate-regulated monopoly operations to unregulated, competitive lines of business. Three enabling factors make the mechanism work: the inherent subjectivity and complexity of ratemaking proceedings, utilities' substantial control over the information and process used in rate-setting, and the confidential treatment of contracts and data. Each enabling factor maps to a specific edge in the diagram. The doctrine does not require bad actors or one-off corruption — it describes a structural feature of rate-of-return regulation that produces the outcome whether or not individual parties intend it. The 2024 Fourth Circuit Duke Energy decision (Duke Energy Carolinas v. NTE Carolinas II, 111 F.4th 337) documents the mechanism through internal Duke records explicitly describing the plan to shift cost of discounts to other ratepayers."
+    },
+    {
+      "id": "CL-UTIL-2",
+      "label": "Rate-of-Return Capture",
+      "text": "Under cost-of-service regulation, utilities earn a guaranteed return on capital deployed (rate base) and nothing on operating expenses. Maintenance and vegetation management earn zero return; new transmission, substations, and generation earn the authorized return on rate base every year for the life of the asset. The 2024 national average authorized return is 9.6%, compared to 6–7% broad-market returns on low-risk investments. The Averch and Johnson 1962 paper documented the behavioral consequence: regulated firms overinvest in capital to maximize profits. 'Green-plating' is the current-era expression of the same mechanism — retiring a 10 MW depreciated coal plant and replacing it with 10 MW wind plus 10 MW solar plus 10 MW gas backup triples the installed capacity and installs all new undepreciated assets in rate base. Xcel Energy, We Energies, Arizona Public Service, and DTE Electric all show post-renewable-mandate profit growth consistent with the pattern. Maintenance is actively starved in this structure because extending an asset's life delays capital replacement that would otherwise add to rate base — the PG&E Caribou-Palermo line that sparked the Camp Fire was on an inspection schedule (OpEx) rather than a replacement timeline (CapEx)."
+    },
+    {
+      "id": "CL-UTIL-3",
+      "label": "Bailout-Through-Ratepayers Loop",
+      "text": "Mechanism for extracting utility revenue that routes around the PUC entirely. The utility identifies plants that cheaper alternatives would otherwise displace. The utility funds a 501(c)(4) dark-money group, which is federally legal and requires no disclosure. The dark-money group finances politicians. Those politicians pass legislation imposing ratepayer surcharges specifically designed to keep the unprofitable plants running. Ratepayers pay the surcharges monthly through their bills, often without line-item disclosure, and have no adversarial process available — the PUC, which is at least nominally adversarial, is bypassed. Ohio HB6 is the documented case: FirstEnergy funneled $61 million through Generation Now to Speaker Larry Householder for bailout passage and another $38 million afterward to block the ballot referendum that would have overturned it. The 2022 FERC audit of FirstEnergy (Docket FA19-1-000) found the company had hidden its HB6 lobbying expenses in the rate base, meaning ratepayers literally funded the bribery that kept them captive. The same pattern appears in Illinois (ComEd/Exelon, $200 million fine, Speaker Madigan implicated), Arizona (APS funding its own regulators' elections), and West Virginia (Pleasants Power Station tax break)."
+    },
+    {
+      "id": "CL-UTIL-4",
+      "label": "Captive Geography",
+      "text": "Utilities hold customers through legal instruments that attach the obligation to a location rather than to a person or a consent relationship. For investor-owned utilities, the lock is the service-territory monopoly — a state grant of exclusive supply within a geographic zone. For solar PPAs, the lock is the deed — the contract is recorded against the property title, runs 15–25 years with 2–5% annual escalators, and cannot be fully bought out in the first 5–6 years because federal tax equity rules prohibit it. A home with a solar PPA cannot be sold clear unless the lease is assumed by the buyer or bought out by the seller. The consumer cannot exit by moving their custom to a competitor because no competitor exists within the captured geography. This is the precondition for every other mechanism on the diagram: without the geographic lock, normal market pressure would force rates down, quality up, and corrupt operators out. The lock is what makes the rest of the system possible. Leah Stokes' direct framing on why ratepayers cannot boycott FirstEnergy: 'There is no choice.'"
+    },
+    {
+      "id": "CL-UTIL-5",
+      "label": "Cost-Shifting to Residential Ratepayers",
+      "text": "Large load customers — particularly hyperscale data centers — generate transmission, generation, and capacity needs that would not exist without them. The costs are then allocated through FERC-approved transmission tariffs that route a majority share to residential ratepayers who did not cause the expansion. In the PJM region covering much of the mid-Atlantic, Delmarva Power & Light allocates 68% of transmission costs to residential; Potomac Electric, 53%; Baltimore Gas & Electric, 78%; Dominion Virginia, 50%+; Maryland IOUs, 66% on average. The Virginia PUC staff found a $23 million data-center project 'likely, if not certainly, would not be needed at this time' but for the single data center, yet approximately half the cost flows to residential ratepayers. Exelon's own FERC filing (Docket ER24-2172) estimates a single proposed co-location arrangement would shift $58–$140 million onto other ratepayers. Martin and Peskoe at Harvard Environmental & Energy Law Program frame this as rate structures 'forcing the public to pay for infrastructure designed to supply a handful of exceedingly wealthy corporations.' Data centers additionally shift peak-demand costs by installing on-site backup generation specifically to avoid demand charges, leaving residential and industrial ratepayers to absorb the peak cost."
+    },
+    {
+      "id": "CL-UTIL-6",
+      "label": "Ratepayer Sabotage",
+      "text": "When ratepayers organize to overturn utility-favorable laws through ballot initiatives, utilities respond with spending that is orders of magnitude larger than the stakes of a normal campaign. In Ohio, FirstEnergy wired $38 million to Generation Now specifically to block the referendum that would have overturned HB6 — funds that paid for ads falsely claiming the Chinese government would use signers' personal data, for bribery of signature collectors, for harassment, and for documented physical assault of people collecting signatures. The referendum failed from signature shortfall. In Arizona in 2018, Arizona Public Service spent over $40 million to defeat a clean energy ballot initiative. The Arizona pattern also includes APS funneling more than $700,000 through dark-money groups to elect its own Corporation Commissioners — the body that would review APS rate cases. Utilities underwriting the election of their own regulators defeats the adversarial premise of rate regulation entirely. This cluster surfaces a dimension of capture that the other clusters do not: the mechanism actively attacks the democratic counterweights that might otherwise constrain it."
+    }
+  ],
+  "color_categories": {
+    "money-out": "People paying",
+    "money-in": "returns flowing to Companies",
+    "legal-power": "permits, regulatory authorizations, enforcement instruments, statutory disarmament",
+    "suppressed": "a flow structurally expected but functionally blocked — rendered as half-length arrow with no arrowhead",
+    "cluster_active_state": "base color preserved, gold border added"
+  },
+  "cluster_behavior": "Hover any member edge → whole cluster lights with directional pulse. Click any member edge → modal opens showing cluster chain text. Multi-cluster edges stack all relevant cluster texts in one modal.",
+  "edges": [
+    {
+      "id": "E-UTIL-01",
+      "label": "Service Territory Monopoly",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-4"],
+      "source": "EIA utility market structure data (eia.gov/todayinenergy/detail.php?id=40913); Martin & Peskoe, 'Extracting Profits from the Public' (Harvard ELI, March 2025).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-02",
+      "label": "Authorized Rate of Return",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-1", "CL-UTIL-2"],
+      "source": "S&P Global Market Intelligence 2024 ROE data; Mark Ellis, 'Rate of Return Equals Cost of Capital,' American Economic Liberties Project (economicliberties.us, Jan 2025).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-03",
+      "label": "Rate Base Approval",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-1", "CL-UTIL-2"],
+      "source": "Energy at the Edge, 'How Utilities Make Money' (energyattheedge.substack.com, Jul 2025); Averch & Johnson, American Economic Review, 52(5), 1962.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-04",
+      "label": "Confidential Contract Treatment",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-1"],
+      "source": "Martin & Peskoe (Harvard ELI, March 2025) — 40 state PUC proceedings reviewed; 'PUCs reflexively grant utility requests for confidential treatment.'",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-05",
+      "label": "Bailout Statutes",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-3"],
+      "source": "Ohio HB6 (2019); West Virginia Pleasants Power tax break (2019); Indiana HB1414 (2020); Leah Stokes, Vox (vox.com, Jul 22, 2020); LPM Ohio Valley ReSource (lpm.org, Jul 27, 2020).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-06",
+      "label": "Statutory Disarmament",
+      "direction": "G → C",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-3", "CL-UTIL-5"],
+      "source": "Mississippi Code § 77-3-271(3); Kansas Statute Annotated § 66-101i.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-07",
+      "label": "Federal Subsidies",
+      "direction": "G → C",
+      "color_category": "money-in",
+      "clusters": [],
+      "source": "Heritage Foundation analysis of federal energy subsidies (heritage.org, Jul 2018); Pacific Research Institute data via Wayne Winegarden.",
+      "modal": {
+        "text": "The federal government transfers capital to the utility industry and adjacent sectors through multiple channels that bypass state rate regulation entirely. DOE's Advanced Technology Vehicles Manufacturing program extended over $1 billion in loans to Nissan and Ford. Federal loan guarantee programs route capital to what the Heritage analysis described as 'giant tech firms, massive energy utilities, large investment banks.' Federal EV tax credits distribute primarily upward — the Pacific Research Institute found more than 99% of the benefit flows to households earning $50,000 or more, and roughly 75% to households earning $100,000 or more. The point is not that any single subsidy is corrupt on its face; the point is that the capital stack available to utilities and their adjacent industries includes a federal tier that state ratepayers fund through federal taxes and that state PUCs have no visibility into. Source: Heritage Foundation analysis of federal energy subsidies (heritage.org, Jul 2018); Pacific Research Institute data via Wayne Winegarden."
+      }
+    },
+    {
+      "id": "E-UTIL-08",
+      "label": "Rate Case Filings",
+      "direction": "C → G",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-1"],
+      "source": "Martin & Peskoe (Harvard ELI, March 2025); Mark Ellis/AELP (economicliberties.us, Jan 2025).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-09",
+      "label": "SURFA Consulting",
+      "direction": "C → G",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-1"],
+      "source": "David Dayen, 'The Secret Society Raising Your Electricity Bills,' American Prospect (prospect.org, Feb 21, 2025); Mark Ellis/AELP report.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-10",
+      "label": "Lobbying",
+      "direction": "C → G",
+      "color_category": "money-out",
+      "visual_note": "visually thin",
+      "clusters": [],
+      "source": "Leah Stokes, Vox (vox.com, Jul 22, 2020); Martin & Peskoe (Harvard ELI, March 2025).",
+      "modal": {
+        "text": "Utility lobbying and its associated trade architecture — principally the Edison Electric Institute — function as coordination infrastructure that gives the national capture pattern its coherence. A relatively small dollar investment in lobbying and industry-body dues produces a much larger return in favorable rules, bailout authorizations, and regulatory treatment. The visual thinness of this edge relative to the thick money-in flows returning from Government to Companies is part of the argument. EEI is not itself a utility but functions as an arm of the industry — the institute awarded FirstEnergy for its work passing HB6, treating the bailout legislation as an industry accomplishment rather than a scandal. The Stokes framing: the industry celebrates it. Source: Leah Stokes, Vox (vox.com, Jul 22, 2020); Martin & Peskoe (Harvard ELI, March 2025)."
+      }
+    },
+    {
+      "id": "E-UTIL-11",
+      "label": "Ratepayer-Funded Political Spending",
+      "direction": "C → G",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-1", "CL-UTIL-3"],
+      "source": "FERC FirstEnergy Audit Report, Docket FA19-1-000 (Feb 4, 2022); California PUC Decision 24-12-074 (SoCalGas, Dec 2024); California PUC Decision 22-04-034 (SoCalGas, April 2022); 2024 FERC Report on Enforcement, Docket AD07-13-018.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-12",
+      "label": "Dark Money Pipelines",
+      "direction": "C → G",
+      "color_category": "money-out",
+      "clusters": ["CL-UTIL-3", "CL-UTIL-6"],
+      "source": "FBI Householder affidavit (documentcloud.org/documents/6999130); Leah Stokes, Vox (vox.com, Jul 22, 2020); ComEd/Exelon federal settlement (Illinois, 2020).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-13",
+      "label": "Regulator-Election Capture",
+      "direction": "C → G",
+      "color_category": "money-out",
+      "clusters": ["CL-UTIL-3", "CL-UTIL-6"],
+      "source": "Leah Stokes, Vox (vox.com, Jul 22, 2020) on Arizona Public Service and former Commissioner Gary Pierce.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-14",
+      "label": "Electricity Delivery",
+      "direction": "C → P",
+      "direction_note": "service delivery; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": [],
+      "source": "EIA utility market structure data (eia.gov/todayinenergy/detail.php?id=40913).",
+      "modal": {
+        "text": "Standard utility service. The company delivers electricity; the ratepayer pays a monthly bill. This edge represents the baseline the diagram is built around — every other Companies → People edge describes something that has been added on top of the ordinary service relationship. Without the underlying delivery, no extraction mechanism could attach. Source: EIA utility market structure data (eia.gov/todayinenergy/detail.php?id=40913)."
+      }
+    },
+    {
+      "id": "E-UTIL-15",
+      "label": "Rate-Base Return",
+      "direction": "C → P",
+      "direction_note": "service delivery; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-2"],
+      "source": "Energy at the Edge (energyattheedge.substack.com, Jul 2025); Isaac Orr and Mitch Rolling, 'Green-Plating the Grid,' Energy Bad Boys (energybadboys.substack.com, Mar 2024).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-16",
+      "label": "Bailout Surcharges",
+      "direction": "C → P",
+      "direction_note": "billed directly; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-3"],
+      "source": "Ohio HB6 (2019); LPM (lpm.org, Jul 27, 2020); Leah Stokes, Vox (vox.com, Jul 22, 2020).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-17",
+      "label": "Transmission Cost Shift",
+      "direction": "C → P",
+      "direction_note": "billed directly; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-5"],
+      "source": "Martin & Peskoe (Harvard ELI, March 2025); PJM Interconnection, 187 FERC ¶ 61,012 (2024).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-18",
+      "label": "Peak-Demand Pass-Through",
+      "direction": "C → P",
+      "direction_note": "billed directly; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-5"],
+      "source": "Martin & Peskoe (Harvard ELI, March 2025).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-19",
+      "label": "Solar PPA Obligation",
+      "direction": "C → P",
+      "direction_note": "recurring service; dollar moves P → C",
+      "color_category": "money-in",
+      "clusters": ["CL-UTIL-4"],
+      "source": "Solar Panel Exit (solarpanelexit.com); Solar to the People (solar-to-the-people.com); Blue Raven Solar (blueravensolar.com); Solar.com (solar.com/learn/selling-a-home-with-leased-solar-panels).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-20",
+      "label": "Deferred Maintenance",
+      "direction": "C → P",
+      "color_category": "legal-power",
+      "color_note": "non-monetary — surfaces delivery gap",
+      "clusters": [],
+      "source": "Research Section 7 (Camp Fire); Energy at the Edge (energyattheedge.substack.com); Energy Bad Boys (Mar 2024).",
+      "modal": {
+        "text": "The incentive structure that rewards capital deployment and penalizes maintenance has physical consequences at the point of delivery. The PG&E Caribou-Palermo transmission line that sparked the 2018 Camp Fire was on an inspection schedule — operating expense — rather than a replacement timeline — capital expense. Maintaining a pole well enough that it lasts 60 years instead of 40 suppresses the utility's own profit growth because it delays capital replacement that would add to rate base. The rational utility decision is to let the old asset age to failure and then replace it as a new capital project. The ratepayer receives the consequence of that calculation as unreliable service, wildfires, and outages. Northern Foundry in Hibbing, Minnesota closed in 2023 after Minnesota Power industrial rates rose 62% across 2009–2023. The edge sits on the diagram without a cluster because it is not a dollar flow; it is the gap between what was paid for and what was delivered. Source: Research Section 7 (Camp Fire); Energy at the Edge; Energy Bad Boys (Mar 2024)."
+      }
+    },
+    {
+      "id": "E-UTIL-21",
+      "label": "Monthly Utility Bill",
+      "direction": "P → C",
+      "color_category": "money-out",
+      "clusters": ["CL-UTIL-2", "CL-UTIL-3", "CL-UTIL-5"],
+      "source": "EIA; Leah Stokes, Vox (vox.com, Jul 22, 2020); Martin & Peskoe (Harvard ELI, March 2025).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-22",
+      "label": "PPA Payment",
+      "direction": "P → C",
+      "color_category": "money-out",
+      "clusters": ["CL-UTIL-4"],
+      "source": "Solar PPA industry documentation (blueravensolar.com; solar.com).",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-23",
+      "label": "Suppressed Transparency",
+      "direction": "G → P",
+      "color_category": "suppressed",
+      "clusters": ["CL-UTIL-1"],
+      "source": "Kovvali & Macey, 'Hidden Value Transfers in Public Utilities,' 171 U. Pa. L. Rev. 2129 (2023); Martin & Peskoe (Harvard ELI, March 2025); Bonbright, Principles of Public Utility Rates (1961).",
+      "modal": {
+        "text": "This edge represents a flow that is structurally expected but functionally blocked. In principle, government is the party responsible for ensuring ratepayers can understand and challenge utility rate-setting — PUCs are public bodies, rate cases are public proceedings, and the utility's filings are public records. In practice, the flow is suppressed by three structural features documented by Kovvali and Macey and by Martin and Peskoe. First, the inherent subjectivity and complexity of ratemaking — Bonbright wrote in 1961 of 'notorious disagreements among the experts as to the choice of the most rational method of cost allocation, a disagreement which seems to defy resolution.' Second, utilities' substantial control over the information and process, including filing voluminous records the PUC must trust in good faith. Third, confidential treatment of contracts and data, which PUCs reflexively grant. The ratepayer receiving the monthly bill has no visible path from their cost back to the decisions that produced it. The diagram renders this as a half-length arrow: the flow exists in legal form and dies in practice. Source: Kovvali & Macey, 171 U. Pa. L. Rev. 2129 (2023); Martin & Peskoe (Harvard ELI, March 2025); Bonbright, Principles of Public Utility Rates (1961)."
+      }
+    },
+    {
+      "id": "E-UTIL-24",
+      "label": "Democratic Process Suppression",
+      "direction": "G → P",
+      "color_category": "legal-power",
+      "clusters": ["CL-UTIL-6"],
+      "source": "Leah Stokes, Vox (vox.com, Jul 22, 2020) — Ohio HB6 referendum blocking; Arizona Public Service 2018 ballot initiative.",
+      "modal": null
+    },
+    {
+      "id": "E-UTIL-25",
+      "label": "Federal Tax",
+      "direction": "P → G",
+      "color_category": "money-out",
+      "clusters": [],
+      "source": "Heritage Foundation (heritage.org, Jul 2018); Pacific Research Institute analysis.",
+      "modal": {
+        "text": "Federal income tax paid by ratepayers funds the federal tier of the utility capital stack — loan guarantees, DOE program disbursements, EV tax credits, tax equity subsidies that back solar PPA financing. The same person who pays a state-regulated monthly utility bill is also, as a federal taxpayer, funding the federal subsidies that flow to the same corporate family. The federal and state layers of the system are legally separate but route back to the same captive person. Source: Heritage Foundation (heritage.org, Jul 2018); Pacific Research Institute analysis."
+      }
+    },
+    {
+      "id": "E-UTIL-26",
+      "label": "State Tax",
+      "direction": "P → G",
+      "color_category": "money-out",
+      "clusters": [],
+      "source": "Leah Stokes, Vox (vox.com, Jul 22, 2020); Martin & Peskoe (Harvard ELI, March 2025).",
+      "modal": {
+        "text": "State income tax and sales tax fund the portion of utility bailouts that runs through state general revenue rather than through direct ratepayer surcharges. The West Virginia Pleasants Power Station $12.5 million tax break appeared as forgone state revenue. Virginia's data-center sales-tax exemption cost the state approximately $1 billion in 2023 alone. The Mississippi Amazon package combined workforce subsidies, construction reimbursement, and tax exemptions totaling hundreds of millions. Unlike the bailout surcharges in CL-UTIL-3, which are visible as line items on utility bills, these amounts are absorbed into general state budgets and are rarely perceptible to the individual taxpayer. Source: Leah Stokes, Vox (vox.com, Jul 22, 2020); Martin & Peskoe (Harvard ELI, March 2025)."
+      }
+    }
+  ],
+  "summary": {
+    "edge_count": 26,
+    "edges_by_direction": {
+      "G_to_C": 7,
+      "C_to_G": 6,
+      "C_to_P": 7,
+      "P_to_C": 2,
+      "G_to_P": 2,
+      "P_to_G": 2
+    },
+    "orphan_edges": ["E-UTIL-07", "E-UTIL-10", "E-UTIL-14", "E-UTIL-20", "E-UTIL-25", "E-UTIL-26"],
+    "suppressed_edges": ["E-UTIL-23"],
+    "multi_cluster_edges": ["E-UTIL-02", "E-UTIL-03", "E-UTIL-06", "E-UTIL-11", "E-UTIL-12", "E-UTIL-13", "E-UTIL-21"]
+  }
+}
