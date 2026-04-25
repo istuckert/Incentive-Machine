@@ -113,6 +113,11 @@
       "id": "CL-7",
       "label": "Vertical Integration at Resale",
       "text": "When a resident sells the home, the transactions required to complete the sale — title insurance, mortgage origination for the incoming buyer, closing services — often route through developer-affiliated entities. Lennar operates Lennar Title and Lennar Mortgage. D.R. Horton operates DHI Title and DHI Mortgage. The same corporate family that captured the original construction margin, the exaction pass-through, the HOA assessment stream, and the recurring service fees captures an additional margin layer at resale. Every step of the home's economic life loops back through the corporate family that built it."
+    },
+    {
+      "id": "CL-8",
+      "label": "No \"Customer\" Service",
+      "text": "Property tax pays for maintenance and rehabilitation of existing infrastructure — the same infrastructure a new buyer has already paid for once through the exaction embedded in their purchase price. Connection fees route to separate utility districts, co-ops, and school districts that no single jurisdiction has authority to waive. Government collects both and delivers \"Services\" in return — roads, schools, public safety, water and sewer. The delivery is frequently inadequate. The obligation is not. When government enforces HOA assessments, bulk billing contracts, and captive service obligations against residents on behalf of developer-selected vendors, it is performing the same structural role it performs when it collects property tax: conduit and enforcer, not deliverer. The resident has no recourse in either direction."
     }
   ],
   "color_categories": {
@@ -232,7 +237,7 @@
       "direction": "C → P",
       "direction_note": "unit delivery; dollar moves P → C",
       "color_category": "money-in",
-      "clusters": [],
+      "clusters": ["CL-3", "CL-7"],
       "source": "NMHC rankings; Hunterbrook Media (hntrbrk.com/homebuilders/).",
       "modal": {
         "text": "Standard developer profit on building the unit itself. D.R. Horton closed approximately 83,000 homes and single-family rentals in 2022 and has held the title of nation's leading builder since 2002. This edge is not part of any extraction cluster — it is what the diagram treats as the baseline transaction. Every other edge on the diagram is something added on top of this baseline, either as an additional extraction or as a mechanism that supports one. Source: NMHC rankings; Hunterbrook Media (hntrbrk.com/homebuilders/)."
@@ -244,7 +249,7 @@
       "direction": "C → P",
       "direction_note": "unit delivery; dollar moves P → C",
       "color_category": "money-in",
-      "clusters": ["CL-3"],
+      "clusters": ["CL-3", "CL-7"],
       "source": "Terner Center; CA YIMBY.",
       "modal": null
     },
@@ -254,7 +259,7 @@
       "direction": "C → P",
       "direction_note": "services; dollar moves P → C",
       "color_category": "money-in",
-      "clusters": ["CL-5"],
+      "clusters": ["CL-5", "CL-7"],
       "source": "flslawyer.com; mikekosor.com/declarant-control-dark-secret.",
       "modal": null
     },
@@ -282,7 +287,7 @@
       "direction": "P → C",
       "direction_note": "recurring",
       "color_category": "money-in",
-      "clusters": ["CL-6"],
+      "clusters": ["CL-6", "CL-7"],
       "source": "Research Section 13; solarpanelexit.com; solar-to-the-people.com.",
       "modal": null
     },
@@ -331,7 +336,7 @@
       "label": "Property Tax",
       "direction": "P → G",
       "color_category": "money-out",
-      "clusters": [],
+      "clusters": ["CL-8"],
       "cluster_note": "orthogonal; funds the substrate the whole stack runs on",
       "source": "Evans-Cowley (impactfees.com/publications%20pdf/evans-cowley-planning.pdf).",
       "modal": {
@@ -344,7 +349,7 @@
       "direction": "P → G",
       "direction_note": "routed through building department to utility districts",
       "color_category": "money-out",
-      "clusters": [],
+      "clusters": ["CL-8"],
       "cluster_note": "orthogonal; collected by one jurisdiction, routed to another that the first has no authority over",
       "source": "Terner Center (ternercenter.berkeley.edu/blog/residential-impact-fees/); HCD sample analysis.",
       "modal": {
@@ -365,7 +370,7 @@
       "label": "\"Services\"",
       "direction": "G → P",
       "color_category": "legal-power",
-      "clusters": [],
+      "clusters": ["CL-8"],
       "cluster_note": "dual-face edge",
       "source": "Evans-Cowley; FL Stat 720.309(2); Cord Cutters News on FCC withdrawal; general news coverage of municipal service failures.",
       "modal": {
