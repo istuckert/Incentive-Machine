@@ -355,7 +355,7 @@ const link = g.append('g')
   .selectAll('line')
   .data(links)
   .join('line')
-  .attr('stroke', 'rgba(138,180,240,0.35)')
+  .attr('stroke', 'rgba(60,150,85,0.35)')
   .attr('stroke-width', 1.2);
 
 const nodeGroup = g.append('g')
@@ -378,8 +378,9 @@ const nodeGroup = g.append('g')
 nodeGroup.append('circle')
   .attr('r', d => LIVE_IDS.has(d.id) ? 10 : 8)
   .attr('fill', 'rgba(0,0,0,0)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.9)' : 'rgba(255,255,255,0.35)')
-  .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.5);
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(60,120,75,0.5)')
+  .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.5)
+  .style('filter', d => LIVE_IDS.has(d.id) ? 'drop-shadow(0 0 6px rgba(80,220,120,0.6))' : 'none');
 
 
 nodeGroup
@@ -387,11 +388,11 @@ nodeGroup
     const data = NODE_DATA[d.id];
     if (!data) return;
     d3.select(this).select('circle')
-      .attr('fill', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.12)' : 'rgba(255,255,255,0.06)')
+      .attr('fill', LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.1)' : 'rgba(60,120,75,0.08)')
       .attr('stroke-width', 2.5);
     link
       .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id)
-        ? 'rgba(45,95,166,0.85)' : 'rgba(45,95,166,0.15)')
+        ? 'rgba(80,220,120,0.8)' : 'rgba(60,120,75,0.15)')
       .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id) ? 2.2 : 0.8);
     document.getElementById('tt-tag').textContent = data.tag || '';
     document.getElementById('tt-title').textContent = data.title || '';
@@ -415,7 +416,7 @@ nodeGroup
     d3.select(this).select('circle')
       .attr('fill', 'rgba(0,0,0,0)')
       .attr('stroke-width', LIVE_IDS.has(d.id) ? 2.2 : 1.5);
-    link.attr('stroke', 'rgba(138,180,240,0.35)').attr('stroke-width', 1.2);
+    link.attr('stroke', 'rgba(60,150,85,0.35)').attr('stroke-width', 1.2);
     tooltip.classList.remove('visible');
   })
   .on('click', function(event, d) {
@@ -434,7 +435,7 @@ callouts.append('rect')
   .attr('rx', 3)
   .attr('ry', 3)
   .attr('fill', 'rgba(0,0,0,0.6)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.5)' : 'rgba(255,255,255,0.12)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.5)' : 'rgba(60,120,75,0.3)')
   .attr('stroke-width', 1);
 
 callouts.append('text')
@@ -442,7 +443,7 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '12px')
   .style('font-weight', '500')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.95)' : 'rgba(244,241,236,0.65)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(60,140,80,0.65)')
   .style('letter-spacing', '0.06em')
   .text(d => NODE_DATA[d.id]?.title || d.id);
 
@@ -451,13 +452,13 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '10px')
   .style('font-weight', '400')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.7)' : 'rgba(244,241,236,0.35)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.7)' : 'rgba(60,140,80,0.4)')
   .style('letter-spacing', '0.05em')
   .text(d => LIVE_IDS.has(d.id) ? '● Live — Click to Investigate' : '○ In Development');
 
 callouts.append('line')
   .attr('class', 'callout-connector')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.3)' : 'rgba(255,255,255,0.12)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.3)' : 'rgba(60,120,75,0.25)')
   .attr('stroke-width', 0.8)
   .attr('stroke-dasharray', '2,2');
 
@@ -469,12 +470,12 @@ callouts
   })
   .on('mouseover', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.85)' : 'rgba(255,255,255,0.3)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.9)' : 'rgba(60,140,80,0.5)')
       .attr('stroke-width', 1.5);
   })
   .on('mouseout', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.5)' : 'rgba(255,255,255,0.12)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.5)' : 'rgba(60,120,75,0.3)')
       .attr('stroke-width', 1);
   });
 
