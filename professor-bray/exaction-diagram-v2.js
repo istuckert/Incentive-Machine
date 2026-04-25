@@ -390,7 +390,7 @@
       'font-size':         '17',
       'font-family':       "'DM Mono', monospace",
       'letter-spacing':    '0.1em',
-      fill: '#a09a8e'
+      fill: 'url(#v2-label-text)'
     });
     hintTxt.textContent = '↓ click an arrow';
     hintEl = svgEl('g', {});
