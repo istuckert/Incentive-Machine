@@ -352,7 +352,9 @@
     Object.keys(POS).forEach(function (id) {
       var p = POS[id];
       var bw = 2.5;
-      nodesG.appendChild(svgEl('rect', {
+      var nodeG = svgEl('g', {});
+      nodeG.style.cursor = 'pointer';
+      nodeG.appendChild(svgEl('rect', {
         x:      String(p.x - NW / 2 - bw),
         y:      String(p.y - NH / 2 - bw),
         width:  String(NW + bw * 2),
@@ -360,7 +362,7 @@
         rx:     String(NRX + bw),
         fill:   'url(#v2-node-border)'
       }));
-      nodesG.appendChild(svgEl('rect', {
+      nodeG.appendChild(svgEl('rect', {
         x:      String(p.x - NW / 2),
         y:      String(p.y - NH / 2),
         width:  String(NW),
@@ -379,7 +381,14 @@
         fill: '#e8e4dc'
       });
       label.textContent = NODE_LABELS[id];
-      nodesG.appendChild(label);
+      nodeG.appendChild(label);
+      (function (nid) {
+        nodeG.addEventListener('click', function (e) {
+          e.stopPropagation();
+          onNodeClick(nid);
+        });
+      }(id));
+      nodesG.appendChild(nodeG);
     });
     svg.appendChild(nodesG);
 
@@ -401,6 +410,75 @@
 
     svg.addEventListener('click', handleClick);
     container.appendChild(svg);
+
+    var closeBtn = document.getElementById('exaction-node-close');
+    if (closeBtn) closeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      closeNodeModal();
+    });
+    var nodeOverlay = document.getElementById('exaction-node-modal');
+    if (nodeOverlay) nodeOverlay.addEventListener('click', function (e) {
+      if (e.target === nodeOverlay) closeNodeModal();
+    });
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function buildNodeContent(nodeId) {
+    if (!edgeData) return '';
+    var node = null;
+    for (var i = 0; i < edgeData.nodes.length; i++) {
+      if (edgeData.nodes[i].id === nodeId) { node = edgeData.nodes[i]; break; }
+    }
+    if (!node || !node.modal) return '';
+    var m = node.modal;
+    var html = '<h3 class="node-modal-title">' + escHtml(node.label) + '</h3>';
+    if (m.table) {
+      html += '<table class="node-modal-table"><thead><tr>';
+      m.table.headers.forEach(function (h) { html += '<th>' + escHtml(h) + '</th>'; });
+      html += '</tr></thead><tbody>';
+      m.table.rows.forEach(function (row) {
+        html += '<tr>';
+        m.table.headers.forEach(function (h) {
+          html += '<td>' + escHtml(row[h.toLowerCase()] || '') + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+    }
+    if (m.roles) {
+      html += '<ul class="node-modal-list">';
+      m.roles.forEach(function (r) { html += '<li>' + escHtml(r) + '</li>'; });
+      html += '</ul>';
+    }
+    if (m.prose) { html += '<p class="node-modal-prose">' + escHtml(m.prose) + '</p>'; }
+    return html;
+  }
+
+  function onNodeClick(nodeId) {
+    var overlay = document.getElementById('exaction-node-modal');
+    var panel   = document.getElementById('exaction-node-panel');
+    var content = document.getElementById('exaction-node-content');
+    if (!overlay || !panel || !content) return;
+    var fromLeft = (nodeId !== 'N-COMP');
+    content.innerHTML = buildNodeContent(nodeId);
+    if (!overlay.classList.contains('visible')) {
+      panel.className = 'node-modal-panel ' + (fromLeft ? 'from-left' : 'from-right');
+      overlay.classList.add('visible');
+      requestAnimationFrame(function () { panel.classList.add('open'); });
+    } else {
+      panel.className = 'node-modal-panel ' + (fromLeft ? 'from-left' : 'from-right') + ' open';
+    }
+  }
+
+  function closeNodeModal() {
+    var overlay = document.getElementById('exaction-node-modal');
+    var panel   = document.getElementById('exaction-node-panel');
+    if (!overlay || !panel) return;
+    panel.classList.remove('open');
+    setTimeout(function () { overlay.classList.remove('visible'); }, 350);
   }
 
   function setEdgeOpacity(id, opacity) {
@@ -474,10 +552,6 @@
 
     var clusters      = edge.clusters || [];
     var hasIndividual = !!(edge.modal && edge.modal.text);
-
-    function escHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
 
     function showText(text) {
       var paras = text.split('\n\n').filter(function (p) { return p.trim(); });
