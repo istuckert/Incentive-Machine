@@ -42,6 +42,9 @@
 
   var DIR_MAP = { 'G': 'N-GOV', 'C': 'N-COMP', 'P': 'N-PEOPLE' };
 
+  var edgeData   = null;
+  var clusterMap = {};
+
   var CENTROID_X = (600 + 1300 + (-80)) / 3;
   var CENTROID_Y = (80 + 780 + 780) / 3;
 
@@ -89,6 +92,8 @@
   var GOV_ZONE_RIGHT = 700;  // G↔C ports centered right of GOV center (600)
 
   function render(data) {
+    edgeData = data;
+    data.clusters.forEach(function (c) { clusterMap[c.id] = c; });
     var container = document.getElementById('exaction-diagram-v2');
     if (!container) return;
 
@@ -241,6 +246,7 @@
         var drawSrcY = srcPt.y + (sdy / sl2) * AL;
 
         var color = COLORS[edge.color_category] || '#888';
+        var thisSW = (edge.id === 'E-09') ? 3 : SW;
         var d = 'M ' + drawSrcX.toFixed(1) + ' ' + drawSrcY.toFixed(1) +
                 ' Q ' + cpX.toFixed(1) + ' ' + cpY.toFixed(1) +
                 ' '   + drawX.toFixed(1) + ' ' + drawY.toFixed(1);
@@ -259,9 +265,11 @@
         // Border layer
         edgesG.appendChild(svgEl('path', {
           d: d,
-          fill:           'none',
-          stroke:         COLORS_BORDER[edge.color_category] || '#0a0c14',
-          'stroke-width': String(SW + 4)
+          fill:            'none',
+          stroke:          COLORS_BORDER[edge.color_category] || '#0a0c14',
+          'stroke-width':  String(thisSW + 4),
+          'data-edge-id':  edge.id,
+          'data-clusters': clusters
         }));
 
         // Main edge path
@@ -269,7 +277,7 @@
           d: d,
           fill:             'none',
           stroke:           'url(#' + egId + ')',
-          'stroke-width':   String(SW),
+          'stroke-width':   String(thisSW),
           'marker-end':     'url(#v2-arr-' + edge.color_category + ')',
           'data-edge-id':   edge.id,
           'data-clusters':  clusters
@@ -357,7 +365,61 @@
     });
     svg.appendChild(nodesG);
 
+    svg.addEventListener('click', handleClick);
     container.appendChild(svg);
+  }
+
+  function handleClick(evt) {
+    var target = evt.target;
+    var edgeId = null;
+    while (target && target.tagName && target.tagName.toLowerCase() !== 'svg') {
+      var candidate = target.getAttribute && target.getAttribute('data-edge-id');
+      if (candidate) { edgeId = candidate; break; }
+      target = target.parentNode;
+    }
+    if (!edgeId || !edgeData) return;
+
+    var edge = null;
+    for (var i = 0; i < edgeData.edges.length; i++) {
+      if (edgeData.edges[i].id === edgeId) { edge = edgeData.edges[i]; break; }
+    }
+    if (!edge) return;
+
+    var panel  = document.getElementById('exaction-info-panel');
+    var tabsEl = document.getElementById('exaction-info-tabs');
+    var bodyEl = document.getElementById('exaction-info-body');
+    if (!panel) return;
+
+    panel.style.display = 'block';
+    tabsEl.innerHTML = '';
+
+    var clusters = edge.clusters || [];
+
+    function showCluster(clId) {
+      var cl = clusterMap[clId];
+      bodyEl.innerHTML = '<p class="info-body">[ ' + (cl ? cl.label : clId) + ' — placeholder ]</p>';
+    }
+
+    if (clusters.length === 0) {
+      bodyEl.innerHTML = '<p class="info-body">[ ' + edge.label + ' — placeholder ]</p>';
+    } else if (clusters.length === 1) {
+      showCluster(clusters[0]);
+    } else {
+      clusters.forEach(function (clId, idx) {
+        var cl = clusterMap[clId];
+        var btn = document.createElement('button');
+        btn.className = 'info-tab' + (idx === 0 ? ' active' : '');
+        btn.textContent = cl ? cl.label : clId;
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          tabsEl.querySelectorAll('.info-tab').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          showCluster(clId);
+        });
+        tabsEl.appendChild(btn);
+      });
+      showCluster(clusters[0]);
+    }
   }
 
   fetch('reference/exaction_edges.json')
