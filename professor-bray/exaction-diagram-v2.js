@@ -384,16 +384,16 @@
     svg.appendChild(nodesG);
 
     var hintTxt = svgEl('text', {
-      x: '610', y: '1075',
+      x: '0', y: '0',
       'text-anchor':       'middle',
       'dominant-baseline': 'middle',
-      'font-size':         '17',
+      'font-size':         '34',
       'font-family':       "'DM Mono', monospace",
       'letter-spacing':    '0.1em',
       fill: 'url(#v2-label-text)'
     });
     hintTxt.textContent = '↓ click an arrow';
-    hintEl = svgEl('g', {});
+    hintEl = svgEl('g', { transform: 'translate(610, 1075)' });
     hintEl.style.opacity    = '0.6';
     hintEl.style.transition = 'opacity 0.4s ease';
     hintEl.appendChild(hintTxt);
