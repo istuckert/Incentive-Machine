@@ -63,17 +63,41 @@ nav {
 .title-inner { max-width: 680px; margin-left: auto; margin-right: auto; text-align: center; width: 100%; }
 .title-heading {
   font-family: var(--serif); font-size: clamp(2rem, 5vw, 5.5rem);
-  font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; color: #f4f1ec;
-  margin-bottom: 1.1rem;
+  font-weight: 900; line-height: 0.95; letter-spacing: 0.01em;
+  margin-bottom: 1.5rem;
   text-align: center !important; width: 100%; display: block;
   opacity: 0; animation: fadeUp 1s ease forwards 0.4s;
+  background: linear-gradient(
+    180deg,
+    #ffffff    0%,
+    #d8e8f8   18%,
+    #f0f6ff   32%,
+    #9bb8d4   48%,
+    #e8f2ff   62%,
+    #b0cce0   78%,
+    #e4f0ff  100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(160,210,255,0.28));
 }
 .title-tagline {
   font-family: var(--serif-2); font-style: italic;
   font-size: clamp(1.4rem, 2.5vw, 2rem);
-  color: #8ab4f0;
-  margin-bottom: 1.75rem; display: block;
+  letter-spacing: 0.02em;
+  margin-bottom: 2.25rem; display: block;
   opacity: 0; animation: fadeUp 0.9s ease forwards 0.6s;
+  background: linear-gradient(
+    180deg,
+    #f0f6ff   0%,
+    #c8daf0  30%,
+    #e8f2ff  60%,
+    #b8d0e8 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .thesis-wrap {
   background: rgba(45,95,166,0.08);
@@ -205,10 +229,10 @@ footer { background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.0
     <h1 class="title-heading" style="text-align:center;width:100%;display:block;margin-left:auto;margin-right:auto;">The Information Horizon</h1>
     <span class="title-tagline">The incentives that shape our systems.</span>
 <div style="max-width:640px;margin:1.75rem auto 0;text-align:center;">
-  <p style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(0.95rem,1.5vw,1.1rem);color:rgba(232,228,220,0.65);line-height:1.85;margin-bottom:0.6rem;">
+  <p style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(0.95rem,1.5vw,1.15rem);color:#e8c96a;line-height:2;margin-bottom:1rem;letter-spacing:0.02em;text-shadow:0 0 32px rgba(232,201,106,0.35),0 0 10px rgba(232,201,106,0.18);">
     "I know no safe depository of the ultimate powers of the society, but the people themselves: and if we think them not enlightened enough to exercise their controul [sic] with a wholsome [sic] discretion, the remedy is, not to take it from them, but to inform their discretion by education. this is the true corrective of abuses of constitutional power."
   </p>
-  <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,228,220,0.52);margin-top:0.75rem;">
+  <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(232,201,106,0.78);margin-top:1rem;">
     — Thomas Jefferson, letter to William C. Jarvis, 1820
   </p>
 </div>
@@ -218,7 +242,6 @@ footer { background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.0
 <!-- ── WEB SVG ── -->
 <section id="web-section">
   <svg id="web-svg" style="width:100%;height:100%;position:absolute;inset:0;z-index:1;"></svg>
-  <span class="title-hint">↓ Hover the web · Click to investigate</span>
 </section>
 
 <div class="node-tooltip" id="tooltip">
