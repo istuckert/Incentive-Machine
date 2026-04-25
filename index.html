@@ -502,7 +502,7 @@ const driftSpeed  = nodes.map(() => 0.00025 + Math.random() * 0.00015);
 const driftAmpX   = nodes.map(() => 3 + Math.random() * 4);
 const driftAmpY   = nodes.map(() => 3 + Math.random() * 4);
 
-simulation.on('end', () => {
+setTimeout(() => {
   nodes.forEach(d => { d.restX = d.x; d.restY = d.y; });
   let t = 0;
   (function drift() {
@@ -532,7 +532,7 @@ simulation.on('end', () => {
     }
     requestAnimationFrame(drift);
   })();
-});
+}, 3500);
 
 simulation.on('tick', () => {
   link
