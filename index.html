@@ -164,11 +164,28 @@ nav {
 }
 .about-heading {
   font-family: var(--mono); font-size: 1.4rem; letter-spacing: 0.28em;
-  text-transform: uppercase; color: #8ab4f0; margin-bottom: 1rem; display: block;
+  text-transform: uppercase; margin-bottom: 1rem; display: block;
+  background: linear-gradient(
+    180deg,
+    #ffffff  0%,
+    #a8c8f0 20%,
+    #deeeff 42%,
+    #7aaad8 60%,
+    #c0dcf8 80%,
+    #8ab4f0 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(138,180,240,0.35));
 }
 .about-text {
   font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300;
-  line-height: 1.85; color: rgba(244,241,236,0.75);
+  line-height: 1.85;
+  background: linear-gradient(180deg, rgba(210,228,255,0.92) 0%, rgba(170,200,240,0.78) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ── FEEDBACK BAR ── */
@@ -355,7 +372,7 @@ const link = g.append('g')
   .selectAll('line')
   .data(links)
   .join('line')
-  .attr('stroke', 'rgba(60,150,85,0.35)')
+  .attr('stroke', 'rgba(80,210,110,0.65)')
   .attr('stroke-width', 1.2);
 
 const nodeGroup = g.append('g')
@@ -372,13 +389,14 @@ const nodeGroup = g.append('g')
     .on('end', (event, d) => {
       if (!event.active) simulation.alphaTarget(0);
       d.fx = null; d.fy = null;
+      setTimeout(() => { nodes.forEach(n => { n.restX = n.x; n.restY = n.y; }); }, 1500);
     })
   );
 
 nodeGroup.append('circle')
   .attr('r', d => LIVE_IDS.has(d.id) ? 10 : 8)
   .attr('fill', 'rgba(0,0,0,0)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(60,120,75,0.5)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(80,180,100,0.75)')
   .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.5)
   .style('filter', d => LIVE_IDS.has(d.id) ? 'drop-shadow(0 0 6px rgba(80,220,120,0.6))' : 'none');
 
@@ -416,7 +434,7 @@ nodeGroup
     d3.select(this).select('circle')
       .attr('fill', 'rgba(0,0,0,0)')
       .attr('stroke-width', LIVE_IDS.has(d.id) ? 2.2 : 1.5);
-    link.attr('stroke', 'rgba(60,150,85,0.35)').attr('stroke-width', 1.2);
+    link.attr('stroke', 'rgba(80,210,110,0.65)').attr('stroke-width', 1.2);
     tooltip.classList.remove('visible');
   })
   .on('click', function(event, d) {
@@ -435,7 +453,7 @@ callouts.append('rect')
   .attr('rx', 3)
   .attr('ry', 3)
   .attr('fill', 'rgba(0,0,0,0.6)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.5)' : 'rgba(60,120,75,0.3)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.5)' : 'rgba(80,180,100,0.55)')
   .attr('stroke-width', 1);
 
 callouts.append('text')
@@ -443,7 +461,7 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '12px')
   .style('font-weight', '500')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(60,140,80,0.65)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.95)' : 'rgba(80,190,110,0.85)')
   .style('letter-spacing', '0.06em')
   .text(d => NODE_DATA[d.id]?.title || d.id);
 
@@ -452,13 +470,13 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '10px')
   .style('font-weight', '400')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.7)' : 'rgba(60,140,80,0.4)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.7)' : 'rgba(80,190,110,0.65)')
   .style('letter-spacing', '0.05em')
   .text(d => LIVE_IDS.has(d.id) ? '● Live — Click to Investigate' : '○ In Development');
 
 callouts.append('line')
   .attr('class', 'callout-connector')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.3)' : 'rgba(60,120,75,0.25)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.3)' : 'rgba(80,180,100,0.45)')
   .attr('stroke-width', 0.8)
   .attr('stroke-dasharray', '2,2');
 
@@ -478,6 +496,43 @@ callouts
       .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(80,220,120,0.5)' : 'rgba(60,120,75,0.3)')
       .attr('stroke-width', 1);
   });
+
+const driftPhase  = nodes.map(() => Math.random() * Math.PI * 2);
+const driftSpeed  = nodes.map(() => 0.00025 + Math.random() * 0.00015);
+const driftAmpX   = nodes.map(() => 3 + Math.random() * 4);
+const driftAmpY   = nodes.map(() => 3 + Math.random() * 4);
+
+simulation.on('end', () => {
+  nodes.forEach(d => { d.restX = d.x; d.restY = d.y; });
+  let t = 0;
+  (function drift() {
+    t++;
+    const dragging = nodes.some(d => d.fx != null);
+    if (!dragging) {
+      nodes.forEach((d, i) => {
+        d.x = d.restX + Math.sin(t * driftSpeed[i] + driftPhase[i]) * driftAmpX[i];
+        d.y = d.restY + Math.cos(t * driftSpeed[i] * 0.75 + driftPhase[i] + 1) * driftAmpY[i];
+      });
+      link
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+      nodeGroup.attr('transform', d => `translate(${d.x},${d.y})`);
+      callouts.each(function(d) {
+        const el = d3.select(this);
+        const cx = d.x, cy = d.y;
+        const angle = Math.atan2(cy - height/2, cx - width/2);
+        const lx = cx + Math.cos(angle) * 28;
+        const ly = cy + Math.sin(angle) * 28;
+        const boxW = Math.max(el.select('.callout-title').text().length * 7.2, 140) + 28;
+        el.select('rect').attr('x', lx - boxW/2).attr('y', ly - 19).attr('width', boxW).attr('height', 38);
+        el.select('.callout-title').attr('x', lx).attr('y', ly - 6).attr('text-anchor', 'middle');
+        el.select('.callout-sub').attr('x', lx).attr('y', ly + 12).attr('text-anchor', 'middle');
+        el.select('.callout-connector').attr('x1', cx).attr('y1', cy).attr('x2', lx).attr('y2', ly);
+      });
+    }
+    requestAnimationFrame(drift);
+  })();
+});
 
 simulation.on('tick', () => {
   link
