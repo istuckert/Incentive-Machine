@@ -331,6 +331,13 @@
         });
         txt.textContent = edge.label;
         gLabel.appendChild(txt);
+        (function (eid) {
+          gLabel.addEventListener('mouseenter', function () { onEdgeEnter(eid); });
+          gLabel.addEventListener('mouseleave', onEdgeLeave);
+          gLabel.addEventListener('click', handleClick);
+          gLabel.setAttribute('data-edge-id', eid);
+          gLabel.style.cursor = 'pointer';
+        }(edge.id));
         labelsG.appendChild(gLabel);
         labelGroupMap[edge.id] = gLabel;
       });
