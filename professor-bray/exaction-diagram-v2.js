@@ -156,7 +156,7 @@
     svg.appendChild(defs);
 
     svg.appendChild(svgEl('image', {
-      href: '../assets/bg-diagram.jpeg',
+      href: '../assets/bg-diagram-intense.jpeg',
       x: String(VX), y: String(VY), width: String(VW), height: String(VH),
       preserveAspectRatio: 'xMidYMid slice'
     }));
