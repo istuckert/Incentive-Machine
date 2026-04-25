@@ -450,30 +450,54 @@
     panel.style.display = 'block';
     tabsEl.innerHTML = '';
 
-    var clusters = edge.clusters || [];
+    var clusters      = edge.clusters || [];
+    var hasIndividual = !!(edge.modal && edge.modal.text);
+
+    function escHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function showText(text) {
+      var paras = text.split('\n\n').filter(function (p) { return p.trim(); });
+      bodyEl.innerHTML = paras.map(function (p) {
+        return '<p class="info-body">' + escHtml(p.trim()) + '</p>';
+      }).join('');
+    }
 
     function showCluster(clId) {
       var cl = clusterMap[clId];
-      bodyEl.innerHTML = '<p class="info-body">[ ' + (cl ? cl.label : clId) + ' — placeholder ]</p>';
+      if (cl && cl.text) { showText(cl.text); }
+      else { bodyEl.innerHTML = '<p class="info-body">' + escHtml(cl ? cl.label : clId) + '</p>'; }
     }
 
-    if (clusters.length === 0) {
-      bodyEl.innerHTML = '<p class="info-body">[ ' + edge.label + ' — placeholder ]</p>';
+    function addTab(label, isActive, onClick) {
+      var btn = document.createElement('button');
+      btn.className = 'info-tab' + (isActive ? ' active' : '');
+      btn.textContent = label;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        tabsEl.querySelectorAll('.info-tab').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        onClick();
+      });
+      tabsEl.appendChild(btn);
+    }
+
+    if (hasIndividual) {
+      addTab(edge.label, true, function () { showText(edge.modal.text); });
+      clusters.forEach(function (clId) {
+        var cl = clusterMap[clId];
+        addTab(cl ? cl.label : clId, false, function () { showCluster(clId); });
+      });
+      showText(edge.modal.text);
+    } else if (clusters.length === 0) {
+      bodyEl.innerHTML = '<p class="info-body">' + escHtml(edge.label) + '</p>';
     } else if (clusters.length === 1) {
       showCluster(clusters[0]);
     } else {
       clusters.forEach(function (clId, idx) {
         var cl = clusterMap[clId];
-        var btn = document.createElement('button');
-        btn.className = 'info-tab' + (idx === 0 ? ' active' : '');
-        btn.textContent = cl ? cl.label : clId;
-        btn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          tabsEl.querySelectorAll('.info-tab').forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          showCluster(clId);
-        });
-        tabsEl.appendChild(btn);
+        addTab(cl ? cl.label : clId, idx === 0, function () { showCluster(clId); });
       });
       showCluster(clusters[0]);
     }
