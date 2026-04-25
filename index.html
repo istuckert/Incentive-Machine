@@ -31,12 +31,17 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+body {
+  background: #000 url('reference/Mood%20Images/AdobeStock_417875525.jpeg') center/cover fixed no-repeat;
+  color: #f4f1ec;
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
 
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-  height: 52px; background: rgba(28,31,46,0.97);
-  backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08);
+  height: 52px; background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,0.06);
   display: flex; align-items: center;
 }
 .nav-inner {
@@ -53,7 +58,7 @@ nav {
 .title-block {
   padding: calc(52px + 5.5rem) 2rem 2.5rem;
   text-align: center;
-  background: var(--bg-dark);
+  background: transparent;
 }
 .title-inner { max-width: 680px; margin-left: auto; margin-right: auto; text-align: center; width: 100%; }
 .title-heading {
@@ -103,9 +108,8 @@ nav {
   width: 100%; height: 85vh; min-height: 580px;
   position: relative; overflow: hidden;
   padding-top: 4rem; padding-bottom: 4rem;
-  border-top: 1px solid rgba(28,31,46,0.15);
-  border-bottom: 1px solid rgba(28,31,46,0.15);
-  background: var(--bg);
+  background: transparent;
+  border: none;
 }
 #web-svg { display: block; }
 
@@ -124,9 +128,11 @@ nav {
 
 /* ── ABOUT SECTION ── */
 .about-section {
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.72);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   padding: 4rem 2rem;
+  backdrop-filter: blur(12px);
 }
 .about-inner {
   max-width: 900px; margin: 0 auto;
@@ -134,20 +140,21 @@ nav {
 }
 .about-heading {
   font-family: var(--mono); font-size: 1.4rem; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: block;
+  text-transform: uppercase; color: #8ab4f0; margin-bottom: 1rem; display: block;
 }
 .about-text {
   font-family: var(--serif-2); font-size: 1.05rem; font-weight: 300;
-  line-height: 1.85; color: var(--ink);
+  line-height: 1.85; color: rgba(244,241,236,0.75);
 }
 
 /* ── FEEDBACK BAR ── */
 .feedback-bar {
-  background: var(--bg-dark);
+  background: rgba(0,0,0,0.72);
   border-bottom: 1px solid rgba(255,255,255,0.07);
   padding: 1rem 2rem;
   display: flex; align-items: center; justify-content: center;
   gap: 1.5rem; flex-wrap: wrap;
+  backdrop-filter: blur(12px);
 }
 .feedback-text {
   font-family: var(--sans); font-size: 1rem; color: rgba(244,241,236,0.85);
@@ -159,7 +166,7 @@ nav {
 }
 .feedback-btn:hover { opacity: 0.82; }
 
-footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.07); padding: 2rem 0; }
+footer { background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.07); padding: 2rem 0; backdrop-filter: blur(12px); }
 .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
 .footer-left p { font-family: var(--mono); font-size: 12px; color: #8ab4f0; letter-spacing: 0.1em; line-height: 1.7; }
 .footer-right { display: flex; gap: 1.5rem; }
@@ -325,7 +332,7 @@ const link = g.append('g')
   .selectAll('line')
   .data(links)
   .join('line')
-  .attr('stroke', 'rgba(45,95,166,0.55)')
+  .attr('stroke', 'rgba(138,180,240,0.35)')
   .attr('stroke-width', 1.2);
 
 const nodeGroup = g.append('g')
@@ -348,8 +355,8 @@ const nodeGroup = g.append('g')
 nodeGroup.append('circle')
   .attr('r', d => LIVE_IDS.has(d.id) ? 10 : 8)
   .attr('fill', 'rgba(0,0,0,0)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
-  .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.8);
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.9)' : 'rgba(255,255,255,0.35)')
+  .attr('stroke-width', d => LIVE_IDS.has(d.id) ? 2.2 : 1.5);
 
 
 nodeGroup
@@ -357,7 +364,7 @@ nodeGroup
     const data = NODE_DATA[d.id];
     if (!data) return;
     d3.select(this).select('circle')
-      .attr('fill', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.08)' : 'rgba(28,31,46,0.06)')
+      .attr('fill', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.12)' : 'rgba(255,255,255,0.06)')
       .attr('stroke-width', 2.5);
     link
       .attr('stroke', l => (l.source.id === d.id || l.target.id === d.id)
@@ -384,8 +391,8 @@ nodeGroup
   .on('mouseout', function(event, d) {
     d3.select(this).select('circle')
       .attr('fill', 'rgba(0,0,0,0)')
-      .attr('stroke-width', LIVE_IDS.has(d.id) ? 2.2 : 1.8);
-    link.attr('stroke', 'rgba(45,95,166,0.55)').attr('stroke-width', 1.2);
+      .attr('stroke-width', LIVE_IDS.has(d.id) ? 2.2 : 1.5);
+    link.attr('stroke', 'rgba(138,180,240,0.35)').attr('stroke-width', 1.2);
     tooltip.classList.remove('visible');
   })
   .on('click', function(event, d) {
@@ -403,8 +410,8 @@ const callouts = labelGroup.selectAll('g')
 callouts.append('rect')
   .attr('rx', 3)
   .attr('ry', 3)
-  .attr('fill', 'rgba(244,241,236,0.96)')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+  .attr('fill', 'rgba(0,0,0,0.6)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.5)' : 'rgba(255,255,255,0.12)')
   .attr('stroke-width', 1);
 
 callouts.append('text')
@@ -412,7 +419,7 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '12px')
   .style('font-weight', '500')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.75)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.95)' : 'rgba(244,241,236,0.65)')
   .style('letter-spacing', '0.06em')
   .text(d => NODE_DATA[d.id]?.title || d.id);
 
@@ -421,13 +428,13 @@ callouts.append('text')
   .style('font-family', "'DM Mono', monospace")
   .style('font-size', '10px')
   .style('font-weight', '400')
-  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.9)' : 'rgba(28,31,46,0.7)')
+  .style('fill', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.7)' : 'rgba(244,241,236,0.35)')
   .style('letter-spacing', '0.05em')
   .text(d => LIVE_IDS.has(d.id) ? '● Live — Click to Investigate' : '○ In Development');
 
 callouts.append('line')
   .attr('class', 'callout-connector')
-  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.3)' : 'rgba(28,31,46,0.2)')
+  .attr('stroke', d => LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.3)' : 'rgba(255,255,255,0.12)')
   .attr('stroke-width', 0.8)
   .attr('stroke-dasharray', '2,2');
 
@@ -439,12 +446,12 @@ callouts
   })
   .on('mouseover', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.7)' : 'rgba(28,31,46,0.4)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.85)' : 'rgba(255,255,255,0.3)')
       .attr('stroke-width', 1.5);
   })
   .on('mouseout', function(event, d) {
     d3.select(this).select('rect')
-      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(45,95,166,0.4)' : 'rgba(28,31,46,0.18)')
+      .attr('stroke', LIVE_IDS.has(d.id) ? 'rgba(138,180,240,0.5)' : 'rgba(255,255,255,0.12)')
       .attr('stroke-width', 1);
   });
 
