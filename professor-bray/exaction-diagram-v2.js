@@ -46,6 +46,7 @@
   var clusterMap    = {};
   var edgeGroupMap  = {};
   var labelGroupMap = {};
+  var dotAnimMap    = {};
   var hintEl        = null;
 
   var CENTROID_X = (600 + 1300 + (-80)) / 3;
@@ -99,6 +100,7 @@
     clusterMap    = {};
     edgeGroupMap  = {};
     labelGroupMap = {};
+    dotAnimMap    = {};
     hintEl        = null;
     data.clusters.forEach(function (c) { clusterMap[c.id] = c; });
     var container = document.getElementById('exaction-diagram-v2');
@@ -165,6 +167,15 @@
     nodeBorder.appendChild(svgEl('stop', { offset: '45%',  'stop-color': '#c4a550' }));
     nodeBorder.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#7a5520' }));
     defs.appendChild(nodeBorder);
+
+    var dotGlow = svgEl('filter', { id: 'v2-dot-glow', x: '-200%', y: '-200%', width: '500%', height: '500%' });
+    dotGlow.appendChild(svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '5', result: 'blur' }));
+    var feMergeGlow = svgEl('feMerge', {});
+    feMergeGlow.appendChild(svgEl('feMergeNode', { in: 'blur' }));
+    feMergeGlow.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+    dotGlow.appendChild(feMergeGlow);
+    defs.appendChild(dotGlow);
+
     svg.appendChild(defs);
 
     svg.appendChild(svgEl('image', {
@@ -292,6 +303,25 @@
         }(edge.id));
         edgesG.appendChild(edgeGroup);
         edgeGroupMap[edge.id] = edgeGroup;
+
+        var dot = svgEl('circle', { cx: '0', cy: '0', r: '5', fill: '#f0d080', filter: 'url(#v2-dot-glow)', opacity: '0' });
+        var aMotion  = document.createElementNS(SVG_NS, 'animateMotion');
+        aMotion.setAttribute('path', d);
+        aMotion.setAttribute('dur', '2s');
+        aMotion.setAttribute('begin', 'indefinite');
+        aMotion.setAttribute('repeatCount', 'indefinite');
+        aMotion.setAttribute('rotate', 'auto');
+        var aOpacity = document.createElementNS(SVG_NS, 'animate');
+        aOpacity.setAttribute('attributeName', 'opacity');
+        aOpacity.setAttribute('values', '0;0.95;0.95;0;0');
+        aOpacity.setAttribute('keyTimes', '0;0.08;0.72;0.88;1');
+        aOpacity.setAttribute('dur', '2s');
+        aOpacity.setAttribute('begin', 'indefinite');
+        aOpacity.setAttribute('repeatCount', 'indefinite');
+        dot.appendChild(aMotion);
+        dot.appendChild(aOpacity);
+        edgeGroup.appendChild(dot);
+        dotAnimMap[edge.id] = { motion: aMotion, opacity: aOpacity };
 
         // Label: near arrowhead end for all bundles
         var tMin = 0.72;
@@ -486,6 +516,22 @@
     if (labelGroupMap[id]) labelGroupMap[id].style.opacity = opacity;
   }
 
+  function startEdgePulse(id, dur) {
+    var da = dotAnimMap[id];
+    if (!da) return;
+    da.motion.setAttribute('dur', dur);
+    da.opacity.setAttribute('dur', dur);
+    da.motion.beginElement();
+    da.opacity.beginElement();
+  }
+
+  function stopAllPulses() {
+    Object.keys(dotAnimMap).forEach(function (id) {
+      var da = dotAnimMap[id];
+      if (da) { da.motion.endElement(); da.opacity.endElement(); }
+    });
+  }
+
 function onEdgeEnter(edgeId) {
     if (!edgeData) return;
     var edge = null;
@@ -516,10 +562,16 @@ function onEdgeEnter(edgeId) {
     Object.keys(secondarySet).forEach(function (id) { setEdgeOpacity(id, 0.45); });
     Object.keys(primarySet).forEach(function (id)   { setEdgeOpacity(id, 1);    });
     setEdgeOpacity(edgeId, 1);
+
+    stopAllPulses();
+    Object.keys(secondarySet).forEach(function (id) { startEdgePulse(id, '3.5s'); });
+    Object.keys(primarySet).forEach(function (id)   { startEdgePulse(id, '2s');   });
+    if (!primaryCluster) startEdgePulse(edgeId, '2s');
   }
 
   function onEdgeLeave() {
     Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 1); });
+    stopAllPulses();
   }
 
   function handleClick(evt) {
