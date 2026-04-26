@@ -486,6 +486,13 @@
     if (labelGroupMap[id]) labelGroupMap[id].style.opacity = opacity;
   }
 
+  function setEdgePulse(id, level) {
+    var group = edgeGroupMap[id];
+    if (!group) return;
+    group.classList.remove('pulse-primary', 'pulse-secondary');
+    if (level) group.classList.add('pulse-' + level);
+  }
+
   function onEdgeEnter(edgeId) {
     if (!edgeData) return;
     var edge = null;
@@ -512,14 +519,15 @@
       }
     });
 
-    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 0.12); });
-    Object.keys(secondarySet).forEach(function (id) { setEdgeOpacity(id, 0.45); });
-    Object.keys(primarySet).forEach(function (id)   { setEdgeOpacity(id, 1);    });
+    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 0.12); setEdgePulse(id, null); });
+    Object.keys(secondarySet).forEach(function (id) { setEdgeOpacity(id, 0.45); setEdgePulse(id, 'secondary'); });
+    Object.keys(primarySet).forEach(function (id)   { setEdgeOpacity(id, 1);    setEdgePulse(id, 'primary'); });
     setEdgeOpacity(edgeId, 1);
+    setEdgePulse(edgeId, 'primary');
   }
 
   function onEdgeLeave() {
-    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 1); });
+    Object.keys(edgeGroupMap).forEach(function (id) { setEdgeOpacity(id, 1); setEdgePulse(id, null); });
   }
 
   function handleClick(evt) {
